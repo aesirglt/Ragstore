@@ -1,0 +1,6 @@
+@Totten.Solution.Ragstore.WebApi_HostAddress = http://localhost:5196
+
+GET {{Totten.Solution.Ragstore.WebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
