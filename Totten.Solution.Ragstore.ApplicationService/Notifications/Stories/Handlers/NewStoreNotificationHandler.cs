@@ -37,6 +37,7 @@ public class NewStoreNotificationHandler : INotificationHandler<NewStoreNotifica
                 _ = _mediator.Publish(new NewItemNotification
                 {
                     Location = notification.Location,
+                    Price = item.Value,
                     Name = item.Key
                 });
             }

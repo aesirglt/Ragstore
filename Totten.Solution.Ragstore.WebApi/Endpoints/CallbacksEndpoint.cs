@@ -33,7 +33,7 @@ public static class CallbacksEndpoint
                           [FromBody] CallbackCreateDto createDto)
                           => HandleCommand(await mediator.Send(mapper.Map<CallbackSaveCommand>((createDto, new UserData
                           {
-                              Id = $"{Guid.NewGuid()}",
+                              Id = $"d7aeb595-44a5-4f5d-822e-980f35ace12d",
                               Email = "aleffmds@gmail.com",
                               Cellphone = "+5584988633251",
                               Level = EUserLevel.SYSTEM

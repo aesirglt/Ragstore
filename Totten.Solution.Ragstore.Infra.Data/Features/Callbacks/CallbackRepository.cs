@@ -18,10 +18,10 @@ public class CallbackRepository : ICallbackRepository
     public Task<List<Callback>> GetAll()
         => _collection.Find(_ => true).ToListAsync();
 
-    public Task<List<Callback>> GetByItemAll(string itemName)
+    public Task<List<Callback>> GetByItemAndPriceAll(string itemName, double value)
         => _collection
-        .Find(cb => cb.Items.ContainsKey(itemName))
-        .ToListAsync();
+                .Find(cb => cb.Items.Any(f => f.Key.Contains(itemName) && f.Value <= value))
+                .ToListAsync();
 
     public async Task<Unit> Save(Callback callback)
     {

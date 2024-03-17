@@ -3,7 +3,7 @@ using Totten.Solution.Ragstore.Infra.Cross.Functionals;
 
 public interface ICallbackRepository
 {
-    Task<List<Callback>> GetByItemAll(string itemName);
+    Task<List<Callback>> GetByItemAndPriceAll(string itemName, double value);
     Task<List<Callback>> GetAll();
     Task<Unit> Save(Callback item);
 }
