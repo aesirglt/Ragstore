@@ -8,4 +8,5 @@ public interface IStoreRepository
     Task<Store> GetById(string id);
     Task<List<Store>> GetAll();
     Task<Unit> Save(Store store);
+    Task<Unit> SaveBatch(IQueryable<Store> stores);
 }

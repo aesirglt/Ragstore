@@ -5,8 +5,10 @@ using AutoMapper;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using Totten.Solution.Ragstore.ApplicationService;
+using Totten.Solution.Ragstore.Domain.Features.Callbacks;
 using Totten.Solution.Ragstore.Domain.Features.Items;
 using Totten.Solution.Ragstore.Domain.Features.Stores;
+using Totten.Solution.Ragstore.Infra.Data.Features.Callbacks;
 using Totten.Solution.Ragstore.Infra.Data.Features.Items;
 using Totten.Solution.Ragstore.Infra.Data.Features.Stores;
 using Totten.Solution.Ragstore.WebApi.AppSettings;
@@ -40,9 +42,14 @@ public class GlobalModule<TProgram> : Autofac.Module
                .As<IItemRepository>()
                .InstancePerLifetimeScope();
 
+        builder.Register(ctx => new CallbackRepository(ctx.Resolve<IMongoDatabase>(), ctx.Resolve<IOptions<StoreDatabaseSettings>>().Value.CallbackCollectionName))
+               .As<ICallbackRepository>()
+               .InstancePerLifetimeScope();
+
         builder.Register(_ => Configuration)
                .As<IConfigurationRoot>()
                .InstancePerLifetimeScope();
+
 
         builder.Register(ctx =>
         {

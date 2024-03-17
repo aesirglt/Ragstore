@@ -2,6 +2,7 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using MediatR.Extensions.Autofac.DependencyInjection;
 using MediatR.Extensions.Autofac.DependencyInjection.Builder;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Interfaces;
 using Microsoft.OpenApi.Models;
@@ -15,6 +16,15 @@ using Totten.Solution.Ragstore.WebApi.Modules;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.Configure<StoreDatabaseSettings>(builder.Configuration.GetSection("StoreDatabase"));
+builder.Services.Configure<HttpClientSettings>(builder.Configuration.GetSection("HttpClients"));
+
+builder.Services.AddHttpClient(
+        "WppHttpClient",
+        (provider, client) =>
+        {
+            client.BaseAddress = new Uri(provider.GetService<HttpClientSettings>().WhatsClientUrl);
+            client.DefaultRequestHeaders.UserAgent.ParseAdd("dotnet-docs");
+        });
 
 builder.Services
        .AddEndpointsApiExplorer()
@@ -101,10 +111,10 @@ app.UseHttpsRedirection();
 
 app
    //Store endpoints
-   .StoreGetEndpoint()
-   .StorePostEndpoint()
-   .StoreGetByIdEndpoint()
+   .StoresEndpoints()
    //Items endpoints
-   .ItemGetByNameEndpoint();
+   .ItemsEndpoints()
+   //Callback endpoints
+   .CallbacksEndpoints();
 
 app.Run();

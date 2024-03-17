@@ -20,19 +20,36 @@ using static Totten.Solution.Ragstore.WebApi.Bases.BaseEndpointMethod;
         Na collection de items um endpoint vai acessar com base no ultimo sniff para verificar se esta sendo vendido atualmente.
         Outro endpoint vai acessar sem filtro para acessar como historico de preço do item.
  */
+/// <summary>
+/// Classe responsavel pelos metodos de endpoints para store
+/// </summary>
 public static class StoresEndpoint
 {
-    const string _baseEndpoint = "Stories";
-    public static WebApplication StoreGetEndpoint(this WebApplication app)
-    {
-        app.MapGet($"v1/{_baseEndpoint}",
-                   async ([FromServices] IMediator mediator,
-                          [FromServices] IMapper mapper) =>
-                   {
-                       var returned = await mediator.Send(new StoreCollectionQuery());
+    const string _baseEndpoint = "stores";
 
-                       return HandleQueryable<Store, StoreResumeViewModel>(returned, mapper);
-                   }
+    /// <summary>
+    /// Metodo responsavel por adicionar os endpoints de stores
+    /// </summary>
+    /// <param name="app">Aplicação</param>
+    /// <returns>Aplicação</returns>
+    public static WebApplication StoresEndpoints(this WebApplication app)
+    {
+        app.StorePostBatchEndpoint();
+
+        var grouped = app.MapGroup($"v1/{_baseEndpoint}");
+
+        grouped
+            .StoreGetEndpoint()
+            .StoreGetByIdEndpoint()
+            .StorePostEndpoint();
+
+        return app;
+    }
+    private static RouteGroupBuilder StoreGetEndpoint(this RouteGroupBuilder app)
+    {
+        app.MapGet($"", async ([FromServices] IMediator mediator,
+                          [FromServices] IMapper mapper)
+                          => HandleQueryable<Store, StoreResumeViewModel>(await mediator.Send(new StoreCollectionQuery()),mapper)
         ).WithName($"v1/Get{_baseEndpoint}")
         .WithTags("Stores")
         .WithOpenApi();
@@ -40,35 +57,43 @@ public static class StoresEndpoint
         return app;
     }
 
-    public static WebApplication StoreGetByIdEndpoint(this WebApplication app)
+    private static RouteGroupBuilder StoreGetByIdEndpoint(this RouteGroupBuilder app)
     {
-        app.MapGet($"v1/{_baseEndpoint}/{{id}}",
-                   async ([FromServices] IMediator mediator,
+        app.MapGet($"{{id}}", async ([FromServices] IMediator mediator,
                           [FromServices] IMapper mapper,
-                          [FromQuery] string id) =>
-                   {
-                       var returned = await mediator.Send(new StoreByIdQuery { Id = id });
-
-                       return HandleQuery<Store, StoreDetailViewModel>(returned, mapper);
-                   }
-        )
-        .WithName($"v1/Get{_baseEndpoint}/{{id}}")
+                          [FromQuery] string id)
+                          => HandleQuery<Store, StoreDetailViewModel>(await mediator.Send(new StoreByIdQuery(id)), mapper)
+        ).WithName($"v1/Get{_baseEndpoint}/{{id}}")
         .WithTags("Stores")
         .WithOpenApi();
 
         return app;
     }
 
-    public static WebApplication StorePostEndpoint(this WebApplication app)
+    private static RouteGroupBuilder StorePostEndpoint(this RouteGroupBuilder app)
     {
-        app.MapPost($"v1/{_baseEndpoint}",
+        app.MapPost($"", async ([FromServices] IMediator mediator,
+                          [FromServices] IMapper mapper,
+                          [FromBody] StoreCreateDto createDto)
+                          => HandleCommand(await mediator.Send(mapper.Map<StoreSaveCommand>(createDto)))
+        ).WithName($"v1/Post{_baseEndpoint}")
+        .WithTags("Stores")
+        .WithOpenApi();
+
+        return app;
+    }
+
+    private static WebApplication StorePostBatchEndpoint(this WebApplication app)
+    {
+        app.MapPost($"v1/{_baseEndpoint}-batch",
                    async ([FromServices] IMediator mediator,
                           [FromServices] IMapper mapper,
-                          [FromBody] StoreCreateDto createDto) =>
+                          [FromBody] List<StoreCreateDto> createDto) =>
                    {
-                       return HandleCommand(await mediator.Send(mapper.Map<StoreSaveCommand>(createDto)));
+                       var batchCommand = new StoreSaveBatchCommand(mapper.ProjectTo<StoreSaveCommand>(createDto.AsQueryable()));
+                       return HandleCommand(await mediator.Send(batchCommand));
                    }
-        ).WithName($"v1/Post{_baseEndpoint}")
+        ).WithName($"v1/Post{_baseEndpoint}-batch")
         .WithTags("Stores")
         .WithOpenApi();
 

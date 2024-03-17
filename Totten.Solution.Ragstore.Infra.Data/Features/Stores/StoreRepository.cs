@@ -28,6 +28,11 @@ public class StoreRepository : IStoreRepository
         await _collection.InsertOneAsync(store);
         return new Unit();
     }
+    public async Task<Unit> SaveBatch(IQueryable<Store> stores)
+    {
+        await _collection.InsertManyAsync(stores);
+        return new Unit();
+    }
 
     public async Task UpdateAsync(string id, Store store) =>
         await _collection.ReplaceOneAsync(x => x.Id == id, store);

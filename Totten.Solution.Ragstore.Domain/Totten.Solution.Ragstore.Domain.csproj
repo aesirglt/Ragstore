@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Users\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Totten.Solution.Ragstore.Infra.Cross\Totten.Solution.Ragstore.Infra.Cross.csproj" />
   </ItemGroup>
 
