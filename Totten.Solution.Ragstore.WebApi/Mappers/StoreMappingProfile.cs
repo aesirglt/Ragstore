@@ -7,9 +7,9 @@ using Totten.Solution.Ragstore.Infra.Cross.Functionals;
 using Totten.Solution.Ragstore.WebApi.Endpoints.Dtos.Stores;
 using Totten.Solution.Ragstore.WebApi.Endpoints.ViewModels.Stores;
 
-public class MappingProfile : Profile
+public class StoreMappingProfile : Profile
 {
-    public MappingProfile()
+    public StoreMappingProfile()
     {
         CreateMap<Store, StoreResumeViewModel>()
             .ForMember(ds => ds.Guid, m => m.MapFrom(src => src.Id))
@@ -23,7 +23,7 @@ public class MappingProfile : Profile
         CreateMap<StoreSaveCommand, Store>()
             .ForMember(ds => ds.Name, m => m.MapFrom(src => src.Title))
             .ForMember(ds => ds.Id, m => m.MapFrom(src => Guid.NewGuid()))
-            .ForMember(ds => ds.Mercant, m => m.MapFrom(src => src.SellerName))
+            .ForMember(ds => ds.Merchant, m => m.MapFrom(src => src.SellerName))
             .ForMember(ds => ds.Items, m => m.MapFrom(src => string.Join(',', src.Items.Select(x => $"{x.Key}:{x.Value}"))));
     }
 

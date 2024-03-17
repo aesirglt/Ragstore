@@ -10,7 +10,7 @@ public class StoreEntityConfiguration : IEntityTypeConfiguration<Store>
     {
         builder.ToTable(TABLE_NAME);
         builder.Property(b => b.Name).IsRequired();
-        builder.Property(b => b.Mercant).IsRequired();
+        builder.Property(b => b.Merchant).IsRequired();
         builder.Property(b => b.Id).IsRequired();
         builder.Property(b => b.Items).IsRequired();
     }

@@ -2,6 +2,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using MongoDB.Driver;
+using System;
 using System.Threading.Tasks;
 using Totten.Solution.Ragstore.Domain.Features.Items;
 using Totten.Solution.Ragstore.Infra.Cross.Functionals;
@@ -17,7 +18,21 @@ public class ItemRepository : IItemRepository
 
     public Task<List<Item>> GetAll()
     {
+
         return _collection.Find(_ => true).ToListAsync();
+    }
+
+    public Task<List<Item>> GetAllByDate(string name, DateTime date)
+    {
+        _collection.Find(item => item.Name.Contains(name) &&
+                                    item.Date.Year == date.Year &&
+                                    item.Date.Month == date.Month &&
+                                    item.Date.Day == date.Day, new FindOptions
+        {
+            AllowDiskUse = true
+        });
+        return _collection.Find(item => item.Name.Contains(name))
+            .ToListAsync();
     }
 
     public async Task<Unit> Save(Item store)

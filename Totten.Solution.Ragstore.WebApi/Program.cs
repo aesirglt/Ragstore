@@ -54,9 +54,13 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-//Store endpoints
-app.StoreGetEndpoint()
+
+app
+   //Store endpoints
+   .StoreGetEndpoint()
    .StorePostEndpoint()
-   .StoreGetByIdEndpoint();
+   .StoreGetByIdEndpoint()
+   //Items endpoints
+   .ItemGetByNameEndpoint();
 
 app.Run();
