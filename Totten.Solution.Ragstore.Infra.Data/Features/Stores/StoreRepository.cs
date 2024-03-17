@@ -1,6 +1,5 @@
 ﻿namespace Totten.Solution.Ragstore.Infra.Data.Features.Stores;
 
-using Microsoft.EntityFrameworkCore;
 using MongoDB.Driver;
 using System.Threading.Tasks;
 using Totten.Solution.Ragstore.Domain.Features.Stores;

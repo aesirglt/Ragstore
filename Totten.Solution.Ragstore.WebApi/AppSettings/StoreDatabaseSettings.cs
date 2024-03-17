@@ -1,4 +1,4 @@
-﻿namespace Totten.Solution.Ragstore.WebApi.Configurations.AppSettings;
+﻿namespace Totten.Solution.Ragstore.WebApi.AppSettings;
 
 public class StoreDatabaseSettings
 {

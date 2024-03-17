@@ -9,7 +9,7 @@ using Totten.Solution.Ragstore.Domain.Features.Items;
 using Totten.Solution.Ragstore.Domain.Features.Stores;
 using Totten.Solution.Ragstore.Infra.Data.Features.Items;
 using Totten.Solution.Ragstore.Infra.Data.Features.Stores;
-using Totten.Solution.Ragstore.WebApi.Configurations.AppSettings;
+using Totten.Solution.Ragstore.WebApi.AppSettings;
 
 public class GlobalModule<TProgram> : Autofac.Module
 {
