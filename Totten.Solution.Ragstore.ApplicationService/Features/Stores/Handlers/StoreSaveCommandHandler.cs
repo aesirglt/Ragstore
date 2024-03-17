@@ -35,7 +35,7 @@ public class StoreSaveCommandHandler : IRequestHandler<StoreSaveCommand, Result<
 
             _ = _mediator.Publish(new NewStoreNotification
             {
-                Mercant = request.SellerName,
+                Merchant = request.SellerName,
                 Location = request.Location,
                 Date = request.CreationDate,
                 Items = request.Items

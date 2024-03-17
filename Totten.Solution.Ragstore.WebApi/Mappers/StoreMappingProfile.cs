@@ -24,14 +24,19 @@ public class StoreMappingProfile : Profile
             .ForMember(ds => ds.Name, m => m.MapFrom(src => src.Title))
             .ForMember(ds => ds.Id, m => m.MapFrom(src => Guid.NewGuid()))
             .ForMember(ds => ds.Merchant, m => m.MapFrom(src => src.SellerName))
-            .ForMember(ds => ds.Items, m => m.MapFrom(src => string.Join(',', src.Items.Select(x => $"{x.Key}:{x.Value}"))));
+            .ForMember(ds => ds.Items, m => m.MapFrom(src => string.Join('#', src.Items.Select(x => $"{x.Key}:{x.Value}"))));
     }
 
     private Dictionary<string, double> ToDictionary(string items)
     {
-        return items.Split(',')
-                    .Apply(it => it.Select(item => item.Split(':')
-                                                       .Apply(splited => new KeyValuePair<string, double>(splited[0], double.Parse(splited[1])))
-                    )).ToDictionary();
+        var splited = items.Split('#', StringSplitOptions.RemoveEmptyEntries);
+
+        var listKey = splited.Select(itemPrice =>
+        {
+            var splited = itemPrice.Split(':', StringSplitOptions.RemoveEmptyEntries);
+            return new KeyValuePair<string, double>(splited[0], double.Parse(splited[1]));
+        });
+
+        return listKey.ToDictionary();
     }
 }

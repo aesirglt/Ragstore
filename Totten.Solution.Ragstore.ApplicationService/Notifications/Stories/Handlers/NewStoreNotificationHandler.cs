@@ -29,7 +29,7 @@ public class NewStoreNotificationHandler : INotificationHandler<NewStoreNotifica
                 {
                     Id = $"{Guid.NewGuid()}",
                     Name = item.Key,
-                    Merchant = notification.Mercant,
+                    Merchant = notification.Merchant,
                     Price = item.Value,
                     Date = notification.Date
                 });

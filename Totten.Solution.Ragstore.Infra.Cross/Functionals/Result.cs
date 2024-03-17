@@ -20,7 +20,7 @@ public readonly struct Result<TErr, TValue>
     public R Match<R>(Func<TValue?, R> success, Func<TErr?, R> failure)
         => _success ? success(_value) : failure(_err);
 
-    public Unit IfFail(Action<TErr> func)
+    public Unit IfFail(Action<TErr?> func)
     {
         if (!_success)
             func(_err);

@@ -4,7 +4,7 @@ public record StoreDetailViewModel
 {
     public string Guid { get; set; } = string.Empty;
     public string Server { get; set; } = string.Empty;
-    public string Mercant { get; set; } = string.Empty;
+    public string Merchant { get; set; } = string.Empty;
     public string Title { get; set; } = string.Empty;
     public string Location { get; set; } = string.Empty;
     public DateTime CreationDate { get; set; }
