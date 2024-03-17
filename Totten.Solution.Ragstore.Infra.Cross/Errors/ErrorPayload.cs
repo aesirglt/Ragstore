@@ -9,18 +9,11 @@ public class ErrorPayload
     private ErrorPayload() { }
 
     public static ErrorPayload New<T>(T exception) where T : Exception
-    {
-        int errorCode;
-
-        if (exception is BusinessError error)
-            errorCode = error.ErrorCode.GetHashCode();
-        else
-            errorCode = ECodeError.Unhandled.GetHashCode();
-
-        return new ErrorPayload
+        => new()
         {
-            ErrorCode = errorCode,
+            ErrorCode = exception is BusinessError error
+                        ? error.ErrorCode.GetHashCode()
+                        : ECodeError.Unhandled.GetHashCode(),
             ErrorMessage = exception.Message,
         };
-    }
 }

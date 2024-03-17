@@ -25,7 +25,7 @@ public static class StoresEndpoint
     const string _baseEndpoint = "Stories";
     public static WebApplication StoreGetEndpoint(this WebApplication app)
     {
-        app.MapGet(_baseEndpoint,
+        app.MapGet($"v1/{_baseEndpoint}",
                    async ([FromServices] IMediator mediator,
                           [FromServices] IMapper mapper) =>
                    {
@@ -33,7 +33,7 @@ public static class StoresEndpoint
 
                        return HandleQueryable<Store, StoreResumeViewModel>(returned, mapper);
                    }
-        ).WithName($"Get{_baseEndpoint}")
+        ).WithName($"v1/Get{_baseEndpoint}")
         .WithTags("Stores")
         .WithOpenApi();
 
@@ -42,7 +42,7 @@ public static class StoresEndpoint
 
     public static WebApplication StoreGetByIdEndpoint(this WebApplication app)
     {
-        app.MapGet($"{_baseEndpoint}/{{id}}",
+        app.MapGet($"v1/{_baseEndpoint}/{{id}}",
                    async ([FromServices] IMediator mediator,
                           [FromServices] IMapper mapper,
                           [FromQuery] string id) =>
@@ -52,7 +52,7 @@ public static class StoresEndpoint
                        return HandleQuery<Store, StoreDetailViewModel>(returned, mapper);
                    }
         )
-        .WithName($"Get{_baseEndpoint}/{{id}}")
+        .WithName($"v1/Get{_baseEndpoint}/{{id}}")
         .WithTags("Stores")
         .WithOpenApi();
 
@@ -61,14 +61,14 @@ public static class StoresEndpoint
 
     public static WebApplication StorePostEndpoint(this WebApplication app)
     {
-        app.MapPost($"{_baseEndpoint}",
+        app.MapPost($"v1/{_baseEndpoint}",
                    async ([FromServices] IMediator mediator,
                           [FromServices] IMapper mapper,
                           [FromBody] StoreCreateDto createDto) =>
                    {
                        return HandleCommand(await mediator.Send(mapper.Map<StoreSaveCommand>(createDto)));
                    }
-        ).WithName($"Post{_baseEndpoint}")
+        ).WithName($"v1/Post{_baseEndpoint}")
         .WithTags("Stores")
         .WithOpenApi();
 

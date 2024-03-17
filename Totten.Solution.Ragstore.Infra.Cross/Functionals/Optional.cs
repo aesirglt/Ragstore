@@ -2,8 +2,6 @@
 public struct Unit
 {
     public Unit() { }
-
-
 }
 
 public class Optional

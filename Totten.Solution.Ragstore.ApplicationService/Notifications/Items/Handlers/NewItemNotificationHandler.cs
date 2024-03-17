@@ -1,12 +1,16 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Notifications.Items.Handlers;
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
 
 public class NewItemNotificationHandler : INotificationHandler<NewItemNotification>
 {
-    public NewItemNotificationHandler()
+    private IMediator _mediator;
+    public NewItemNotificationHandler(IServiceProvider provider)
     {
+        var scoped = provider.CreateScope();
+        _mediator = scoped.ServiceProvider.GetService<IMediator>() ?? throw new Exception();
     }
 
     public async Task Handle(NewItemNotification notification, CancellationToken cancellationToken)

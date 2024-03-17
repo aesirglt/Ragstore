@@ -12,7 +12,7 @@ public static class ItemsEndpoint
     const string _baseEndpoint = "Items";
     public static WebApplication ItemGetByNameEndpoint(this WebApplication app)
     {
-        app.MapGet($"{_baseEndpoint}/{{name}}",
+        app.MapGet($"v1/{_baseEndpoint}/{{name}}",
                    async ([FromServices] IMediator mediator,
                           [FromServices] IMapper mapper,
                           [FromRoute] string name) =>
@@ -21,7 +21,7 @@ public static class ItemsEndpoint
 
                        return HandleQueryable<Item, ItemResumeViewModel>(returned, mapper);
                    }
-        ).WithName($"Get{_baseEndpoint}/{{name}}")
+        ).WithName($"v1/Get{_baseEndpoint}/{{name}}")
         .WithTags("Items")
         .WithOpenApi();
 

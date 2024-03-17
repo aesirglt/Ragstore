@@ -6,12 +6,12 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>a97a4e8f-ca1f-4f2a-afa4-28cbd658e7b8</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="8.0.0" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="9.0.0" />
-    <PackageReference Include="MediatR.Extensions.Autofac" Version="0.6.0" />
     <PackageReference Include="MediatR.Extensions.Autofac.DependencyInjection" Version="12.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.2" />
