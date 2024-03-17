@@ -18,7 +18,7 @@ public class CallbackRepository : ICallbackRepository
     public Task<List<Callback>> GetAll()
         => _collection.Find(_ => true).ToListAsync();
 
-    public Task<List<Callback>> GetByItemAndPriceAll(string itemName, double value)
+    public Task<List<Callback>> GetForCallback(string itemName, double value)
         => _collection
                 .Find(cb => cb.Items.Any(f => f.Key.Contains(itemName) && f.Value <= value))
                 .ToListAsync();

@@ -22,7 +22,7 @@ public class NewItemNotificationHandler : INotificationHandler<NewItemNotificati
         try
         {
             //verificar usuarios que querem notificação desse item
-            var callbacks = await _callbackRepository.GetByItemAndPriceAll(notification.Name, notification.Price);
+            var callbacks = await _callbackRepository.GetForCallback(notification.Name, notification.Price);
 
             if (callbacks is { Count: > 0 })
             {
