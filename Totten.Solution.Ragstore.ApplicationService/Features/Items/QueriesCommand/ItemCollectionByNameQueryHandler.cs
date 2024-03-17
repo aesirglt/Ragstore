@@ -1,10 +1,10 @@
-﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.Items.Queries;
+﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.Items.QueriesCommand;
 
 using MediatR;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Totten.Solution.Ragstore.ApplicationService.Features.Items.QueriesCommand;
+using Totten.Solution.Ragstore.ApplicationService.Features.Items.Queries;
 using Totten.Solution.Ragstore.Domain.Features.Items;
 using Totten.Solution.Ragstore.Infra.Cross.Functionals;
 

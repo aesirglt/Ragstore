@@ -22,7 +22,7 @@ public class NewItemNotificationHandler : INotificationHandler<NewItemNotificati
         try
         {
             //verificar usuarios que querem notificação desse item
-            var callbacks = await _callbackRepository.GetForCallback(notification.Name, notification.Price);
+            var callbacks = await _callbackRepository.GetForCallback(notification.Server, notification.Name, notification.Price);
 
             if (callbacks is { Count: > 0 })
             {
@@ -33,7 +33,7 @@ public class NewItemNotificationHandler : INotificationHandler<NewItemNotificati
                         _mediator.Publish(new MessageNotification
                         {
                             Contact = cb.UserCellphone,
-                            Body = @$"RagnaStore, item: *{notification.Name}* em *{notification.Location}* por *{notification.Price}* as {DateTime.Now.ToString("HH:mm:ss")}"
+                            Body = @$"RagnaStore, item: *{notification.Name}* em *{notification.Location}* por *{notification.Price}* servidor: {notification.Server} as {DateTime.Now.ToString("HH:mm:ss")}"
                         });
                         return;
                     }

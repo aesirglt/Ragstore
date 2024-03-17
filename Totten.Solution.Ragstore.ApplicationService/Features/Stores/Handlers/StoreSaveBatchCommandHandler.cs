@@ -37,6 +37,7 @@ public class StoreSaveBatchCommandHandler : IRequestHandler<StoreSaveBatchComman
             {
                 _ = _mediator.Publish(new NewStoreNotification
                 {
+                    Server = request.Server,
                     Merchant = request.SellerName,
                     Location = request.Location,
                     Date = request.CreationDate,

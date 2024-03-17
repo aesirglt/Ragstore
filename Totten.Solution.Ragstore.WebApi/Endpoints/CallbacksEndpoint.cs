@@ -3,6 +3,7 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Totten.Solution.Ragstore.ApplicationService.Features.Callbacks.Commands;
+using Totten.Solution.Ragstore.ApplicationService.Features.Items.Queries;
 using Totten.Solution.Ragstore.Infra.Cross.CrossDTOs;
 using Totten.Solution.Ragstore.WebApi.Endpoints.Dtos.Callbacks;
 using static Totten.Solution.Ragstore.WebApi.Bases.BaseEndpointMethod;
@@ -21,11 +22,25 @@ public static class CallbacksEndpoint
     /// <returns>Retorna a propria aplicação</returns>
     public static WebApplication CallbacksEndpoints(this WebApplication app)
     {
-        app.CallbackPostEndpoint();
+        app
+            .CallbackPostEndpoint()
+            .CallbackGetEndpoint()
+            .CallbackGetByUserEndpoint();
 
         return app;
     }
 
+    private static WebApplication CallbackGetEndpoint(this WebApplication app)
+    {
+        app.MapGet($"{_baseEndpoint}",
+                    async ([FromServices] IMediator mediator)
+                          => HandleCommand(await mediator.Send(new CallbackCollectionQuery()))
+        ).WithName($"v1/Get{_baseEndpoint}")
+        .WithTags("Callbacks")
+        .WithOpenApi();
+
+        return app;
+    }
     private static WebApplication CallbackPostEndpoint(this WebApplication app)
     {
         app.MapPost($"{_baseEndpoint}-items", async ([FromServices] IMediator mediator,
@@ -39,6 +54,17 @@ public static class CallbacksEndpoint
                               Level = EUserLevel.SYSTEM
                           }))))
         ).WithName($"v1/Post{_baseEndpoint}-items")
+        .WithTags("Callbacks")
+        .WithOpenApi();
+
+        return app;
+    }
+    private static WebApplication CallbackGetByUserEndpoint(this WebApplication app)
+    {
+        app.MapGet($"{_baseEndpoint}-user",
+                    async ([FromServices] IMediator mediator)
+                          => HandleCommand(await mediator.Send(new CallbackCollectionByUserIdQuery { UserId = "d7aeb595-44a5-4f5d-822e-980f35ace12d" }))
+        ).WithName($"v1/Get{_baseEndpoint}-user")
         .WithTags("Callbacks")
         .WithOpenApi();
 

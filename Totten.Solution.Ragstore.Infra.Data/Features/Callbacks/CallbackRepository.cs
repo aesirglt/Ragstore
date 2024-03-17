@@ -16,11 +16,17 @@ public class CallbackRepository : ICallbackRepository
     }
 
     public Task<List<Callback>> GetAll()
-        => _collection.Find(_ => true).ToListAsync();
+        => _collection.Find(_ => true)
+        .ToListAsync();
 
-    public Task<List<Callback>> GetForCallback(string itemName, double value)
+    public Task<List<Callback>> GetAllByUser(string userId)
+        => _collection.Find(c => c.CallbackOwnerId == userId)
+        .ToListAsync();
+
+    public Task<List<Callback>> GetForCallback(string server, string itemName, double value)
         => _collection
-                .Find(cb => cb.Items.Any(f => f.Key.Contains(itemName) && f.Value <= value))
+                .Find(cb => cb.Server == server &&
+                cb.Items.Any(f => f.Key.Contains(itemName) && f.Value <= value))
                 .ToListAsync();
 
     public async Task<Unit> Save(Callback callback)
