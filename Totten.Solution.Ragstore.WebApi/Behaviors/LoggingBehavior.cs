@@ -5,17 +5,31 @@ using Totten.Solution.Ragstore.Infra.Cross.Errors;
 using Totten.Solution.Ragstore.Infra.Cross.Errors.EspecifiedErrors;
 using Totten.Solution.Ragstore.Infra.Cross.Functionals;
 
+/// <summary>
+/// 
+/// </summary>
+/// <typeparam name="TRequest"></typeparam>
+/// <typeparam name="TResponse"></typeparam>
 public sealed class LoggingBehavior<TRequest, TResponse>
          : IPipelineBehavior<TRequest, Result<BusinessError, TResponse>>
     where TRequest : notnull
 {
     private readonly ILogger<LoggingBehavior<TRequest, Result<BusinessError, TResponse>>> _logger;
-
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="logger"></param>
     public LoggingBehavior(ILogger<LoggingBehavior<TRequest, Result<BusinessError, TResponse>>> logger)
     {
         _logger = logger;
     }
-
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="next"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
     public async Task<Result<BusinessError, TResponse>> Handle(TRequest request, RequestHandlerDelegate<Result<BusinessError, TResponse>> next, CancellationToken cancellationToken)
     {
         _logger.BeginScope("Handler {handlerName}", typeof(TRequest).Name);

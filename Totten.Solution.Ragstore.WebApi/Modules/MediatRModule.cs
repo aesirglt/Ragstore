@@ -6,9 +6,15 @@ using System.Reflection;
 using Totten.Solution.Ragstore.ApplicationService;
 using Totten.Solution.Ragstore.WebApi.Behaviors;
 using Module = Autofac.Module;
-
+/// <summary>
+/// 
+/// </summary>
 public class MediatRModule : Module
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="builder"></param>
     protected override void Load(ContainerBuilder builder)
     {
         var assembly = typeof(ApplicationAssembly).GetTypeInfo().Assembly;

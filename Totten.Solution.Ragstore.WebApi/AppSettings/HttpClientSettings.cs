@@ -1,6 +1,12 @@
 ﻿namespace Totten.Solution.Ragstore.WebApi.AppSettings;
 
+/// <summary>
+/// 
+/// </summary>
 public class HttpClientSettings
 {
-    public string WhatsClientUrl { get; set; }
+    /// <summary>
+    /// 
+    /// </summary>
+    public string WhatsClientUrl { get; set; } = string.Empty;
 }

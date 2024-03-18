@@ -13,13 +13,26 @@ using Totten.Solution.Ragstore.Infra.Data.Features.Items;
 using Totten.Solution.Ragstore.Infra.Data.Features.Stores;
 using Totten.Solution.Ragstore.WebApi.AppSettings;
 
+/// <summary>
+/// 
+/// </summary>
+/// <typeparam name="TProgram"></typeparam>
 public class GlobalModule<TProgram> : Autofac.Module
 {
     IConfigurationRoot Configuration { get; }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="configuration"></param>
     public GlobalModule(IConfigurationRoot configuration)
     {
         Configuration = configuration;
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="builder"></param>
     protected override void Load(ContainerBuilder builder)
     {
         builder.Register(ctx =>
@@ -49,7 +62,6 @@ public class GlobalModule<TProgram> : Autofac.Module
         builder.Register(_ => Configuration)
                .As<IConfigurationRoot>()
                .InstancePerLifetimeScope();
-
 
         builder.Register(ctx =>
         {

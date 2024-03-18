@@ -3,9 +3,15 @@
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Totten.Solution.Ragstore.Infra.Cross.Errors;
-
+/// <summary>
+/// 
+/// </summary>
 public class ErrorHandlerAttribute : ExceptionFilterAttribute
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="context"></param>
     public override void OnException(ExceptionContext context)
     {
         context.Exception = context.Exception;

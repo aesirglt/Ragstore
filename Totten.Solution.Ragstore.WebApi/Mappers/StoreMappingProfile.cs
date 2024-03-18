@@ -7,8 +7,14 @@ using Totten.Solution.Ragstore.Infra.Cross.Functionals;
 using Totten.Solution.Ragstore.WebApi.Endpoints.Dtos.Stores;
 using Totten.Solution.Ragstore.WebApi.Endpoints.ViewModels.Stores;
 
+/// <summary>
+/// 
+/// </summary>
 public class StoreMappingProfile : Profile
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public StoreMappingProfile()
     {
         CreateMap<Store, StoreResumeViewModel>()

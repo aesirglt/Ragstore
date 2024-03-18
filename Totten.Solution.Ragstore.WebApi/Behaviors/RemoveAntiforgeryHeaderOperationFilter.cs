@@ -3,9 +3,16 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
-
+/// <summary>
+/// 
+/// </summary>
 public class RemoveAntiforgeryHeaderOperationFilter : IOperationFilter
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="operation"></param>
+    /// <param name="context"></param>
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
         var filterPipeline = context.ApiDescription.ActionDescriptor.FilterDescriptors;
