@@ -34,6 +34,9 @@ builder.Host
        .ConfigureAutofac(builder.Configuration);
 
 var app = builder.Build();
+app.UseCors();
+app.UseAuthentication();
+app.UseAuthorization();
 app.UseAntiforgery();
 
 if (app.Environment.IsDevelopment())

@@ -78,7 +78,8 @@ public static class StoresEndpoint
                           => HandleCommand(await mediator.Send(mapper.Map<StoreSaveCommand>(createDto)))
         ).WithName($"v1/Post{_baseEndpoint}")
         .WithTags("Stores")
-        .WithOpenApi();
+        .WithOpenApi()
+        .RequireAuthorization("AgePolicy");
 
         return app;
     }
@@ -95,7 +96,8 @@ public static class StoresEndpoint
                    }
         ).WithName($"v1/Post{_baseEndpoint}-batch")
         .WithTags("Stores")
-        .WithOpenApi();
+        .WithOpenApi()
+        .RequireAuthorization();
 
         return app;
     }

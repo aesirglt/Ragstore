@@ -1,5 +1,6 @@
 ﻿namespace Totten.Solution.Ragstore.WebApi.ServicesExtension;
 
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Interfaces;
 using Microsoft.OpenApi.Models;
@@ -30,9 +31,9 @@ public static class SwaggerExt
                     Email = "aleffmds@gmail.com",
                     Url = new Uri("https://www.instagram.com/aleff.moura"),
                     Extensions =
-                {
-                    { "x-company", new OpenApiString("Totten Solutions") }
-                }
+                    {
+                        { "x-company", new OpenApiString("Totten Solutions") }
+                    }
                 },
                 License = new OpenApiLicense
                 {
@@ -41,12 +42,39 @@ public static class SwaggerExt
                 },
                 TermsOfService = new Uri("https://mail.google.com"),
                 Extensions = new Dictionary<string, IOpenApiExtension>
-            {
-                { "x-company", new OpenApiString("Company Name") },
-                { "x-contact", new OpenApiString("contact@email.com") }
-            }
+                {
+                    { "x-company", new OpenApiString("Company Name") },
+                    { "x-contact", new OpenApiString("contact@email.com") }
+                }
             });
-            // Set the comments path for the Swagger JSON and UI.
+            //opts.AddSecurityDefinition("Authentication", new OpenApiSecurityScheme
+            //{
+            //    Type = SecuritySchemeType.ApiKey,
+            //});
+            var jwtSecurityScheme = new OpenApiSecurityScheme
+            {
+                BearerFormat = "JWT",
+                Name = "JWT Authentication",
+                In = ParameterLocation.Header,
+                Type = SecuritySchemeType.Http,
+                Scheme = JwtBearerDefaults.AuthenticationScheme,
+                Description = @"JWT Authorization header using the Bearer scheme. \r\n\r\n 
+                                Enter 'Bearer'[space] and then your token in the text input below.
+                                \r\n\r\nExample: 'Bearer 12345abcdef'",
+
+                Reference = new OpenApiReference
+                {
+                    Id = JwtBearerDefaults.AuthenticationScheme,
+                    Type = ReferenceType.SecurityScheme
+                }
+            };
+
+            opts.AddSecurityDefinition(jwtSecurityScheme.Reference.Id, jwtSecurityScheme);
+            opts.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                { jwtSecurityScheme, Array.Empty<string>() }
+            });
+
             var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
             var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
             opts.IncludeXmlComments(xmlPath);
