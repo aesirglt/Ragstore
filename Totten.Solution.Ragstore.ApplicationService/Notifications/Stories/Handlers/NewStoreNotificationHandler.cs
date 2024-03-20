@@ -27,12 +27,8 @@ public class NewStoreNotificationHandler : INotificationHandler<NewStoreNotifica
             {
                 await _itemRepository.Save(new Item
                 {
-                    Id = $"{Guid.NewGuid()}",
+                    Id = Guid.NewGuid(),
                     Name = item.Key,
-                    Server = notification.Server,
-                    Merchant = notification.Merchant,
-                    Price = item.Value,
-                    Date = notification.Date
                 });
 
                 _ = _mediator.Publish(new NewItemNotification

@@ -21,4 +21,8 @@
     <ProjectReference Include="..\Totten.Solution.Ragstore.Domain\Totten.Solution.Ragstore.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="StoreContexts\" />
+  </ItemGroup>
+
 </Project>

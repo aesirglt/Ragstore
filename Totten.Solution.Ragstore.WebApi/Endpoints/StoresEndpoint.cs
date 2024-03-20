@@ -61,7 +61,7 @@ public static class StoresEndpoint
     {
         app.MapGet($"{{id}}", async ([FromServices] IMediator mediator,
                           [FromServices] IMapper mapper,
-                          [FromQuery] string id)
+                          [FromQuery] Guid id)
                           => HandleQuery<Store, StoreDetailViewModel>(await mediator.Send(new StoreByIdQuery(id)), mapper)
         ).WithName($"v1/Get{_baseEndpoint}/{{id}}")
         .WithTags("Stores")

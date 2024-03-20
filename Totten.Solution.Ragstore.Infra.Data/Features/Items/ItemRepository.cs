@@ -23,10 +23,7 @@ public class ItemRepository : IItemRepository
 
     public Task<List<Item>> GetAllByDate(string name, DateTime date)
     {
-        _collection.Find(item => item.Name.Contains(name) &&
-                                    item.Date.Year == date.Year &&
-                                    item.Date.Month == date.Month &&
-                                    item.Date.Day == date.Day, new FindOptions
+        _collection.Find(item => item.Name.Contains(name), new FindOptions
         {
             AllowDiskUse = true
         });

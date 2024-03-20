@@ -19,7 +19,7 @@ public static class BaseEndpointMethod
     /// <param name="result"></param>
     /// <returns></returns>
     public static IResult HandleAccepted<TSource>(Result<Exception, TSource> result)
-        => result.Match(succ => Results.Accepted(), error => HandleFailure(error));
+        => result.Match(succ => Results.Accepted(), HandleFailure);
     /// <summary>
     /// 
     /// </summary>
@@ -27,7 +27,7 @@ public static class BaseEndpointMethod
     /// <param name="result"></param>
     /// <returns></returns>
     public static IResult HandleCommand<TSource>(Result<Exception, TSource> result)
-        => result.Match(succ => Results.Ok(succ), error => HandleFailure(error));
+        => result.Match(succ => Results.Ok(succ), HandleFailure);
     /// <summary>
     /// 
     /// </summary>
@@ -37,7 +37,7 @@ public static class BaseEndpointMethod
     /// <param name="m"></param>
     /// <returns></returns>
     public static IResult HandleQuery<TSource, TDestiny>(Result<Exception, TSource> result, IMapper m)
-        => result.Match(succ => Results.Ok(m.Map<TDestiny>(succ)), error => HandleFailure(error));
+        => result.Match(succ => Results.Ok(m.Map<TDestiny>(succ)), HandleFailure);
     /// <summary>
     /// 
     /// </summary>
@@ -47,10 +47,25 @@ public static class BaseEndpointMethod
     /// <param name="m"></param>
     /// <returns></returns>
     public static IResult HandleQueryable<TSource, TDestiny>(Result<Exception, List<TSource>> result, IMapper m)
-        => result.Match(succ => Results.Ok(m.ProjectTo<TDestiny>(succ.AsQueryable(), m.ConfigurationProvider)), error => HandleFailure(error));
+        => result.Match(succ => Results.Ok(m.ProjectTo<TDestiny>(succ.AsQueryable(), m.ConfigurationProvider)), HandleFailure);
 
-    private static IResult HandleFailure<T>(T exception) where T : Exception
+    private static IResult HandleFailure(Exception exception)
         => exception is ValidationException validationError
-            ? Results.Problem(detail: JsonSerializer.Serialize(validationError.Errors), statusCode: HttpStatusCode.BadRequest.GetHashCode())
-            : ErrorPayload.New<T>(exception).Apply(error => Results.Problem(detail: JsonSerializer.Serialize(error), statusCode: error.ErrorCode.GetHashCode()));
+            ? Results.Problem(title: "ValidationError",
+                              detail: JsonSerializer.Serialize(validationError.Errors),
+                              extensions: new Dictionary<string, object?>
+                              {
+                                  { "TraceId", $"{Guid.NewGuid()}" },
+                                  { "TraceI1d", $"{Guid.NewGuid()}" },
+                                  { "TraceId2", $"{Guid.NewGuid()}" }
+                              }, statusCode: HttpStatusCode.BadRequest.GetHashCode())
+            : ErrorPayload.New(exception)
+                          .Apply(error => Results.Problem(title: $"{exception.GetType().Name}",
+                                                          detail: error.ErrorMessage,
+                                                          extensions: new Dictionary<string, object?>
+                                                          {
+                                                              { "TraceId", $"{Guid.NewGuid()}" },
+                                                              { "TraceI1d", $"{Guid.NewGuid()}" },
+                                                              { "TraceId2", $"{Guid.NewGuid()}" }
+                                                          }, statusCode: error.ErrorCode.GetHashCode()));
 }

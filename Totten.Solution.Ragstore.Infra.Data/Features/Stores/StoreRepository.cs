@@ -13,7 +13,7 @@ public class StoreRepository : IStoreRepository
         _collection = mongoDatabase.GetCollection<Store>(collectionName);
     }
 
-    public Task<Store> GetById(string id)
+    public Task<Store> GetById(Guid id)
     {
         return _collection.Find(x => x.Id == id).FirstAsync();
     }
@@ -34,9 +34,9 @@ public class StoreRepository : IStoreRepository
         return new Unit();
     }
 
-    public async Task UpdateAsync(string id, Store store) =>
+    public async Task UpdateAsync(Guid id, Store store) =>
         await _collection.ReplaceOneAsync(x => x.Id == id, store);
 
-    public async Task RemoveAsync(string id) =>
+    public async Task RemoveAsync(Guid id) =>
         await _collection.DeleteOneAsync(x => x.Id == id);
 }
