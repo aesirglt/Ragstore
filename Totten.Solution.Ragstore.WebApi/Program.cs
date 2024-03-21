@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 using Totten.Solution.Ragstore.Infra.Cross.Errors;
-using Totten.Solution.Ragstore.Infra.Data.EntityFrameworkIdentity;
+using Totten.Solution.Ragstore.Infra.Data.Contexts.EntityFrameworkIdentity;
 using Totten.Solution.Ragstore.WebApi.AppSettings;
 using Totten.Solution.Ragstore.WebApi.Endpoints;
 using Totten.Solution.Ragstore.WebApi.ServicesExtension;

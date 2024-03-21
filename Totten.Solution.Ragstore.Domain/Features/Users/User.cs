@@ -2,7 +2,7 @@
 
 using Totten.Solution.Ragstore.Domain.Bases;
 
-public class User : Entity<User>
+public class User : Entity<User, Guid>
 {
     public string Email { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;

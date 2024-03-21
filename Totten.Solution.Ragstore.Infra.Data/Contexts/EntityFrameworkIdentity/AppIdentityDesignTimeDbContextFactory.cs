@@ -1,4 +1,4 @@
-﻿namespace Totten.Solution.Ragstore.Infra.Data.EntityFrameworkIdentity;
+﻿namespace Totten.Solution.Ragstore.Infra.Data.Contexts.EntityFrameworkIdentity;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;

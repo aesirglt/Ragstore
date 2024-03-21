@@ -47,8 +47,8 @@ public class GlobalModule<TProgram> : Autofac.Module
                .AsSelf()
                .InstancePerLifetimeScope();
 
-        builder.Register(ctx => new StoreRepository(ctx.Resolve<IMongoDatabase>(), ctx.Resolve<IOptions<StoreDatabaseSettings>>().Value.StoreCollectionName))
-               .As<IStoreRepository>()
+        builder.Register(ctx => new VendingStoreRepository(ctx.Resolve<IMongoDatabase>(), ctx.Resolve<IOptions<StoreDatabaseSettings>>().Value.StoreCollectionName))
+               .As<IVendingStoreRepository>()
                .InstancePerLifetimeScope();
 
         builder.Register(ctx => new ItemRepository(ctx.Resolve<IMongoDatabase>(), ctx.Resolve<IOptions<StoreDatabaseSettings>>().Value.ItemCollectionName))

@@ -3,7 +3,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Totten.Solution.Ragstore.Infra.Data.EntityFrameworkIdentity;
+using Totten.Solution.Ragstore.Infra.Data.Contexts.EntityFrameworkIdentity;
 using Totten.Solution.Ragstore.WebApi.IdentityAgreggation.Handlers;
 using Totten.Solution.Ragstore.WebApi.IdentityAgreggation.Requirements;
 

@@ -12,7 +12,7 @@ public record StoreResumeViewModel
     /// <summary>
     /// 
     /// </summary>
-    public string Title { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
     /// <summary>
     /// 
     /// </summary>

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Totten.Solution.Ragstore.Domain.Bases;
 
-public class Callback : Entity<Callback>
+public class Callback : Entity<Callback, Guid>
 {
     public string Server { get; set; } = string.Empty;
     public string CallbackOwnerId { get; set; } = string.Empty;

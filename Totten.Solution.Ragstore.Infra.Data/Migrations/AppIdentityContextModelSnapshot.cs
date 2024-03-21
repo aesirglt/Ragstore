@@ -3,7 +3,8 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Totten.Solution.Ragstore.Infra.Data.EntityFrameworkIdentity;
+using Totten.Solution.Ragstore.Infra.Data.Contexts.EntityFrameworkIdentity;
+
 
 #nullable disable
 

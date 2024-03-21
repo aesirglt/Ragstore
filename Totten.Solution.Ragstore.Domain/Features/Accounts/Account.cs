@@ -8,7 +8,7 @@ using Totten.Solution.Ragstore.Domain.Features.StoresAgreggation.Buyings;
 using Totten.Solution.Ragstore.Domain.Features.StoresAgreggation.Vendings;
 using Totten.Solution.Ragstore.Domain.Features.Users;
 
-public class Account : Entity<Account>
+public class Account : Entity<Account, Guid>
 {
     public Guid UserId { get; set; }
     public bool IsReported { get; set; }

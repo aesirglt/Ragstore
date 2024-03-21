@@ -1,11 +1,20 @@
-﻿namespace Totten.Solution.Ragstore.Domain.Features.ItemAgreggation;
+﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Commands;
 
-using Totten.Solution.Ragstore.Domain.Bases;
-using Totten.Solution.Ragstore.Domain.Features.Accounts;
-using Totten.Solution.Ragstore.Domain.Features.Characters;
-using Totten.Solution.Ragstore.Domain.Features.Chats;
+using MediatR;
+using System;
+using Totten.Solution.Ragstore.Infra.Cross.Functionals;
+using Unit = Infra.Cross.Functionals.Unit;
 
-public class EquipmentItem : Entity<EquipmentItem, Guid>
+public class VendingStoreSaveCommand : IRequest<Result<Exception, Unit>>
+{
+    public int AccountId { get; set; }
+    public int CharacterId { get; set; }
+    public string Map { get; set; } = string.Empty;
+    public string Location { get; set; } = string.Empty;
+    public DateTime? ExpireDate { get; set; }
+    public List<VendingStoreItemCommand> StoreItems { get; set; } = new();
+}
+public class StoreItemCommand
 {
     public int AccountId { get; set; }
     public int CharacterId { get; set; }
@@ -31,7 +40,7 @@ public class EquipmentItem : Entity<EquipmentItem, Guid>
     public int? Option0Id { get; set; }
     public int? Option0Val { get; set; }
     public int? Option0Param { get; set; }
-    public int? Option0Name { get; set; }
+    public string? Option0Name { get; set; }
     public int? Option1Id { get; set; }
     public int? Option1Val { get; set; }
     public int? Option1Param { get; set; }
@@ -50,8 +59,8 @@ public class EquipmentItem : Entity<EquipmentItem, Guid>
     public string? Option4Name { get; set; }
     public int? CrafterId { get; set; }
     public string? CrafterName { get; set; }
-    public required Account Account { get; set; }
-    public required Item Item { get; set; }
-    public required Character Character { get; set; }
-    public required Chat Chat { get; set; }
+}
+public class VendingStoreItemCommand : StoreItemCommand
+{
+    public long? ExpireDate { get; set; }
 }

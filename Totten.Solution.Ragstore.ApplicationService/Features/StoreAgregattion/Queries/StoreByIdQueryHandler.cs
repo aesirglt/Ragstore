@@ -1,19 +1,19 @@
-﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.Stores.Queries;
+﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Queries;
 
 using MediatR;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Totten.Solution.Ragstore.ApplicationService.Features.Stores.QueriesCommand;
+using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.QueriesCommand;
 using Totten.Solution.Ragstore.Domain.Features.StoresAgreggation;
 using Totten.Solution.Ragstore.Domain.Features.StoresAgreggation.Vendings;
 using Totten.Solution.Ragstore.Infra.Cross.Functionals;
 
 public class StoreByIdQueryHandler : IRequestHandler<StoreByIdQuery, Result<Exception, VendingStore>>
 {
-    private IStoreRepository _storeRepository;
+    private IVendingStoreRepository _storeRepository;
 
-    public StoreByIdQueryHandler(IStoreRepository storeRepository)
+    public StoreByIdQueryHandler(IVendingStoreRepository storeRepository)
     {
         _storeRepository = storeRepository;
     }

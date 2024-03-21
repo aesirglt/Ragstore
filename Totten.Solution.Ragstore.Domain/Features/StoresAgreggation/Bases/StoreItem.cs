@@ -5,7 +5,7 @@ using Totten.Solution.Ragstore.Domain.Features.Characters;
 using Totten.Solution.Ragstore.Domain.Features.ItemAgreggation;
 using Totten.Solution.Ragstore.Domain.Features.StoresAgreggation.Vendings;
 
-public class StoreItem : Entity<VendingStoreItem>
+public class StoreItem : Entity<VendingStoreItem, int>
 {
     public int AccountId { get; set; }
     public int CharacterId { get; set; }
