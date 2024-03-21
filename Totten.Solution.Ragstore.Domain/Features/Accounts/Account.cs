@@ -10,13 +10,14 @@ using Totten.Solution.Ragstore.Domain.Features.Users;
 
 public class Account : Entity<Account, Guid>
 {
-    public Guid UserId { get; set; }
+    public int AccountId { get; set; }
+    public Guid? UserId { get; set; }
     public bool IsReported { get; set; }
     public User? User { get; set; }
     public Character Character { get; set; }
     public Chat Chat { get; set; }
-    public List<BuyingStore> BuyingStores { get; set; } = new();
     public List<VendingStore> VendingStores { get; set; } = new();
+    public List<BuyingStore> BuyingStores { get; set; } = new();
     public List<VendingStoreItem> VendingStoreItems { get; set; } = new();
     public List<BuyingStoreItem> BuyingStoreItems { get; set; } = new();
     public List<EquipmentItem> EquipmentItems { get; set; } = new();

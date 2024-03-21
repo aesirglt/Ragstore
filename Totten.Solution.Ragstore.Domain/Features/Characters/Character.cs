@@ -11,6 +11,7 @@ using Totten.Solution.Ragstore.Domain.Features.StoresAgreggation.Vendings;
 public class Character : Entity<Character, Guid>
 {
     public int AccountId { get; set; }
+    public int CharacterId { get; set; }
     public int JobId { get; set; }
     public int BaseLevel { get; set; }
     public int Sex { get; set; }
