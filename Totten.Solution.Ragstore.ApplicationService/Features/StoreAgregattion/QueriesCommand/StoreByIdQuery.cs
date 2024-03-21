@@ -6,9 +6,9 @@ using Totten.Solution.Ragstore.Infra.Cross.Functionals;
 
 public class StoreByIdQuery : IRequest<Result<Exception, VendingStore>>
 {
-    public Guid Id { get; set; }
+    public int Id { get; set; }
 
-    public StoreByIdQuery(Guid id)
+    public StoreByIdQuery(int id)
     {
         Id = id;
     }

@@ -4,8 +4,39 @@ using Totten.Solution.Ragstore.Domain.Features.Accounts;
 using Totten.Solution.Ragstore.Domain.Features.Characters;
 using Totten.Solution.Ragstore.Domain.Features.ItemAgreggation;
 using Totten.Solution.Ragstore.Domain.Features.StoresAgreggation.Vendings;
+public class StoreItemCardInfo
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
 
-public class StoreItem : Entity<VendingStoreItem, int>
+    public StoreItemCardInfo(string str)
+    {
+        var splited = str.Split(':', StringSplitOptions.RemoveEmptyEntries);
+        Id = int.Parse(splited[0]);
+        Name = splited[1];
+    }
+    public StoreItemCardInfo()
+    { }
+}
+public class StoreItemOptionInfo
+{
+    public int Id { get; set; }
+    public int Val { get; set; }
+    public int Param { get; set; }
+    public string Name { get; set; }
+    public StoreItemOptionInfo(string str)
+    {
+        var splited = str.Split(':', StringSplitOptions.RemoveEmptyEntries);
+        Id = int.Parse(splited[0]);
+        Val = int.Parse(splited[1]);
+        Param = int.Parse(splited[2]);
+        Name = splited[3];
+    }
+    public StoreItemOptionInfo()
+    { }
+}
+public abstract class StoreItem<TStoreItem>: Entity<TStoreItem, int>
+    where TStoreItem : Entity<TStoreItem, int>
 {
     public int AccountId { get; set; }
     public int CharacterId { get; set; }
@@ -20,34 +51,9 @@ public class StoreItem : Entity<VendingStoreItem, int>
     public int? Location { get; set; }
     public int? SpriteId { get; set; }
     public int Slots { get; set; }
-    public int? Card0Id { get; set; }
-    public string? Card0Name { get; set; }
-    public int? Card1Id { get; set; }
-    public string? Card1Name { get; set; }
-    public int? Card2Id { get; set; }
-    public string? Card2Name { get; set; }
-    public int? Card3Id { get; set; }
-    public string? Card3Name { get; set; }
-    public int? Option0Id { get; set; }
-    public int? Option0Val { get; set; }
-    public int? Option0Param { get; set; }
-    public string? Option0Name { get; set; }
-    public int? Option1Id { get; set; }
-    public int? Option1Val { get; set; }
-    public int? Option1Param { get; set; }
-    public string? Option1Name { get; set; }
-    public int? Option2Id { get; set; }
-    public int? Option2Val { get; set; }
-    public int? Option2Param { get; set; }
-    public string? Option2Name { get; set; }
-    public int? Option3Id { get; set; }
-    public int? Option3Val { get; set; }
-    public int? Option3Param { get; set; }
-    public string? Option3Name { get; set; }
-    public int? Option4Id { get; set; }
-    public int? Option4Val { get; set; }
-    public int? Option4Param { get; set; }
-    public string? Option4Name { get; set; }
+
+    public StoreItemCardInfo[] InfoCards { get; set; } = Array.Empty<StoreItemCardInfo>();
+    public StoreItemOptionInfo[] InfoOptions { get; set; } = Array.Empty<StoreItemOptionInfo>();
     public int? CrafterId { get; set; }
     public string? CrafterName { get; set; }
     public Account Account { get; set; }

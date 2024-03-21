@@ -1,4 +1,4 @@
-﻿namespace Totten.Solution.Ragstore.Infra.Data.Features.StoreAgregattion;
+﻿namespace Totten.Solution.Ragstore.Infra.Data.Features.Accounts;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -21,21 +21,26 @@ public class AccountEntityConfiguration : IEntityTypeConfiguration<Account>
         builder.HasMany(e => e.VendingStores)
                .WithOne(s => s.Account)
                .HasForeignKey(e => e.AccountId);
-
         builder.HasMany(e => e.BuyingStores)
                .WithOne(s => s.Account)
                .HasForeignKey(e => e.AccountId);
 
-        builder.HasMany(e => e.VendingStoreItems)
-               .WithOne(s => s.Account)
-               .HasForeignKey(e => e.AccountId);
+        builder.Ignore(e => e.User);;
+        builder.Ignore(e => e.Chats);
+        builder.Ignore(x => x.Characters);
+        //builder.HasMany(e => e.VendingStoreItems)
+        //       .WithOne(s => s.Account)
+        //       .HasForeignKey(e => e.AccountId);
 
-        builder.HasMany(e => e.BuyingStoreItems)
-               .WithOne(s => s.Account)
-               .HasForeignKey(e => e.AccountId);
+        //builder.HasMany(e => e.BuyingStoreItems)
+        //       .WithOne(s => s.Account)
+        //       .HasForeignKey(e => e.AccountId);
 
-        builder.HasMany(e => e.EquipmentItems)
-               .WithOne(s => s.Account)
-               .HasForeignKey(e => e.AccountId);
+        //builder.HasMany(e => e.EquipmentItems)
+        //       .WithOne(s => s.Account)
+        //       .HasForeignKey(e => e.AccountId);
+
+        builder.HasIndex(x => x.AccountId);
+        builder.HasIndex(x => x.UserId);
     }
 }

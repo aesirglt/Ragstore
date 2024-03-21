@@ -3,7 +3,8 @@ using Totten.Solution.Ragstore.Domain.Bases;
 using Totten.Solution.Ragstore.Domain.Features.Accounts;
 using Totten.Solution.Ragstore.Domain.Features.Characters;
 
-public class Store<TStore> : Entity<TStore, Guid> where TStore : Entity<TStore, Guid>
+public class Store<TStore> : Entity<TStore, int>
+    where TStore : Entity<TStore, int>
 {
     public int AccountId { get; set; }
     public int CharacterId { get; set; }

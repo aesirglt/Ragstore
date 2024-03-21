@@ -5,7 +5,7 @@ using Totten.Solution.Ragstore.Domain.Features.Accounts;
 using Totten.Solution.Ragstore.Domain.Features.Characters;
 using Totten.Solution.Ragstore.Domain.Features.ItemAgreggation;
 
-public class Chat : Entity<Chat, Guid>
+public class Chat : Entity<Chat, int>
 {
     public int AccountId { get; set; }
     public int CharacterId { get; set; }

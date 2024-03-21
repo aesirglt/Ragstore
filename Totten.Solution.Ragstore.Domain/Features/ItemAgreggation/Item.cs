@@ -3,7 +3,7 @@ using Totten.Solution.Ragstore.Domain.Bases;
 using Totten.Solution.Ragstore.Domain.Features.StoresAgreggation.Buyings;
 using Totten.Solution.Ragstore.Domain.Features.StoresAgreggation.Vendings;
 
-public class Item : Entity<Item, Guid>
+public class Item : Entity<Item, int>
 {
     public string? Type { get; set; }
     public string? SubType { get; set; }

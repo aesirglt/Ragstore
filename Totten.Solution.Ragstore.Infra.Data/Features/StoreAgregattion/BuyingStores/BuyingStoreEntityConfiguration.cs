@@ -1,13 +1,13 @@
-﻿namespace Totten.Solution.Ragstore.Infra.Data.Features.StoreAgregattion;
+﻿namespace Totten.Solution.Ragstore.Infra.Data.Features.StoreAgregattion.BuyingStores;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Totten.Solution.Ragstore.Domain.Features.StoresAgreggation.Vendings;
+using Totten.Solution.Ragstore.Domain.Features.StoresAgreggation.Buyings;
 
-public class VendingStoreEntityConfiguration : IEntityTypeConfiguration<VendingStore>
+public class BuyingStoreEntityConfiguration : IEntityTypeConfiguration<BuyingStore>
 {
-    const string TABLE_NAME = "Books";
-    public void Configure(EntityTypeBuilder<VendingStore> builder)
+    const string TABLE_NAME = "BuyingStores";
+    public void Configure(EntityTypeBuilder<BuyingStore> builder)
     {
         builder.ToTable(TABLE_NAME);
         builder.HasKey(e => e.Id);
@@ -19,8 +19,6 @@ public class VendingStoreEntityConfiguration : IEntityTypeConfiguration<VendingS
         builder.Property(e => e.Map).IsRequired();
         builder.Property(e => e.Location).IsRequired();
         builder.Property(e => e.ExpireDate);
-
-        builder.HasMany(e => e.StoreItems)
-               .WithOne(s => s.VendingStore);
+        builder.Property(e => e.PriceLimit).IsRequired();
     }
 }

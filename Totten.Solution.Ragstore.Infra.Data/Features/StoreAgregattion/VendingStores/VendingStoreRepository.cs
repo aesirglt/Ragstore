@@ -1,4 +1,4 @@
-﻿namespace Totten.Solution.Ragstore.Infra.Data.Features.StoreAgregattion;
+﻿namespace Totten.Solution.Ragstore.Infra.Data.Features.StoreAgregattion.VendingStores;
 
 using MongoDB.Driver;
 using System.Linq.Expressions;
@@ -20,7 +20,7 @@ public class VendingStoreRepository : IVendingStoreRepository
         return _collection.Find(_ => true).ToListAsync();
     }
 
-    public Task<VendingStore> GetById(Guid id)
+    public Task<VendingStore> GetById(int id)
         => _collection.Find(x => x.Id == id).FirstAsync();
 
     public Task<List<VendingStore>> GetAllByFilter(Expression<Func<VendingStore, bool>> filter)
@@ -32,7 +32,7 @@ public class VendingStoreRepository : IVendingStoreRepository
         {
             await _collection.InsertOneAsync(store);
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             return new Unit();
         }

@@ -5,7 +5,7 @@ using Totten.Solution.Ragstore.Domain.Features.Accounts;
 using Totten.Solution.Ragstore.Domain.Features.Characters;
 using Totten.Solution.Ragstore.Domain.Features.Chats;
 
-public class EquipmentItem : Entity<EquipmentItem, Guid>
+public class EquipmentItem : Entity<EquipmentItem, int>
 {
     public int AccountId { get; set; }
     public int CharacterId { get; set; }

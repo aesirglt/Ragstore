@@ -35,8 +35,8 @@ public class Character : Entity<Character, Guid>
     public Account Account { get; set; }
     public List<VendingStore> VendingStores { get; set; } = new();
     public List<BuyingStore> BuyingStores { get; set; } = new();
-    public List<VendingStoreItem> BuyingStoreItems { get; set; } = new();
-    public List<Chat> Chats { get; set; } = new();
+    public List<BuyingStoreItem> BuyingStoreItems { get; set; } = new();
     public List<VendingStoreItem> VendingStoreItems { get; set; } = new();
+    public List<Chat> Chats { get; set; } = new();
     public List<EquipmentItem> EquipmentItems { get; set; } = new();
 }

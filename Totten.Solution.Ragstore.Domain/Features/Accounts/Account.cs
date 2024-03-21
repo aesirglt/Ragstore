@@ -8,14 +8,14 @@ using Totten.Solution.Ragstore.Domain.Features.StoresAgreggation.Buyings;
 using Totten.Solution.Ragstore.Domain.Features.StoresAgreggation.Vendings;
 using Totten.Solution.Ragstore.Domain.Features.Users;
 
-public class Account : Entity<Account, Guid>
+public class Account : Entity<Account, int>
 {
     public int AccountId { get; set; }
-    public Guid? UserId { get; set; }
+    public int? UserId { get; set; }
     public bool IsReported { get; set; }
     public User? User { get; set; }
-    public Character Character { get; set; }
-    public Chat Chat { get; set; }
+    public List<Character> Characters { get; set; } = new();
+    public List<Chat> Chats { get; set; } = new();
     public List<VendingStore> VendingStores { get; set; } = new();
     public List<BuyingStore> BuyingStores { get; set; } = new();
     public List<VendingStoreItem> VendingStoreItems { get; set; } = new();
