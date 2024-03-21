@@ -4,7 +4,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Totten.Solution.Ragstore.ApplicationService.Features.Stores.HandlersCommand;
 using Totten.Solution.Ragstore.ApplicationService.Features.Stores.QueriesCommand;
-using Totten.Solution.Ragstore.Domain.Features.Stores;
+using Totten.Solution.Ragstore.Domain.Features.StoresAgreggation.Vendings;
 using Totten.Solution.Ragstore.WebApi.Endpoints.Dtos.Stores;
 using Totten.Solution.Ragstore.WebApi.Endpoints.ViewModels.Stores;
 using static Totten.Solution.Ragstore.WebApi.Bases.BaseEndpointMethod;
@@ -49,7 +49,7 @@ public static class StoresEndpoint
     {
         app.MapGet($"", async ([FromServices] IMediator mediator,
                           [FromServices] IMapper mapper)
-                          => HandleQueryable<Store, StoreResumeViewModel>(await mediator.Send(new StoreCollectionQuery()),mapper)
+                          => HandleQueryable<VendingStore, StoreResumeViewModel>(await mediator.Send(new StoreCollectionQuery()),mapper)
         ).WithName($"v1/Get{_baseEndpoint}")
         .WithTags("Stores")
         .WithOpenApi();
@@ -62,7 +62,7 @@ public static class StoresEndpoint
         app.MapGet($"{{id}}", async ([FromServices] IMediator mediator,
                           [FromServices] IMapper mapper,
                           [FromQuery] Guid id)
-                          => HandleQuery<Store, StoreDetailViewModel>(await mediator.Send(new StoreByIdQuery(id)), mapper)
+                          => HandleQuery<VendingStore, StoreDetailViewModel>(await mediator.Send(new StoreByIdQuery(id)), mapper)
         ).WithName($"v1/Get{_baseEndpoint}/{{id}}")
         .WithTags("Stores")
         .WithOpenApi();

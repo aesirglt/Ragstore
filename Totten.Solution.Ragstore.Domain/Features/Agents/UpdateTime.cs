@@ -3,4 +3,5 @@ using Totten.Solution.Ragstore.Domain.Bases;
 
 public class UpdateTime : Entity<UpdateTime>
 {
+
 }

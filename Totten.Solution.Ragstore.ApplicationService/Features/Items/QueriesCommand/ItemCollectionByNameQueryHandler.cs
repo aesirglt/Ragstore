@@ -5,7 +5,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Totten.Solution.Ragstore.ApplicationService.Features.Items.Queries;
-using Totten.Solution.Ragstore.Domain.Features.Items;
+using Totten.Solution.Ragstore.Domain.Features.ItemAgreggation;
 using Totten.Solution.Ragstore.Infra.Cross.Functionals;
 
 public class ItemCollectionByNameQueryHandler : IRequestHandler<ItemCollectionByNameQuery, Result<Exception, List<Item>>>

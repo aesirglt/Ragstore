@@ -7,7 +7,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Totten.Solution.Ragstore.ApplicationService.Features.Stores.HandlersCommand;
 using Totten.Solution.Ragstore.ApplicationService.Notifications.Stories;
-using Totten.Solution.Ragstore.Domain.Features.Stores;
+using Totten.Solution.Ragstore.Domain.Features.StoresAgreggation;
+using Totten.Solution.Ragstore.Domain.Features.StoresAgreggation.Vendings;
 using Totten.Solution.Ragstore.Infra.Cross.Errors.EspecifiedErrors;
 using Totten.Solution.Ragstore.Infra.Cross.Functionals;
 using Unit = Infra.Cross.Functionals.Unit;
@@ -29,7 +30,7 @@ public class StoreSaveBatchCommandHandler : IRequestHandler<StoreSaveBatchComman
     {
         try
         {
-            var stores = _mapper.ProjectTo<Store>(requests.SaveCommands.AsQueryable());
+            var stores = _mapper.ProjectTo<VendingStore>(requests.SaveCommands.AsQueryable());
 
             _ = await _storeRepository.SaveBatch(stores);
 

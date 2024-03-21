@@ -5,10 +5,11 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Totten.Solution.Ragstore.ApplicationService.Features.Stores.QueriesCommand;
-using Totten.Solution.Ragstore.Domain.Features.Stores;
+using Totten.Solution.Ragstore.Domain.Features.StoresAgreggation;
+using Totten.Solution.Ragstore.Domain.Features.StoresAgreggation.Vendings;
 using Totten.Solution.Ragstore.Infra.Cross.Functionals;
 
-public class StoreByIdQueryHandler : IRequestHandler<StoreByIdQuery, Result<Exception, Store>>
+public class StoreByIdQueryHandler : IRequestHandler<StoreByIdQuery, Result<Exception, VendingStore>>
 {
     private IStoreRepository _storeRepository;
 
@@ -17,7 +18,7 @@ public class StoreByIdQueryHandler : IRequestHandler<StoreByIdQuery, Result<Exce
         _storeRepository = storeRepository;
     }
 
-    public async Task<Result<Exception, Store>> Handle(StoreByIdQuery request, CancellationToken cancellationToken)
+    public async Task<Result<Exception, VendingStore>> Handle(StoreByIdQuery request, CancellationToken cancellationToken)
     {
         return await _storeRepository.GetById(request.Id);
     }

@@ -6,11 +6,11 @@ using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using Totten.Solution.Ragstore.ApplicationService;
 using Totten.Solution.Ragstore.Domain.Features.Callbacks;
-using Totten.Solution.Ragstore.Domain.Features.Items;
-using Totten.Solution.Ragstore.Domain.Features.Stores;
+using Totten.Solution.Ragstore.Domain.Features.ItemAgreggation;
+using Totten.Solution.Ragstore.Domain.Features.StoresAgreggation;
 using Totten.Solution.Ragstore.Infra.Data.Features.Callbacks;
 using Totten.Solution.Ragstore.Infra.Data.Features.Items;
-using Totten.Solution.Ragstore.Infra.Data.Features.Stores;
+using Totten.Solution.Ragstore.Infra.Data.Features.StoreAgregattion;
 using Totten.Solution.Ragstore.WebApi.AppSettings;
 
 /// <summary>

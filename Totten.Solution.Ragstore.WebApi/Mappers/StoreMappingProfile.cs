@@ -2,7 +2,7 @@
 using AutoMapper;
 using System.Linq;
 using Totten.Solution.Ragstore.ApplicationService.Features.Stores.HandlersCommand;
-using Totten.Solution.Ragstore.Domain.Features.Stores;
+using Totten.Solution.Ragstore.Domain.Features.StoresAgreggation.Vendings;
 using Totten.Solution.Ragstore.WebApi.Endpoints.Dtos.Stores;
 using Totten.Solution.Ragstore.WebApi.Endpoints.ViewModels.Stores;
 
@@ -16,15 +16,15 @@ public class StoreMappingProfile : Profile
     /// </summary>
     public StoreMappingProfile()
     {
-        CreateMap<Store, StoreResumeViewModel>()
+        CreateMap<VendingStore, StoreResumeViewModel>()
             .ForMember(ds => ds.Guid, m => m.MapFrom(src => src.Id))
             .ForMember(ds => ds.Title, m => m.MapFrom(src => src.Name));
-        CreateMap<Store, StoreDetailViewModel>()
+        CreateMap<VendingStore, StoreDetailViewModel>()
             .ForMember(ds => ds.Guid, m => m.MapFrom(src => src.Id))
             .ForMember(ds => ds.Title, m => m.MapFrom(src => src.Name));
         CreateMap<StoreCreateDto, StoreSaveCommand>()
             .ForMember(ds => ds.CreationDate, m => m.MapFrom(src => DateTime.Now));
-        CreateMap<StoreSaveCommand, Store>()
+        CreateMap<StoreSaveCommand, VendingStore>()
             .ForMember(ds => ds.Name, m => m.MapFrom(src => src.Title))
             .ForMember(ds => ds.Id, m => m.MapFrom(src => Guid.NewGuid()));
     }

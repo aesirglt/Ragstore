@@ -1,4 +1,4 @@
-﻿namespace Totten.Solution.Ragstore.Domain.Features.Items;
+﻿namespace Totten.Solution.Ragstore.Domain.Features.ItemAgreggation;
 using Totten.Solution.Ragstore.Infra.Cross.Functionals;
 
 public interface IItemRepository
