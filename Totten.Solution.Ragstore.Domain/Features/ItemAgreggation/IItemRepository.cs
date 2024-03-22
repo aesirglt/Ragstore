@@ -1,9 +1,8 @@
 ﻿namespace Totten.Solution.Ragstore.Domain.Features.ItemAgreggation;
-using Totten.Solution.Ragstore.Infra.Cross.Functionals;
 
-public interface IItemRepository
+using Totten.Solution.Ragstore.Domain.Bases;
+
+public interface IItemRepository : IRepository<Item, int>
 {
-    Task<List<Item>> GetAll();
-    Task<List<Item>> GetAllByDate(string name, DateTime date);
-    Task<Unit> Save(Item item);
+
 }

@@ -55,12 +55,13 @@ public class BuyingStoreItemEntityConfiguration : IEntityTypeConfiguration<Buyin
         builder.Property(e => e.CrafterName);
 
         builder.HasOne(e => e.BuyingStore)
-               .WithOne()
-               .HasForeignKey<BuyingStoreItem>(e => e.BuyingStoreId);
+               .WithOne(e => e.BuyingStoreItem)
+               .HasPrincipalKey<BuyingStoreItem>(e => e.BuyingStoreId)
+               .OnDelete(DeleteBehavior.NoAction);
 
-        //builder.Property(e => e.VendingStore);
-        //builder.Ignore(e => e.BuyingStoreItems);
-        builder.Ignore(e => e.Account);
-        builder.Ignore(e => e.Item);
+        builder.HasOne(e => e.Character)
+               .WithMany(e => e.BuyingStoreItems)
+               .HasPrincipalKey(e => e.CharacterId)
+               .OnDelete(DeleteBehavior.NoAction);
     }
 }

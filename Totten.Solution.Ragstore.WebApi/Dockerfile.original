@@ -10,10 +10,6 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["Totten.Solution.Ragstore.WebApi/Totten.Solution.Ragstore.WebApi.csproj", "Totten.Solution.Ragstore.WebApi/"]
-COPY ["Totten.Solution.Ragstore.ApplicationService/Totten.Solution.Ragstore.ApplicationService.csproj", "Totten.Solution.Ragstore.ApplicationService/"]
-COPY ["Totten.Solution.Ragstore.Domain/Totten.Solution.Ragstore.Domain.csproj", "Totten.Solution.Ragstore.Domain/"]
-COPY ["Totten.Solution.Ragstore.Infra.Cross/Totten.Solution.Ragstore.Infra.Cross.csproj", "Totten.Solution.Ragstore.Infra.Cross/"]
-COPY ["Totten.Solution.Ragstore.Infra.Data/Totten.Solution.Ragstore.Infra.Data.csproj", "Totten.Solution.Ragstore.Infra.Data/"]
 RUN dotnet restore "./Totten.Solution.Ragstore.WebApi/Totten.Solution.Ragstore.WebApi.csproj"
 COPY . .
 WORKDIR "/src/Totten.Solution.Ragstore.WebApi"

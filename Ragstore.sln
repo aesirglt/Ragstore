@@ -21,6 +21,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Domain", "3. Domain", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4. Infra", "4. Infra", "{5FD060D1-6253-4033-A532-0D402990B97C}"
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{52CC114F-6F1B-4314-9162-73C7E67DCCB7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,10 @@ Global
 		{A0753B78-4439-4BC2-9181-96F9FD7EE233}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A0753B78-4439-4BC2-9181-96F9FD7EE233}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A0753B78-4439-4BC2-9181-96F9FD7EE233}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52CC114F-6F1B-4314-9162-73C7E67DCCB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52CC114F-6F1B-4314-9162-73C7E67DCCB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52CC114F-6F1B-4314-9162-73C7E67DCCB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52CC114F-6F1B-4314-9162-73C7E67DCCB7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

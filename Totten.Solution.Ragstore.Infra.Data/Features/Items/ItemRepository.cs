@@ -1,39 +1,49 @@
 ﻿namespace Totten.Solution.Ragstore.Infra.Data.Features.Items;
 
-using MongoDB.Driver;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Totten.Solution.Ragstore.Domain.Features.ItemAgreggation;
 using Totten.Solution.Ragstore.Infra.Cross.Functionals;
+using Totten.Solution.Ragstore.Infra.Data.Contexts.StoreContexts;
 
 public class ItemRepository : IItemRepository
 {
-    private readonly IMongoCollection<Item> _collection;
+    private readonly RagnaStoreContext _context;
 
-    public ItemRepository(IMongoDatabase mongoDatabase, string collectionName)
+    public ItemRepository(RagnaStoreContext context)
     {
-        _collection = mongoDatabase.GetCollection<Item>(collectionName);
+        _context = context;
     }
 
     public Task<List<Item>> GetAll()
     {
-
-        return _collection.Find(_ => true).ToListAsync();
+        return _context.Items.AsNoTracking().ToListAsync();
     }
 
-    public Task<List<Item>> GetAllByDate(string name, DateTime date)
+    public Task<List<Item>> GetAllByFilter(Expression<Func<Item, bool>> filter)
     {
-        _collection.Find(item => item.Name.Contains(name), new FindOptions
-        {
-            AllowDiskUse = true
-        });
-        return _collection.Find(item => item.Name.Contains(name))
-            .ToListAsync();
+        throw new NotImplementedException();
     }
 
-    public async Task<Unit> Save(Item store)
+    public Task<Item> GetById(int id)
     {
-        await _collection.InsertOneAsync(store);
-        return new Unit();
+        throw new NotImplementedException();
+    }
+
+    public Task<Unit> Remove(Item entity)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Unit> Save(Item entity)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Unit> Update(Item entity)
+    {
+        throw new NotImplementedException();
     }
 }

@@ -46,7 +46,7 @@ public static class StoreEndpoint
     {
         app.MapGet($"", async ([FromServices] IMediator mediator,
                           [FromServices] IMapper mapper)
-                          => HandleQueryable<VendingStore, StoreResumeViewModel>(await mediator.Send(new StoreCollectionQuery()),mapper)
+                          => HandleQueryable<VendingStore, StoreResumeViewModel>(await mediator.Send(new StoreCollectionQuery()), mapper)
         ).WithName($"v1/Get{_baseEndpoint}")
         .WithTags("Stores")
         .WithOpenApi();

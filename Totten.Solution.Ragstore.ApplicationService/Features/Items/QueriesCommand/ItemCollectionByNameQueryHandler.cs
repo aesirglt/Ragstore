@@ -20,6 +20,5 @@ public class ItemCollectionByNameQueryHandler : IRequestHandler<ItemCollectionBy
     public async Task<Result<Exception, List<Item>>> Handle(ItemCollectionByNameQuery request, CancellationToken cancellationToken)
     {
         return new NotImplementedException();
-        return await _storeRepository.GetAllByDate(request.Name, DateTime.Now);
     }
 }

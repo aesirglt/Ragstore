@@ -1,36 +1,38 @@
 ﻿namespace Totten.Solution.Ragstore.Infra.Data.Features.StoreAgregattion.VendingStores;
 
-using MongoDB.Driver;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Totten.Solution.Ragstore.Domain.Features.StoresAgreggation;
 using Totten.Solution.Ragstore.Domain.Features.StoresAgreggation.Vendings;
 using Totten.Solution.Ragstore.Infra.Cross.Functionals;
+using Totten.Solution.Ragstore.Infra.Data.Contexts.StoreContexts;
 
 public class VendingStoreRepository : IVendingStoreRepository
 {
-    private readonly IMongoCollection<VendingStore> _collection;
-    public VendingStoreRepository(IMongoDatabase mongoDatabase, string collectionName)
+    private readonly RagnaStoreContext _context;
+    public VendingStoreRepository(RagnaStoreContext context)
     {
-        _collection = mongoDatabase.GetCollection<VendingStore>(collectionName);
+        _context = context;
     }
 
     public Task<List<VendingStore>> GetAll()
     {
-        return _collection.Find(_ => true).ToListAsync();
+        return _context.VendingStores.AsNoTracking().ToListAsync();
     }
 
-    public Task<VendingStore> GetById(int id)
-        => _collection.Find(x => x.Id == id).FirstAsync();
+    public async Task<VendingStore> GetById(int id)
+        => await _context.VendingStores.FindAsync(id);
 
     public Task<List<VendingStore>> GetAllByFilter(Expression<Func<VendingStore, bool>> filter)
-        => _collection.Find(filter).ToListAsync();
+        => _context.VendingStores.Where(filter).AsNoTracking().ToListAsync();
 
     public async Task<Unit> Save(VendingStore store)
     {
         try
         {
-            await _collection.InsertOneAsync(store);
+            _context.VendingStores.Add(store);
+            await _context.SaveChangesAsync();
         }
         catch (Exception ex)
         {
@@ -41,19 +43,22 @@ public class VendingStoreRepository : IVendingStoreRepository
 
     public async Task<Unit> SaveBatch(IQueryable<VendingStore> stores)
     {
-        await _collection.InsertManyAsync(stores);
+        _context.VendingStores.AddRange(stores);
+        await _context.SaveChangesAsync();
         return new Unit();
     }
 
     public async Task<Unit> Update(VendingStore entity)
     {
-        await _collection.ReplaceOneAsync(x => x.Id == entity.Id, entity);
+         _context.VendingStores.Update(entity);
+        await _context.SaveChangesAsync();
         return new Unit();
     }
 
     public async Task<Unit> Remove(VendingStore entity)
     {
-        await _collection.DeleteOneAsync(x => x.Id == entity.Id);
+        _context.VendingStores.Remove(entity);
+        await _context.SaveChangesAsync();
         return new Unit();
     }
 }

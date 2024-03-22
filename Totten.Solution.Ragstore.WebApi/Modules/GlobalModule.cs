@@ -2,17 +2,13 @@
 
 using Autofac;
 using AutoMapper;
-using Microsoft.Extensions.Options;
-using MongoDB.Driver;
 using Totten.Solution.Ragstore.ApplicationService;
 using Totten.Solution.Ragstore.Domain.Features.Callbacks;
 using Totten.Solution.Ragstore.Domain.Features.ItemAgreggation;
 using Totten.Solution.Ragstore.Domain.Features.StoresAgreggation;
 using Totten.Solution.Ragstore.Infra.Data.Features.Callbacks;
 using Totten.Solution.Ragstore.Infra.Data.Features.Items;
-using Totten.Solution.Ragstore.Infra.Data.Features.StoreAgregattion;
 using Totten.Solution.Ragstore.Infra.Data.Features.StoreAgregattion.VendingStores;
-using Totten.Solution.Ragstore.WebApi.AppSettings;
 
 /// <summary>
 /// 
@@ -36,27 +32,13 @@ public class GlobalModule<TProgram> : Autofac.Module
     /// <param name="builder"></param>
     protected override void Load(ContainerBuilder builder)
     {
-        builder.Register(ctx =>
-        {
-            var settings = ctx.Resolve<IOptions<StoreDatabaseSettings>>().Value;
-            var client = new MongoClient(MongoClientSettings.FromConnectionString(settings.ConnectionString));
-            return client.GetDatabase(settings.DatabaseName);
-        }).As<IMongoDatabase>()
-          .InstancePerLifetimeScope();
-
-        builder.RegisterType<MongoClient>()
-               .AsSelf()
-               .InstancePerLifetimeScope();
-
-        builder.Register(ctx => new VendingStoreRepository(ctx.Resolve<IMongoDatabase>(), ctx.Resolve<IOptions<StoreDatabaseSettings>>().Value.StoreCollectionName))
+        builder.RegisterType<VendingStoreRepository>()
                .As<IVendingStoreRepository>()
                .InstancePerLifetimeScope();
-
-        builder.Register(ctx => new ItemRepository(ctx.Resolve<IMongoDatabase>(), ctx.Resolve<IOptions<StoreDatabaseSettings>>().Value.ItemCollectionName))
+        builder.RegisterType<ItemRepository>()
                .As<IItemRepository>()
                .InstancePerLifetimeScope();
-
-        builder.Register(ctx => new CallbackRepository(ctx.Resolve<IMongoDatabase>(), ctx.Resolve<IOptions<StoreDatabaseSettings>>().Value.CallbackCollectionName))
+        builder.RegisterType<CallbackRepository>()
                .As<ICallbackRepository>()
                .InstancePerLifetimeScope();
 

@@ -19,8 +19,14 @@ public class ItemEntityConfiguration : IEntityTypeConfiguration<Item>
         builder.Property(e => e.Slots);
         builder.Property(e => e.Description);
 
-        builder.Ignore(e => e.BuyingStoreItems);
-        builder.Ignore(e => e.VendingStoreItems);
+        builder.HasMany(e => e.BuyingStoreItems)
+               .WithOne(e => e.Item)
+               .OnDelete(DeleteBehavior.NoAction);
+
+        builder.HasMany(e => e.VendingStoreItems)
+               .WithOne(e => e.Item)
+               .OnDelete(DeleteBehavior.NoAction);
+
         builder.Ignore(e => e.EquipmentItems);
     }
 }

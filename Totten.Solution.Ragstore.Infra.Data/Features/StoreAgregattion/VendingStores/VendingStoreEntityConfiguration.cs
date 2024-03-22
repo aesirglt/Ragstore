@@ -22,17 +22,7 @@ public class VendingStoreEntityConfiguration : IEntityTypeConfiguration<VendingS
 
         builder.HasMany(e => e.VendingStoreItems)
                .WithOne(s => s.VendingStore)
-               .HasForeignKey(e => e.AccountId);
-
-        builder.Ignore(e => e.Character);
-        //builder.HasMany(e => e.BuyingStores)
-        //       .WithOne(s => s.Account)
-        //       .HasForeignKey(e => e.AccountId);
-        //builder.HasMany(e => e.BuyingStoreItems)
-        //       .WithOne(s => s.Account)
-        //       .HasForeignKey(e => e.AccountId);
-        //builder.HasMany(e => e.EquipmentItems)
-        //       .WithOne(s => s.Account)
-        //       .HasForeignKey(e => e.AccountId);
+               .HasPrincipalKey(e => e.Id)
+               .OnDelete(DeleteBehavior.NoAction);
     }
 }

@@ -1,0 +1,19 @@
+version: '3.4'
+
+services:
+    sqlserver:
+        image: mcr.microsoft.com/mssql/server
+        environment:
+            SA_PASSWORD: "Sup3rS3cr3t"
+            ACCEPT_EULA: "Y"
+        ports:
+            - "1433:1433"
+        volumes:
+              - sqldata:/var/opt/mssql
+    totten.solution.ragstore.webapi:
+        image: ${DOCKER_REGISTRY-}tottensolutionragstorewebapi
+        build:
+            context: .
+            dockerfile: Totten.Solution.Ragstore.WebApi/Dockerfile
+volumes:
+    sqldata:

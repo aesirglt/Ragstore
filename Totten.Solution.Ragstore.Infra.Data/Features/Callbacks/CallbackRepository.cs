@@ -1,37 +1,37 @@
 ﻿namespace Totten.Solution.Ragstore.Infra.Data.Features.Callbacks;
 
-using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Totten.Solution.Ragstore.Domain.Features.Callbacks;
 using Totten.Solution.Ragstore.Infra.Cross.Functionals;
+using Totten.Solution.Ragstore.Infra.Data.Contexts.StoreContexts;
 
 public class CallbackRepository : ICallbackRepository
 {
-    private readonly IMongoCollection<Callback> _collection;
+    private readonly RagnaStoreContext _context;
 
-    public CallbackRepository(IMongoDatabase mongoDatabase, string collectionName)
+    public CallbackRepository(RagnaStoreContext context)
     {
-        _collection = mongoDatabase.GetCollection<Callback>(collectionName);
+        _context = context;
     }
 
     public Task<List<Callback>> GetAll()
-        => _collection.Find(_ => true)
-        .ToListAsync();
+    {
+        throw new NotImplementedException();
+    }
 
     public Task<List<Callback>> GetAllByUser(string userId)
-        => _collection.Find(c => c.CallbackOwnerId == userId)
-        .ToListAsync();
+    {
+        throw new NotImplementedException();
+    }
 
     public Task<List<Callback>> GetForCallback(string server, string itemName, double value)
-        => _collection
-                .Find(cb => cb.Server == server &&
-                cb.Items.Any(f => f.Key.Contains(itemName) && f.Value <= value))
-                .ToListAsync();
-
-    public async Task<Unit> Save(Callback callback)
     {
-        await _collection.InsertOneAsync(callback);
-        return new Unit();
+        throw new NotImplementedException();
+    }
+
+    public Task<Unit> Save(Callback item)
+    {
+        throw new NotImplementedException();
     }
 }

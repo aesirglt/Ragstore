@@ -13,7 +13,6 @@ public static class ConfigureAppSettings
     public static IServiceCollection ConfigureAppSettingsClass(this IServiceCollection services, IConfigurationRoot configuration)
     {
         services
-            .Configure<StoreDatabaseSettings>(configuration.GetSection("StoreDatabase"))
             .Configure<HttpClientSettings>(configuration.GetSection("HttpClients"));
 
         return services;

@@ -7,7 +7,7 @@ internal class RagnaStoreContextDesignTimeDbContextFactory : IDesignTimeDbContex
     public RagnaStoreContext CreateDbContext(string[] args)
     {
         var optionsBuilder = new DbContextOptionsBuilder<RagnaStoreContext>();
-        optionsBuilder.UseSqlite("Data Source=RagnaStore.db");
+        optionsBuilder.UseSqlServer("Server=192.168.2.102;Database=myDataBase;User Id=sa;Password=Sup3rS3cr3t;TrustServerCertificate=true;");
 
         return new RagnaStoreContext(optionsBuilder.Options);
     }

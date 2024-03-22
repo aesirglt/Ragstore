@@ -3,6 +3,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Totten.Solution.Ragstore.Domain.Features.StoresAgreggation.Bases;
+using Totten.Solution.Ragstore.Domain.Features.StoresAgreggation.Buyings;
 using Totten.Solution.Ragstore.Domain.Features.StoresAgreggation.Vendings;
 
 public class VendingStoreItemEntityConfiguration : IEntityTypeConfiguration<VendingStoreItem>
@@ -55,11 +56,5 @@ public class VendingStoreItemEntityConfiguration : IEntityTypeConfiguration<Vend
         builder.Property(e => e.CrafterId);
         builder.Property(e => e.CrafterName);
         builder.Property(e => e.ExpireDate);
-
-        //builder.Property(e => e.VendingStore);
-        //builder.Ignore(e => e.BuyingStoreItems);
-        builder.Ignore(e => e.Account);
-        builder.Ignore(e => e.Character);
-        builder.Ignore(e => e.Item);
     }
 }
