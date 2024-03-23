@@ -26,8 +26,8 @@ public class RagnaStoreContext : DbContext
     public virtual DbSet<VendingStoreItem> VendingStoreItems { get; set; }
     public virtual DbSet<BuyingStore> BuyingStores { get; set; }
     public virtual DbSet<BuyingStoreItem> BuyingStoreItems { get; set; }
-    //public virtual DbSet<Chat> Chats { get; set; }
-    //public virtual DbSet<Character> Characters { get; set; }
+    public virtual DbSet<Chat> Chats { get; set; }
+    public virtual DbSet<Character> Characters { get; set; }
     //public virtual DbSet<Callback> Callbacks { get; set; }
     //public virtual DbSet<UpdateTime> UpdateTime { get; set; }
 
@@ -38,6 +38,7 @@ public class RagnaStoreContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        //modelBuilder.UseCollation("Latin1_General_100_CI_AS_SC_UTF8");
         modelBuilder.ApplyConfiguration(new ItemEntityConfiguration());
         modelBuilder.ApplyConfiguration(new EquipmentItemEntityConfiguration());
         modelBuilder.ApplyConfiguration(new AccountEntityConfiguration());
