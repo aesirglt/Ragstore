@@ -70,4 +70,11 @@ public abstract class StoreItem<TStoreItem>: Entity<TStoreItem, int>
     public Account Account { get; set; }
     public Item Item { get; set; }
     public Character Character { get; set; }
+
+    protected StoreItem()
+    {
+        Account = new Account { Id = AccountId };
+        Item = new Item { Id = ItemId };
+        Character = new Character { Id = CharacterId };
+    }
 }

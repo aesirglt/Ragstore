@@ -5,7 +5,7 @@ using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Interfaces;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
-using Totten.Solution.Ragstore.WebApi.Behaviors;
+using Totten.Solution.Ragstore.WebApi.Filters;
 
 /// <summary>
 /// 

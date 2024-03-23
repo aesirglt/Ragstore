@@ -6,4 +6,9 @@ public class VendingStoreItem : StoreItem<VendingStoreItem>
     public long? ExpireDate { get; set; }
     public int VendingStoreId { get; set; }
     public VendingStore VendingStore { get; set; }
+
+    public VendingStoreItem()
+    {
+        VendingStore = new VendingStore { Id = VendingStoreId };
+    }
 }

@@ -5,32 +5,12 @@
 /// </summary>
 public record StoreDetailViewModel
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public string Guid { get; set; } = string.Empty;
-    /// <summary>
-    /// 
-    /// </summary>
-    public string Server { get; set; } = string.Empty;
-    /// <summary>
-    /// 
-    /// </summary>
-    public string Merchant { get; set; } = string.Empty;
-    /// <summary>
-    /// 
-    /// </summary>
-    public string Name { get; set; } = string.Empty;
-    /// <summary>
-    /// 
-    /// </summary>
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public int AccountId { get; set; }
+    public int CharacterId { get; set; }
+    public string Map { get; set; } = string.Empty;
     public string Location { get; set; } = string.Empty;
-    /// <summary>
-    /// 
-    /// </summary>
-    public DateTime CreationDate { get; set; }
-    /// <summary>
-    /// 
-    /// </summary>
-    public Dictionary<string, double> Items { get; set; } = new Dictionary<string, double>();
+    public DateTime? ExpireDate { get; set; }
+    public Dictionary<int, string> Items { get; set; }
 }

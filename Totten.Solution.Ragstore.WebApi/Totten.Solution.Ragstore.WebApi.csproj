@@ -27,4 +27,8 @@
     <ProjectReference Include="..\Totten.Solution.Ragstore.Infra.Data\Totten.Solution.Ragstore.Infra.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Mappers\ItemAggregation\" />
+  </ItemGroup>
+
 </Project>

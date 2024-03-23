@@ -35,6 +35,7 @@ public static class AutofacExt
                 containerBuilder.RegisterModule(new MediatRModule());
 
                 containerBuilder.RegisterMediatR(configuration);
+                containerBuilder.Register(r => containerBuilder).AsSelf().InstancePerLifetimeScope();
             })
             .ConfigureHostOptions(o => o.ShutdownTimeout = TimeSpan.FromSeconds(60));
     }

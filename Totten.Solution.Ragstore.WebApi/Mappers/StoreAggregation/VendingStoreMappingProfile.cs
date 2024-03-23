@@ -14,10 +14,10 @@ public class VendingStoreMappingProfile : Profile
     /// </summary>
     public VendingStoreMappingProfile()
     {
-        CreateMap<VendingStore, StoreResumeViewModel>()
-            .ForMember(ds => ds.Guid, m => m.MapFrom(src => src.Id));
+        CreateMap<VendingStore, StoreResumeViewModel>();
+
         CreateMap<VendingStore, StoreDetailViewModel>()
-            .ForMember(ds => ds.Guid, m => m.MapFrom(src => src.Id));
+            .ForMember(ds => ds.Items, m => m.MapFrom(src => src.VendingStoreItems.ToDictionary(l => l.Id, l => l.Name ?? string.Empty)));
 
         CreateMap<VendingStoreSaveCommand, VendingStore>()
             .ForMember(ds => ds.VendingStoreItems, m => m.MapFrom(src => src.VendingStoreItems));

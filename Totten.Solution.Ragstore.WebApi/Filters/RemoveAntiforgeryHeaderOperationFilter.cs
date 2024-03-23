@@ -1,4 +1,4 @@
-﻿namespace Totten.Solution.Ragstore.WebApi.Behaviors;
+﻿namespace Totten.Solution.Ragstore.WebApi.Filters;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
