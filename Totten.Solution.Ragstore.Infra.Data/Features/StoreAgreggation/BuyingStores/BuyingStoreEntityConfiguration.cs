@@ -11,6 +11,7 @@ public class BuyingStoreEntityConfiguration : IEntityTypeConfiguration<BuyingSto
     {
         builder.ToTable(TABLE_NAME);
         builder.HasKey(e => e.Id);
+        builder.Property(e => e.Id).ValueGeneratedOnAdd();
         builder.Property(e => e.Name).IsRequired();
         builder.Property(e => e.CreatedAt).IsRequired();
         builder.Property(e => e.UpdatedAt).IsRequired();
@@ -20,5 +21,8 @@ public class BuyingStoreEntityConfiguration : IEntityTypeConfiguration<BuyingSto
         builder.Property(e => e.Location).IsRequired();
         builder.Property(e => e.ExpireDate);
         builder.Property(e => e.PriceLimit).IsRequired();
+
+        builder.HasIndex(e => e.CharacterId)
+               .IsUnique();
     }
 }

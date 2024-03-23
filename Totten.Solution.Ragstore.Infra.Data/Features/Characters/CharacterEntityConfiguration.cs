@@ -3,6 +3,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Totten.Solution.Ragstore.Domain.Features.Characters;
+using Totten.Solution.Ragstore.Infra.Data.Seeds;
 
 public class CharacterEntityConfiguration : IEntityTypeConfiguration<Character>
 {
@@ -11,11 +12,11 @@ public class CharacterEntityConfiguration : IEntityTypeConfiguration<Character>
     {
         builder.ToTable(TABLE_NAME);
         builder.HasKey(e => e.Id);
+        builder.Property(e => e.Id).ValueGeneratedOnAdd();
         builder.Property(e => e.Name).IsRequired();
         builder.Property(e => e.CreatedAt).IsRequired();
         builder.Property(e => e.UpdatedAt).IsRequired();
         builder.Property(e => e.AccountId).IsRequired();
-        builder.Property(e => e.CharacterId).IsRequired();
         builder.Property(e => e.JobId).IsRequired();
         builder.Property(e => e.BaseLevel).IsRequired();
         builder.Property(e => e.Sex).IsRequired();
@@ -36,8 +37,6 @@ public class CharacterEntityConfiguration : IEntityTypeConfiguration<Character>
         builder.Property(e => e.RobeId);
         builder.Property(e => e.Map).IsRequired();
         builder.Property(e => e.Location).IsRequired();
-
-        builder.HasIndex(x => x.AccountId);
 
         builder.HasMany(e => e.VendingStores)
                .WithOne(e => e.Character)
@@ -63,5 +62,10 @@ public class CharacterEntityConfiguration : IEntityTypeConfiguration<Character>
                .WithOne(e => e.Character)
                .HasForeignKey(e => e.CharacterId)
                .OnDelete(DeleteBehavior.NoAction);
+
+        builder.HasIndex(x => x.AccountId);
+        builder.HasIndex(e => e.Name).IsUnique();
+
+        builder.HasData(MyCharacterSeed.Seed());
     }
 }

@@ -3,6 +3,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Totten.Solution.Ragstore.Domain.Features.Accounts;
+using Totten.Solution.Ragstore.Infra.Data.Seeds;
 
 public class AccountEntityConfiguration : IEntityTypeConfiguration<Account>
 {
@@ -11,10 +12,10 @@ public class AccountEntityConfiguration : IEntityTypeConfiguration<Account>
     {
         builder.ToTable(TABLE_NAME);
         builder.HasKey(e => e.Id);
+        builder.Property(e => e.Id).ValueGeneratedOnAdd();
         builder.Property(e => e.Name).IsRequired();
         builder.Property(e => e.CreatedAt).IsRequired();
         builder.Property(e => e.UpdatedAt).IsRequired();
-        builder.Property(e => e.AccountId).IsRequired();
         builder.Property(e => e.UserId);
         builder.Property(e => e.IsReported).IsRequired();
 
@@ -45,8 +46,8 @@ public class AccountEntityConfiguration : IEntityTypeConfiguration<Account>
                .OnDelete(DeleteBehavior.NoAction);
 
         builder.Ignore(e => e.User);
-
-        builder.HasIndex(x => x.AccountId);
         builder.HasIndex(x => x.UserId);
+
+        builder.HasData(MyAccountSeed.Seed());
     }
 }

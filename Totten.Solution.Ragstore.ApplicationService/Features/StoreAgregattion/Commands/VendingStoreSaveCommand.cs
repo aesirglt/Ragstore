@@ -7,15 +7,27 @@ using Unit = Infra.Cross.Functionals.Unit;
 
 public class VendingStoreSaveCommand : IRequest<Result<Exception, Unit>>
 {
+    public string Name { get; set; }
     public int AccountId { get; set; }
     public int CharacterId { get; set; }
     public string Map { get; set; } = string.Empty;
     public string Location { get; set; } = string.Empty;
     public DateTime? ExpireDate { get; set; }
-    public List<VendingStoreItemCommand> StoreItems { get; set; } = new();
+    public List<VendingStoreItemCommand> VendingStoreItems { get; set; } = new();
+}
+public class VendingStoreItemCommand : StoreItemCommand
+{
+    public long? ExpireDate { get; set; }
+}
+public class InfoOptionStoreItemCommand
+{
+    public int Val { get; set; }
+    public int Param { get; set; }
+    public string Name { get; set; } = string.Empty;
 }
 public class StoreItemCommand
 {
+    public string Name { get; set; }
     public int AccountId { get; set; }
     public int CharacterId { get; set; }
     public int ItemId { get; set; }
@@ -29,38 +41,9 @@ public class StoreItemCommand
     public int? Location { get; set; }
     public int? SpriteId { get; set; }
     public int Slots { get; set; }
-    public int? Card0Id { get; set; }
-    public string? Card0Name { get; set; }
-    public int? Card1Id { get; set; }
-    public string? Card1Name { get; set; }
-    public int? Card2Id { get; set; }
-    public string? Card2Name { get; set; }
-    public int? Card3Id { get; set; }
-    public string? Card3Name { get; set; }
-    public int? Option0Id { get; set; }
-    public int? Option0Val { get; set; }
-    public int? Option0Param { get; set; }
-    public string? Option0Name { get; set; }
-    public int? Option1Id { get; set; }
-    public int? Option1Val { get; set; }
-    public int? Option1Param { get; set; }
-    public string? Option1Name { get; set; }
-    public int? Option2Id { get; set; }
-    public int? Option2Val { get; set; }
-    public int? Option2Param { get; set; }
-    public string? Option2Name { get; set; }
-    public int? Option3Id { get; set; }
-    public int? Option3Val { get; set; }
-    public int? Option3Param { get; set; }
-    public string? Option3Name { get; set; }
-    public int? Option4Id { get; set; }
-    public int? Option4Val { get; set; }
-    public int? Option4Param { get; set; }
-    public string? Option4Name { get; set; }
+    public Dictionary<int, string> InfoCards { get; set; } = new();
+    public Dictionary<int, InfoOptionStoreItemCommand> InfoOptions { get; set; } = new();
     public int? CrafterId { get; set; }
     public string? CrafterName { get; set; }
 }
-public class VendingStoreItemCommand : StoreItemCommand
-{
-    public long? ExpireDate { get; set; }
-}
+

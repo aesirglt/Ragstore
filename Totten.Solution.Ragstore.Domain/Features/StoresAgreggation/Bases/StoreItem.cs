@@ -3,7 +3,6 @@ using Totten.Solution.Ragstore.Domain.Bases;
 using Totten.Solution.Ragstore.Domain.Features.Accounts;
 using Totten.Solution.Ragstore.Domain.Features.Characters;
 using Totten.Solution.Ragstore.Domain.Features.ItemAgreggation;
-using Totten.Solution.Ragstore.Domain.Features.StoresAgreggation.Vendings;
 public class StoreItemCardInfo
 {
     public int Id { get; set; }
@@ -17,6 +16,11 @@ public class StoreItemCardInfo
     }
     public StoreItemCardInfo()
     { }
+    public StoreItemCardInfo(int id, string name)
+    {
+        Id = id;
+        Name = name;
+    }
 }
 public class StoreItemOptionInfo
 {
@@ -31,6 +35,13 @@ public class StoreItemOptionInfo
         Val = int.Parse(splited[1]);
         Param = int.Parse(splited[2]);
         Name = splited[3];
+    }
+    public StoreItemOptionInfo(int id, int val, int param, string str)
+    {
+        Id = id;
+        Val = val;
+        Param = param;
+        Name = str;
     }
     public StoreItemOptionInfo()
     { }

@@ -8,5 +8,5 @@ public class SysConstantDBConfig
     /// <summary>
     /// 
     /// </summary>
-    public const string DEFAULT_CONNECTION_STRING = "Server=localhost;Database={db};Trusted_Connection=True;Integrated Security=true;";
+    public const string DEFAULT_CONNECTION_STRING = "Server=192.168.2.102;Database=RagnaStoreContext;User Id=sa;Password=Sup3rS3cr3t;TrustServerCertificate=true;";
 }

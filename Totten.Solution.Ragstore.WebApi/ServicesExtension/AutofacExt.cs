@@ -29,6 +29,7 @@ public static class AutofacExt
                                     .WithRegistrationScope(RegistrationScope.Scoped)
                                     .Build();
 
+                containerBuilder.RegisterModule(new TenantModule { DBName = null });
                 containerBuilder.RegisterModule(new FluentValidationModule());
                 containerBuilder.RegisterModule(new GlobalModule<Program>(cfgRoot));
                 containerBuilder.RegisterModule(new MediatRModule());

@@ -10,9 +10,8 @@ using Totten.Solution.Ragstore.Domain.Features.Users;
 
 public class Account : Entity<Account, int>
 {
-    public int AccountId { get; set; }
-    public int? UserId { get; set; }
     public bool IsReported { get; set; }
+    public int? UserId { get; set; }
     public User? User { get; set; }
     public List<Character> Characters { get; set; } = new();
     public List<Chat> Chats { get; set; } = new();

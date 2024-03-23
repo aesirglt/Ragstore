@@ -8,9 +8,16 @@ public class MyItemSeed
 {
     public static List<Item> Seed()
     {
-        string filePath = "Seeds\\Jsons\\items.json";
+        try
+        {
+            string filePath = ".\\Seeds\\Jsons\\items.json";
 
-        return JsonConvert.DeserializeObject<List<Item>>(File.ReadAllText(filePath, Encoding.UTF8)) ?? new ();
+            return JsonConvert.DeserializeObject<List<Item>>(File.ReadAllText(filePath, Encoding.UTF8)) ?? new();
+        }
+        catch (Exception ex)
+        {
+            return new List<Item>();
+        }
 
         //using var streamReader = new StreamReader(filePath);
         //using var jsonReader = new JsonTextReader(streamReader);

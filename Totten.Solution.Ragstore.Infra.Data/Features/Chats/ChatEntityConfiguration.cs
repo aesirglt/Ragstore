@@ -11,6 +11,7 @@ public class ChatEntityConfiguration : IEntityTypeConfiguration<Chat>
     {
         builder.ToTable(TABLE_NAME);
         builder.HasKey(e => e.Id);
+        builder.Property(e => e.Id).ValueGeneratedOnAdd();
         builder.Property(e => e.Name).IsRequired();
         builder.Property(e => e.CreatedAt).IsRequired();
         builder.Property(e => e.UpdatedAt).IsRequired();
@@ -27,5 +28,8 @@ public class ChatEntityConfiguration : IEntityTypeConfiguration<Chat>
                .WithOne(e => e.Chat)
                .HasForeignKey(e => e.CharacterId)
                .OnDelete(DeleteBehavior.NoAction);
+
+        builder.HasIndex(e => e.CharacterId)
+               .IsUnique();
     }
 }

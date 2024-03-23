@@ -35,6 +35,9 @@ public class ItemEntityConfiguration : IEntityTypeConfiguration<Item>
                .HasForeignKey(e => e.ItemId)
                .OnDelete(DeleteBehavior.NoAction);
 
+
         builder.HasData(MyItemSeed.Seed());
+        
+        builder.HasIndex(e => e.Name);
     }
 }

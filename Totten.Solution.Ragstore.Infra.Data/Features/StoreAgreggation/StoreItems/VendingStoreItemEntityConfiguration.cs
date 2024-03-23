@@ -13,6 +13,7 @@ public class VendingStoreItemEntityConfiguration : IEntityTypeConfiguration<Vend
     {
         builder.ToTable(TABLE_NAME);
         builder.HasKey(e => e.Id);
+        builder.Property(e => e.Id).ValueGeneratedOnAdd();
         builder.Property(e => e.Name).IsRequired();
         builder.Property(e => e.CreatedAt).IsRequired();
         builder.Property(e => e.UpdatedAt).IsRequired();
@@ -56,5 +57,8 @@ public class VendingStoreItemEntityConfiguration : IEntityTypeConfiguration<Vend
         builder.Property(e => e.CrafterId);
         builder.Property(e => e.CrafterName);
         builder.Property(e => e.ExpireDate);
+
+        builder.HasIndex(e => e.CharacterId);
+        builder.HasIndex(e => e.Name);
     }
 }

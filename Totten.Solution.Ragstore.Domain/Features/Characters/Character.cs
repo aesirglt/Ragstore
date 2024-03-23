@@ -10,10 +10,11 @@ using Totten.Solution.Ragstore.Domain.Features.StoresAgreggation.Vendings;
 public class Character : Entity<Character, int>
 {
     public int AccountId { get; set; }
-    public int CharacterId { get; set; }
     public int JobId { get; set; }
     public int BaseLevel { get; set; }
     public int Sex { get; set; }
+    public string Map { get; set; } = string.Empty;
+    public string Location { get; set; } = string.Empty;
     public string? PartyName { get; set; }
     public int? GuildId { get; set; }
     public string? GuildName { get; set; }
@@ -29,8 +30,6 @@ public class Character : Entity<Character, int>
     public int? HeadMiddleId { get; set; }
     public int? HeadBottomId { get; set; }
     public int? RobeId { get; set; }
-    public string Map { get; set; } = string.Empty;
-    public string Location { get; set; } = string.Empty;
     public Account Account { get; set; }
     public List<VendingStore> VendingStores { get; set; } = new();
     public List<BuyingStore> BuyingStores { get; set; } = new();

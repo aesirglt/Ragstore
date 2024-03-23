@@ -11,6 +11,7 @@ public class VendingStoreEntityConfiguration : IEntityTypeConfiguration<VendingS
     {
         builder.ToTable(TABLE_NAME);
         builder.HasKey(e => e.Id);
+        builder.Property(e => e.Id).ValueGeneratedOnAdd();
         builder.Property(e => e.Name).IsRequired();
         builder.Property(e => e.CreatedAt).IsRequired();
         builder.Property(e => e.UpdatedAt).IsRequired();
@@ -24,5 +25,7 @@ public class VendingStoreEntityConfiguration : IEntityTypeConfiguration<VendingS
                .WithOne(s => s.VendingStore)
                .HasForeignKey(e => e.VendingStoreId)
                .OnDelete(DeleteBehavior.NoAction);
+
+        builder.HasIndex(e => e.CharacterId).IsUnique();
     }
 }

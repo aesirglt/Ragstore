@@ -12,6 +12,7 @@ public class BuyingStoreItemEntityConfiguration : IEntityTypeConfiguration<Buyin
     {
         builder.ToTable(TABLE_NAME);
         builder.HasKey(e => e.Id);
+        builder.Property(e => e.Id).ValueGeneratedOnAdd();
         builder.Property(e => e.Name).IsRequired();
         builder.Property(e => e.CreatedAt).IsRequired();
         builder.Property(e => e.UpdatedAt).IsRequired();
@@ -61,7 +62,10 @@ public class BuyingStoreItemEntityConfiguration : IEntityTypeConfiguration<Buyin
 
         builder.HasOne(e => e.Character)
                .WithMany(e => e.BuyingStoreItems)
-               .HasPrincipalKey(e => e.CharacterId)
+               .HasForeignKey(e => e.CharacterId)
                .OnDelete(DeleteBehavior.NoAction);
+
+        builder.HasIndex(e => e.CharacterId);
+        builder.HasIndex(e => e.Name);
     }
 }
