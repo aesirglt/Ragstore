@@ -5,8 +5,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.QueriesCommand;
-using Totten.Solution.Ragstore.Domain.Features.StoresAgreggation;
-using Totten.Solution.Ragstore.Domain.Features.StoresAgreggation.Vendings;
+using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Vendings;
 using Totten.Solution.Ragstore.Infra.Cross.Functionals;
 
 public class StoreByIdQueryHandler : IRequestHandler<StoreByIdQuery, Result<Exception, VendingStore>>

@@ -1,4 +1,4 @@
-﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.Items.Queries;
+﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.ItemsAggregation.Queries;
 
 using MediatR;
 using Totten.Solution.Ragstore.Domain.Features.Callbacks;

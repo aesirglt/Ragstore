@@ -3,9 +3,9 @@
 using Totten.Solution.Ragstore.Domain.Bases;
 using Totten.Solution.Ragstore.Domain.Features.Accounts;
 using Totten.Solution.Ragstore.Domain.Features.Chats;
-using Totten.Solution.Ragstore.Domain.Features.ItemAgreggation;
-using Totten.Solution.Ragstore.Domain.Features.StoresAgreggation.Buyings;
-using Totten.Solution.Ragstore.Domain.Features.StoresAgreggation.Vendings;
+using Totten.Solution.Ragstore.Domain.Features.ItemsAggregation;
+using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Buyings;
+using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Vendings;
 
 public class Character : Entity<Character, int>
 {

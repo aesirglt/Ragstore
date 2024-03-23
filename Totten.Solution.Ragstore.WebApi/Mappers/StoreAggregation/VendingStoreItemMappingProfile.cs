@@ -2,7 +2,7 @@
 
 using AutoMapper;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Commands;
-using Totten.Solution.Ragstore.Domain.Features.StoresAgreggation.Vendings;
+using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Vendings;
 
 public class VendingStoreItemMappingProfile : Profile
 {

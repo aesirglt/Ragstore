@@ -1,6 +1,6 @@
 ﻿namespace Totten.Solution.Ragstore.WebApi.Mappers;
 using AutoMapper;
-using Totten.Solution.Ragstore.Domain.Features.ItemAgreggation;
+using Totten.Solution.Ragstore.Domain.Features.ItemsAggregation;
 using Totten.Solution.Ragstore.WebApi.Endpoints.ViewModels.Items;
 
 /// <summary>

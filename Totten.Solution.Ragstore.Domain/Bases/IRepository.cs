@@ -9,7 +9,7 @@ public interface IRepository<TEntity, TId>
     where TEntity : Entity<TEntity, TId>
     where TId : notnull
 {
-    Task<TEntity> GetById(TId id);
+    Task<TEntity?> GetById(TId id);
     Task<List<TEntity>> GetAll();
     Task<List<TEntity>> GetAllByFilter(Expression<Func<TEntity, bool>> filter);
     Task<Unit> Save(TEntity entity);

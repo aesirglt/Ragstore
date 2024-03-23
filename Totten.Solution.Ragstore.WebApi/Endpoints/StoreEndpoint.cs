@@ -4,7 +4,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Commands;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.QueriesCommand;
-using Totten.Solution.Ragstore.Domain.Features.StoresAgreggation.Vendings;
+using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Vendings;
 using Totten.Solution.Ragstore.WebApi.Endpoints.ViewModels.Stores;
 using static Totten.Solution.Ragstore.WebApi.Bases.BaseEndpointMethod;
 

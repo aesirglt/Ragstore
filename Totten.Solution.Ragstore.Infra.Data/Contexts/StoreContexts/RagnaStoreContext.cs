@@ -1,22 +1,18 @@
 ﻿namespace Totten.Solution.Ragstore.Infra.Data.Contexts.StoreContexts;
 using Microsoft.EntityFrameworkCore;
 using Totten.Solution.Ragstore.Domain.Features.Accounts;
-using Totten.Solution.Ragstore.Domain.Features.Agents;
-using Totten.Solution.Ragstore.Domain.Features.Callbacks;
 using Totten.Solution.Ragstore.Domain.Features.Characters;
 using Totten.Solution.Ragstore.Domain.Features.Chats;
-using Totten.Solution.Ragstore.Domain.Features.ItemAgreggation;
-using Totten.Solution.Ragstore.Domain.Features.StoresAgreggation.Buyings;
-using Totten.Solution.Ragstore.Domain.Features.StoresAgreggation.Vendings;
-using Totten.Solution.Ragstore.Infra.Data.Features.Accounts;
-using Totten.Solution.Ragstore.Infra.Data.Features.Characters;
-using Totten.Solution.Ragstore.Infra.Data.Features.Chats;
-using Totten.Solution.Ragstore.Infra.Data.Features.ItemAggregation;
+using Totten.Solution.Ragstore.Domain.Features.ItemsAggregation;
+using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Buyings;
+using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Vendings;
+using Totten.Solution.Ragstore.Infra.Data.Features.Accounts.EntityConfigurations;
+using Totten.Solution.Ragstore.Infra.Data.Features.Characters.EntityConfigurations;
+using Totten.Solution.Ragstore.Infra.Data.Features.Chats.EntityConfigurations;
 using Totten.Solution.Ragstore.Infra.Data.Features.ItemsAggregation.EntityConfigurations;
-using Totten.Solution.Ragstore.Infra.Data.Features.StoreAgreggation;
-using Totten.Solution.Ragstore.Infra.Data.Features.StoreAgreggation.BuyingStores;
-using Totten.Solution.Ragstore.Infra.Data.Features.StoreAgreggation.StoreItems;
-using Totten.Solution.Ragstore.Infra.Data.Features.StoreAgreggation.VendingStores;
+using Totten.Solution.Ragstore.Infra.Data.Features.StoreAggregation.BuyingStores.EntityConfigurations;
+using Totten.Solution.Ragstore.Infra.Data.Features.StoreAggregation.StoreItemConfigurations;
+using Totten.Solution.Ragstore.Infra.Data.Features.StoreAggregation.VendingStores.EntityConfigurations;
 
 public class RagnaStoreContext : DbContext
 {

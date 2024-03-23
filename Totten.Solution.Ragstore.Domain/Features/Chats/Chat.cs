@@ -3,7 +3,7 @@
 using Totten.Solution.Ragstore.Domain.Bases;
 using Totten.Solution.Ragstore.Domain.Features.Accounts;
 using Totten.Solution.Ragstore.Domain.Features.Characters;
-using Totten.Solution.Ragstore.Domain.Features.ItemAgreggation;
+using Totten.Solution.Ragstore.Domain.Features.ItemsAggregation;
 
 public class Chat : Entity<Chat, int>
 {

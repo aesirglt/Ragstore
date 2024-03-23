@@ -32,4 +32,10 @@
     <ProjectReference Include="..\Totten.Solution.Ragstore.Domain\Totten.Solution.Ragstore.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\Callbacks\EntityConfigurations\" />
+    <Folder Include="Features\Agents\" />
+    <Folder Include="Features\Users\" />
+  </ItemGroup>
+
 </Project>

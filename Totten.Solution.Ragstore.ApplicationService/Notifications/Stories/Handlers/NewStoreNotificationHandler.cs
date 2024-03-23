@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
 using Totten.Solution.Ragstore.ApplicationService.Notifications.Items;
-using Totten.Solution.Ragstore.Domain.Features.ItemAgreggation;
+using Totten.Solution.Ragstore.Domain.Features.ItemsAggregation;
 
 public class NewStoreNotificationHandler : INotificationHandler<NewStoreNotification>
 {

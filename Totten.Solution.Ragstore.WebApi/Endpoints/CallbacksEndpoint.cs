@@ -3,7 +3,7 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Totten.Solution.Ragstore.ApplicationService.Features.Callbacks.Commands;
-using Totten.Solution.Ragstore.ApplicationService.Features.Items.Queries;
+using Totten.Solution.Ragstore.ApplicationService.Features.ItemsAggregation.Queries;
 using Totten.Solution.Ragstore.Infra.Cross.CrossDTOs;
 using Totten.Solution.Ragstore.WebApi.Endpoints.Dtos.Callbacks;
 using static Totten.Solution.Ragstore.WebApi.Bases.BaseEndpointMethod;

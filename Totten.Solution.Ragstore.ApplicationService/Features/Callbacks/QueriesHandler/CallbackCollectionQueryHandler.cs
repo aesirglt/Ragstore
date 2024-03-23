@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Totten.Solution.Ragstore.ApplicationService.Features.Items.Queries;
+using Totten.Solution.Ragstore.ApplicationService.Features.ItemsAggregation.Queries;
 using Totten.Solution.Ragstore.Domain.Features.Callbacks;
 using Totten.Solution.Ragstore.Infra.Cross.Functionals;
 

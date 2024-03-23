@@ -2,7 +2,7 @@
 
 using AutoMapper;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Commands;
-using Totten.Solution.Ragstore.Domain.Features.StoresAgreggation.Bases;
+using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Bases;
 
 public class StoreItemOptionInfoMappingProfile : Profile
 {

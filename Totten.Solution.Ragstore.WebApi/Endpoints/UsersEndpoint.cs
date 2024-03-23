@@ -1,7 +1,7 @@
 ﻿namespace Totten.Solution.Ragstore.WebApi.Endpoints;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Totten.Solution.Ragstore.ApplicationService.Features.Items.Queries;
+using Totten.Solution.Ragstore.ApplicationService.Features.ItemsAggregation.Queries;
 using static Totten.Solution.Ragstore.WebApi.Bases.BaseEndpointMethod;
 
 /// <summary>

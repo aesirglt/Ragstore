@@ -2,7 +2,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Totten.Solution.Ragstore.Domain.Features.ItemAgreggation;
+using Totten.Solution.Ragstore.Domain.Features.ItemsAggregation;
 
 internal class EquipmentItemEntityConfiguration : IEntityTypeConfiguration<EquipmentItem>
 {

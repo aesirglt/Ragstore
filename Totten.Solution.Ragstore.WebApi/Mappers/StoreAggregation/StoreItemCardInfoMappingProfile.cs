@@ -1,7 +1,7 @@
 ﻿namespace Totten.Solution.Ragstore.WebApi.Mappers.StoreAggregation;
 
 using AutoMapper;
-using Totten.Solution.Ragstore.Domain.Features.StoresAgreggation.Bases;
+using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Bases;
 
 public class StoreItemCardInfoMappingProfile : Profile
 {

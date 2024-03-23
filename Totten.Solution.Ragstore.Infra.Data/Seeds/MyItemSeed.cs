@@ -2,7 +2,7 @@
 
 using Newtonsoft.Json;
 using System.Text;
-using Totten.Solution.Ragstore.Domain.Features.ItemAgreggation;
+using Totten.Solution.Ragstore.Domain.Features.ItemsAggregation;
 
 public class MyItemSeed
 {

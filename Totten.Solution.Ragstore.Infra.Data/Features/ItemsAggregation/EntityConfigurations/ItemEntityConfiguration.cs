@@ -2,7 +2,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Totten.Solution.Ragstore.Domain.Features.ItemAgreggation;
+using Totten.Solution.Ragstore.Domain.Features.ItemsAggregation;
 using Totten.Solution.Ragstore.Infra.Data.Seeds;
 
 public class ItemEntityConfiguration : IEntityTypeConfiguration<Item>
@@ -34,7 +34,6 @@ public class ItemEntityConfiguration : IEntityTypeConfiguration<Item>
                .WithOne(e => e.Item)
                .HasForeignKey(e => e.ItemId)
                .OnDelete(DeleteBehavior.NoAction);
-
 
         builder.HasData(MyItemSeed.Seed());
         

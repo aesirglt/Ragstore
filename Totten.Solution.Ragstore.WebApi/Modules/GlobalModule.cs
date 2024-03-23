@@ -4,11 +4,11 @@ using Autofac;
 using AutoMapper;
 using Totten.Solution.Ragstore.ApplicationService;
 using Totten.Solution.Ragstore.Domain.Features.Callbacks;
-using Totten.Solution.Ragstore.Domain.Features.ItemAgreggation;
-using Totten.Solution.Ragstore.Domain.Features.StoresAgreggation;
+using Totten.Solution.Ragstore.Domain.Features.ItemsAggregation;
+using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Vendings;
 using Totten.Solution.Ragstore.Infra.Data.Features.Callbacks;
 using Totten.Solution.Ragstore.Infra.Data.Features.ItemAggregation;
-using Totten.Solution.Ragstore.Infra.Data.Features.StoreAgreggation.VendingStores;
+using Totten.Solution.Ragstore.Infra.Data.Features.StoreAggregation.VendingStores;
 
 /// <summary>
 /// 
