@@ -1,4 +1,4 @@
-﻿namespace Totten.Solution.Ragstore.Infra.Data.Features.StoreAgregattion.BuyingStores;
+﻿namespace Totten.Solution.Ragstore.Infra.Data.Features.StoreAgreggation.BuyingStores;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

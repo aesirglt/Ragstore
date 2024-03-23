@@ -5,6 +5,41 @@ using Totten.Solution.Ragstore.Domain.Features.Accounts;
 using Totten.Solution.Ragstore.Domain.Features.Characters;
 using Totten.Solution.Ragstore.Domain.Features.Chats;
 
+public class EquipmentItemCardInfo
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+
+    public EquipmentItemCardInfo(string str)
+    {
+        var splited = str.Split(':', StringSplitOptions.RemoveEmptyEntries);
+        Id = int.Parse(splited[0]);
+        Name = splited[1];
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    public EquipmentItemCardInfo()
+    { }
+}
+public class EquipmentItemOptionInfo
+{
+    public int Id { get; set; }
+    public int Val { get; set; }
+    public int Param { get; set; }
+    public string Name { get; set; }
+    public EquipmentItemOptionInfo(string str)
+    {
+        var splited = str.Split(':', StringSplitOptions.RemoveEmptyEntries);
+        Id = int.Parse(splited[0]);
+        Val = int.Parse(splited[1]);
+        Param = int.Parse(splited[2]);
+        Name = splited[3];
+    }
+    public EquipmentItemOptionInfo()
+    { }
+}
+
 public class EquipmentItem : Entity<EquipmentItem, int>
 {
     public int AccountId { get; set; }
@@ -20,34 +55,10 @@ public class EquipmentItem : Entity<EquipmentItem, int>
     public int? Location { get; set; }
     public int? SpriteId { get; set; }
     public int Slots { get; set; }
-    public int? Card0Id { get; set; }
-    public string? Card0Name { get; set; }
-    public int? Card1Id { get; set; }
-    public string? Card1Name { get; set; }
-    public int? Card2Id { get; set; }
-    public string? Card2Name { get; set; }
-    public int? Card3Id { get; set; }
-    public string? Card3Name { get; set; }
-    public int? Option0Id { get; set; }
-    public int? Option0Val { get; set; }
-    public int? Option0Param { get; set; }
-    public int? Option0Name { get; set; }
-    public int? Option1Id { get; set; }
-    public int? Option1Val { get; set; }
-    public int? Option1Param { get; set; }
-    public string? Option1Name { get; set; }
-    public int? Option2Id { get; set; }
-    public int? Option2Val { get; set; }
-    public int? Option2Param { get; set; }
-    public string? Option2Name { get; set; }
-    public int? Option3Id { get; set; }
-    public int? Option3Val { get; set; }
-    public int? Option3Param { get; set; }
-    public string? Option3Name { get; set; }
-    public int? Option4Id { get; set; }
-    public int? Option4Val { get; set; }
-    public int? Option4Param { get; set; }
-    public string? Option4Name { get; set; }
+
+    public EquipmentItemCardInfo[] InfoCards { get; set; } = Array.Empty<EquipmentItemCardInfo>();
+    public EquipmentItemOptionInfo[] InfoOptions { get; set; } = Array.Empty<EquipmentItemOptionInfo>();
+
     public int? CrafterId { get; set; }
     public string? CrafterName { get; set; }
     public required Account Account { get; set; }

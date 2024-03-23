@@ -11,6 +11,6 @@ public class Item : Entity<Item, int>
     public string? Description { get; set; }
     public List<VendingStoreItem> VendingStoreItems { get; set; } = new();
     public List<BuyingStoreItem> BuyingStoreItems { get; set; } = new();
-    public List<BuyingStoreItem> EquipmentItems { get; set; } = new();
+    public List<EquipmentItem> EquipmentItems { get; set; } = new();
     //public StatisticItem StatisticItem { get; set; }
 }

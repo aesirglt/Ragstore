@@ -7,8 +7,8 @@ using Totten.Solution.Ragstore.Domain.Features.Callbacks;
 using Totten.Solution.Ragstore.Domain.Features.ItemAgreggation;
 using Totten.Solution.Ragstore.Domain.Features.StoresAgreggation;
 using Totten.Solution.Ragstore.Infra.Data.Features.Callbacks;
-using Totten.Solution.Ragstore.Infra.Data.Features.Items;
-using Totten.Solution.Ragstore.Infra.Data.Features.StoreAgregattion.VendingStores;
+using Totten.Solution.Ragstore.Infra.Data.Features.ItemAggregation;
+using Totten.Solution.Ragstore.Infra.Data.Features.StoreAgreggation.VendingStores;
 
 /// <summary>
 /// 

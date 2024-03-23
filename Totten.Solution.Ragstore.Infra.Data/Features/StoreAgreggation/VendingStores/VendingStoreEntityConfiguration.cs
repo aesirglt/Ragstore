@@ -1,4 +1,4 @@
-﻿namespace Totten.Solution.Ragstore.Infra.Data.Features.StoreAgregattion.VendingStores;
+﻿namespace Totten.Solution.Ragstore.Infra.Data.Features.StoreAgreggation.VendingStores;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -22,7 +22,7 @@ public class VendingStoreEntityConfiguration : IEntityTypeConfiguration<VendingS
 
         builder.HasMany(e => e.VendingStoreItems)
                .WithOne(s => s.VendingStore)
-               .HasPrincipalKey(e => e.Id)
+               .HasForeignKey(e => e.VendingStoreId)
                .OnDelete(DeleteBehavior.NoAction);
     }
 }

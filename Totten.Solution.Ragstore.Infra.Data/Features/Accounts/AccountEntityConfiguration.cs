@@ -34,8 +34,17 @@ public class AccountEntityConfiguration : IEntityTypeConfiguration<Account>
                .HasForeignKey(e => e.AccountId)
                .OnDelete(DeleteBehavior.NoAction);
 
+        builder.HasMany(e => e.EquipmentItems)
+               .WithOne(s => s.Account)
+               .HasForeignKey(e => e.AccountId)
+               .OnDelete(DeleteBehavior.NoAction);
+
+        builder.HasMany(e => e.Characters)
+               .WithOne(s => s.Account)
+               .HasForeignKey(e => e.AccountId)
+               .OnDelete(DeleteBehavior.NoAction);
+
         builder.Ignore(e => e.User);
-        builder.Ignore(e => e.EquipmentItems);
 
         builder.HasIndex(x => x.AccountId);
         builder.HasIndex(x => x.UserId);

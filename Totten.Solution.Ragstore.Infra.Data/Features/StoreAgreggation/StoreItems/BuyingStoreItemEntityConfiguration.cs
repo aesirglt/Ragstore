@@ -1,4 +1,4 @@
-﻿namespace Totten.Solution.Ragstore.Infra.Data.Features.StoreAgregattion.StoreItems;
+﻿namespace Totten.Solution.Ragstore.Infra.Data.Features.StoreAgreggation.StoreItems;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -56,7 +56,7 @@ public class BuyingStoreItemEntityConfiguration : IEntityTypeConfiguration<Buyin
 
         builder.HasOne(e => e.BuyingStore)
                .WithOne(e => e.BuyingStoreItem)
-               .HasPrincipalKey<BuyingStoreItem>(e => e.BuyingStoreId)
+               .HasForeignKey<BuyingStoreItem>(e => e.BuyingStoreId)
                .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasOne(e => e.Character)

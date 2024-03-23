@@ -9,11 +9,14 @@ using Totten.Solution.Ragstore.Domain.Features.ItemAgreggation;
 using Totten.Solution.Ragstore.Domain.Features.StoresAgreggation.Buyings;
 using Totten.Solution.Ragstore.Domain.Features.StoresAgreggation.Vendings;
 using Totten.Solution.Ragstore.Infra.Data.Features.Accounts;
-using Totten.Solution.Ragstore.Infra.Data.Features.Items;
-using Totten.Solution.Ragstore.Infra.Data.Features.StoreAgregattion;
-using Totten.Solution.Ragstore.Infra.Data.Features.StoreAgregattion.BuyingStores;
-using Totten.Solution.Ragstore.Infra.Data.Features.StoreAgregattion.StoreItems;
-using Totten.Solution.Ragstore.Infra.Data.Features.StoreAgregattion.VendingStores;
+using Totten.Solution.Ragstore.Infra.Data.Features.Characters;
+using Totten.Solution.Ragstore.Infra.Data.Features.Chats;
+using Totten.Solution.Ragstore.Infra.Data.Features.ItemAggregation;
+using Totten.Solution.Ragstore.Infra.Data.Features.ItemsAggregation.EntityConfigurations;
+using Totten.Solution.Ragstore.Infra.Data.Features.StoreAgreggation;
+using Totten.Solution.Ragstore.Infra.Data.Features.StoreAgreggation.BuyingStores;
+using Totten.Solution.Ragstore.Infra.Data.Features.StoreAgreggation.StoreItems;
+using Totten.Solution.Ragstore.Infra.Data.Features.StoreAgreggation.VendingStores;
 
 public class RagnaStoreContext : DbContext
 {
@@ -36,7 +39,10 @@ public class RagnaStoreContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new ItemEntityConfiguration());
+        modelBuilder.ApplyConfiguration(new EquipmentItemEntityConfiguration());
         modelBuilder.ApplyConfiguration(new AccountEntityConfiguration());
+        modelBuilder.ApplyConfiguration(new CharacterEntityConfiguration());
+        modelBuilder.ApplyConfiguration(new ChatEntityConfiguration());
         modelBuilder.ApplyConfiguration(new VendingStoreEntityConfiguration());
         modelBuilder.ApplyConfiguration(new VendingStoreItemEntityConfiguration());
         modelBuilder.ApplyConfiguration(new BuyingStoreEntityConfiguration());

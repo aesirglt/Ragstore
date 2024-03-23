@@ -1,4 +1,4 @@
-﻿namespace Totten.Solution.Ragstore.Infra.Data.Features.Items;
+﻿namespace Totten.Solution.Ragstore.Infra.Data.Features.ItemsAggregation.EntityConfigurations;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -21,12 +21,17 @@ public class ItemEntityConfiguration : IEntityTypeConfiguration<Item>
 
         builder.HasMany(e => e.BuyingStoreItems)
                .WithOne(e => e.Item)
+               .HasForeignKey(e => e.ItemId)
                .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasMany(e => e.VendingStoreItems)
                .WithOne(e => e.Item)
+               .HasForeignKey(e => e.ItemId)
                .OnDelete(DeleteBehavior.NoAction);
 
-        builder.Ignore(e => e.EquipmentItems);
+        builder.HasMany(e => e.EquipmentItems)
+               .WithOne(e => e.Item)
+               .HasForeignKey(e => e.ItemId)
+               .OnDelete(DeleteBehavior.NoAction);
     }
 }

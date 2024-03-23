@@ -23,6 +23,9 @@ public class ChatEntityConfiguration : IEntityTypeConfiguration<Chat>
         builder.Property(e => e.Location);
         builder.Property(e => e.QuantityUsers);
 
-        builder.Ignore(e => e.EquipmentItems);
+        builder.HasMany(e => e.EquipmentItems)
+               .WithOne(e => e.Chat)
+               .HasForeignKey(e => e.CharacterId)
+               .OnDelete(DeleteBehavior.NoAction);
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Totten.Solution.Ragstore.Infra.Data.Features.StoreAgregattion.VendingStores;
+﻿namespace Totten.Solution.Ragstore.Infra.Data.Features.StoreAgreggation.VendingStores;
 
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;

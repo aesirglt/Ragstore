@@ -1,4 +1,4 @@
-﻿namespace Totten.Solution.Ragstore.Infra.Data.Features.Items;
+﻿namespace Totten.Solution.Ragstore.Infra.Data.Features.ItemAggregation;
 
 using Microsoft.EntityFrameworkCore;
 using System;
