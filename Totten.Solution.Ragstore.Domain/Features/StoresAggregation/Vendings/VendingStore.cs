@@ -4,5 +4,5 @@ using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Bases;
 
 public class VendingStore : Store<VendingStore>
 {
-    public List<VendingStoreItem> VendingStoreItems { get; set; } = new();
+    public virtual List<VendingStoreItem> VendingStoreItems { get; set; } = new();
 }

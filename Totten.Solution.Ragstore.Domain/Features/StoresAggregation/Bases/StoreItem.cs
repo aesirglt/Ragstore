@@ -63,18 +63,11 @@ public abstract class StoreItem<TStoreItem>: Entity<TStoreItem, int>
     public int? SpriteId { get; set; }
     public int Slots { get; set; }
 
-    public StoreItemCardInfo[] InfoCards { get; set; } = Array.Empty<StoreItemCardInfo>();
-    public StoreItemOptionInfo[] InfoOptions { get; set; } = Array.Empty<StoreItemOptionInfo>();
+    public virtual StoreItemCardInfo[] InfoCards { get; set; } = Array.Empty<StoreItemCardInfo>();
+    public virtual StoreItemOptionInfo[] InfoOptions { get; set; } = Array.Empty<StoreItemOptionInfo>();
     public int? CrafterId { get; set; }
     public string? CrafterName { get; set; }
-    public Account Account { get; set; }
-    public Item Item { get; set; }
-    public Character Character { get; set; }
-
-    protected StoreItem()
-    {
-        Account = new Account { Id = AccountId };
-        Item = new Item { Id = ItemId };
-        Character = new Character { Id = CharacterId };
-    }
+    public virtual Account? Account { get; set; }
+    public virtual Item? Item { get; set; }
+    public virtual Character? Character { get; set; }
 }

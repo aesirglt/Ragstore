@@ -12,12 +12,12 @@ public class Account : Entity<Account, int>
 {
     public bool IsReported { get; set; }
     public int? UserId { get; set; }
-    public User? User { get; set; }
-    public List<Character> Characters { get; set; } = new();
-    public List<Chat> Chats { get; set; } = new();
-    public List<VendingStore> VendingStores { get; set; } = new();
-    public List<BuyingStore> BuyingStores { get; set; } = new();
-    public List<VendingStoreItem> VendingStoreItems { get; set; } = new();
-    public List<BuyingStoreItem> BuyingStoreItems { get; set; } = new();
-    public List<EquipmentItem> EquipmentItems { get; set; } = new();
+    public virtual User? User { get; set; }
+    public virtual List<Character> Characters { get; set; } = new();
+    public virtual List<Chat> Chats { get; set; } = new();
+    public virtual List<VendingStore> VendingStores { get; set; } = new();
+    public virtual List<BuyingStore> BuyingStores { get; set; } = new();
+    public virtual List<VendingStoreItem> VendingStoreItems { get; set; } = new();
+    public virtual List<BuyingStoreItem> BuyingStoreItems { get; set; } = new();
+    public virtual List<EquipmentItem> EquipmentItems { get; set; } = new();
 }

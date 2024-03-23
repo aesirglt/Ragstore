@@ -11,12 +11,6 @@ public class Store<TStore> : Entity<TStore, int>
     public string Map { get; set; } = string.Empty;
     public string Location { get; set; } = string.Empty;
     public DateTime? ExpireDate { get; set; }
-    public Account Account { get; set; }
-    public Character Character { get; set; }
-
-    public Store()
-    {
-        Account = new Account { Id = AccountId };
-        Character = new Character { Id = CharacterId };
-    }
+    public virtual Account? Account { get; set; }
+    public virtual Character? Character { get; set; }
 }

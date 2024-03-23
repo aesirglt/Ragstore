@@ -56,13 +56,13 @@ public class EquipmentItem : Entity<EquipmentItem, int>
     public int? SpriteId { get; set; }
     public int Slots { get; set; }
 
-    public EquipmentItemCardInfo[] InfoCards { get; set; } = Array.Empty<EquipmentItemCardInfo>();
-    public EquipmentItemOptionInfo[] InfoOptions { get; set; } = Array.Empty<EquipmentItemOptionInfo>();
+    public virtual EquipmentItemCardInfo[] InfoCards { get; set; } = Array.Empty<EquipmentItemCardInfo>();
+    public virtual EquipmentItemOptionInfo[] InfoOptions { get; set; } = Array.Empty<EquipmentItemOptionInfo>();
 
     public int? CrafterId { get; set; }
     public string? CrafterName { get; set; }
-    public required Account Account { get; set; }
-    public required Item Item { get; set; }
-    public required Character Character { get; set; }
-    public required Chat Chat { get; set; }
+    public virtual Account Account { get; set; }
+    public virtual Item Item { get; set; }
+    public virtual Character Character { get; set; }
+    public virtual Chat Chat { get; set; }
 }

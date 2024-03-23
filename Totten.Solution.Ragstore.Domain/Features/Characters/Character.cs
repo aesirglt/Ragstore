@@ -30,11 +30,11 @@ public class Character : Entity<Character, int>
     public int? HeadMiddleId { get; set; }
     public int? HeadBottomId { get; set; }
     public int? RobeId { get; set; }
-    public Account Account { get; set; }
-    public List<VendingStore> VendingStores { get; set; } = new();
-    public List<BuyingStore> BuyingStores { get; set; } = new();
-    public List<BuyingStoreItem> BuyingStoreItems { get; set; } = new();
-    public List<VendingStoreItem> VendingStoreItems { get; set; } = new();
-    public List<Chat> Chats { get; set; } = new();
-    public List<EquipmentItem> EquipmentItems { get; set; } = new();
+    public virtual Account Account { get; set; }
+    public virtual List<VendingStore> VendingStores { get; set; } = new();
+    public virtual List<BuyingStore> BuyingStores { get; set; } = new();
+    public virtual List<BuyingStoreItem> BuyingStoreItems { get; set; } = new();
+    public virtual List<VendingStoreItem> VendingStoreItems { get; set; } = new();
+    public virtual List<Chat> Chats { get; set; } = new();
+    public virtual List<EquipmentItem> EquipmentItems { get; set; } = new();
 }

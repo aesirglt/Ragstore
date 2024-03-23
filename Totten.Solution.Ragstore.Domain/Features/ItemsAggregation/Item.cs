@@ -9,8 +9,8 @@ public class Item : Entity<Item, int>
     public string? SubType { get; set; }
     public int? Slots { get; set; }
     public string? Description { get; set; }
-    public List<VendingStoreItem> VendingStoreItems { get; set; } = new();
-    public List<BuyingStoreItem> BuyingStoreItems { get; set; } = new();
-    public List<EquipmentItem> EquipmentItems { get; set; } = new();
+    public virtual List<VendingStoreItem> VendingStoreItems { get; set; } = new();
+    public virtual List<BuyingStoreItem> BuyingStoreItems { get; set; } = new();
+    public virtual List<EquipmentItem> EquipmentItems { get; set; } = new();
     //public StatisticItem StatisticItem { get; set; }
 }

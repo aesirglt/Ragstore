@@ -21,14 +21,14 @@ public abstract class RepositoryBase<TEntity> : IRepository<TEntity, int>
         _context = context;
     }
 
-    public Task<List<TEntity>> GetAll()
+    public async Task<List<TEntity>> GetAll()
     {
-        return _context.Set<TEntity>().AsNoTracking().ToListAsync();
+        return await _context.Set<TEntity>().AsNoTracking().ToListAsync();
     }
 
-    public Task<List<TEntity>> GetAllByFilter(Expression<Func<TEntity, bool>> filter)
+    public async Task<List<TEntity>> GetAllByFilter(Expression<Func<TEntity, bool>> filter)
     {
-        return _context.Set<TEntity>().Where(filter).AsNoTracking().ToListAsync();
+        return await _context.Set<TEntity>().Where(filter).AsNoTracking().ToListAsync();
     }
 
     public async Task<TEntity?> GetById(int id)
