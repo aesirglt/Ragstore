@@ -44,7 +44,7 @@ public class VendingStoreSaveCommandHandler : IRequestHandler<VendingStoreSaveCo
                 null => _storeRepository.Save(store),
                 var storeInDb => UpdateFlow(request, storeInDb)
             };
-
+            _ = Publish();
             return await flowByVending;
         }
         catch (Exception ex)
@@ -67,6 +67,7 @@ public class VendingStoreSaveCommandHandler : IRequestHandler<VendingStoreSaveCo
 
         return new Unit();
     }
+
     private Task Publish()
         => _mediator.Publish(new NewStoreNotification
         {
