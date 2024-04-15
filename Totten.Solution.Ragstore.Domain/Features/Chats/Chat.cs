@@ -1,8 +1,6 @@
 ﻿namespace Totten.Solution.Ragstore.Domain.Features.Chats;
 
 using Totten.Solution.Ragstore.Domain.Bases;
-using Totten.Solution.Ragstore.Domain.Features.Accounts;
-using Totten.Solution.Ragstore.Domain.Features.Characters;
 using Totten.Solution.Ragstore.Domain.Features.ItemsAggregation;
 
 public class Chat : Entity<Chat, int>
@@ -14,7 +12,5 @@ public class Chat : Entity<Chat, int>
     public string Map { get; set; } = string.Empty;
     public string Location { get; set; } = string.Empty;
     public int QuantityUsers { get; set; }
-    public virtual Account? Account { get; set; }
-    public virtual Character? Character { get; set; }
     public virtual List<EquipmentItem> EquipmentItems { get; set; } = new();
 }

@@ -20,28 +20,28 @@ public class AccountEntityConfiguration : IEntityTypeConfiguration<Account>
         builder.Property(e => e.IsReported).IsRequired();
 
         builder.HasMany(e => e.VendingStores)
-               .WithOne(s => s.Account)
+               .WithOne()
                .HasForeignKey(e => e.AccountId)
                .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasMany(e => e.BuyingStores)
-               .WithOne(s => s.Account)
+               .WithOne()
                .HasForeignKey(e => e.AccountId)
                .OnDelete(DeleteBehavior.NoAction);
 
 
         builder.HasMany(e => e.Chats)
-               .WithOne(s => s.Account)
+               .WithOne()
                .HasForeignKey(e => e.AccountId)
                .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasMany(e => e.EquipmentItems)
-               .WithOne(s => s.Account)
+               .WithOne()
                .HasForeignKey(e => e.AccountId)
                .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasMany(e => e.Characters)
-               .WithOne(s => s.Account)
+               .WithOne()
                .HasForeignKey(e => e.AccountId)
                .OnDelete(DeleteBehavior.NoAction);
 

@@ -60,11 +60,6 @@ public class BuyingStoreItemEntityConfiguration : IEntityTypeConfiguration<Buyin
                .HasForeignKey<BuyingStoreItem>(e => e.BuyingStoreId)
                .OnDelete(DeleteBehavior.NoAction);
 
-        builder.HasOne(e => e.Character)
-               .WithMany(e => e.BuyingStoreItems)
-               .HasForeignKey(e => e.CharacterId)
-               .OnDelete(DeleteBehavior.NoAction);
-
         builder.HasIndex(e => e.CharacterId);
         builder.HasIndex(e => e.Name);
     }

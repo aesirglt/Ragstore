@@ -1,4 +1,5 @@
 ﻿namespace Totten.Solution.Ragstore.Domain.Bases;
+
 public class Entity<TEntity, TId>
     where TEntity : Entity<TEntity, TId>
     where TId : notnull

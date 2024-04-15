@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 using Totten.Solution.Ragstore.Domain.Bases;
 using Totten.Solution.Ragstore.Infra.Cross.Functionals;
@@ -14,31 +13,35 @@ using Totten.Solution.Ragstore.Infra.Data.Contexts.StoreContexts;
 public abstract class RepositoryBase<TEntity> : IRepository<TEntity, int>
     where TEntity : Entity<TEntity, int>
 {
-    private readonly RagnaStoreContext _context;
+    protected readonly RagnaStoreContext _context;
 
     public RepositoryBase(RagnaStoreContext context)
-    {
-        _context = context;
-    }
+        => _context = context;
 
     public async Task<List<TEntity>> GetAll()
-    {
-        return await _context.Set<TEntity>().AsNoTracking().ToListAsync();
-    }
+        => await _context
+            .Set<TEntity>()
+            .AsNoTracking()
+            .ToListAsync();
 
     public async Task<List<TEntity>> GetAllByFilter(Expression<Func<TEntity, bool>> filter)
-    {
-        return await _context.Set<TEntity>().Where(filter).AsNoTracking().ToListAsync();
-    }
+        => await _context
+        .Set<TEntity>()
+        .Where(filter)
+        .AsNoTracking()
+        .ToListAsync();
 
     public async Task<TEntity?> GetById(int id)
-    {
-        return await _context.Set<TEntity>().FindAsync(id);
-    }
+        => await _context
+        .Set<TEntity>()
+        .FindAsync(id);
 
     public async Task<Unit> Remove(TEntity entity)
     {
-         _context.Set<TEntity>().Entry(entity).State = EntityState.Deleted;
+         _context
+            .Set<TEntity>()
+            .Entry(entity).State = EntityState.Deleted;
+
         await _context.SaveChangesAsync();
         return new Unit();
     }

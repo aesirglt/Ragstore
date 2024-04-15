@@ -20,9 +20,8 @@ public class VendingStoreMappingProfile : Profile
             .ForMember(ds => ds.Items, m => m.MapFrom(src => src.VendingStoreItems.ToDictionary(l => l.Id, l => l.Name ?? string.Empty)));
 
         CreateMap<VendingStoreSaveCommand, VendingStore>()
-            .ForMember(ds => ds.Character, m => m.Ignore())
-            .ForMember(ds => ds.Account, m => m.Ignore())
             .ForMember(ds => ds.VendingStoreItems, m => m.MapFrom(src => src.VendingStoreItems))
             .ForMember(ds => ds.VendingStoreItems, m => m.MapFrom(src => src.VendingStoreItems));
+        CreateMap<VendingStore, VendingStore>();
     }
 }

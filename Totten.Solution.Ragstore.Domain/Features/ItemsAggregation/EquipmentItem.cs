@@ -45,6 +45,7 @@ public class EquipmentItem : Entity<EquipmentItem, int>
     public int AccountId { get; set; }
     public int CharacterId { get; set; }
     public int ItemId { get; set; }
+    public int ChatId { get; set; }
     public int Quantity { get; set; }
     public double Price { get; set; }
     public int Type { get; set; }
@@ -61,8 +62,4 @@ public class EquipmentItem : Entity<EquipmentItem, int>
 
     public int? CrafterId { get; set; }
     public string? CrafterName { get; set; }
-    public virtual Account Account { get; set; }
-    public virtual Item Item { get; set; }
-    public virtual Character Character { get; set; }
-    public virtual Chat Chat { get; set; }
 }

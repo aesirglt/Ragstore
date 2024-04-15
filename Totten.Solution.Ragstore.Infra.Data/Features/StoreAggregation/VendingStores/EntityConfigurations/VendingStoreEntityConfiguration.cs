@@ -22,7 +22,7 @@ public class VendingStoreEntityConfiguration : IEntityTypeConfiguration<VendingS
         builder.Property(e => e.ExpireDate);
 
         builder.HasMany(e => e.VendingStoreItems)
-               .WithOne(s => s.VendingStore)
+               .WithOne()
                .HasForeignKey(e => e.VendingStoreId)
                .OnDelete(DeleteBehavior.NoAction);
 

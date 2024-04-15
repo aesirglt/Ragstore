@@ -3,11 +3,12 @@
 using AutoMapper;
 using MediatR;
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Commands;
 using Totten.Solution.Ragstore.ApplicationService.Notifications.Stories;
+using Totten.Solution.Ragstore.Domain.Features.Characters;
+using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Bases;
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Vendings;
 using Totten.Solution.Ragstore.Infra.Cross.Errors.EspecifiedErrors;
 using Totten.Solution.Ragstore.Infra.Cross.Functionals;
@@ -18,35 +19,69 @@ public class VendingStoreSaveCommandHandler : IRequestHandler<VendingStoreSaveCo
     private IMediator _mediator;
     private IMapper _mapper;
     private IVendingStoreRepository _storeRepository;
+    private ICharacterRepository _characterRepository;
+    private IVendingStoreItemRepository _vendingStoreItemRepository;
 
-    public VendingStoreSaveCommandHandler(IMediator mediator, IMapper mapper, IVendingStoreRepository storeRepository)
+    public VendingStoreSaveCommandHandler(
+        IMediator mediator,
+        IMapper mapper,
+        IVendingStoreRepository storeRepository,
+        IVendingStoreItemRepository vendingStoreItemRepository)
     {
         _mediator = mediator;
         _mapper = mapper;
         _storeRepository = storeRepository;
+        _vendingStoreItemRepository = vendingStoreItemRepository;
     }
-
     public async Task<Result<Exception, Unit>> Handle(VendingStoreSaveCommand request, CancellationToken cancellationToken)
     {
         try
         {
             var store = _mapper.Map<VendingStore>(request);
 
-            _ = await _storeRepository.Save(store);
-
-            _ = _mediator.Publish(new NewStoreNotification
+            var flowByVending = _storeRepository.GetByCharacterId(store.CharacterId) switch
             {
-                Server = "",
-                Merchant = "",
-                Location = "",
-                Date = DateTime.Now,
-                Items = new()
-            });
-            return new Unit();
+                null => _storeRepository.Save(store),
+                var storeInDb => UpdateFlow(request, storeInDb)
+            };
+
+            return await flowByVending;
         }
         catch (Exception ex)
         {
             return new InternalError("Erro ao salvar uma nova loja", ex);
         }
+    }
+
+    private async Task<Unit> UpdateFlow(VendingStoreSaveCommand request, VendingStore storeInDb)
+    {
+        storeInDb = Map(request, storeInDb);
+        await _storeRepository.Update(storeInDb);
+
+        _ = await _vendingStoreItemRepository.DeleteAll(storeInDb.Id);
+
+        var updateTasks = storeInDb.VendingStoreItems.Select(async vending =>
+        {
+            await _vendingStoreItemRepository.Save(vending);
+        });
+
+        return new Unit();
+    }
+    private Task Publish()
+        => _mediator.Publish(new NewStoreNotification
+        {
+            Server = "",
+            Merchant = "",
+            Location = "",
+            Date = DateTime.Now,
+            Items = new()
+        });
+
+    private VendingStore Map(VendingStoreSaveCommand request, VendingStore vendingStore)
+    {
+        var storeId = vendingStore.Id;
+        _mapper.Map(request, vendingStore);
+        vendingStore.Id = storeId;
+        return vendingStore;
     }
 }

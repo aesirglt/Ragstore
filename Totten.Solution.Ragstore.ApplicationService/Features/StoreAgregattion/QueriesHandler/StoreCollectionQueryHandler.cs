@@ -10,15 +10,24 @@ using Totten.Solution.Ragstore.Infra.Cross.Functionals;
 
 public class StoreCollectionQueryHandler : IRequestHandler<StoreCollectionQuery, Result<Exception, List<VendingStore>>>
 {
+    private IVendingStoreItemRepository _vendingStoreItemRepository;
     private IVendingStoreRepository _storeRepository;
 
-    public StoreCollectionQueryHandler(IVendingStoreRepository storeRepository)
+    public StoreCollectionQueryHandler(
+        IVendingStoreRepository storeRepository,
+        IVendingStoreItemRepository vendingStoreItemRepository)
     {
         _storeRepository = storeRepository;
+        _vendingStoreItemRepository = vendingStoreItemRepository;
     }
 
     public async Task<Result<Exception, List<VendingStore>>> Handle(StoreCollectionQuery request, CancellationToken cancellationToken)
     {
-        return await _storeRepository.GetAll();
+        return ( await _storeRepository.GetAll() )
+               .Select(vending =>
+               {
+                   vending.VendingStoreItems = _vendingStoreItemRepository.GetAllByCharacterId(vending.CharacterId);
+                   return vending;
+               }).ToList();
     }
 }

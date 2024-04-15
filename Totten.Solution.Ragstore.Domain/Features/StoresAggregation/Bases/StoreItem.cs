@@ -1,8 +1,5 @@
 ﻿namespace Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Bases;
 using Totten.Solution.Ragstore.Domain.Bases;
-using Totten.Solution.Ragstore.Domain.Features.Accounts;
-using Totten.Solution.Ragstore.Domain.Features.Characters;
-using Totten.Solution.Ragstore.Domain.Features.ItemsAggregation;
 public class StoreItemCardInfo
 {
     public int Id { get; set; }
@@ -67,7 +64,4 @@ public abstract class StoreItem<TStoreItem>: Entity<TStoreItem, int>
     public virtual StoreItemOptionInfo[] InfoOptions { get; set; } = Array.Empty<StoreItemOptionInfo>();
     public int? CrafterId { get; set; }
     public string? CrafterName { get; set; }
-    public virtual Account? Account { get; set; }
-    public virtual Item? Item { get; set; }
-    public virtual Character? Character { get; set; }
 }

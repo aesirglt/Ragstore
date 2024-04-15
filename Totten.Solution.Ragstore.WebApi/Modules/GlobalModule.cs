@@ -8,6 +8,7 @@ using Totten.Solution.Ragstore.Domain.Features.ItemsAggregation;
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Vendings;
 using Totten.Solution.Ragstore.Infra.Data.Features.Callbacks;
 using Totten.Solution.Ragstore.Infra.Data.Features.ItemAggregation;
+using Totten.Solution.Ragstore.Infra.Data.Features.ItemsAggregation;
 using Totten.Solution.Ragstore.Infra.Data.Features.StoreAggregation.VendingStores;
 
 /// <summary>
@@ -34,6 +35,9 @@ public class GlobalModule<TProgram> : Autofac.Module
     {
         builder.RegisterType<VendingStoreRepository>()
                .As<IVendingStoreRepository>()
+               .InstancePerLifetimeScope();
+        builder.RegisterType<VendingStoreItemRepository>()
+               .As<IVendingStoreItemRepository>()
                .InstancePerLifetimeScope();
         builder.RegisterType<ItemRepository>()
                .As<IItemRepository>()

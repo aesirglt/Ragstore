@@ -21,17 +21,17 @@ public class ItemEntityConfiguration : IEntityTypeConfiguration<Item>
         builder.Property(e => e.Description);
 
         builder.HasMany(e => e.BuyingStoreItems)
-               .WithOne(e => e.Item)
+               .WithOne()
                .HasForeignKey(e => e.ItemId)
                .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasMany(e => e.VendingStoreItems)
-               .WithOne(e => e.Item)
+               .WithOne()
                .HasForeignKey(e => e.ItemId)
                .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasMany(e => e.EquipmentItems)
-               .WithOne(e => e.Item)
+               .WithOne()
                .HasForeignKey(e => e.ItemId)
                .OnDelete(DeleteBehavior.NoAction);
 

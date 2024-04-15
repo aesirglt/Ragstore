@@ -1,7 +1,6 @@
 ﻿namespace Totten.Solution.Ragstore.Domain.Features.Characters;
 
 using Totten.Solution.Ragstore.Domain.Bases;
-using Totten.Solution.Ragstore.Domain.Features.Accounts;
 using Totten.Solution.Ragstore.Domain.Features.Chats;
 using Totten.Solution.Ragstore.Domain.Features.ItemsAggregation;
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Buyings;
@@ -30,7 +29,6 @@ public class Character : Entity<Character, int>
     public int? HeadMiddleId { get; set; }
     public int? HeadBottomId { get; set; }
     public int? RobeId { get; set; }
-    public virtual Account Account { get; set; }
     public virtual List<VendingStore> VendingStores { get; set; } = new();
     public virtual List<BuyingStore> BuyingStores { get; set; } = new();
     public virtual List<BuyingStoreItem> BuyingStoreItems { get; set; } = new();

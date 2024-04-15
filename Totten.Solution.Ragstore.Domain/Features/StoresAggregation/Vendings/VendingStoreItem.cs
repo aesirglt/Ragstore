@@ -5,10 +5,10 @@ public class VendingStoreItem : StoreItem<VendingStoreItem>
 {
     public long? ExpireDate { get; set; }
     public int VendingStoreId { get; set; }
-    public virtual VendingStore VendingStore { get; set; }
+    //public virtual VendingStore VendingStore { get; set; }
 
     public VendingStoreItem()
     {
-        VendingStore = new VendingStore { Id = VendingStoreId };
+        //VendingStore = new VendingStore { Id = VendingStoreId };
     }
 }

@@ -39,27 +39,32 @@ public class CharacterEntityConfiguration : IEntityTypeConfiguration<Character>
         builder.Property(e => e.Location).IsRequired();
 
         builder.HasMany(e => e.VendingStores)
-               .WithOne(e => e.Character)
+               .WithOne()
                .HasForeignKey(e => e.CharacterId)
                .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasMany(e => e.VendingStoreItems)
-               .WithOne(e => e.Character)
+               .WithOne()
+               .HasForeignKey(e => e.CharacterId)
+               .OnDelete(DeleteBehavior.NoAction);
+
+        builder.HasMany(e => e.BuyingStoreItems)
+               .WithOne()
                .HasForeignKey(e => e.CharacterId)
                .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasMany(e => e.BuyingStores)
-               .WithOne(e => e.Character)
+               .WithOne()
                .HasForeignKey(e => e.CharacterId)
                .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasMany(e => e.Chats)
-               .WithOne(e => e.Character)
+               .WithOne()
                .HasForeignKey(e => e.CharacterId)
                .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasMany(e => e.EquipmentItems)
-               .WithOne(e => e.Character)
+               .WithOne()
                .HasForeignKey(e => e.CharacterId)
                .OnDelete(DeleteBehavior.NoAction);
 

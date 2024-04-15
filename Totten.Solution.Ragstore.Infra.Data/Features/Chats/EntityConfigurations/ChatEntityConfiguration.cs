@@ -25,7 +25,7 @@ public class ChatEntityConfiguration : IEntityTypeConfiguration<Chat>
         builder.Property(e => e.QuantityUsers);
 
         builder.HasMany(e => e.EquipmentItems)
-               .WithOne(e => e.Chat)
+               .WithOne()
                .HasForeignKey(e => e.CharacterId)
                .OnDelete(DeleteBehavior.NoAction);
 

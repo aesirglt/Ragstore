@@ -7,23 +7,13 @@ using Unit = Infra.Cross.Functionals.Unit;
 
 public class VendingStoreSaveCommand : IRequest<Result<Exception, Unit>>
 {
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
     public int AccountId { get; set; }
     public int CharacterId { get; set; }
     public string Map { get; set; } = string.Empty;
     public string Location { get; set; } = string.Empty;
     public DateTime? ExpireDate { get; set; }
     public List<VendingStoreItemCommand> VendingStoreItems { get; set; } = new();
-}
-public class VendingStoreItemCommand : StoreItemCommand
-{
-    public long? ExpireDate { get; set; }
-}
-public class InfoOptionStoreItemCommand
-{
-    public int Val { get; set; }
-    public int Param { get; set; }
-    public string Name { get; set; } = string.Empty;
 }
 public class StoreItemCommand
 {
@@ -45,5 +35,15 @@ public class StoreItemCommand
     public Dictionary<int, InfoOptionStoreItemCommand> InfoOptions { get; set; } = new();
     public int? CrafterId { get; set; }
     public string? CrafterName { get; set; }
+}
+public class VendingStoreItemCommand : StoreItemCommand
+{
+    public long? ExpireDate { get; set; }
+}
+public class InfoOptionStoreItemCommand
+{
+    public int Val { get; set; }
+    public int Param { get; set; }
+    public string Name { get; set; } = string.Empty;
 }
 
