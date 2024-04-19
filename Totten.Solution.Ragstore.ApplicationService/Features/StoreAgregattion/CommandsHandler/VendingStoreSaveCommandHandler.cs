@@ -37,11 +37,9 @@ public class VendingStoreSaveCommandHandler : IRequestHandler<VendingStoreSaveCo
     {
         try
         {
-            var store = _mapper.Map<VendingStore>(request);
-
-            var flowByVending = _storeRepository.GetByCharacterId(store.CharacterId) switch
+            var flowByVending = _storeRepository.GetByCharacterId(request.CharacterId) switch
             {
-                null => _storeRepository.Save(store),
+                null => SaveFlow(request),
                 var storeInDb => UpdateFlow(request, storeInDb)
             };
             _ = Publish();
@@ -53,6 +51,14 @@ public class VendingStoreSaveCommandHandler : IRequestHandler<VendingStoreSaveCo
         }
     }
 
+    private Task<Unit> SaveFlow(VendingStoreSaveCommand request)
+    {
+        var store = _mapper.Map<VendingStore>(request);
+        store.VendingStoreItems = MapStoreItem(request, store);
+        return _storeRepository.Save(store);
+    }
+
+
     private async Task<Unit> UpdateFlow(VendingStoreSaveCommand request, VendingStore storeInDb)
     {
         storeInDb = Map(request, storeInDb);
@@ -60,10 +66,10 @@ public class VendingStoreSaveCommandHandler : IRequestHandler<VendingStoreSaveCo
 
         _ = await _vendingStoreItemRepository.DeleteAll(storeInDb.Id);
 
-        var updateTasks = storeInDb.VendingStoreItems.Select(async vending =>
+        foreach (var vending in storeInDb.VendingStoreItems)
         {
             await _vendingStoreItemRepository.Save(vending);
-        });
+        }
 
         return new Unit();
     }
@@ -82,7 +88,20 @@ public class VendingStoreSaveCommandHandler : IRequestHandler<VendingStoreSaveCo
     {
         var storeId = vendingStore.Id;
         _mapper.Map(request, vendingStore);
+
+        vendingStore.VendingStoreItems = MapStoreItem(request, vendingStore);
         vendingStore.Id = storeId;
         return vendingStore;
+    }
+
+    private static List<VendingStoreItem> MapStoreItem(VendingStoreSaveCommand request, VendingStore store)
+    {
+        return store.VendingStoreItems
+                    .Select(item => item with
+                    {
+                        Map = $"{store.Map} {store.Location}",
+                        StoreName = request.Name,
+                        CharacterName = request.CharacterName
+                    }).ToList();
     }
 }

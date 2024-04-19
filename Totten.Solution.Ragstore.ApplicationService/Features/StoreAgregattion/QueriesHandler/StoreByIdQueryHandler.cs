@@ -19,15 +19,10 @@ public class StoreByIdQueryHandler : IRequestHandler<StoreByIdQuery, Result<Exce
 
     public async Task<Result<Exception, VendingStore>> Handle(StoreByIdQuery request, CancellationToken cancellationToken)
     {
-        var store = await _storeRepository.GetById(request.Id);
+        var store = await _storeRepository.GetById(request.Id, cfg => cfg.VendingStoreItems);
 
-        if (store is null)
-        {
-            return new DirectoryNotFoundException();
-        }
-
-
-
+        if (store is null) return new DirectoryNotFoundException();
+        
         return store;
     }
 }

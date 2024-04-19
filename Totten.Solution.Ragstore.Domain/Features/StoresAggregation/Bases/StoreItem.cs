@@ -43,9 +43,13 @@ public class StoreItemOptionInfo
     public StoreItemOptionInfo()
     { }
 }
-public abstract class StoreItem<TStoreItem>: Entity<TStoreItem, int>
+public abstract record StoreItem<TStoreItem> : Entity<TStoreItem, int>
     where TStoreItem : Entity<TStoreItem, int>
 {
+    public string Map { get; set; }
+    public string StoreName { get; set; }
+    public string CharacterName { get; set; }
+    public int StoreId { get; set; }
     public int AccountId { get; set; }
     public int CharacterId { get; set; }
     public int ItemId { get; set; }

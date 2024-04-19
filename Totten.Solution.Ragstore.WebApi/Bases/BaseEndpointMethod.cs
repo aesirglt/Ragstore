@@ -46,8 +46,8 @@ public static class BaseEndpointMethod
     /// <param name="result"></param>
     /// <param name="m"></param>
     /// <returns></returns>
-    public static IResult HandleQueryable<TSource, TDestiny>(Result<Exception, List<TSource>> result, IMapper m)
-        => result.Match(succ => Results.Ok(m.ProjectTo<TDestiny>(succ.AsQueryable(), m.ConfigurationProvider)), HandleFailure);
+    public static IResult HandleQueryable<TSource, TDestiny>(Result<Exception, IQueryable<TSource>> result, IMapper m)
+        => result.Match(succ => Results.Ok(m.ProjectTo<TDestiny>(succ, m.ConfigurationProvider)), HandleFailure);
 
     private static IResult HandleFailure(Exception exception)
         => exception is ValidationException validationError

@@ -1,7 +1,7 @@
 ﻿namespace Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Bases;
 using Totten.Solution.Ragstore.Domain.Bases;
 
-public class Store<TStore> : Entity<TStore, int>
+public record Store<TStore> : Entity<TStore, int>
     where TStore : Entity<TStore, int>
 {
     public int AccountId { get; set; }

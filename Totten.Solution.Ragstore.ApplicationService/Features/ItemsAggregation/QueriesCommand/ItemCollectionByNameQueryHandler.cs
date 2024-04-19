@@ -8,17 +8,17 @@ using Totten.Solution.Ragstore.ApplicationService.Features.ItemsAggregation.Quer
 using Totten.Solution.Ragstore.Domain.Features.ItemsAggregation;
 using Totten.Solution.Ragstore.Infra.Cross.Functionals;
 
-public class ItemCollectionByNameQueryHandler : IRequestHandler<ItemCollectionByNameQuery, Result<Exception, List<Item>>>
+public class ItemCollectionByNameQueryHandler : IRequestHandler<ItemCollectionByNameQuery, Result<Exception, IQueryable<Item>>>
 {
     private IItemRepository _storeRepository;
 
     public ItemCollectionByNameQueryHandler(IItemRepository storeRepository)
-    {
-        _storeRepository = storeRepository;
-    }
+        => _storeRepository = storeRepository;
 
-    public async Task<Result<Exception, List<Item>>> Handle(ItemCollectionByNameQuery request, CancellationToken cancellationToken)
+    public async Task<Result<Exception, IQueryable<Item>>> Handle(ItemCollectionByNameQuery request, CancellationToken cancellationToken)
     {
-        return new NotImplementedException();
+        var returned = _storeRepository.GetAllByName(request.Name);
+
+        return await Result<Exception, IQueryable<Item>>.Ok(returned).AsTask();
     }
 }

@@ -2,7 +2,11 @@
 
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Bases;
 
-public class VendingStore : Store<VendingStore>
+public record VendingStore : Store<VendingStore>
 {
-    public virtual List<VendingStoreItem> VendingStoreItems { get; set; } = new();
+    public virtual List<VendingStoreItem> VendingStoreItems { get; set; } = [];
+
+    public VendingStore()
+    {
+    }
 }

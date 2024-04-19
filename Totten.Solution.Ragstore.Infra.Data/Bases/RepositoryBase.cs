@@ -2,7 +2,6 @@
 
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -11,36 +10,51 @@ using Totten.Solution.Ragstore.Infra.Cross.Functionals;
 using Totten.Solution.Ragstore.Infra.Data.Contexts.StoreContexts;
 
 public abstract class RepositoryBase<TEntity> : IRepository<TEntity, int>
-    where TEntity : Entity<TEntity, int>
+    where TEntity : notnull, Entity<TEntity, int>
 {
     protected readonly RagnaStoreContext _context;
 
     public RepositoryBase(RagnaStoreContext context)
         => _context = context;
 
-    public async Task<List<TEntity>> GetAll()
-        => await _context
-            .Set<TEntity>()
-            .AsNoTracking()
-            .ToListAsync();
+    public IQueryable<TEntity> GetAll<TProperty>(params Expression<Func<TEntity, TProperty>>[] configure)
+    {
+        var query = _context
+        .Set<TEntity>()
+        .AsNoTracking();
 
-    public async Task<List<TEntity>> GetAllByFilter(Expression<Func<TEntity, bool>> filter)
-        => await _context
+        foreach (var cfg in configure ?? [])
+        {
+            query = query.Include(cfg);
+        }
+
+        return query;
+    }
+    public IQueryable<TEntity> GetAllByFilter(Expression<Func<TEntity, bool>> filter)
+        => _context
         .Set<TEntity>()
         .Where(filter)
-        .AsNoTracking()
-        .ToListAsync();
+        .AsNoTracking();
 
-    public async Task<TEntity?> GetById(int id)
-        => await _context
-        .Set<TEntity>()
-        .FindAsync(id);
+    public async Task<TEntity?> GetById<TProperty>(int id, params Expression<Func<TEntity, TProperty>>[] configure)
+    {
+        var query = _context
+       .Set<TEntity>()
+       .AsNoTracking();
+
+        foreach (var cfg in configure ?? [])
+        {
+            query = query.Include(cfg);
+        }
+
+        return await query.FirstAsync(x => x.Id == id);
+    }
 
     public async Task<Unit> Remove(TEntity entity)
     {
-         _context
-            .Set<TEntity>()
-            .Entry(entity).State = EntityState.Deleted;
+        _context
+           .Set<TEntity>()
+           .Entry(entity).State = EntityState.Deleted;
 
         await _context.SaveChangesAsync();
         return new Unit();

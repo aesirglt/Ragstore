@@ -6,7 +6,7 @@ using Totten.Solution.Ragstore.Domain.Features.ItemsAggregation;
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Buyings;
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Vendings;
 
-public class Character : Entity<Character, int>
+public record Character : Entity<Character, int>
 {
     public int AccountId { get; set; }
     public int JobId { get; set; }

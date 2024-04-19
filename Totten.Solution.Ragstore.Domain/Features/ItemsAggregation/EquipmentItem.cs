@@ -1,9 +1,6 @@
 ﻿namespace Totten.Solution.Ragstore.Domain.Features.ItemsAggregation;
 
 using Totten.Solution.Ragstore.Domain.Bases;
-using Totten.Solution.Ragstore.Domain.Features.Accounts;
-using Totten.Solution.Ragstore.Domain.Features.Characters;
-using Totten.Solution.Ragstore.Domain.Features.Chats;
 
 public class EquipmentItemCardInfo
 {
@@ -40,7 +37,7 @@ public class EquipmentItemOptionInfo
     { }
 }
 
-public class EquipmentItem : Entity<EquipmentItem, int>
+public record EquipmentItem : Entity<EquipmentItem, int>
 {
     public int AccountId { get; set; }
     public int CharacterId { get; set; }

@@ -17,7 +17,14 @@ public class VendingStoreMappingProfile : Profile
         CreateMap<VendingStore, StoreResumeViewModel>();
 
         CreateMap<VendingStore, StoreDetailViewModel>()
-            .ForMember(ds => ds.Items, m => m.MapFrom(src => src.VendingStoreItems.ToDictionary(l => l.Id, l => l.Name ?? string.Empty)));
+            .ForMember(ds => ds.Items,
+                       m => m.MapFrom(src => src.VendingStoreItems
+                                                .ToDictionary(l => l.Id,
+                                                              l => new StoreDetailViewModel.ItemDetail
+                                                              {
+                                                                  Name = l.Name ?? "not null guard",
+                                                                  Price = l.Price
+                                                              })));
 
         CreateMap<VendingStoreSaveCommand, VendingStore>()
             .ForMember(ds => ds.VendingStoreItems, m => m.MapFrom(src => src.VendingStoreItems))

@@ -23,7 +23,7 @@ public class VendingStoreEntityConfiguration : IEntityTypeConfiguration<VendingS
 
         builder.HasMany(e => e.VendingStoreItems)
                .WithOne()
-               .HasForeignKey(e => e.VendingStoreId)
+               .HasForeignKey(e => e.StoreId)
                .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasIndex(e => e.CharacterId).IsUnique();

@@ -62,6 +62,7 @@ app.MapGroup("identity")
 app
    //Store endpoints
    .StoresEndpoints()
+   .StoresItemsEndpoints()
    //Items endpoints
    .ItemsEndpoints()
    //Callback endpoints

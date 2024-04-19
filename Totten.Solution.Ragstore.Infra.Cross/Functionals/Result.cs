@@ -27,11 +27,13 @@ public readonly struct Result<TErr, TValue>
 
         return new Unit();
     }
+    public Task<Result<TErr, TValue>> AsTask()
+        => Task.FromResult(this);
     public static Result<TErr, TValue> Ok(TValue v)
-        => new (v, default!, true);
+        => new(v, default!, true);
 
     public static Result<TErr, TValue> Err(TErr e)
-        =>  new(default!, e, false);
+        => new(default!, e, false);
 
     public static implicit operator Result<TErr, TValue>(TValue value) => Ok(value);
     public static implicit operator Result<TErr, TValue>(TErr e) => Err(e);

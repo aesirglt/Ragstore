@@ -3,7 +3,7 @@
 using Totten.Solution.Ragstore.Domain.Bases;
 using Totten.Solution.Ragstore.Domain.Features.ItemsAggregation;
 
-public class Chat : Entity<Chat, int>
+public record Chat : Entity<Chat, int>
 {
     public int AccountId { get; set; }
     public int CharacterId { get; set; }

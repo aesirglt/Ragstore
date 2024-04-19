@@ -3,7 +3,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Bases;
-using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Buyings;
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Vendings;
 
 public class VendingStoreItemEntityConfiguration : IEntityTypeConfiguration<VendingStoreItem>
@@ -27,6 +26,9 @@ public class VendingStoreItemEntityConfiguration : IEntityTypeConfiguration<Vend
         builder.Property(e => e.EnchantGrade);
         builder.Property(e => e.IsIdentified).IsRequired();
         builder.Property(e => e.IsDamaged).IsRequired();
+        builder.Property(e => e.StoreName).IsRequired();
+        builder.Property(e => e.CharacterName).IsRequired();
+        builder.Property(e => e.Map).IsRequired();
         builder.Property(e => e.Location);
         builder.Property(e => e.SpriteId);
         builder.Property(e => e.Slots);

@@ -26,6 +26,10 @@ public class BuyingStoreItemEntityConfiguration : IEntityTypeConfiguration<Buyin
         builder.Property(e => e.EnchantGrade);
         builder.Property(e => e.IsIdentified).IsRequired();
         builder.Property(e => e.IsDamaged).IsRequired();
+        builder.Property(e => e.StoreName).IsRequired();
+        builder.Property(e => e.CharacterName).IsRequired();
+        builder.Property(e => e.Map).IsRequired();
+        builder.Property(e => e.IsDamaged).IsRequired();
         builder.Property(e => e.Location);
         builder.Property(e => e.SpriteId);
         builder.Property(e => e.Slots);
@@ -57,7 +61,7 @@ public class BuyingStoreItemEntityConfiguration : IEntityTypeConfiguration<Buyin
 
         builder.HasOne(e => e.BuyingStore)
                .WithOne(e => e.BuyingStoreItem)
-               .HasForeignKey<BuyingStoreItem>(e => e.BuyingStoreId)
+               .HasForeignKey<BuyingStoreItem>(e => e.StoreId)
                .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasIndex(e => e.CharacterId);
