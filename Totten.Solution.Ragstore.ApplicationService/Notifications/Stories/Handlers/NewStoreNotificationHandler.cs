@@ -31,7 +31,9 @@ public class NewStoreNotificationHandler : INotificationHandler<NewStoreNotifica
 
             if (callbacks is { Count: > 0 })
             {
-                _ = notification.Items.Select(item => _mediator.Publish(new NewItemNotification
+                var itemsToCallback = notification.Items.Where(item => callbacks.Any(call => call.Items.Keys.Contains(item.Key)));
+
+                _ = itemsToCallback.Select(item => _mediator.Publish(new NewItemNotification
                 {
                     Server = notification.Server,
                     Location = notification.Where,
