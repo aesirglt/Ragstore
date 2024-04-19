@@ -1,10 +1,8 @@
 using Newtonsoft.Json;
-using Totten.Solution.Ragstore.Infra.Cross.Errors;
 using Totten.Solution.Ragstore.Infra.Data.Contexts.EntityFrameworkIdentity;
 using Totten.Solution.Ragstore.WebApi.AppSettings;
 using Totten.Solution.Ragstore.WebApi.Endpoints;
 using Totten.Solution.Ragstore.WebApi.ServicesExtension;
-using JsonConvert = Newtonsoft.Json.JsonConvert;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.ConfigureAppSettingsClass(builder.Configuration);
@@ -66,6 +64,8 @@ app
    //Items endpoints
    .ItemsEndpoints()
    //Callback endpoints
-   .CallbacksEndpoints();
+   .CallbacksEndpoints()
+   //uptimes
+   .UpdateTimesEndpoints();
 
 app.Run();

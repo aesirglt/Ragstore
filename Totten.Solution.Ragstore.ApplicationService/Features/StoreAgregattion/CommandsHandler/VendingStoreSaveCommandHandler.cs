@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Commands;
 using Totten.Solution.Ragstore.ApplicationService.Notifications.Stories;
 using Totten.Solution.Ragstore.Domain.Features.Characters;
-using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Bases;
+using Totten.Solution.Ragstore.Domain.Features.ItemsAggregation;
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Vendings;
 using Totten.Solution.Ragstore.Infra.Cross.Errors.EspecifiedErrors;
 using Totten.Solution.Ragstore.Infra.Cross.Functionals;
@@ -42,7 +42,16 @@ public class VendingStoreSaveCommandHandler : IRequestHandler<VendingStoreSaveCo
                 null => SaveFlow(request),
                 var storeInDb => UpdateFlow(request, storeInDb)
             };
-            _ = Publish();
+
+            _ = Publish(new NewStoreNotification
+            {
+                Server = request.Server,
+                Where = $"{request.Map} {request.Location}",
+                Merchant = request.CharacterName,
+                Date = DateTime.Now,
+                Items = request.VendingStoreItems.ToDictionary(x => x.ItemId, x => x.Price)
+            });
+
             return await flowByVending;
         }
         catch (Exception ex)
@@ -74,15 +83,8 @@ public class VendingStoreSaveCommandHandler : IRequestHandler<VendingStoreSaveCo
         return new Unit();
     }
 
-    private Task Publish()
-        => _mediator.Publish(new NewStoreNotification
-        {
-            Server = "",
-            Merchant = "",
-            Location = "",
-            Date = DateTime.Now,
-            Items = new()
-        });
+    private Task Publish(NewStoreNotification newStoreNotification)
+        => _mediator.Publish(newStoreNotification);
 
     private VendingStore Map(VendingStoreSaveCommand request, VendingStore vendingStore)
     {

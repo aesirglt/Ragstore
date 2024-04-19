@@ -17,7 +17,9 @@ public abstract class RepositoryBase<TEntity> : IRepository<TEntity, int>
     public RepositoryBase(RagnaStoreContext context)
         => _context = context;
 
-    public IQueryable<TEntity> GetAll<TProperty>(params Expression<Func<TEntity, TProperty>>[] configure)
+    public IQueryable<TEntity> GetAll()
+        => _context.Set<TEntity>().AsNoTracking();
+    public IQueryable<TEntity> GetAllWith<TProperty>(params Expression<Func<TEntity, TProperty>>[] configure)
     {
         var query = _context
         .Set<TEntity>()

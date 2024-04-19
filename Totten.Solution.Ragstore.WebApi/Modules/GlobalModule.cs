@@ -3,9 +3,11 @@
 using Autofac;
 using AutoMapper;
 using Totten.Solution.Ragstore.ApplicationService;
+using Totten.Solution.Ragstore.Domain.Features.Agents;
 using Totten.Solution.Ragstore.Domain.Features.Callbacks;
 using Totten.Solution.Ragstore.Domain.Features.ItemsAggregation;
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Vendings;
+using Totten.Solution.Ragstore.Infra.Data.Features.Agents;
 using Totten.Solution.Ragstore.Infra.Data.Features.Callbacks;
 using Totten.Solution.Ragstore.Infra.Data.Features.ItemAggregation;
 using Totten.Solution.Ragstore.Infra.Data.Features.ItemsAggregation;
@@ -44,6 +46,9 @@ public class GlobalModule<TProgram> : Autofac.Module
                .InstancePerLifetimeScope();
         builder.RegisterType<CallbackRepository>()
                .As<ICallbackRepository>()
+               .InstancePerLifetimeScope();
+        builder.RegisterType<UpdateTimeRepository>()
+               .As<IUpdateTimeRepository>()
                .InstancePerLifetimeScope();
 
         builder.Register(_ => Configuration)

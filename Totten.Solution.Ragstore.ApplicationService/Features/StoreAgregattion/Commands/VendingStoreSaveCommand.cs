@@ -7,6 +7,7 @@ using Unit = Infra.Cross.Functionals.Unit;
 
 public class VendingStoreSaveCommand : IRequest<Result<Exception, Unit>>
 {
+    public string Server { get; set; }
     public string Name { get; set; } = string.Empty;
     public string CharacterName { get; set; } = string.Empty;
     public int AccountId { get; set; }

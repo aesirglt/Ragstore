@@ -1,5 +1,6 @@
 ﻿namespace Totten.Solution.Ragstore.WebApi.Endpoints.Dtos.Callbacks;
-
+using ItemId = int;
+using ItemPrice = double;
 /// <summary>
 /// 
 /// </summary>
@@ -16,5 +17,5 @@ public class CallbackCreateDto
     /// <summary>
     /// 
     /// </summary>
-    public Dictionary<string, double> ItemByValue { get; set; } = new Dictionary<string, double>();
+    public Dictionary<ItemId, ItemPrice> ItemByValue { get; set; } = new Dictionary<ItemId, ItemPrice>();
 }

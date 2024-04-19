@@ -34,8 +34,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Callbacks\EntityConfigurations\" />
-    <Folder Include="Features\Agents\" />
     <Folder Include="Features\Users\" />
   </ItemGroup>
 

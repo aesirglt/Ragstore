@@ -9,7 +9,8 @@ public interface IRepository<TEntity, TId>
     where TId : notnull
 {
     Task<TEntity?> GetById<TProperty>(TId id, params Expression<Func<TEntity, TProperty>>[] configure);
-    IQueryable<TEntity> GetAll<TProperty>(params Expression<Func<TEntity, TProperty>>[] configure);
+    IQueryable<TEntity> GetAllWith<TProperty>(params Expression<Func<TEntity, TProperty>>[] configure);
+    IQueryable<TEntity> GetAll();
     IQueryable<TEntity> GetAllByFilter(Expression<Func<TEntity, bool>> filter);
     Task<Unit> Save(TEntity entity);
     Task<Unit> Update(TEntity entity);

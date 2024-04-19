@@ -20,7 +20,7 @@ public class StoreCollectionQueryHandler : IRequestHandler<StoreCollectionQuery,
 
     public async Task<Result<Exception, IQueryable<VendingStore>>> Handle(StoreCollectionQuery request, CancellationToken cancellationToken)
     {
-        var result = Result<Exception, IQueryable<VendingStore>>.Ok(_storeRepository.GetAllWithStoreItems());
+        var result = Result<Exception, IQueryable<VendingStore>>.Ok(_storeRepository.GetAllCompletedStores());
 
         return await Task.Run(() => result);
     }

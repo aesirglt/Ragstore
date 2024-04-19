@@ -4,7 +4,6 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Commands;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Queries;
-using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.ResponseModels;
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Vendings;
 using Totten.Solution.Ragstore.WebApi.Endpoints.ViewModels.Stores;
 using static Totten.Solution.Ragstore.WebApi.Bases.BaseEndpointMethod;
@@ -13,12 +12,8 @@ using static Totten.Solution.Ragstore.WebApi.Bases.BaseEndpointMethod;
     TODO:
 
     Stores:
-        Para evitar lojas duplicadas na consulta adicionar um filtro no where
         para buscar lojas apenas com base na hora do ultimo sniff de lojas.
 
-    Items:
-        Na collection de items um endpoint vai acessar com base no ultimo sniff para verificar se esta sendo vendido atualmente.
-        Outro endpoint vai acessar sem filtro para acessar como historico de preço do item.
  */
 /// <summary>
 /// Classe responsavel pelos metodos de endpoints para store
@@ -34,7 +29,8 @@ public static class StoreEndpoint
     /// <returns>Aplicação</returns>
     public static WebApplication StoresEndpoints(this WebApplication app)
     {
-        var grouped = app.MapGroup($"v1/{_baseEndpoint}");
+        var grouped = app.StoreBatchPostEndpoint()
+                         .MapGroup($"v1/{_baseEndpoint}");
 
         grouped
             .StoreGetEndpoint()
@@ -75,6 +71,28 @@ public static class StoreEndpoint
                           [FromBody] VendingStoreSaveCommand createDto)
                           => HandleCommand(await mediator.Send(createDto))
         ).WithName($"v1/Post{_baseEndpoint}")
+        .WithTags("Stores")
+        .WithOpenApi();
+        //.RequireAuthorization("AgePolicy");
+
+        return app;
+    }
+
+    private static WebApplication StoreBatchPostEndpoint(this WebApplication app)
+    {
+        app.MapPost($"{_baseEndpoint}-batch", async ([FromServices] IMediator mediator,
+                                [FromServices] IMapper mapper,
+                                [FromBody] VendingStoreSaveCommand[] createDto)
+                                =>
+                                {
+                                    foreach (var dto in createDto)
+                                    {
+                                        _ = mediator.Send(createDto);
+                                    }
+
+                                    return await Task.FromResult(Results.Accepted());
+                                }
+        ).WithName($"v1/Post{_baseEndpoint}-batch")
         .WithTags("Stores")
         .WithOpenApi();
         //.RequireAuthorization("AgePolicy");

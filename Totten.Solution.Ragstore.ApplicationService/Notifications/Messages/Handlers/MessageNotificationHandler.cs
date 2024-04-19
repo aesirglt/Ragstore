@@ -8,7 +8,7 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-public class MessageNotificationHandler : INotificationHandler<NewItemNotification>
+public class MessageNotificationHandler : INotificationHandler<MessageNotification>
 {
     private IMediator _mediator;
     private HttpClient _client;
@@ -23,10 +23,10 @@ public class MessageNotificationHandler : INotificationHandler<NewItemNotificati
         var scoped = provider.CreateScope();
         _mediator = scoped.ServiceProvider.GetService<IMediator>() ?? throw new Exception();
         var httpService = scoped.ServiceProvider.GetService<IHttpClientFactory>() ?? throw new Exception();
-        _client = httpService.CreateClient("WppHttpClient");
+        _client = httpService.CreateClient("WhatsClientUrl");
     }
 
-    public async Task Handle(NewItemNotification notification, CancellationToken cancellationToken)
+    public async Task Handle(MessageNotification notification, CancellationToken cancellationToken)
     {
         try
         {

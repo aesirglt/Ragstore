@@ -21,29 +21,27 @@ public class NewItemNotificationHandler : INotificationHandler<NewItemNotificati
     {
         try
         {
-            throw new NotImplementedException();
-            //verificar usuarios que querem notificação desse item
-            //var callbacks = await _callbackRepository.GetForCallback(notification.Server, notification.Name, notification.Price);
+            var callbacks = _callbackRepository.GetAllByFilter(c => c.Server == notification.Server)
+                                                .AsEnumerable()
+                                                .Where(c => c.Items.Any(i => i.Key == notification.ItemId && i.Value >= notification.Price))
+                                                .ToList() ?? new List<Callback>();
 
-            //if (callbacks is { Count: > 0 })
-            //{
-            //    callbacks.ForEach(cb =>
-            //    {
-            //        if (cb.Level is ECallbackType.AGENT or ECallbackType.SYSTEM)
-            //        {
-            //            _mediator.Publish(new MessageNotification
-            //            {
-            //                Contact = cb.UserCellphone,
-            //                Body = @$"RagnaStore, item: *{notification.Name}* em *{notification.Location}* por *{notification.Price}* servidor: {notification.Server} as {DateTime.Now.ToString("HH:mm:ss")}"
-            //            });
-            //            return;
-            //        }
+            callbacks.ForEach(cb =>
+            {
+                if (cb.Level is ECallbackType.AGENT or ECallbackType.SYSTEM)
+                {
+                    _mediator.Publish(new MessageNotification
+                    {
+                        Contact = cb.UserCellphone,
+                        Body = @$"RagnaStore, item: *{notification.ItemId}* em *{notification.Location}* por *{notification.Price}* servidor: {notification.Server} as {DateTime.Now.ToString("HH:mm:ss")}"
+                    });
+                    return;
+                }
 
-            //        //adiciona na fila rabiitmq para proximo envios de callback
-            //        //envio de callbacks para pessoas comuns serão apenas a cada meia hora ou 15 minutos, a depender do sistema.
-            //        //ainda não defini essa parte
-            //    });
-            //}
+                //adiciona na fila rabiitmq para proximo envios de callback
+                //envio de callbacks para pessoas comuns serão apenas a cada meia hora ou 15 minutos, a depender do sistema.
+                //ainda não defini essa parte
+            });
         }
         catch (Exception ex)
         {

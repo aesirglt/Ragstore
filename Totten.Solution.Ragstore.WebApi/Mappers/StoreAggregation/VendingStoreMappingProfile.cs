@@ -19,12 +19,13 @@ public class VendingStoreMappingProfile : Profile
         CreateMap<VendingStore, StoreDetailViewModel>()
             .ForMember(ds => ds.Items,
                        m => m.MapFrom(src => src.VendingStoreItems
-                                                .ToDictionary(l => l.Id,
+                                                .ToDictionary(l => l.ItemId,
                                                               l => new StoreDetailViewModel.ItemDetail
                                                               {
                                                                   Name = l.Name ?? "not null guard",
                                                                   Price = l.Price
-                                                              })));
+                                                              })))
+            .ForMember(ds => ds.Character, m => m.MapFrom(src => src.Character == null ? "" : src.Character.Name));
 
         CreateMap<VendingStoreSaveCommand, VendingStore>()
             .ForMember(ds => ds.VendingStoreItems, m => m.MapFrom(src => src.VendingStoreItems))

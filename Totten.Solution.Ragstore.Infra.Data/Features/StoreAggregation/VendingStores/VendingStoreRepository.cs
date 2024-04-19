@@ -9,10 +9,11 @@ public class VendingStoreRepository(RagnaStoreContext context)
     : RepositoryBase<VendingStore>(context), IVendingStoreRepository
 {
 
-    public IQueryable<VendingStore> GetAllWithStoreItems()
+    public IQueryable<VendingStore> GetAllCompletedStores()
         => _context
             .VendingStores
             .Include(x => x.VendingStoreItems)
+            .Include(x => x.Character)
             .AsNoTracking();
     
     public VendingStore? GetByCharacterId(int id)

@@ -5,44 +5,46 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
 using Totten.Solution.Ragstore.ApplicationService.Notifications.Items;
+using Totten.Solution.Ragstore.Domain.Features.Callbacks;
 using Totten.Solution.Ragstore.Domain.Features.ItemsAggregation;
 
 public class NewStoreNotificationHandler : INotificationHandler<NewStoreNotification>
 {
     private IMediator _mediator;
-    private IItemRepository _itemRepository;
+    private ICallbackRepository _repository;
 
     public NewStoreNotificationHandler(IServiceProvider provider)
     {
         var scoped = provider.CreateScope();
         _mediator = scoped.ServiceProvider.GetService<IMediator>() ?? throw new Exception();
-        _itemRepository = scoped.ServiceProvider.GetService<IItemRepository>() ?? throw new Exception();
+        _repository = scoped.ServiceProvider.GetService<ICallbackRepository>() ?? throw new Exception();
     }
 
-    public async Task Handle(NewStoreNotification notification, CancellationToken cancellationToken)
+    public Task Handle(NewStoreNotification notification, CancellationToken cancellationToken)
     {
         try
         {
-            foreach (var item in notification.Items)
-            {
-                await _itemRepository.Save(new Item
-                {
-                    Id = 1,
-                    Name = item.Key,
-                });
+            var callbacks = _repository.GetAllByFilter(x => x.Server == notification.Server)
+                            .AsEnumerable()
+                            .Where(c => c.Items.Keys.Intersect(notification.Items.Keys).Any())
+                            .ToList();
 
-                _ = _mediator.Publish(new NewItemNotification
+            if (callbacks is { Count: > 0 })
+            {
+                _ = notification.Items.Select(item => _mediator.Publish(new NewItemNotification
                 {
                     Server = notification.Server,
-                    Location = notification.Location,
+                    Location = notification.Where,
                     Price = item.Value,
-                    Name = item.Key
-                });
-            }
+                    ItemId = item.Key
+                })).ToArray();
+            };
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex.ToString());
         }
+
+        return Task.CompletedTask;
     }
 }
