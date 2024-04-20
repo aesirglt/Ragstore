@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Commands;
 using Totten.Solution.Ragstore.ApplicationService.Notifications.Stories;
 using Totten.Solution.Ragstore.Domain.Features.Characters;
-using Totten.Solution.Ragstore.Domain.Features.ItemsAggregation;
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Vendings;
 using Totten.Solution.Ragstore.Infra.Cross.Errors.EspecifiedErrors;
 using Totten.Solution.Ragstore.Infra.Cross.Functionals;
@@ -19,7 +18,6 @@ public class VendingStoreSaveCommandHandler : IRequestHandler<VendingStoreSaveCo
     private IMediator _mediator;
     private IMapper _mapper;
     private IVendingStoreRepository _storeRepository;
-    private ICharacterRepository _characterRepository;
     private IVendingStoreItemRepository _vendingStoreItemRepository;
 
     public VendingStoreSaveCommandHandler(
