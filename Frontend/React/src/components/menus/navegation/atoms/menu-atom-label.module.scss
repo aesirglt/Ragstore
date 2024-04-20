@@ -1,0 +1,14 @@
+.spanText {
+    @apply text-orange-400 inline-block tracking-wide p-5;
+    @apply font-nunito font-semibold transition-colors;
+    
+    &:hover {
+        @apply text-white
+    }
+}
+
+.link {
+    transition: background-color 0.3s ease;
+    @apply no-underline;
+
+}
