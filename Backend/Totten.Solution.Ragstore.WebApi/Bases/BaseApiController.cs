@@ -1,0 +1,199 @@
+﻿namespace Totten.Solution.Ragstore.WebApi.Bases;
+
+using Autofac;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using FluentValidation;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Extensions;
+using Microsoft.AspNetCore.OData.Query;
+using Microsoft.AspNetCore.OData.Results;
+using Newtonsoft.Json;
+using System.Net;
+using Totten.Solution.Ragstore.Domain.Features.Callbacks;
+using Totten.Solution.Ragstore.Infra.Cross.Errors;
+using Totten.Solution.Ragstore.Infra.Cross.Functionals;
+using Totten.Solution.Ragstore.WebApi.Modules;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using Unit = Infra.Cross.Functionals.Unit;
+
+/// <summary>
+/// 
+/// </summary>
+[ApiController]
+public abstract class BaseApiController : ControllerBase
+{
+    /// <summary>
+    /// 
+    /// </summary>
+    protected ILifetimeScope _currentGlobalScoped;
+    /// <summary>
+    /// 
+    /// </summary>
+    protected IMapper _mapper;
+    /// <summary>
+    /// 
+    /// </summary>
+    protected IMediator _mediator;
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="lifetimeScope"></param>
+    public BaseApiController(ILifetimeScope lifetimeScope)
+    {
+        _currentGlobalScoped = lifetimeScope;
+        _mapper = _currentGlobalScoped.Resolve<IMapper>();
+        _mediator = _currentGlobalScoped.Resolve<IMediator>();
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="server"></param>
+    /// <returns></returns>
+    private ILifetimeScope CreateChildScope(string server)
+        => _currentGlobalScoped.BeginLifetimeScope(builder =>
+        {
+            builder.RegisterModule(new TenantModule
+            {
+                Server = server,
+            });
+        });
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="notification"></param>
+    /// <param name="server"></param>
+    /// <returns></returns>
+    protected async Task<IActionResult> HandleEvent(
+        INotification notification,
+        string server)
+    {
+        try
+        {
+            var scope = CreateChildScope(server);
+            var mediator = scope.Resolve<IMediator>();
+            await mediator.Publish(notification);
+
+            return Accepted();
+        }
+        catch(Exception ex)
+        {
+            return HandleFailure(ex);
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="cmds"></param>
+    /// <param name="server"></param>
+    /// <returns></returns>
+    protected IActionResult HandleAccepted(
+        string server,
+        params IRequest<Result<Exception, Unit>>[] cmds)
+        => CreateChildScope(server)
+           .Apply(scope =>
+           {
+               try
+               {
+                   foreach (var cmd in cmds)
+                   {
+                       _mediator.Send(cmd);
+                   }
+
+                   return Accepted();
+               }
+               catch (Exception ex)
+               {
+                   return HandleFailure(ex);
+               }
+           });
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="cmd"></param>
+    /// <param name="server"></param>
+    /// <returns></returns>
+    protected async Task<IActionResult> HandleCommand(
+        IRequest<Result<Exception, Unit>> cmd,
+        string server)
+    {
+        var scope = CreateChildScope(server);
+        var mediator = scope.Resolve<IMediator>();
+        var result = await mediator.Send(cmd);
+
+        return result.Match(succ => Ok(succ), HandleFailure);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TSource"></typeparam>
+    /// <typeparam name="TDestiny"></typeparam>
+    /// <param name="query"></param>
+    /// <param name="server"></param>
+    /// <returns></returns>
+    protected async Task<IActionResult> HandleQuery<TSource, TDestiny>(
+        IRequest<Result<Exception, TSource>> query,
+        string server)
+    {
+        var scope = CreateChildScope(server);
+        var m = scope.Resolve<IMapper>();
+        var mediator = scope.Resolve<IMediator>();
+        var result = await mediator.Send(query);
+
+        return result.Match(succ => Ok(m.Map<TDestiny>(succ)), HandleFailure);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TSource"></typeparam>
+    /// <typeparam name="TDestiny"></typeparam>
+    /// <param name="query"></param>
+    /// <param name="server"></param>
+    /// <param name="queryOptions"></param>
+    /// <returns></returns>
+    protected async Task<IActionResult> HandleQueryable<TSource, TDestiny>(
+        IRequest<Result<Exception, IQueryable<TSource>>> query,
+        string server,
+        ODataQueryOptions<TDestiny> queryOptions)
+    {
+        var scope = CreateChildScope(server);
+        var m = scope.Resolve<IMapper>();
+        var mediator = scope.Resolve<IMediator>();
+        var result = await mediator.Send(query);
+
+        return result.Match(succ => Ok(HandlePage(succ, scope.Resolve<IMapper>(), queryOptions)), HandleFailure);
+    }
+
+    private PageResult<TView> HandlePage<TDomain, TView>
+            (IQueryable<TDomain> query,
+            IMapper mapper,
+            ODataQueryOptions<TView> queryOptions)
+    {
+        var queryResults = query.ProjectTo<TView>(mapper.ConfigurationProvider)
+                                .Apply(queryOptions.ApplyTo);
+
+        var oDataFeature = Request.HttpContext.ODataFeature();
+
+        return new PageResult<TView>(queryResults.Provider.CreateQuery<TView>(queryResults.Expression),
+                                     oDataFeature.NextLink,
+                                     oDataFeature.TotalCount);
+    }
+    
+    private IActionResult HandleFailure(Exception exception)
+        => exception is ValidationException validationError
+            ? Problem(title: "ValidationError",
+                              detail: JsonConvert.SerializeObject(validationError.Errors),
+                              statusCode: HttpStatusCode.BadRequest.GetHashCode())
+            : ErrorPayload.New(exception)
+                          .Apply(error => Problem(title: $"{exception.GetType().Name}",
+                                                          detail: error.ErrorMessage,
+                                                          statusCode: error.ErrorCode.GetHashCode()));
+}

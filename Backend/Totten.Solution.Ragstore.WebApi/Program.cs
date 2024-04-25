@@ -1,4 +1,7 @@
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.OData;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Totten.Solution.Ragstore.Infra.Data.Contexts.EntityFrameworkIdentity;
 using Totten.Solution.Ragstore.WebApi.AppSettings;
 using Totten.Solution.Ragstore.WebApi.Endpoints;
@@ -8,9 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.ConfigureAppSettingsClass(builder.Configuration);
 builder.Services.ConfigureIdentity();
 builder.Services.AddAntiforgery();
-builder.Services
-       .AddProblemDetails()
-       .AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails().AddExceptionHandler<GlobalExceptionHandler>();
 
 builder.Services.AddHttpClient(
         "WppHttpClient",
@@ -21,15 +22,21 @@ builder.Services.AddHttpClient(
         });
 
 builder.Services
-       .AddEndpointsApiExplorer()
-       .AddControllers()
+       .AddControllers(opt =>
+       {
+           opt.AddSwaggerMediaTypes();
+       })
+       .AddOData(opt => opt.Filter().Expand().Select().OrderBy().SetMaxTop(30).Count())
        .AddNewtonsoftJson(op =>
        {
            op.SerializerSettings.Formatting = Formatting.Indented;
            op.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+           op.SerializerSettings.Converters.Add(new StringEnumConverter());
+           op.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
        });
 
 builder.Services
+       .AddEndpointsApiExplorer()
        .ConfigureSwagger();
 
 builder.Host
@@ -39,33 +46,24 @@ var app = builder.Build();
 app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
-//app.UseStatusCodePages();
 app.UseAntiforgery();
 
 if (app.Environment.IsDevelopment())
 {
+    app.UseDeveloperExceptionPage();
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
         c.DocumentTitle = "Titulo";
+        //c.RoutePrefix = string.Empty;
+        //c.SwaggerEndpoint(string.Format($"swagger/v1/swagger.json"), typeof(Program).Assembly.FullName);
     });
 }
-
-app.UseHttpsRedirection();
-
+app.UseODataQueryRequest();
 app.MapGroup("identity")
    .MapIdentityApi<MyUserIdenty>()
    .WithTags("Identity");
 
-app
-   //Store endpoints
-   .StoresEndpoints()
-   .StoresItemsEndpoints()
-   //Items endpoints
-   .ItemsEndpoints()
-   //Callback endpoints
-   .CallbacksEndpoints()
-   //uptimes
-   .UpdateTimesEndpoints();
-
+app.UseHttpsRedirection();
+app.MapControllers();
 app.Run();

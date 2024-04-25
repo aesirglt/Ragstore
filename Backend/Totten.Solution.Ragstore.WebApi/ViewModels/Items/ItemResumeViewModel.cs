@@ -1,4 +1,4 @@
-﻿namespace Totten.Solution.Ragstore.WebApi.Endpoints.ViewModels.Items;
+﻿namespace Totten.Solution.Ragstore.WebApi.ViewModels.Items;
 
 /// <summary>
 /// 

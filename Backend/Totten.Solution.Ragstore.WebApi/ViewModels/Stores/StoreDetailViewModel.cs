@@ -1,4 +1,4 @@
-﻿namespace Totten.Solution.Ragstore.WebApi.Endpoints.ViewModels.Stores;
+﻿namespace Totten.Solution.Ragstore.WebApi.ViewModels.Stores;
 
 /// <summary>
 /// 
@@ -36,7 +36,7 @@ public record StoreDetailViewModel
     /// <summary>
     /// 
     /// </summary>
-    public Dictionary<int, ItemDetail> Items { get; set; } = new ();
+    public Dictionary<int, ItemDetail> Items { get; set; } = new();
 
     /// <summary>
     /// 

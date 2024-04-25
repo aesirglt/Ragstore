@@ -1,4 +1,4 @@
-﻿namespace Totten.Solution.Ragstore.WebApi.Endpoints.ViewModels.Stores;
+﻿namespace Totten.Solution.Ragstore.WebApi.ViewModels.Stores;
 
 using Totten.Solution.Ragstore.Domain.Features.Accounts;
 

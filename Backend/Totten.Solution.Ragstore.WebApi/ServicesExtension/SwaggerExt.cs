@@ -1,6 +1,9 @@
 ﻿namespace Totten.Solution.Ragstore.WebApi.ServicesExtension;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Formatter;
+using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Interfaces;
 using Microsoft.OpenApi.Models;
@@ -12,12 +15,27 @@ using Totten.Solution.Ragstore.WebApi.Filters;
 /// </summary>
 public static class SwaggerExt
 {
+    public static MvcOptions AddSwaggerMediaTypes(this MvcOptions options)
+    {
+        foreach (var outputFormatter in options.OutputFormatters.OfType<ODataOutputFormatter>().Where(_ => _.SupportedMediaTypes.Count == 0))
+        {
+            outputFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/prs.odatatestxx-odata"));
+        }
+        foreach (var inputFormatter in options.InputFormatters.OfType<ODataInputFormatter>().Where(_ => _.SupportedMediaTypes.Count == 0))
+        {
+            inputFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/prs.odatatestxx-odata"));
+        }
+
+        return options;
+    }
     /// <summary>
     /// 
     /// </summary>
     public static IServiceCollection ConfigureSwagger(this IServiceCollection services)
         => services.AddSwaggerGen(opts =>
         {
+            opts.OperationFilter<RemoveAntiforgeryHeaderOperationFilter>();
+            opts.OperationFilter<CustomHeaderSwaggerAttribute>();
             opts.SwaggerDoc("v1", new OpenApiInfo
             {
                 Title = "API RagnaStore - sua fonte de dados",
@@ -47,10 +65,6 @@ public static class SwaggerExt
                     { "x-contact", new OpenApiString("contact@email.com") }
                 }
             });
-            //opts.AddSecurityDefinition("Authentication", new OpenApiSecurityScheme
-            //{
-            //    Type = SecuritySchemeType.ApiKey,
-            //});
             var jwtSecurityScheme = new OpenApiSecurityScheme
             {
                 BearerFormat = "JWT",
@@ -79,7 +93,6 @@ public static class SwaggerExt
             var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
             opts.IncludeXmlComments(xmlPath);
             opts.CustomSchemaIds(x => x.FullName);
-            opts.OperationFilter<RemoveAntiforgeryHeaderOperationFilter>();
         })
        .Configure<RequestLocalizationOptions>(op => op.DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture("pt-BR"));
 }
