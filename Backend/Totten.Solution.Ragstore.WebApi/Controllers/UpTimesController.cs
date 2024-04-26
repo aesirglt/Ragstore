@@ -9,7 +9,6 @@ using Totten.Solution.Ragstore.WebApi.Bases;
 /// 
 /// </summary>
 [ApiController]
-[Route("[controller]")]
 public class UpTimesController : BaseApiController
 {
     /// <summary>
@@ -24,7 +23,7 @@ public class UpTimesController : BaseApiController
     /// </summary>
     /// <param name="server"></param>
     /// <returns></returns>
-    [HttpPost()]
+    [HttpPost("up-times")]
     public async Task<IActionResult> Post(
         [FromQuery] string server)
             => await HandleEvent(new UpdateTimeNotification

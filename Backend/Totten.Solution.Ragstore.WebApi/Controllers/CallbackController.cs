@@ -17,7 +17,6 @@ using Totten.Solution.Ragstore.WebApi.ViewModels.Items;
 /// </summary>
 /// 
 [ApiController]
-[Route("[controller]")]
 public class CallbackController : BaseApiController
 {
     /// <summary>
@@ -27,18 +26,17 @@ public class CallbackController : BaseApiController
     public CallbackController(ILifetimeScope lifetimeScope) : base(lifetimeScope)
     {
     }
+
     /// <summary>
     /// 
     /// </summary>
     /// <param name="server"></param>
     /// <param name="queryOptions"></param>
     /// <returns></returns>
-    [HttpGet()]
+    [HttpGet("callbacks")]
     [ProducesResponseType<IQueryable<ItemResumeViewModel>>(statusCode: 200)]
     public async Task<IActionResult> Get([FromQuery] string server, ODataQueryOptions<ItemResumeViewModel> queryOptions)
-    {
-        return await HandleQueryable(new CallbackCollectionQuery(), server, queryOptions);
-    }
+        => await HandleQueryable(new CallbackCollectionQuery(), server, queryOptions);
 
     /// <summary>
     /// 
@@ -49,10 +47,11 @@ public class CallbackController : BaseApiController
     [HttpGet("callbacks-user")]
     [ProducesResponseType<IQueryable<Callback>>(statusCode: 200)]
     public async Task<IActionResult> GetUsers([FromQuery] string server, ODataQueryOptions<Callback> queryOptions)
-    {
-        var query = new CallbackCollectionByUserIdQuery { UserId = "d7aeb595-44a5-4f5d-822e-980f35ace12d" };
-        return await HandleQueryable(query, server, queryOptions);
-    }
+        => await HandleQueryable(new CallbackCollectionByUserIdQuery
+        {
+            UserId = "d7aeb595-44a5-4f5d-822e-980f35ace12d"
+        }, server, queryOptions);
+
     /// <summary>
     /// 
     /// </summary>
@@ -62,14 +61,11 @@ public class CallbackController : BaseApiController
     [HttpPost("callbacks-items")]
     [ProducesResponseType<Unit>(statusCode: 200)]
     public async Task<IActionResult> PostItems([FromQuery] string server, [FromBody] CallbackCreateDto createDto)
-    {
-        CallbackSaveCommand cmd = _mapper.Map<CallbackSaveCommand>((createDto, new UserData
+        => await HandleCommand(_mapper.Map<CallbackSaveCommand>((createDto, new UserData
         {
             Id = $"d7aeb595-44a5-4f5d-822e-980f35ace12d",
             Email = "aleffmds@gmail.com",
             Cellphone = "+5584988633251",
             Level = EUserLevel.SYSTEM
-        }));
-        return await HandleCommand(cmd, server);
-    }
+        })), server);
 }

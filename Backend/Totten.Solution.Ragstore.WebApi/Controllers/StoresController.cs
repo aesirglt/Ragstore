@@ -5,40 +5,87 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Commands;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Queries;
+using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.ResponseModels;
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Vendings;
 using Totten.Solution.Ragstore.WebApi.Bases;
 using Totten.Solution.Ragstore.WebApi.ViewModels.Stores;
-
+/// <summary>
+/// 
+/// </summary>
 [ApiController]
-[Route("[controller]")]
 public class StoresController : BaseApiController
 {
+    const string API_ENDPOINT = "stores";
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="lifetimeScope"></param>
     public StoresController(ILifetimeScope lifetimeScope) : base(lifetimeScope)
     {
     }
-
-    [HttpGet()]
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="server"></param>
+    /// <param name="queryOptions"></param>
+    /// <returns></returns>
+    [HttpGet(API_ENDPOINT)]
     public async Task<IActionResult> GetAll(
         [FromQuery] string server,
         ODataQueryOptions<StoreResumeViewModel> queryOptions)
             => await HandleQueryable(new StoreCollectionQuery(), server, queryOptions);
-
-    [HttpGet("{id}")]
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="server"></param>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpGet($"{API_ENDPOINT}/{{id}}")]
     public async Task<IActionResult> GetById(
         [FromQuery] string server,
         [FromRoute] int id)
             => await HandleQuery<VendingStore, StoreDetailViewModel>(
                         new StoreByIdQuery(id),
                         server);
-    [HttpPost()]
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="server"></param>
+    /// <param name="createCmd"></param>
+    /// <returns></returns>
+    [HttpPost(API_ENDPOINT)]
     public async Task<IActionResult> Post(
         [FromQuery] string server,
         [FromBody] VendingStoreSaveCommand createCmd)
             => await HandleCommand(createCmd, server);
-
-    [HttpPost("batch")]
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="server"></param>
+    /// <param name="createCmd"></param>
+    /// <returns></returns>
+    [HttpPost($"{API_ENDPOINT}-batch")]
     public async Task<IActionResult> PostBatch(
         [FromQuery] string server,
         [FromBody] VendingStoreSaveCommand[] createCmd)
            => await Task.FromResult(HandleAccepted(server, createCmd));
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="itemName"></param>
+    /// <param name="server"></param>
+    /// <param name="queryOptions"></param>
+    /// <returns></returns>
+    [HttpGet("store-items")]
+    public async Task<IActionResult> GetByName(
+        [FromQuery] string itemName,
+        [FromQuery] string server,
+        ODataQueryOptions<StoreItemResponseModel> queryOptions)
+    {
+        return await HandleQueryable(new StoreItemsCollectionQuery
+        {
+            ItemName = itemName
+        }, server, queryOptions);
+    }
 }
