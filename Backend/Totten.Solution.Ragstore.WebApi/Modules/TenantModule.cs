@@ -1,10 +1,9 @@
 ﻿namespace Totten.Solution.Ragstore.WebApi.Modules;
 
 using Autofac;
-using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.EntityFrameworkCore;
 using Totten.Solution.Ragstore.Infra.Cross.Functionals;
-using Totten.Solution.Ragstore.Infra.Data.Contexts.StoreContexts;
+using Totten.Solution.Ragstore.Infra.Data.Contexts.StoreServerContext;
 using Totten.Solution.Ragstore.WebApi.SystemConstants;
 
 /// <summary>
@@ -26,8 +25,8 @@ public class TenantModule : Autofac.Module
     {
         SysConstantDBConfig.DEFAULT_CONNECTION_STRING
                             .Replace("{dbName}", Server)
-                            .Apply(strConnection => new DbContextOptionsBuilder<RagnaStoreContext>().UseSqlServer(strConnection))
-                            .Apply(dbBuilder => builder.Register(context => new RagnaStoreContext(dbBuilder.Options)))
+                            .Apply(strConnection => new DbContextOptionsBuilder<ServerStoreContext>().UseSqlServer(strConnection))
+                            .Apply(dbBuilder => builder.Register(context => new ServerStoreContext(dbBuilder.Options)))
                             .Apply(registration => registration.AsSelf().InstancePerLifetimeScope());
     }
 }

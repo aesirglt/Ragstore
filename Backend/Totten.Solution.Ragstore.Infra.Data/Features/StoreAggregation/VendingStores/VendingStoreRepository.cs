@@ -3,15 +3,15 @@
 using Microsoft.EntityFrameworkCore;
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Vendings;
 using Totten.Solution.Ragstore.Infra.Data.Bases;
-using Totten.Solution.Ragstore.Infra.Data.Contexts.StoreContexts;
+using Totten.Solution.Ragstore.Infra.Data.Contexts.StoreServerContext;
 
-public class VendingStoreRepository(RagnaStoreContext context)
+public class VendingStoreRepository(ServerStoreContext context)
     : RepositoryBase<VendingStore>(context), IVendingStoreRepository
 {
 
     public IQueryable<VendingStore> GetAllCompletedStores()
         => _context
-            .VendingStores
+            .Set<VendingStore>()
             .Include(x => x.VendingStoreItems)
             .Include(x => x.Character)
             .AsNoTracking();
@@ -19,7 +19,7 @@ public class VendingStoreRepository(RagnaStoreContext context)
     public VendingStore? GetByCharacterId(int id)
     {
         return _context
-            .VendingStores
+            .Set<VendingStore>()
             .AsNoTracking()
             .FirstOrDefault(x => x.CharacterId == id);
     }

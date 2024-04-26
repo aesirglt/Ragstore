@@ -1,5 +1,6 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Notifications.Stories;
 
+using Autofac;
 using MediatR;
 using System;
 using ItemId = int;

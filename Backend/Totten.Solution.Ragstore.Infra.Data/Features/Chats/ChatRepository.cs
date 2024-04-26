@@ -1,9 +1,9 @@
 ﻿namespace Totten.Solution.Ragstore.Infra.Data.Features.Chats;
 using Totten.Solution.Ragstore.Domain.Features.Chats;
 using Totten.Solution.Ragstore.Infra.Data.Bases;
-using Totten.Solution.Ragstore.Infra.Data.Contexts.StoreContexts;
+using Totten.Solution.Ragstore.Infra.Data.Contexts.StoreServerContext;
 
-public class ChatRepository(RagnaStoreContext context)
+public class ChatRepository(ServerStoreContext context)
     : RepositoryBase<Chat>(context), IChatRepository
 {
 

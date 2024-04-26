@@ -26,9 +26,10 @@ public class UpTimesController : BaseApiController
     [HttpPost("up-times")]
     public async Task<IActionResult> Post(
         [FromQuery] string server)
-            => await HandleEvent(new UpdateTimeNotification
+            => await HandleEvent(scope => new UpdateTimeNotification
             {
                 Server = server,
-                UpdatedAt = DateTime.Now
+                UpdatedAt = DateTime.Now,
+                Scope = scope
             }, server);
 }

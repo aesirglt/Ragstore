@@ -7,14 +7,13 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Totten.Solution.Ragstore.Domain.Bases;
 using Totten.Solution.Ragstore.Infra.Cross.Functionals;
-using Totten.Solution.Ragstore.Infra.Data.Contexts.StoreContexts;
 
 public abstract class RepositoryBase<TEntity> : IRepository<TEntity, int>
     where TEntity : notnull, Entity<TEntity, int>
 {
-    protected readonly RagnaStoreContext _context;
+    protected readonly DbContext _context;
 
-    public RepositoryBase(RagnaStoreContext context)
+    public RepositoryBase(DbContext context)
         => _context = context;
 
     public IQueryable<TEntity> GetAll()

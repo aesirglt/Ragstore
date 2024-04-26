@@ -69,18 +69,18 @@ public abstract class BaseApiController : ControllerBase
     /// <param name="server"></param>
     /// <returns></returns>
     protected async Task<IActionResult> HandleEvent(
-        INotification notification,
+        Func<ILifetimeScope, INotification> notification,
         string server)
     {
         try
         {
             var scope = CreateChildScope(server);
             var mediator = scope.Resolve<IMediator>();
-            await mediator.Publish(notification);
+            await mediator.Publish(notification(scope));
 
             return Accepted();
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             return HandleFailure(ex);
         }
@@ -186,7 +186,7 @@ public abstract class BaseApiController : ControllerBase
                                      oDataFeature.NextLink,
                                      oDataFeature.TotalCount);
     }
-    
+
     private IActionResult HandleFailure(Exception exception)
         => exception is ValidationException validationError
             ? Problem(title: "ValidationError",

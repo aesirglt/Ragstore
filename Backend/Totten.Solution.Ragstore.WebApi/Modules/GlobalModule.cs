@@ -2,16 +2,20 @@
 
 using Autofac;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Totten.Solution.Ragstore.ApplicationService;
 using Totten.Solution.Ragstore.Domain.Features.Agents;
 using Totten.Solution.Ragstore.Domain.Features.Callbacks;
 using Totten.Solution.Ragstore.Domain.Features.ItemsAggregation;
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Vendings;
+using Totten.Solution.Ragstore.Infra.Data.Bases;
+using Totten.Solution.Ragstore.Infra.Data.Contexts.RagnaStoreContexts;
 using Totten.Solution.Ragstore.Infra.Data.Features.Agents;
 using Totten.Solution.Ragstore.Infra.Data.Features.Callbacks;
 using Totten.Solution.Ragstore.Infra.Data.Features.ItemAggregation;
 using Totten.Solution.Ragstore.Infra.Data.Features.ItemsAggregation;
 using Totten.Solution.Ragstore.Infra.Data.Features.StoreAggregation.VendingStores;
+using Totten.Solution.Ragstore.WebApi.SystemConstants;
 
 /// <summary>
 /// 
@@ -54,6 +58,18 @@ public class GlobalModule<TProgram> : Autofac.Module
         builder.Register(_ => Configuration)
                .As<IConfigurationRoot>()
                .InstancePerLifetimeScope();
+
+        builder.Register(ctx =>
+        {
+            var strConn = SysConstantDBConfig.DEFAULT_CONNECTION_STRING
+                                             .Replace("{dbName}", InfraConstants.STORE_DB_NAME);
+            var opt = new DbContextOptionsBuilder<RagnaStoreContext>()
+                                             .UseSqlServer(strConn)
+                                             .Options;
+            return new RagnaStoreContext(opt);
+        }).AsSelf()
+        .InstancePerLifetimeScope();
+
 
         builder.Register(ctx =>
         {

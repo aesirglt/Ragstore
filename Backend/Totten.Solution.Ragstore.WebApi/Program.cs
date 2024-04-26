@@ -55,8 +55,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(c =>
     {
         c.DocumentTitle = "Titulo";
-        //c.RoutePrefix = string.Empty;
-        //c.SwaggerEndpoint(string.Format($"swagger/v1/swagger.json"), typeof(Program).Assembly.FullName);
     });
 }
 app.UseODataQueryRequest();
