@@ -1,4 +1,4 @@
-﻿namespace Totten.Solution.Ragstore.ApplicationService.Notifications.Stories;
+﻿namespace Totten.Solution.Ragstore.ApplicationService.Notifications.Stores;
 
 using MediatR;
 using System;

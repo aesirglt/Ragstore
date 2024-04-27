@@ -1,9 +1,9 @@
-﻿namespace Totten.Solution.Ragstore.ApplicationService.Notifications.Items;
+﻿namespace Totten.Solution.Ragstore.ApplicationService.Notifications.Callbacks;
 
 using MediatR;
 using Totten.Solution.Ragstore.Domain.Features.Callbacks;
 
-public record NewItemNotification : INotification
+public record CallbackNotification : INotification
 {
     public required string Server { get; init; }
     public required int ItemId { get; init; }

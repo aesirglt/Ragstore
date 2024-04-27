@@ -1,4 +1,4 @@
-﻿using Totten.Solution.Ragstore.ApplicationService.Notifications.Items;
+﻿using Totten.Solution.Ragstore.ApplicationService.Notifications.Callbacks;
 
 namespace Totten.Solution.Ragstore.ApplicationService.Notifications.Messages.Handlers;
 using MediatR;

@@ -7,12 +7,12 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Commands;
-using Totten.Solution.Ragstore.ApplicationService.Notifications.Stories;
+using Totten.Solution.Ragstore.ApplicationService.Notifications.Stores;
 using Totten.Solution.Ragstore.Domain.Features.Characters;
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Vendings;
 using Totten.Solution.Ragstore.Infra.Cross.Errors.EspecifiedErrors;
 using Totten.Solution.Ragstore.Infra.Cross.Functionals;
-using static Totten.Solution.Ragstore.ApplicationService.Notifications.Stories.NewStoreNotification;
+using static Totten.Solution.Ragstore.ApplicationService.Notifications.Stores.NewStoreNotification;
 using Unit = Infra.Cross.Functionals.Unit;
 
 public class VendingStoreSaveCommandHandler : IRequestHandler<VendingStoreSaveCommand, Result<Exception, Unit>>

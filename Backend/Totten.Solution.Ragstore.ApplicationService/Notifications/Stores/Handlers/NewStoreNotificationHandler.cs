@@ -1,11 +1,11 @@
-﻿namespace Totten.Solution.Ragstore.ApplicationService.Notifications.Stories.Handlers;
+﻿namespace Totten.Solution.Ragstore.ApplicationService.Notifications.Stores.Handlers;
 using MediatR;
 
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Totten.Solution.Ragstore.ApplicationService.Notifications.Items;
+using Totten.Solution.Ragstore.ApplicationService.Notifications.Callbacks;
 using Totten.Solution.Ragstore.Domain.Features.Callbacks;
 
 public class NewStoreNotificationHandler : INotificationHandler<NewStoreNotification>
@@ -39,7 +39,7 @@ public class NewStoreNotificationHandler : INotificationHandler<NewStoreNotifica
                               notify = it,
                               callback = callback.FirstOrDefault(c => c.ItemId == it?.ItemId)
                           })
-                          .Select(selected => _mediator.Publish(new NewItemNotification
+                          .Select(selected => _mediator.Publish(new CallbackNotification
                           {
                               Server = notify.Server,
                               Location = notify.Where,

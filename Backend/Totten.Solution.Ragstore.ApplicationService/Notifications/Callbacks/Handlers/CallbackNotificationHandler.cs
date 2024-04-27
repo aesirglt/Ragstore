@@ -1,4 +1,4 @@
-﻿namespace Totten.Solution.Ragstore.ApplicationService.Notifications.Items.Handlers;
+﻿namespace Totten.Solution.Ragstore.ApplicationService.Notifications.Callbacks.Handlers;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -6,18 +6,18 @@ using System.Threading.Tasks;
 using Totten.Solution.Ragstore.ApplicationService.Notifications.Messages;
 using Totten.Solution.Ragstore.Domain.Features.Callbacks;
 
-public class NewItemNotificationHandler : INotificationHandler<NewItemNotification>
+public class CallbackNotificationHandler : INotificationHandler<CallbackNotification>
 {
     private IMediator _mediator;
     private ICallbackRepository _callbackRepository;
-    public NewItemNotificationHandler(IServiceProvider provider)
+    public CallbackNotificationHandler(IServiceProvider provider)
     {
         var scoped = provider.CreateScope();
         _mediator = scoped.ServiceProvider.GetService<IMediator>() ?? throw new Exception();
         _callbackRepository = scoped.ServiceProvider.GetService<ICallbackRepository>() ?? throw new Exception();
     }
 
-    public async Task Handle(NewItemNotification notify, CancellationToken cancellationToken)
+    public async Task Handle(CallbackNotification notify, CancellationToken cancellationToken)
     {
         try
         {
