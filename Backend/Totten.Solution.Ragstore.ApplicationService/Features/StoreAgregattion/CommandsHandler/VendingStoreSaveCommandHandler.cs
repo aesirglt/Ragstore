@@ -52,7 +52,7 @@ public class VendingStoreSaveCommandHandler : IRequestHandler<VendingStoreSaveCo
                 Items = request.VendingStoreItems.Select(x => new NewStoreNotificationItem()
                 {
                     ItemId = x.ItemId,
-                    ItemValue = x.Price
+                    ItemPrice = x.Price
                 }).ToList()
             });
 

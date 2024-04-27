@@ -13,6 +13,6 @@ public record NewStoreNotification : INotification
     public class NewStoreNotificationItem
     {
         public int ItemId { get; set; }
-        public double ItemValue { get; set; }
+        public double ItemPrice { get; set; }
     }
 }
