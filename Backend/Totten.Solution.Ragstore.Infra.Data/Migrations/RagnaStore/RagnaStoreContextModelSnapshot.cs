@@ -18,6 +18,9 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "8.0.3")
+                .HasAnnotation("Proxies:ChangeTracking", false)
+                .HasAnnotation("Proxies:CheckEquality", false)
+                .HasAnnotation("Proxies:LazyLoading", true)
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -37,9 +40,11 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Items")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ItemId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("ItemPrice")
+                        .HasColumnType("float");
 
                     b.Property<int>("Level")
                         .HasColumnType("int");
@@ -68,12 +73,13 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
                         {
                             Id = 1,
                             CallbackOwnerId = "d7aeb595-44a5-4f5d-822e-980f35ace12d",
-                            CreatedAt = new DateTime(2024, 4, 25, 22, 7, 2, 332, DateTimeKind.Local).AddTicks(8602),
-                            Items = "490037:500000000",
+                            CreatedAt = new DateTime(2024, 4, 27, 9, 33, 12, 311, DateTimeKind.Local).AddTicks(7258),
+                            ItemId = 490037,
+                            ItemPrice = 500000000.0,
                             Level = 4,
-                            Name = "MasterCallback",
-                            Server = "bro-THOR",
-                            UpdatedAt = new DateTime(2024, 4, 25, 22, 7, 2, 332, DateTimeKind.Local).AddTicks(8619),
+                            Name = "CallbackObscuro",
+                            Server = "broTHOR",
+                            UpdatedAt = new DateTime(2024, 4, 27, 9, 33, 12, 311, DateTimeKind.Local).AddTicks(7273),
                             UserCellphone = "+5584988633251"
                         });
                 });

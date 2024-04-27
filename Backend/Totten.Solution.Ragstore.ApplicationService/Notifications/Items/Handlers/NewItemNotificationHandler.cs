@@ -17,31 +17,23 @@ public class NewItemNotificationHandler : INotificationHandler<NewItemNotificati
         _callbackRepository = scoped.ServiceProvider.GetService<ICallbackRepository>() ?? throw new Exception();
     }
 
-    public async Task Handle(NewItemNotification notification, CancellationToken cancellationToken)
+    public async Task Handle(NewItemNotification notify, CancellationToken cancellationToken)
     {
         try
         {
-            var callbacks = _callbackRepository.GetAllByFilter(c => c.Server == notification.Server)
-                                                .AsEnumerable()
-                                                .Where(c => c.Items.Any(i => i.Key == notification.ItemId && i.Value >= notification.Price))
-                                                .ToList() ?? new List<Callback>();
-
-            callbacks.ForEach(cb =>
+            if (notify.Level is ECallbackType.AGENT or ECallbackType.SYSTEM)
             {
-                if (cb.Level is ECallbackType.AGENT or ECallbackType.SYSTEM)
+                _ = _mediator.Publish(new MessageNotification
                 {
-                    _mediator.Publish(new MessageNotification
-                    {
-                        Contact = cb.UserCellphone,
-                        Body = @$"RagnaStore, item: *{notification.ItemId}* em *{notification.Location}* por *{notification.Price}* servidor: {notification.Server} as {DateTime.Now.ToString("HH:mm:ss")}"
-                    });
-                    return;
-                }
+                    Contact = notify.UserCellphone,
+                    Body = @$"RagnaStore, item: *{notify.ItemId}* em *{notify.Location}* por *{notify.Price}* servidor: {notify.Server} as {DateTime.Now.ToString("HH:mm:ss")}"
+                });
+                return;
+            }
 
-                //adiciona na fila rabiitmq para proximo envios de callback
-                //envio de callbacks para pessoas comuns serão apenas a cada meia hora ou 15 minutos, a depender do sistema.
-                //ainda não defini essa parte
-            });
+            //adiciona na fila rabiitmq para proximo envios de callback
+            //envio de callbacks para pessoas comuns serão apenas a cada meia hora ou 15 minutos, a depender do sistema.
+            //ainda não defini essa parte
         }
         catch (Exception ex)
         {

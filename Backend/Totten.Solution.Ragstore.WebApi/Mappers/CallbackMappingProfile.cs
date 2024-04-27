@@ -24,14 +24,16 @@ public class CallbackMappingProfile : Profile
             .ForMember(ds => ds.UserId, m => m.MapFrom(src => src.data.Id))
             .ForMember(ds => ds.UserCellphone, m => m.MapFrom(src => src.data.Cellphone))
             .ForMember(ds => ds.Level, m => m.MapFrom(src => $"{src.data.Level}"))
-            .ForMember(ds => ds.Items, m => m.MapFrom(src => src.dto.ItemByValue));
+            .ForMember(ds => ds.ItemId, m => m.MapFrom(src => src.dto.ItemId))
+            .ForMember(ds => ds.ItemPrice, m => m.MapFrom(src => src.dto.ItemPrice));
 
         CreateMap<CallbackSaveCommand, Callback>()
             .ForMember(ds => ds.Id, m => m.MapFrom(src => $"{Guid.NewGuid()}"))
             .ForMember(ds => ds.CallbackOwnerId, m => m.MapFrom(src => src.UserId))
             .ForMember(ds => ds.UserCellphone, m => m.MapFrom(src => src.UserCellphone))
             .ForMember(ds => ds.Server, m => m.MapFrom(src => src.Server))
-            .ForMember(ds => ds.Items, m => m.MapFrom(src => src.Items))
+            .ForMember(ds => ds.ItemId, m => m.MapFrom(src => src.ItemId))
+            .ForMember(ds => ds.ItemPrice, m => m.MapFrom(src => src.ItemPrice))
             .ForMember(ds => ds.Level, m => m.MapFrom(src => src.Level));
     }
 }

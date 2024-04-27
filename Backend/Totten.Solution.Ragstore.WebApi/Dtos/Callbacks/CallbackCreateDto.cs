@@ -17,5 +17,9 @@ public class CallbackCreateDto
     /// <summary>
     /// 
     /// </summary>
-    public Dictionary<ItemId, ItemPrice> ItemByValue { get; set; } = new Dictionary<ItemId, ItemPrice>();
+    public int ItemId { get; set; }
+    /// <summary>
+    /// 
+    /// </summary>
+    public double ItemPrice { get; set; }
 }

@@ -21,7 +21,7 @@ public class RagnaStoreContext : DbContext
                             .ApplyConfiguration(new CallbackEntityConfiguration()));
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => base.OnConfiguring(optionsBuilder);
+        => base.OnConfiguring(optionsBuilder.UseLazyLoadingProxies());
 
     public virtual IQueryable<T> AsNoTracking<T>(IQueryable<T> query) where T : class
         => EntityFrameworkQueryableExtensions.AsNoTracking<T>(query);

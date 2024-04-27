@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
 {
     /// <inheritdoc />
-    public partial class CreateDbRagnaStore : Migration
+    public partial class CreateRagnaStoreDB : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -20,7 +20,8 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
                     Server = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CallbackOwnerId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserCellphone = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Items = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ItemId = table.Column<int>(type: "int", nullable: false),
+                    ItemPrice = table.Column<double>(type: "float", nullable: false),
                     Level = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -49,8 +50,8 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
 
             migrationBuilder.InsertData(
                 table: "Callbacks",
-                columns: new[] { "Id", "CallbackOwnerId", "CreatedAt", "Items", "Level", "Name", "Server", "UpdatedAt", "UserCellphone" },
-                values: new object[] { 1, "d7aeb595-44a5-4f5d-822e-980f35ace12d", new DateTime(2024, 4, 25, 22, 7, 2, 332, DateTimeKind.Local).AddTicks(8602), "490037:500000000", 4, "MasterCallback", "bro-THOR", new DateTime(2024, 4, 25, 22, 7, 2, 332, DateTimeKind.Local).AddTicks(8619), "+5584988633251" });
+                columns: new[] { "Id", "CallbackOwnerId", "CreatedAt", "ItemId", "ItemPrice", "Level", "Name", "Server", "UpdatedAt", "UserCellphone" },
+                values: new object[] { 1, "d7aeb595-44a5-4f5d-822e-980f35ace12d", new DateTime(2024, 4, 27, 9, 33, 12, 311, DateTimeKind.Local).AddTicks(7258), 490037, 500000000.0, 4, "CallbackObscuro", "broTHOR", new DateTime(2024, 4, 27, 9, 33, 12, 311, DateTimeKind.Local).AddTicks(7273), "+5584988633251" });
         }
 
         /// <inheritdoc />

@@ -1,4 +1,7 @@
 ﻿namespace Totten.Solution.Ragstore.Infra.Data.Features.Callbacks;
+
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using Totten.Solution.Ragstore.Domain.Features.Callbacks;
 using Totten.Solution.Ragstore.Infra.Data.Bases;
 using Totten.Solution.Ragstore.Infra.Data.Contexts.RagnaStoreContexts;
@@ -6,5 +9,4 @@ using Totten.Solution.Ragstore.Infra.Data.Contexts.RagnaStoreContexts;
 public class CallbackRepository(RagnaStoreContext context)
     : RepositoryBase<Callback>(context), ICallbackRepository
 {
-
 }

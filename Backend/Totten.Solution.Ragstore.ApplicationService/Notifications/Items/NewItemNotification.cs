@@ -1,6 +1,7 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Notifications.Items;
 
 using MediatR;
+using Totten.Solution.Ragstore.Domain.Features.Callbacks;
 
 public record NewItemNotification : INotification
 {
@@ -8,4 +9,6 @@ public record NewItemNotification : INotification
     public required int ItemId { get; init; }
     public required double Price { get; init; }
     public required string Location { get; init; }
+    public required ECallbackType Level { get; init; }
+    public required string UserCellphone { get; init; }
 }

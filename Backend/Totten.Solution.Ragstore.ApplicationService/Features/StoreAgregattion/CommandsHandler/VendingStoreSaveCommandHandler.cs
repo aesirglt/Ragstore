@@ -3,6 +3,7 @@
 using AutoMapper;
 using MediatR;
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Commands;
@@ -11,6 +12,7 @@ using Totten.Solution.Ragstore.Domain.Features.Characters;
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Vendings;
 using Totten.Solution.Ragstore.Infra.Cross.Errors.EspecifiedErrors;
 using Totten.Solution.Ragstore.Infra.Cross.Functionals;
+using static Totten.Solution.Ragstore.ApplicationService.Notifications.Stories.NewStoreNotification;
 using Unit = Infra.Cross.Functionals.Unit;
 
 public class VendingStoreSaveCommandHandler : IRequestHandler<VendingStoreSaveCommand, Result<Exception, Unit>>
@@ -47,7 +49,11 @@ public class VendingStoreSaveCommandHandler : IRequestHandler<VendingStoreSaveCo
                 Where = $"{request.Map} {request.Location}",
                 Merchant = request.CharacterName,
                 Date = DateTime.Now,
-                Items = request.VendingStoreItems.ToDictionary(x => x.ItemId, x => x.Price)
+                Items = request.VendingStoreItems.Select(x => new NewStoreNotificationItem()
+                {
+                    ItemId = x.ItemId,
+                    ItemValue = x.Price
+                }).ToList()
             });
 
             return await flowByVending;
