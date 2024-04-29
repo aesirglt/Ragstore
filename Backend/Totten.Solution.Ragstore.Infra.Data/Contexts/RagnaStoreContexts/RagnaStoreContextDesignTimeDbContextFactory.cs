@@ -10,7 +10,7 @@ internal class RagnaStoreContextDesignTimeDbContextFactory : IDesignTimeDbContex
     {
         var optionsBuilder = new DbContextOptionsBuilder<RagnaStoreContext>();
         optionsBuilder.UseSqlServer(
-            $"Server=192.168.0.102;Database={InfraConstants.STORE_DB_NAME};User Id=sa;Password=Sup3rS3cr3t;TrustServerCertificate=true;"
+            $"Server={InfraConstants.MAIN_IP};Database={InfraConstants.STORE_DB_NAME};User Id=sa;Password=Sup3rS3cr3t;TrustServerCertificate=true;"
             );
 
         return new RagnaStoreContext(optionsBuilder.Options);

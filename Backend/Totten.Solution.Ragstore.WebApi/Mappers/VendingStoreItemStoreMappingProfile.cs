@@ -13,6 +13,6 @@ public class VendingStoreItemStoreMappingProfile : Profile
     /// </summary>
     public VendingStoreItemStoreMappingProfile()
     {
-        CreateMap<VendingStoreItemCommand, VendingStoreItem>();;
+        CreateMap<VendingStoreItemCommand, VendingStoreItem>();
     }
 }

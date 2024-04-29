@@ -1,9 +1,9 @@
 ﻿namespace Totten.Solution.Ragstore.Infra.Data.Features.Servers;
 using Totten.Solution.Ragstore.Domain.Features.Servers;
 using Totten.Solution.Ragstore.Infra.Data.Bases;
-using Totten.Solution.Ragstore.Infra.Data.Contexts.StoreServerContext;
+using Totten.Solution.Ragstore.Infra.Data.Contexts.RagnaStoreContexts;
 
-public class ServerRepository(ServerStoreContext context)
+public sealed class ServerRepository(RagnaStoreContext context)
     : RepositoryBase<Server>(context), IServerRepository
 {
 

@@ -1,4 +1,4 @@
-﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.ItemsAggregation.QueriesCommand;
+﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.ItemsAggregation.QueriesHandler;
 
 using MediatR;
 using System;

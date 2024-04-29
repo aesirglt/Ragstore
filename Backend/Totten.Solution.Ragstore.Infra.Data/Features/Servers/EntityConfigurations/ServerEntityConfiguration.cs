@@ -3,6 +3,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Totten.Solution.Ragstore.Domain.Features.Servers;
+using Totten.Solution.Ragstore.Infra.Data.Seeds;
 
 internal class ServerEntityConfiguration : IEntityTypeConfiguration<Server>
 {
@@ -15,5 +16,7 @@ internal class ServerEntityConfiguration : IEntityTypeConfiguration<Server>
         builder.Property(e => e.CreatedAt).IsRequired();
         builder.Property(e => e.UpdatedAt).IsRequired();
         builder.Property(e => e.SiteUrl);
+
+        builder.HasData(MyServerSeed.Seed());
     }
 }

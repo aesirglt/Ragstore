@@ -7,6 +7,7 @@ using Totten.Solution.Ragstore.ApplicationService;
 using Totten.Solution.Ragstore.Domain.Features.Agents;
 using Totten.Solution.Ragstore.Domain.Features.Callbacks;
 using Totten.Solution.Ragstore.Domain.Features.ItemsAggregation;
+using Totten.Solution.Ragstore.Domain.Features.Servers;
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Vendings;
 using Totten.Solution.Ragstore.Infra.Data.Bases;
 using Totten.Solution.Ragstore.Infra.Data.Contexts.RagnaStoreContexts;
@@ -14,6 +15,7 @@ using Totten.Solution.Ragstore.Infra.Data.Features.Agents;
 using Totten.Solution.Ragstore.Infra.Data.Features.Callbacks;
 using Totten.Solution.Ragstore.Infra.Data.Features.ItemAggregation;
 using Totten.Solution.Ragstore.Infra.Data.Features.ItemsAggregation;
+using Totten.Solution.Ragstore.Infra.Data.Features.Servers;
 using Totten.Solution.Ragstore.Infra.Data.Features.StoreAggregation.VendingStores;
 using Totten.Solution.Ragstore.WebApi.SystemConstants;
 
@@ -39,6 +41,11 @@ public class GlobalModule<TProgram> : Autofac.Module
     /// <param name="builder"></param>
     protected override void Load(ContainerBuilder builder)
     {
+
+        builder.RegisterType<ServerRepository>()
+               .As<IServerRepository>()
+               .InstancePerLifetimeScope();
+
         builder.RegisterType<VendingStoreRepository>()
                .As<IVendingStoreRepository>()
                .InstancePerLifetimeScope();
@@ -54,7 +61,7 @@ public class GlobalModule<TProgram> : Autofac.Module
         builder.RegisterType<UpdateTimeRepository>()
                .As<IUpdateTimeRepository>()
                .InstancePerLifetimeScope();
-
+        
         builder.Register(_ => Configuration)
                .As<IConfigurationRoot>()
                .InstancePerLifetimeScope();
@@ -69,7 +76,6 @@ public class GlobalModule<TProgram> : Autofac.Module
             return new RagnaStoreContext(opt);
         }).AsSelf()
         .InstancePerLifetimeScope();
-
 
         builder.Register(ctx =>
         {

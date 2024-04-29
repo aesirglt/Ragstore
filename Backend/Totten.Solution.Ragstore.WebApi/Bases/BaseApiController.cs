@@ -129,6 +129,18 @@ public abstract class BaseApiController : ControllerBase
 
         return result.Match(succ => Ok(succ), HandleFailure);
     }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="cmd"></param>
+    /// <returns></returns>
+
+    protected async Task<IActionResult> HandleCommand(
+        IRequest<Result<Exception, Unit>> cmd)
+    {
+        var result = await _mediator.Send(cmd);
+        return result.Match(succ => Ok(succ), HandleFailure);
+    }
 
     /// <summary>
     /// 
@@ -165,11 +177,27 @@ public abstract class BaseApiController : ControllerBase
         ODataQueryOptions<TDestiny> queryOptions)
     {
         var scope = CreateChildScope(server);
-        var m = scope.Resolve<IMapper>();
+        var mapper = scope.Resolve<IMapper>();
         var mediator = scope.Resolve<IMediator>();
         var result = await mediator.Send(query);
 
-        return result.Match(succ => Ok(HandlePage(succ, scope.Resolve<IMapper>(), queryOptions)), HandleFailure);
+        return result.Match(succ => Ok(HandlePage(succ, mapper, queryOptions)), HandleFailure);
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TSource"></typeparam>
+    /// <typeparam name="TDestiny"></typeparam>
+    /// <param name="query"></param>
+    /// <param name="queryOptions"></param>
+    /// <returns></returns>
+    protected async Task<IActionResult> HandleQueryable<TSource, TDestiny>(
+        IRequest<Result<Exception, IQueryable<TSource>>> query,
+        ODataQueryOptions<TDestiny> queryOptions)
+    {
+        var result = await _mediator.Send(query);
+
+        return result.Match(succ => Ok(HandlePage(succ, _currentGlobalScoped.Resolve<IMapper>(), queryOptions)), HandleFailure);
     }
 
     private PageResult<TView> HandlePage<TDomain, TView>

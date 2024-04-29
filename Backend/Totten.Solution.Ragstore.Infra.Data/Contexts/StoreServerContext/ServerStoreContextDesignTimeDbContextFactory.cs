@@ -1,6 +1,7 @@
 ﻿namespace Totten.Solution.Ragstore.Infra.Data.Contexts.StoreServerContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using Totten.Solution.Ragstore.Infra.Data.Bases;
 
 internal class ServerStoreContextDesignTimeDbContextFactory : IDesignTimeDbContextFactory<ServerStoreContext>
 {
@@ -8,7 +9,7 @@ internal class ServerStoreContextDesignTimeDbContextFactory : IDesignTimeDbConte
     {
         var optionsBuilder = new DbContextOptionsBuilder<ServerStoreContext>();
         optionsBuilder.UseSqlServer(
-            "Server=192.168.0.102;Database=ServerStore;User Id=sa;Password=Sup3rS3cr3t;TrustServerCertificate=true;"
+            $"Server={InfraConstants.MAIN_IP};Database=ServerStore;User Id=sa;Password=Sup3rS3cr3t;TrustServerCertificate=true;"
             );
 
         return new ServerStoreContext(optionsBuilder.Options);
