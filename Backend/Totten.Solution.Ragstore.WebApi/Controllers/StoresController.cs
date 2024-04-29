@@ -68,7 +68,7 @@ public class StoresController : BaseApiController
     public async Task<IActionResult> PostBatch(
         [FromQuery] string server,
         [FromBody] VendingStoreSaveCommand[] createCmd)
-           => await Task.FromResult(HandleAccepted(server, createCmd));
+           => await HandleAccepted(server, createCmd);
 
     /// <summary>
     /// 
