@@ -5,6 +5,7 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Extensions;
 using Microsoft.AspNetCore.OData.Query;
@@ -12,8 +13,10 @@ using Microsoft.AspNetCore.OData.Results;
 using Newtonsoft.Json;
 using System.Net;
 using Totten.Solution.Ragstore.Domain.Features.Callbacks;
+using Totten.Solution.Ragstore.Domain.Features.Servers;
 using Totten.Solution.Ragstore.Infra.Cross.Errors;
 using Totten.Solution.Ragstore.Infra.Cross.Functionals;
+using Totten.Solution.Ragstore.Infra.Data.Features.Servers;
 using Totten.Solution.Ragstore.WebApi.Modules;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using Unit = Infra.Cross.Functionals.Unit;
@@ -36,6 +39,10 @@ public abstract class BaseApiController : ControllerBase
     /// 
     /// </summary>
     protected IMediator _mediator;
+    /// <summary>
+    /// 
+    /// </summary>
+    protected IServerRepository _serverRepository;
 
     /// <summary>
     /// 
@@ -44,6 +51,7 @@ public abstract class BaseApiController : ControllerBase
     public BaseApiController(ILifetimeScope lifetimeScope)
     {
         _currentGlobalScoped = lifetimeScope;
+        _serverRepository = _currentGlobalScoped.Resolve<IServerRepository>();
         _mapper = _currentGlobalScoped.Resolve<IMapper>();
         _mediator = _currentGlobalScoped.Resolve<IMediator>();
     }
@@ -66,68 +74,83 @@ public abstract class BaseApiController : ControllerBase
     /// 
     /// </summary>
     /// <param name="notification"></param>
-    /// <param name="server"></param>
+    /// <param name="serverName"></param>
     /// <returns></returns>
     protected async Task<IActionResult> HandleEvent(
         Func<ILifetimeScope, INotification> notification,
-        string server)
+        string serverName)
     {
-        try
-        {
-            var scope = CreateChildScope(server);
-            var mediator = scope.Resolve<IMediator>();
-            await mediator.Publish(notification(scope));
+        return await _serverRepository
+            .GetByName(serverName)
+            .Match(async succ =>
+            {
+                try
+                {
+                    var scope = CreateChildScope(serverName);
+                    var mediator = scope.Resolve<IMediator>();
+                    await mediator.Publish(notification(scope));
 
-            return Accepted();
-        }
-        catch (Exception ex)
-        {
-            return HandleFailure(ex);
-        }
+                    return Accepted() as IActionResult;
+                }
+                catch (Exception ex)
+                {
+                    return HandleFailure(ex);
+                }
+            }, HandleFailureTask);
     }
 
     /// <summary>
     /// 
     /// </summary>
     /// <param name="cmds"></param>
-    /// <param name="server"></param>
+    /// <param name="serverName"></param>
     /// <returns></returns>
-    protected IActionResult HandleAccepted(
-        string server,
+    protected async Task<IActionResult> HandleAccepted(
+        string serverName,
         params IRequest<Result<Exception, Unit>>[] cmds)
-        => CreateChildScope(server)
-           .Apply(scope =>
-           {
-               try
+        => await _serverRepository
+            .GetByName(serverName)
+            .Match(async succ =>
+            {
+                return CreateChildScope(serverName)
+               .Apply(scope =>
                {
-                   foreach (var cmd in cmds)
+                   try
                    {
-                       _mediator.Send(cmd);
-                   }
+                       foreach (var cmd in cmds)
+                       {
+                           _mediator.Send(cmd);
+                       }
 
-                   return Accepted();
-               }
-               catch (Exception ex)
-               {
-                   return HandleFailure(ex);
-               }
-           });
+                       return Accepted();
+                   }
+                   catch (Exception ex)
+                   {
+                       return HandleFailure(ex);
+                   }
+               });
+            }, HandleFailureTask);
 
     /// <summary>
     /// 
     /// </summary>
     /// <param name="cmd"></param>
-    /// <param name="server"></param>
+    /// <param name="serverName"></param>
     /// <returns></returns>
     protected async Task<IActionResult> HandleCommand(
         IRequest<Result<Exception, Unit>> cmd,
-        string server)
+        string serverName)
     {
-        var scope = CreateChildScope(server);
-        var mediator = scope.Resolve<IMediator>();
-        var result = await mediator.Send(cmd);
+        return await _serverRepository
+            .GetByName(serverName)
+            .Match(async succ =>
+            {
+                var scope = CreateChildScope(serverName);
+                var mediator = scope.Resolve<IMediator>();
+                var result = await mediator.Send(cmd);
 
-        return result.Match(succ => Ok(succ), HandleFailure);
+                return result.Match(succ => Ok(succ), HandleFailure);
+            }, HandleFailureTask);
     }
     /// <summary>
     /// 
@@ -148,18 +171,23 @@ public abstract class BaseApiController : ControllerBase
     /// <typeparam name="TSource"></typeparam>
     /// <typeparam name="TDestiny"></typeparam>
     /// <param name="query"></param>
-    /// <param name="server"></param>
+    /// <param name="serverName"></param>
     /// <returns></returns>
     protected async Task<IActionResult> HandleQuery<TSource, TDestiny>(
         IRequest<Result<Exception, TSource>> query,
-        string server)
+        string serverName)
     {
-        var scope = CreateChildScope(server);
-        var m = scope.Resolve<IMapper>();
-        var mediator = scope.Resolve<IMediator>();
-        var result = await mediator.Send(query);
+        return await _serverRepository
+            .GetByName(serverName)
+            .Match(async succ =>
+            {
+                var scope = CreateChildScope(serverName);
+                var m = scope.Resolve<IMapper>();
+                var mediator = scope.Resolve<IMediator>();
+                var result = await mediator.Send(query);
 
-        return result.Match(succ => Ok(m.Map<TDestiny>(succ)), HandleFailure);
+                return result.Match(succ => Ok(m.Map<TDestiny>(succ)), HandleFailure);
+            }, HandleFailureTask);
     }
 
     /// <summary>
@@ -168,20 +196,25 @@ public abstract class BaseApiController : ControllerBase
     /// <typeparam name="TSource"></typeparam>
     /// <typeparam name="TDestiny"></typeparam>
     /// <param name="query"></param>
-    /// <param name="server"></param>
+    /// <param name="serverName"></param>
     /// <param name="queryOptions"></param>
     /// <returns></returns>
     protected async Task<IActionResult> HandleQueryable<TSource, TDestiny>(
         IRequest<Result<Exception, IQueryable<TSource>>> query,
-        string server,
+        string serverName,
         ODataQueryOptions<TDestiny> queryOptions)
     {
-        var scope = CreateChildScope(server);
-        var mapper = scope.Resolve<IMapper>();
-        var mediator = scope.Resolve<IMediator>();
-        var result = await mediator.Send(query);
+        return await _serverRepository
+            .GetByName(serverName)
+            .Match(async succ =>
+            {
+                var scope = CreateChildScope(serverName);
+                var mapper = scope.Resolve<IMapper>();
+                var mediator = scope.Resolve<IMediator>();
+                var result = await mediator.Send(query);
 
-        return result.Match(succ => Ok(HandlePage(succ, mapper, queryOptions)), HandleFailure);
+                return result.Match(succ => Ok(HandlePage(succ, mapper, queryOptions)), HandleFailure);
+            }, HandleFailureTask);
     }
     /// <summary>
     /// 
@@ -215,6 +248,9 @@ public abstract class BaseApiController : ControllerBase
                                      oDataFeature.TotalCount);
     }
 
+
+    private Task<IActionResult> HandleFailureTask(Exception exception)
+        => Task.FromResult(HandleFailure(exception));
     private IActionResult HandleFailure(Exception exception)
         => exception is ValidationException validationError
             ? Problem(title: "ValidationError",

@@ -19,6 +19,8 @@ public readonly struct Result<TErr, TValue>
 
     public R Match<R>(Func<TValue, R> success, Func<TErr, R> failure)
         => _success ? success(_value) : failure(_err);
+    public Task<R> Match<R>(Func<TValue, Task<R>> success, Func<TErr, Task<R>> failure)
+        => _success ? success(_value) : failure(_err);
 
     public Unit IfFail(Action<TErr> func)
     {
