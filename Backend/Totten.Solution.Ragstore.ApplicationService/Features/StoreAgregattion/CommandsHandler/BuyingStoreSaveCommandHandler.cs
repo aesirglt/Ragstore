@@ -8,31 +8,33 @@ using System.Threading;
 using System.Threading.Tasks;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Commands;
 using Totten.Solution.Ragstore.ApplicationService.Notifications.Stores;
+using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Buyings;
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Vendings;
 using Totten.Solution.Ragstore.Infra.Cross.Errors.EspecifiedErrors;
 using Totten.Solution.Ragstore.Infra.Cross.Functionals;
 using static Totten.Solution.Ragstore.ApplicationService.Notifications.Stores.NewStoreNotification;
 using Unit = Infra.Cross.Functionals.Unit;
 
-public class VendingStoreSaveCommandHandler : IRequestHandler<VendingStoreSaveCommand, Result<Exception, Unit>>
+public class BuyingStoreSaveCommandHandler : IRequestHandler<BuyingStoreSaveCommand, Result<Exception, Unit>>
 {
     private IMediator _mediator;
     private IMapper _mapper;
-    private IVendingStoreRepository _storeRepository;
-    private IVendingStoreItemRepository _vendingStoreItemRepository;
+    private IBuyingStoreRepository _storeRepository;
+    private IBuyingStoreItemRepository _storeItemRepository;
 
-    public VendingStoreSaveCommandHandler(
+    public BuyingStoreSaveCommandHandler(
         IMediator mediator,
         IMapper mapper,
-        IVendingStoreRepository storeRepository,
-        IVendingStoreItemRepository vendingStoreItemRepository)
+        IBuyingStoreRepository storeRepository,
+        IBuyingStoreItemRepository storeItemRepository)
     {
         _mediator = mediator;
         _mapper = mapper;
         _storeRepository = storeRepository;
-        _vendingStoreItemRepository = vendingStoreItemRepository;
+        _storeItemRepository = storeItemRepository;
     }
-    public async Task<Result<Exception, Unit>> Handle(VendingStoreSaveCommand request, CancellationToken cancellationToken)
+
+    public async Task<Result<Exception, Unit>> Handle(BuyingStoreSaveCommand request, CancellationToken cancellationToken)
     {
         try
         {
@@ -63,25 +65,23 @@ public class VendingStoreSaveCommandHandler : IRequestHandler<VendingStoreSaveCo
         }
     }
 
-    private Task<Unit> SaveFlow(VendingStoreSaveCommand request)
+    private Task<Unit> SaveFlow(BuyingStoreSaveCommand request)
     {
-        var store = _mapper.Map<VendingStore>(request);
-        store.VendingStoreItems = MapStoreItem(request, store);
+        var store = _mapper.Map<BuyingStore>(request);
         return _storeRepository.Save(store);
     }
 
-
-    private async Task<Unit> UpdateFlow(VendingStoreSaveCommand request, VendingStore storeInDb)
+    private async Task<Unit> UpdateFlow(BuyingStoreSaveCommand request, BuyingStore storeInDb)
     {
-        storeInDb = Map(request, storeInDb);
+        var storeId = storeInDb.Id;
+        _mapper.Map(request, storeInDb);
+        storeInDb.Id = storeId;
+
         await _storeRepository.Update(storeInDb);
 
-        _ = await _vendingStoreItemRepository.DeleteAll(storeInDb.Id);
+        _ = await _storeItemRepository.DeleteAll(storeInDb.Id);
 
-        foreach (var vending in storeInDb.VendingStoreItems)
-        {
-            await _vendingStoreItemRepository.Save(vending);
-        }
+        await _storeItemRepository.Save(storeInDb.BuyingStoreItem);
 
         return new Unit();
     }
@@ -89,24 +89,4 @@ public class VendingStoreSaveCommandHandler : IRequestHandler<VendingStoreSaveCo
     private Task Publish(NewStoreNotification newStoreNotification)
         => _mediator.Publish(newStoreNotification);
 
-    private VendingStore Map(VendingStoreSaveCommand request, VendingStore vendingStore)
-    {
-        var storeId = vendingStore.Id;
-        _mapper.Map(request, vendingStore);
-
-        vendingStore.VendingStoreItems = MapStoreItem(request, vendingStore);
-        vendingStore.Id = storeId;
-        return vendingStore;
-    }
-
-    private static List<VendingStoreItem> MapStoreItem(VendingStoreSaveCommand request, VendingStore store)
-    {
-        return store.VendingStoreItems
-                    .Select(item => item with
-                    {
-                        Map = $"{store.Map} {store.Location}",
-                        StoreName = request.Name,
-                        CharacterName = request.CharacterName
-                    }).ToList();
-    }
 }

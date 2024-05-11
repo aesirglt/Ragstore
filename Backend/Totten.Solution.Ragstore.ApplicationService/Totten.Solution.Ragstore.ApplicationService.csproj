@@ -21,11 +21,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Accounts\" />
-    <Folder Include="Features\Agents\" />
-    <Folder Include="Features\Characters\" />
-    <Folder Include="Features\Chats\" />
-    <Folder Include="Features\Users\" />
+    <Folder Include="Features\Accounts\CommandsHandler\" />
+    <Folder Include="Features\Accounts\QueriesHandler\" />
+    <Folder Include="Features\Agents\CommandsHandler\" />
+    <Folder Include="Features\Agents\QueriesHandler\" />
+    <Folder Include="Features\Characters\CommandsHandler\" />
+    <Folder Include="Features\Characters\QueriesHandler\" />
+    <Folder Include="Features\Characters\Queries\" />
+    <Folder Include="Features\Chats\CommandsHandler\" />
+    <Folder Include="Features\Chats\QueriesHandler\" />
+    <Folder Include="Features\Chats\Queries\" />
+    <Folder Include="Features\ItemsAggregation\CommandsHandler\" />
+    <Folder Include="Features\Users\CommandsHandler\" />
+    <Folder Include="Features\Users\QueriesHandler\" />
   </ItemGroup>
 
 </Project>

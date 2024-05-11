@@ -1,13 +1,18 @@
 ﻿namespace Totten.Solution.Ragstore.WebApi.Mappers.StoreAggregation;
 
 using AutoMapper;
-using System.Linq;
-using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Commands;
+using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Commons;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.ResponseModels;
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Vendings;
 
+/// <summary>
+/// 
+/// </summary>
 public class VendingStoreItemMappingProfile : Profile
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public VendingStoreItemMappingProfile()
     {
         CreateMap<VendingStoreItemCommand, VendingStoreItem>()

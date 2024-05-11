@@ -2,7 +2,6 @@
 
 using Totten.Solution.Ragstore.Domain.Bases;
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Bases;
-using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Vendings;
 
 public class StoreItemResponseModel
 

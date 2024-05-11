@@ -4,7 +4,7 @@ using Autofac;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Totten.Solution.Ragstore.ApplicationService;
-using Totten.Solution.Ragstore.Domain.Features.Agents;
+using Totten.Solution.Ragstore.Domain.Features.AgentAggregation;
 using Totten.Solution.Ragstore.Domain.Features.Callbacks;
 using Totten.Solution.Ragstore.Domain.Features.ItemsAggregation;
 using Totten.Solution.Ragstore.Domain.Features.Servers;
@@ -59,7 +59,7 @@ public class GlobalModule<TProgram> : Autofac.Module
                .As<ICallbackRepository>()
                .InstancePerLifetimeScope();
         builder.RegisterType<UpdateTimeRepository>()
-               .As<IUpdateTimeRepository>()
+               .As<IAgentRepository>()
                .InstancePerLifetimeScope();
         
         builder.Register(_ => Configuration)

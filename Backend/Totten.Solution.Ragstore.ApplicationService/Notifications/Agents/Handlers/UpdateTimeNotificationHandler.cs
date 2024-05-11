@@ -4,14 +4,14 @@ using Autofac;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
-using Totten.Solution.Ragstore.Domain.Features.Agents;
+using Totten.Solution.Ragstore.Domain.Features.AgentAggregation;
 
 public class UpdateTimeNotificationHandler : INotificationHandler<UpdateTimeNotification>
 {
     public async Task Handle(UpdateTimeNotification notification, CancellationToken cancellationToken)
     {
         var scoped = notification.Scope;
-        var repository = scoped.Resolve<IUpdateTimeRepository>() ?? throw new Exception();
+        var repository = scoped.Resolve<IAgentRepository>() ?? throw new Exception();
         var updateTime = repository.GetAllByFilter(upd => notification.Server.Equals(upd.Name)).FirstOrDefault();
 
         if (updateTime is null)

@@ -1,6 +1,6 @@
 ﻿namespace Totten.Solution.Ragstore.Infra.Data.Contexts.RagnaStoreContexts;
 using Microsoft.EntityFrameworkCore;
-using Totten.Solution.Ragstore.Domain.Features.Agents;
+using Totten.Solution.Ragstore.Domain.Features.AgentAggregation;
 using Totten.Solution.Ragstore.Domain.Features.Callbacks;
 using Totten.Solution.Ragstore.Domain.Features.Servers;
 using Totten.Solution.Ragstore.Infra.Data.Features.Agents.EntityConfigurations;
@@ -11,7 +11,7 @@ public class RagnaStoreContext : DbContext
 {
     public virtual DbSet<Server> Servers { get; set; }
     public virtual DbSet<Callback> Callbacks { get; set; }
-    public virtual DbSet<UpdateTime> UpdateTimes { get; set; }
+    public virtual DbSet<Agent> UpdateTimes { get; set; }
 
     public RagnaStoreContext(DbContextOptions<RagnaStoreContext> options) : base(options)
     {

@@ -1,11 +1,16 @@
 ﻿namespace Totten.Solution.Ragstore.WebApi.Mappers.StoreAggregation;
 
 using AutoMapper;
-using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Commands;
+using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Commons;
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Bases;
-
+/// <summary>
+/// 
+/// </summary>
 public class StoreItemOptionInfoMappingProfile : Profile
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public StoreItemOptionInfoMappingProfile()
     {
         CreateMap<Dictionary<int, InfoOptionStoreItemCommand>, StoreItemOptionInfo[]>()
