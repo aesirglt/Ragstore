@@ -1,18 +1,18 @@
 ﻿namespace Totten.Solution.Ragstore.WebApi.Mappers;
 using AutoMapper;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Commons;
-using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Buyings;
+using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Vendings;
 
 /// <summary>
 /// 
 /// </summary>
-public class BuyingStoreItemStoreMappingProfile : Profile
+public class VendingStoreItemStoreMappingProfile : Profile
 {
     /// <summary>
     /// 
     /// </summary>
-    public BuyingStoreItemStoreMappingProfile()
+    public VendingStoreItemStoreMappingProfile()
     {
-        CreateMap<BuyingStoreItemCommand, BuyingStoreItem>();
+        CreateMap<VendingStoreItemCommand, VendingStoreItem>();
     }
 }
