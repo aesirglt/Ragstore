@@ -9,7 +9,7 @@ public class VendingStoreRepository(ServerStoreContext context)
     : RepositoryBase<VendingStore>(context), IVendingStoreRepository
 {
 
-    public IQueryable<VendingStore> GetAllCompletedStores()
+    public IQueryable<VendingStore> GetAll()
         => _context
             .Set<VendingStore>()
             .Include(x => x.VendingStoreItems)

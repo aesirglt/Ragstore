@@ -4,12 +4,12 @@ using AutoMapper;
 using MediatR;
 using System;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Commands;
 using Totten.Solution.Ragstore.ApplicationService.Notifications.Stores;
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Buyings;
-using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Vendings;
 using Totten.Solution.Ragstore.Infra.Cross.Errors.EspecifiedErrors;
 using Totten.Solution.Ragstore.Infra.Cross.Functionals;
 using static Totten.Solution.Ragstore.ApplicationService.Notifications.Stores.NewStoreNotification;
@@ -50,7 +50,7 @@ public class BuyingStoreSaveCommandHandler : IRequestHandler<BuyingStoreSaveComm
                 Where = $"{request.Map} {request.Location}",
                 Merchant = request.CharacterName,
                 Date = DateTime.Now,
-                Items = request.VendingStoreItems.Select(x => new NewStoreNotificationItem()
+                Items = request.StoreItems.Select(x => new NewStoreNotificationItem()
                 {
                     ItemId = x.ItemId,
                     ItemPrice = x.Price
@@ -65,25 +65,28 @@ public class BuyingStoreSaveCommandHandler : IRequestHandler<BuyingStoreSaveComm
         }
     }
 
+    private BuyingStoreItem MapBuyingItem(BuyingStoreSaveCommand request, BuyingStore store)
+    {
+        var buyingStoreItem = _mapper.Map<BuyingStoreItem>(request.StoreItems.FirstOrDefault());
+        buyingStoreItem.CharacterName = request.CharacterName;
+        buyingStoreItem.Map = $"{store.Map} {store.Location}";
+        buyingStoreItem.StoreName = request.Name;
+
+        return buyingStoreItem;
+    }
     private Task<Unit> SaveFlow(BuyingStoreSaveCommand request)
     {
-        var store = _mapper.Map<BuyingStore>(request);
+        var mappedStore = _mapper.Map<BuyingStore>(request);
+        var store = mappedStore with { BuyingStoreItem = MapBuyingItem(request, mappedStore) };
         return _storeRepository.Save(store);
     }
 
     private async Task<Unit> UpdateFlow(BuyingStoreSaveCommand request, BuyingStore storeInDb)
     {
-        var storeId = storeInDb.Id;
-        _mapper.Map(request, storeInDb);
-        storeInDb.Id = storeId;
-
-        await _storeRepository.Update(storeInDb);
-
         _ = await _storeItemRepository.DeleteAll(storeInDb.Id);
+        _ = await _storeRepository.Remove(storeInDb);
 
-        await _storeItemRepository.Save(storeInDb.BuyingStoreItem);
-
-        return new Unit();
+        return await SaveFlow(request);
     }
 
     private Task Publish(NewStoreNotification newStoreNotification)

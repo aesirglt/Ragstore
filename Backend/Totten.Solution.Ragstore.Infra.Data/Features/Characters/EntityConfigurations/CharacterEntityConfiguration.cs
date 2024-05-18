@@ -54,8 +54,8 @@ public class CharacterEntityConfiguration : IEntityTypeConfiguration<Character>
                .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasMany(e => e.BuyingStores)
-               .WithOne()
-               .HasForeignKey(e => e.CharacterId)
+               .WithOne(b => b.Character)
+               .HasForeignKey(b => b.CharacterId)
                .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasMany(e => e.Chats)

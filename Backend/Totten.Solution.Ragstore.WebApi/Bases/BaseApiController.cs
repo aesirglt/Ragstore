@@ -108,23 +108,21 @@ public abstract class BaseApiController : ControllerBase
             .GetByName(serverName)
             .Match(async succ =>
             {
-                return CreateChildScope(serverName)
-               .Apply(scope =>
-               {
-                   try
-                   {
-                       foreach (var cmd in cmds)
-                       {
-                           _mediator.Send(cmd);
-                       }
+                var scope = CreateChildScope(serverName);
+                var mediator = scope.Resolve<IMediator>();
+                try
+                {
+                    foreach (var cmd in cmds)
+                    {
+                        _ = mediator.Send(cmd);
+                    }
 
-                       return Accepted();
-                   }
-                   catch (Exception ex)
-                   {
-                       return HandleFailure(ex);
-                   }
-               });
+                    return await Task.FromResult(Accepted());
+                }
+                catch (Exception ex)
+                {
+                    return await Task.FromResult(HandleFailure(ex));
+                }
             }, HandleFailureTask);
 
     /// <summary>

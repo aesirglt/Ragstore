@@ -59,10 +59,9 @@ public class BuyingStoreItemEntityConfiguration : IEntityTypeConfiguration<Buyin
         builder.Property(e => e.CrafterId);
         builder.Property(e => e.CrafterName);
 
-        builder.HasOne(e => e.BuyingStore)
-               .WithOne(e => e.BuyingStoreItem)
-               .HasForeignKey<BuyingStoreItem>(e => e.StoreId)
-               .OnDelete(DeleteBehavior.NoAction);
+        builder.HasOne(bi => bi.BuyingStore)
+            .WithOne(b => b.BuyingStoreItem)
+            .HasForeignKey<BuyingStoreItem>(bi => bi.StoreId);
 
         builder.HasIndex(e => e.CharacterId);
         builder.HasIndex(e => e.Name);

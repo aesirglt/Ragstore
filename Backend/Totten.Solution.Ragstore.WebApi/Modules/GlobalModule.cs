@@ -8,6 +8,7 @@ using Totten.Solution.Ragstore.Domain.Features.AgentAggregation;
 using Totten.Solution.Ragstore.Domain.Features.Callbacks;
 using Totten.Solution.Ragstore.Domain.Features.ItemsAggregation;
 using Totten.Solution.Ragstore.Domain.Features.Servers;
+using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Buyings;
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Vendings;
 using Totten.Solution.Ragstore.Infra.Data.Bases;
 using Totten.Solution.Ragstore.Infra.Data.Contexts.RagnaStoreContexts;
@@ -16,6 +17,7 @@ using Totten.Solution.Ragstore.Infra.Data.Features.Callbacks;
 using Totten.Solution.Ragstore.Infra.Data.Features.ItemAggregation;
 using Totten.Solution.Ragstore.Infra.Data.Features.ItemsAggregation;
 using Totten.Solution.Ragstore.Infra.Data.Features.Servers;
+using Totten.Solution.Ragstore.Infra.Data.Features.StoreAggregation.BuyingStores;
 using Totten.Solution.Ragstore.Infra.Data.Features.StoreAggregation.VendingStores;
 using Totten.Solution.Ragstore.WebApi.SystemConstants;
 
@@ -41,9 +43,15 @@ public class GlobalModule<TProgram> : Autofac.Module
     /// <param name="builder"></param>
     protected override void Load(ContainerBuilder builder)
     {
-
         builder.RegisterType<ServerRepository>()
                .As<IServerRepository>()
+               .InstancePerLifetimeScope();
+
+        builder.RegisterType<BuyingStoreRepository>()
+               .As<IBuyingStoreRepository>()
+               .InstancePerLifetimeScope();
+        builder.RegisterType<BuyingStoreItemRepository>()
+               .As<IBuyingStoreItemRepository>()
                .InstancePerLifetimeScope();
 
         builder.RegisterType<VendingStoreRepository>()
@@ -52,12 +60,15 @@ public class GlobalModule<TProgram> : Autofac.Module
         builder.RegisterType<VendingStoreItemRepository>()
                .As<IVendingStoreItemRepository>()
                .InstancePerLifetimeScope();
+
         builder.RegisterType<ItemRepository>()
                .As<IItemRepository>()
                .InstancePerLifetimeScope();
+
         builder.RegisterType<CallbackRepository>()
                .As<ICallbackRepository>()
                .InstancePerLifetimeScope();
+
         builder.RegisterType<UpdateTimeRepository>()
                .As<IAgentRepository>()
                .InstancePerLifetimeScope();

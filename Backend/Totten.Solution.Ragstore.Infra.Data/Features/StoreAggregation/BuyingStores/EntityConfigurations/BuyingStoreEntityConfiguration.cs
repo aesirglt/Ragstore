@@ -2,6 +2,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Totten.Solution.Ragstore.Domain.Features.Characters;
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Buyings;
 
 public class BuyingStoreEntityConfiguration : IEntityTypeConfiguration<BuyingStore>
@@ -16,12 +17,18 @@ public class BuyingStoreEntityConfiguration : IEntityTypeConfiguration<BuyingSto
         builder.Property(e => e.CreatedAt).IsRequired();
         builder.Property(e => e.UpdatedAt).IsRequired();
         builder.Property(e => e.AccountId).IsRequired();
-        builder.Property(e => e.CharacterId).IsRequired();
         builder.Property(e => e.Map).IsRequired();
         builder.Property(e => e.Location).IsRequired();
         builder.Property(e => e.ExpireDate);
         builder.Property(e => e.PriceLimit).IsRequired();
 
-        builder.HasIndex(e => e.CharacterId).IsUnique();
+        builder.HasOne(e => e.BuyingStoreItem)
+            .WithOne(bi => bi.BuyingStore)
+            .HasForeignKey<BuyingStoreItem>(bi => bi.StoreId);
+
+        builder.HasOne(e => e.Character)
+            .WithMany(c => c.BuyingStores)
+            .HasForeignKey(b => b.CharacterId)
+            .OnDelete(DeleteBehavior.NoAction);
     }
 }

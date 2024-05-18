@@ -3,6 +3,6 @@ using Totten.Solution.Ragstore.Domain.Bases;
 
 public interface IBuyingStoreRepository : IRepository<BuyingStore, int>
 {
-    IQueryable<BuyingStore> GetAllCompletedStores();
+    IQueryable<BuyingStore> GetAll();
     BuyingStore? GetByCharacterId(int id);
 }

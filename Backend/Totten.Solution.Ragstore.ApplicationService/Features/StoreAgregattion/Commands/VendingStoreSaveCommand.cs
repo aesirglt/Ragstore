@@ -16,6 +16,6 @@ public class VendingStoreSaveCommand : IRequest<Result<Exception, Unit>>
     public string Map { get; set; } = string.Empty;
     public string Location { get; set; } = string.Empty;
     public DateTime? ExpireDate { get; set; }
-    public List<VendingStoreItemCommand> VendingStoreItems { get; set; } = new();
+    public List<VendingStoreItemCommand> StoreItems { get; set; } = new();
 }
 

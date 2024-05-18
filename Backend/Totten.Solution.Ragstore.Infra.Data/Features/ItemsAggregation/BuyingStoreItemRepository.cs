@@ -17,7 +17,7 @@ public class BuyingStoreItemRepository(ServerStoreContext context)
     public async Task<Unit> DeleteAll(StoreId id)
     {
         var stores = await _context
-            .Set<VendingStoreItem>()
+            .Set<BuyingStoreItem>()
             .Where(x => x.StoreId == id)
             .AsNoTracking()
             .ToArrayAsync();
