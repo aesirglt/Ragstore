@@ -37,18 +37,13 @@ public abstract class RepositoryBase<TEntity> : IRepository<TEntity, int>
         .Where(filter)
         .AsNoTracking();
 
-    public async Task<TEntity?> GetById<TProperty>(int id, params Expression<Func<TEntity, TProperty>>[] configure)
+    public async Task<TEntity?> GetById(int id)
     {
         var query = _context
        .Set<TEntity>()
        .AsNoTracking();
 
-        foreach (var cfg in configure ?? [])
-        {
-            query = query.Include(cfg);
-        }
-
-        return await query.FirstAsync(x => x.Id == id);
+        return await query.FirstOrDefaultAsync(x => x.Id == id);
     }
 
     public async Task<Unit> Remove(TEntity entity)

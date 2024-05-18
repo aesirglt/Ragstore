@@ -18,9 +18,12 @@ public class ServerMappingProfile : Profile
             .ForMember(ds => ds.Name, m => m.MapFrom(src => src.Name))
             .ForMember(ds => ds.SiteUrl, m => m.MapFrom(src => src.SiteUrl))
             .ForMember(ds => ds.CreatedAt, m => m.MapFrom(src => DateTime.Now))
-            .ForMember(ds => ds.UpdatedAt, m => m.MapFrom(src => DateTime.Now));
+            .ForMember(ds => ds.UpdatedAt, m => m.MapFrom(src => DateTime.Now))
+            .ForMember(ds => ds.IsActive, m => m.MapFrom(_ => true));
 
         CreateMap<Server, ServerResume>()
             .ForMember(ds => ds.Name, m => m.MapFrom(src => src.Name));
+        CreateMap<Server, ServerVerifyDTO>()
+            .ForMember(ds => ds.UpdatedAt, m => m.MapFrom(src => src.UpdatedAt));
     }
 }

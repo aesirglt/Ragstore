@@ -45,7 +45,7 @@ public class StoresController : BaseApiController
         [FromQuery] string server,
         [FromRoute] int id)
             => await HandleQuery<VendingStore, StoreDetailViewModel>(
-                        new StoreByIdQuery(id),
+                        new StoreByIdQuery { Id = id },
                         server);
     /// <summary>
     /// 

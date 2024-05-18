@@ -40,4 +40,12 @@ public class ServersController : BaseApiController
     [ProducesResponseType<IQueryable<Server>>(statusCode: 200)]
     public async Task<IActionResult> GetAll(ODataQueryOptions<ServerResume> queryOptions)
         => await HandleQueryable(new ServerCollectionQuery(), queryOptions);
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="serverName"></param>
+    /// <returns></returns>
+    [HttpGet("{serverName}")]
+    public async Task<IActionResult> GetAll([FromRoute] string serverName)
+        => await HandleQuery<Server, ServerVerifyDTO>(new ServerByNameQuery { Name = serverName });
 }

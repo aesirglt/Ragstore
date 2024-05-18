@@ -15,6 +15,7 @@ internal class ServerEntityConfiguration : IEntityTypeConfiguration<Server>
         builder.Property(e => e.Name).IsRequired();
         builder.Property(e => e.CreatedAt).IsRequired();
         builder.Property(e => e.UpdatedAt).IsRequired();
+        builder.Property(e => e.IsActive).IsRequired();
         builder.Property(e => e.SiteUrl);
 
         builder.HasData(MyServerSeed.Seed());

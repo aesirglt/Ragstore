@@ -20,7 +20,7 @@ public record StoreDetailViewModel
     /// <summary>
     /// 
     /// </summary>
-    public int Character { get; set; }
+    public string Character { get; set; }
     /// <summary>
     /// 
     /// </summary>

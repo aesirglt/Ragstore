@@ -13,5 +13,9 @@ public class UpdateTimeEntityConfiguration : IEntityTypeConfiguration<Agent>
         builder.ToTable(TABLE_NAME);
         builder.HasKey(e => e.Id);
         builder.Property(e => e.Id).ValueGeneratedOnAdd();
+        builder.Property(e => e.Name).IsRequired();
+        builder.Property(e => e.CreatedAt).IsRequired();
+        builder.Property(e => e.UpdatedAt).IsRequired();
+        builder.Property(e => e.IsActive).IsRequired();
     }
 }

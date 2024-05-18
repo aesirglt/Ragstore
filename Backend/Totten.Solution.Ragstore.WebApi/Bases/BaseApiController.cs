@@ -5,20 +5,16 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using FluentValidation;
 using MediatR;
-using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Extensions;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Results;
 using Newtonsoft.Json;
 using System.Net;
-using Totten.Solution.Ragstore.Domain.Features.Callbacks;
 using Totten.Solution.Ragstore.Domain.Features.Servers;
 using Totten.Solution.Ragstore.Infra.Cross.Errors;
 using Totten.Solution.Ragstore.Infra.Cross.Functionals;
-using Totten.Solution.Ragstore.Infra.Data.Features.Servers;
 using Totten.Solution.Ragstore.WebApi.Modules;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using Unit = Infra.Cross.Functionals.Unit;
 
 /// <summary>
@@ -90,7 +86,7 @@ public abstract class BaseApiController : ControllerBase
                     var mediator = scope.Resolve<IMediator>();
                     await mediator.Publish(notification(scope));
 
-                    return Accepted() as IActionResult;
+                    return Accepted();
                 }
                 catch (Exception ex)
                 {
@@ -164,6 +160,19 @@ public abstract class BaseApiController : ControllerBase
         var result = await _mediator.Send(cmd);
         return result.Match(succ => Ok(succ), HandleFailure);
     }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TSource"></typeparam>
+    /// <typeparam name="TDestiny"></typeparam>
+    /// <param name="query"></param>
+    /// <returns></returns>
+    protected async Task<IActionResult> HandleQuery<TSource, TDestiny>(
+        IRequest<Result<Exception, TSource>> query)
+    {
+        var result = await _mediator.Send(query);
+        return result.Match(succ => Ok(_mapper.Map<TDestiny>(succ)), HandleFailure);
+    }
 
     /// <summary>
     /// 
@@ -232,7 +241,15 @@ public abstract class BaseApiController : ControllerBase
 
         return result.Match(succ => Ok(HandlePage(succ, _currentGlobalScoped.Resolve<IMapper>(), queryOptions)), HandleFailure);
     }
-
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TDomain"></typeparam>
+    /// <typeparam name="TView"></typeparam>
+    /// <param name="query"></param>
+    /// <param name="mapper"></param>
+    /// <param name="queryOptions"></param>
+    /// <returns></returns>
     private PageResult<TView> HandlePage<TDomain, TView>
             (IQueryable<TDomain> query,
             IMapper mapper,
@@ -247,7 +264,6 @@ public abstract class BaseApiController : ControllerBase
                                      oDataFeature.NextLink,
                                      oDataFeature.TotalCount);
     }
-
 
     private Task<IActionResult> HandleFailureTask(Exception exception)
         => Task.FromResult(HandleFailure(exception));
