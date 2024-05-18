@@ -79,7 +79,7 @@ public class StoresController : BaseApiController
     /// <returns></returns>
     [HttpGet("store-items")]
     public async Task<IActionResult> GetByName(
-        [FromQuery] string itemName,
+        [FromQuery] string? itemName,
         [FromQuery] string server,
         ODataQueryOptions<StoreItemResponseModel> queryOptions)
     {

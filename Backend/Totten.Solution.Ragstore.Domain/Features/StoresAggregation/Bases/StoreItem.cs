@@ -1,4 +1,7 @@
 ﻿namespace Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Bases;
+
+using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using Totten.Solution.Ragstore.Domain.Bases;
 public class StoreItemCardInfo
 {

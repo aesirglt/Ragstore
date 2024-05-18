@@ -21,6 +21,13 @@ builder.Services.AddHttpClient(
             client.DefaultRequestHeaders.UserAgent.ParseAdd("dotnet-docs");
         });
 
+builder.Services.AddCors(opt =>
+{
+    opt.AddDefaultPolicy(op =>
+    {
+        op.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+    });
+});
 builder.Services
        .AddControllers(opt =>
        {

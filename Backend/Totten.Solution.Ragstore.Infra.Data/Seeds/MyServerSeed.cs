@@ -17,7 +17,7 @@ public static class MyServerSeed
         },
         new ()
         {
-            Id = 1,
+            Id = 2,
             CreatedAt = DateTime.Now,
             Name = "broVALHALLA",
             SiteUrl = "https://playragnarokonlinebr.com",

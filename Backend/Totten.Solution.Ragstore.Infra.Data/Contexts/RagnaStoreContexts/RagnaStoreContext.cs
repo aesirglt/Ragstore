@@ -15,7 +15,7 @@ public class RagnaStoreContext : DbContext
 
     public RagnaStoreContext(DbContextOptions<RagnaStoreContext> options) : base(options)
     {
-        Database?.Migrate();
+        //Database?.Migrate();
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -7,7 +7,7 @@ using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Vendings;
 using Totten.Solution.Ragstore.Infra.Cross.Functionals;
 using Totten.Solution.Ragstore.Infra.Data.Bases;
 using Totten.Solution.Ragstore.Infra.Data.Contexts.StoreServerContext;
-using Item = string;
+using ItemName = string;
 using StoreId = int;
 
 public class VendingStoreItemRepository(ServerStoreContext context)
@@ -34,9 +34,9 @@ public class VendingStoreItemRepository(ServerStoreContext context)
            .Where(item => item.CharacterId == id)
            .AsNoTracking();
 
-    public IQueryable<VendingStoreItem> GetAllByItemName(Item name)
-        => _context
-            .Set<VendingStoreItem>()
-           .Where(item => item.Name != null && item.Name.Contains(name))
+    public IQueryable<VendingStoreItem> GetAllByItemName(ItemName name)
+    => _context
+           .Set<VendingStoreItem>()
+           .Where(item => string.IsNullOrEmpty(name) ? true : item.Name.Contains(name))
            .AsNoTracking();
 }

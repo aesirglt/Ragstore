@@ -23,6 +23,8 @@ public class StoreItemsCollectionQueryHandler : IRequestHandler<StoreItemsCollec
             .Select(item => new StoreItemResponseModel
             {
                 Id = item.ItemId,
+                StoreId = item.StoreId,
+                ItemName = item.Name,
                 Price = item.Price,
                 Quantity = item.Quantity,
                 VendingType = nameof(VendingStoreItem),
