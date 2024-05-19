@@ -7,41 +7,25 @@ using Newtonsoft.Json;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Totten.Solution.Ragstore.ApplicationService.DTOs.Messages;
+using Totten.Solution.Ragstore.ApplicationService.Interfaces;
 
 public class MessageNotificationHandler : INotificationHandler<MessageNotification>
 {
-    private IMediator _mediator;
-    private HttpClient _client;
+    private IMessageService<NotificationMessageDto> _messageService;
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="provider"></param>
-    /// <exception cref="Exception"></exception>
-    public MessageNotificationHandler(IServiceProvider provider)
+    public MessageNotificationHandler(IMessageService<NotificationMessageDto> service)
     {
-        var scoped = provider.CreateScope();
-        _mediator = scoped.ServiceProvider.GetService<IMediator>() ?? throw new Exception();
-        var httpService = scoped.ServiceProvider.GetService<IHttpClientFactory>() ?? throw new Exception();
-        _client = httpService.CreateClient("WhatsClientUrl");
+        _messageService = service;
     }
 
     public async Task Handle(MessageNotification notification, CancellationToken cancellationToken)
     {
-        try
+        var response = await _messageService.Send(new NotificationMessageDto
         {
-            var postData = new StringContent(JsonConvert.SerializeObject(notification));
-            HttpResponseMessage response = await _client.PostAsync("/", postData);
-
-            if (!response.IsSuccessStatusCode)
-            {
-                Console.WriteLine("A solicitação falhou com o código de status: " + response.StatusCode);
-            }
-
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.ToString());
-        }
+            To = notification.Contact,
+            Content = notification.Body,
+            From = "RagnaStore - Seu mercado de ragnarok online"
+        });
     }
 }

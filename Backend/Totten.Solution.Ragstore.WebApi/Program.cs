@@ -17,7 +17,7 @@ builder.Services.AddHttpClient(
         "WppHttpClient",
         (provider, client) =>
         {
-            client.BaseAddress = new Uri(provider?.GetService<HttpClientSettings>()?.WhatsClientUrl ?? "");
+            client.BaseAddress = new Uri(provider?.GetService<HttpClientSettings>()?.UrlApiWPP ?? "");
             client.DefaultRequestHeaders.UserAgent.ParseAdd("dotnet-docs");
         });
 

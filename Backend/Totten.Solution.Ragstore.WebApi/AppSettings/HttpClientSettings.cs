@@ -8,5 +8,5 @@ public class HttpClientSettings
     /// <summary>
     /// 
     /// </summary>
-    public string WhatsClientUrl { get; set; } = string.Empty;
+    public string UrlApiWPP { get; set; } = string.Empty;
 }

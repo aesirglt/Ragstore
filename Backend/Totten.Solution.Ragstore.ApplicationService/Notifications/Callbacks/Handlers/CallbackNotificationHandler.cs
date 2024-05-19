@@ -9,12 +9,10 @@ using Totten.Solution.Ragstore.Domain.Features.Callbacks;
 public class CallbackNotificationHandler : INotificationHandler<CallbackNotification>
 {
     private IMediator _mediator;
-    private ICallbackRepository _callbackRepository;
     public CallbackNotificationHandler(IServiceProvider provider)
     {
         var scoped = provider.CreateScope();
         _mediator = scoped.ServiceProvider.GetService<IMediator>() ?? throw new Exception();
-        _callbackRepository = scoped.ServiceProvider.GetService<ICallbackRepository>() ?? throw new Exception();
     }
 
     public async Task Handle(CallbackNotification notify, CancellationToken cancellationToken)
