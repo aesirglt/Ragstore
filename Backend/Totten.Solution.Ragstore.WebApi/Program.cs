@@ -1,12 +1,15 @@
-using Microsoft.AspNetCore.Builder;
+using Coravel;
+using Coravel.Invocable;
 using Microsoft.AspNetCore.OData;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Totten.Solution.Ragstore.ApplicationService.Services;
 using Totten.Solution.Ragstore.Infra.Data.Contexts.EntityFrameworkIdentity;
 using Totten.Solution.Ragstore.WebApi.AppSettings;
 using Totten.Solution.Ragstore.WebApi.Endpoints;
 using Totten.Solution.Ragstore.WebApi.ServicesExtension;
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddScheduler();
 
 builder.Services.ConfigureAppSettingsClass(builder.Configuration);
 builder.Services.ConfigureIdentity();
@@ -18,7 +21,8 @@ builder.Services.AddHttpClient(
         (provider, client) =>
         {
             client.BaseAddress = new Uri(provider?.GetService<HttpClientSettings>()?.UrlApiWPP ?? "");
-            client.DefaultRequestHeaders.UserAgent.ParseAdd("dotnet-docs");
+            client.DefaultRequestHeaders.Add("apiKey", "guirono44o5xb5i8neynzj");
+            client.DefaultRequestHeaders.UserAgent.ParseAdd("RagnaStoreApi");
         });
 
 builder.Services.AddCors(opt =>
@@ -50,6 +54,10 @@ builder.Host
        .ConfigureAutofac(builder.Configuration);
 
 var app = builder.Build();
+app.Services.UseScheduler(sch =>
+{
+    sch.Schedule<ScheduleCallbackService>().Cron("*/15 * * * *");
+});
 app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();

@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using Totten.Solution.Ragstore.ApplicationService.DTOs.Messages;
 using Totten.Solution.Ragstore.ApplicationService.Interfaces;
 using Totten.Solution.Ragstore.Infra.Cross.Functionals;
-using static System.Net.Mime.MediaTypeNames;
 
 public class WhatsAPPService : IMessageService<NotificationMessageDto>
 {
@@ -17,6 +16,7 @@ public class WhatsAPPService : IMessageService<NotificationMessageDto>
     {
         _httpClient = httpClientFactory.CreateClient("UrlApiWPP");
     }
+
     public async Task<Result<Exception, Unit>> Send(NotificationMessageDto sendableClass)
     {
         try
@@ -31,7 +31,6 @@ public class WhatsAPPService : IMessageService<NotificationMessageDto>
             });
             var stringContent = new StringContent(json, Encoding.UTF8, "application/json");
             var httpMessage = new HttpRequestMessage(HttpMethod.Post, "message/sendText/ragnastore");
-            httpMessage.Headers.Add("apiKey", "guirono44o5xb5i8neynzj");
 
             var response = await _httpClient.SendAsync(httpMessage);
 
