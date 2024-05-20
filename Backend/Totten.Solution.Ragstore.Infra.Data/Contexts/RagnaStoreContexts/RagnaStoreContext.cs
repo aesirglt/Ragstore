@@ -1,16 +1,17 @@
 ﻿namespace Totten.Solution.Ragstore.Infra.Data.Contexts.RagnaStoreContexts;
 using Microsoft.EntityFrameworkCore;
 using Totten.Solution.Ragstore.Domain.Features.AgentAggregation;
-using Totten.Solution.Ragstore.Domain.Features.Callbacks;
+using Totten.Solution.Ragstore.Domain.Features.CallbackAggregation;
 using Totten.Solution.Ragstore.Domain.Features.Servers;
 using Totten.Solution.Ragstore.Infra.Data.Features.Agents.EntityConfigurations;
-using Totten.Solution.Ragstore.Infra.Data.Features.Callbacks.EntityConfigurations;
+using Totten.Solution.Ragstore.Infra.Data.Features.CallbackAggregation.EntityConfigurations;
 using Totten.Solution.Ragstore.Infra.Data.Features.Servers.EntityConfigurations;
 
 public class RagnaStoreContext : DbContext
 {
     public virtual DbSet<Server> Servers { get; set; }
     public virtual DbSet<Callback> Callbacks { get; set; }
+    public virtual DbSet<CallbackSchedule> CallbacksSchedule { get; set; }
     public virtual DbSet<Agent> UpdateTimes { get; set; }
 
     public RagnaStoreContext(DbContextOptions<RagnaStoreContext> options) : base(options)
@@ -22,6 +23,7 @@ public class RagnaStoreContext : DbContext
         => base.OnModelCreating(
                 modelBuilder.ApplyConfiguration(new ServerEntityConfiguration())
                             .ApplyConfiguration(new UpdateTimeEntityConfiguration())
+                            .ApplyConfiguration(new CallbackScheduleConfiguration())
                             .ApplyConfiguration(new CallbackEntityConfiguration()));
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

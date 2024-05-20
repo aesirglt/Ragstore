@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 using Totten.Solution.Ragstore.ApplicationService.Features.Callbacks.Commands;
 using Totten.Solution.Ragstore.ApplicationService.Features.ItemsAggregation.Queries;
-using Totten.Solution.Ragstore.Domain.Features.Callbacks;
+using Totten.Solution.Ragstore.Domain.Features.CallbackAggregation;
 using Totten.Solution.Ragstore.Infra.Cross.CrossDTOs;
 using Totten.Solution.Ragstore.Infra.Cross.Functionals;
 using Totten.Solution.Ragstore.WebApi.Bases;

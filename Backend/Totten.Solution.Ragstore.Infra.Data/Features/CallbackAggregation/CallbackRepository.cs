@@ -1,8 +1,5 @@
-﻿namespace Totten.Solution.Ragstore.Infra.Data.Features.Callbacks;
-
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using Totten.Solution.Ragstore.Domain.Features.Callbacks;
+﻿namespace Totten.Solution.Ragstore.Infra.Data.Features.CallbackAggregation;
+using Totten.Solution.Ragstore.Domain.Features.CallbackAggregation;
 using Totten.Solution.Ragstore.Infra.Data.Bases;
 using Totten.Solution.Ragstore.Infra.Data.Contexts.RagnaStoreContexts;
 

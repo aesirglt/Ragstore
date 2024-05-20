@@ -1,7 +1,7 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Notifications.Callbacks;
 
 using MediatR;
-using Totten.Solution.Ragstore.Domain.Features.Callbacks;
+using Totten.Solution.Ragstore.Domain.Features.CallbackAggregation;
 
 public record CallbackNotification : INotification
 {

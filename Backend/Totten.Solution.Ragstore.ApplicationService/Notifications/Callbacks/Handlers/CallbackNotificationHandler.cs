@@ -4,13 +4,15 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
 using Totten.Solution.Ragstore.ApplicationService.Notifications.Messages;
-using Totten.Solution.Ragstore.Domain.Features.Callbacks;
+using Totten.Solution.Ragstore.Domain.Features.CallbackAggregation;
 
 public class CallbackNotificationHandler : INotificationHandler<CallbackNotification>
 {
     private IMediator _mediator;
-    public CallbackNotificationHandler(IServiceProvider provider)
+    private ICallbackScheduleRepository _callbackScheduleRepository;
+    public CallbackNotificationHandler(IServiceProvider provider, ICallbackScheduleRepository callbackScheduleRepository)
     {
+        _callbackScheduleRepository = callbackScheduleRepository;
         var scoped = provider.CreateScope();
         _mediator = scoped.ServiceProvider.GetService<IMediator>() ?? throw new Exception();
     }
@@ -19,19 +21,28 @@ public class CallbackNotificationHandler : INotificationHandler<CallbackNotifica
     {
         try
         {
+            var message = new MessageNotification
+            {
+                Contact = notify.UserCellphone,
+                Body = @$"RagnaStore, item: *{notify.ItemId}* em *{notify.Location}* por *{notify.Price}* servidor: {notify.Server}"
+            };
+
             if (notify.Level is ECallbackType.AGENT or ECallbackType.SYSTEM)
             {
-                _ = _mediator.Publish(new MessageNotification
-                {
-                    Contact = notify.UserCellphone,
-                    Body = @$"RagnaStore, item: *{notify.ItemId}* em *{notify.Location}* por *{notify.Price}* servidor: {notify.Server} as {DateTime.Now.ToString("HH:mm:ss")}"
-                });
+                _ = _mediator.Publish(message);
                 return;
             }
 
-            //adiciona na fila rabiitmq para proximo envios de callback
-            //envio de callbacks para pessoas comuns serão apenas a cada meia hora ou 15 minutos, a depender do sistema.
-            //ainda não defini essa parte
+            _ = await _callbackScheduleRepository.Save(new CallbackSchedule
+            {
+                Id = 0,
+                Name = $"Server:{notify.Server}-ItemId:{notify.ItemId}-Price:{notify.Price}",
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+                Contact = message.Contact,
+                SendIn = DateTime.Now.AddMinutes(notify.Level.GetMinutesToSendMessage()),
+                Body = message.Body
+            });
         }
         catch (Exception ex)
         {

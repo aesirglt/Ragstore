@@ -1,7 +1,7 @@
-﻿namespace Totten.Solution.Ragstore.Infra.Data.Features.Callbacks.EntityConfigurations;
+﻿namespace Totten.Solution.Ragstore.Infra.Data.Features.CallbackAggregation.EntityConfigurations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Totten.Solution.Ragstore.Domain.Features.Callbacks;
+using Totten.Solution.Ragstore.Domain.Features.CallbackAggregation;
 internal class CallbackEntityConfiguration : IEntityTypeConfiguration<Callback>
 {
     const string TABLE_NAME = "Callbacks";

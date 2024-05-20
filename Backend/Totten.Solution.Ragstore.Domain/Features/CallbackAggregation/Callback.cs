@@ -1,4 +1,4 @@
-﻿namespace Totten.Solution.Ragstore.Domain.Features.Callbacks;
+﻿namespace Totten.Solution.Ragstore.Domain.Features.CallbackAggregation;
 using Totten.Solution.Ragstore.Domain.Bases;
 
 public record Callback : Entity<Callback, int>

@@ -4,7 +4,7 @@ using MediatR;
 using System;
 using System.Threading.Tasks;
 using Totten.Solution.Ragstore.ApplicationService.Features.ItemsAggregation.Queries;
-using Totten.Solution.Ragstore.Domain.Features.Callbacks;
+using Totten.Solution.Ragstore.Domain.Features.CallbackAggregation;
 using Totten.Solution.Ragstore.Infra.Cross.Functionals;
 
 public class CallbackCollectionByUserIdQueryHandler : IRequestHandler<CallbackCollectionByUserIdQuery, Result<Exception, IQueryable<Callback>>>

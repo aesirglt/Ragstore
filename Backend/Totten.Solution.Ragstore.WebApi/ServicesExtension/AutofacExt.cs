@@ -21,7 +21,7 @@ public static class AutofacExt
     {
         return hostBuilder
             .UseServiceProviderFactory(new AutofacServiceProviderFactory())
-            .ConfigureContainer<ContainerBuilder>(containerBuilder =>
+            .ConfigureContainer<ContainerBuilder>((context, containerBuilder) =>
             {
                 var configuration = MediatRConfigurationBuilder
                                     .Create(typeof(Program).Assembly)

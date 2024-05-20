@@ -4,8 +4,11 @@ using Autofac;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Totten.Solution.Ragstore.ApplicationService;
+using Totten.Solution.Ragstore.ApplicationService.DTOs.Messages;
+using Totten.Solution.Ragstore.ApplicationService.Interfaces;
+using Totten.Solution.Ragstore.ApplicationService.Services;
 using Totten.Solution.Ragstore.Domain.Features.AgentAggregation;
-using Totten.Solution.Ragstore.Domain.Features.Callbacks;
+using Totten.Solution.Ragstore.Domain.Features.CallbackAggregation;
 using Totten.Solution.Ragstore.Domain.Features.ItemsAggregation;
 using Totten.Solution.Ragstore.Domain.Features.Servers;
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Buyings;
@@ -13,7 +16,7 @@ using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Vendings;
 using Totten.Solution.Ragstore.Infra.Data.Bases;
 using Totten.Solution.Ragstore.Infra.Data.Contexts.RagnaStoreContexts;
 using Totten.Solution.Ragstore.Infra.Data.Features.Agents;
-using Totten.Solution.Ragstore.Infra.Data.Features.Callbacks;
+using Totten.Solution.Ragstore.Infra.Data.Features.CallbackAggregation;
 using Totten.Solution.Ragstore.Infra.Data.Features.ItemAggregation;
 using Totten.Solution.Ragstore.Infra.Data.Features.ItemsAggregation;
 using Totten.Solution.Ragstore.Infra.Data.Features.Servers;
@@ -43,6 +46,11 @@ public class GlobalModule<TProgram> : Autofac.Module
     /// <param name="builder"></param>
     protected override void Load(ContainerBuilder builder)
     {
+
+        builder.RegisterType<WhatsAPPService>()
+               .As<IMessageService<NotificationMessageDto>>()
+               .InstancePerLifetimeScope();
+
         builder.RegisterType<ServerRepository>()
                .As<IServerRepository>()
                .InstancePerLifetimeScope();
@@ -57,6 +65,7 @@ public class GlobalModule<TProgram> : Autofac.Module
         builder.RegisterType<VendingStoreRepository>()
                .As<IVendingStoreRepository>()
                .InstancePerLifetimeScope();
+
         builder.RegisterType<VendingStoreItemRepository>()
                .As<IVendingStoreItemRepository>()
                .InstancePerLifetimeScope();
@@ -69,6 +78,10 @@ public class GlobalModule<TProgram> : Autofac.Module
                .As<ICallbackRepository>()
                .InstancePerLifetimeScope();
 
+        builder.RegisterType<CallbackScheduleRepository>()
+               .As<ICallbackScheduleRepository>()
+               .InstancePerLifetimeScope();
+        
         builder.RegisterType<UpdateTimeRepository>()
                .As<IAgentRepository>()
                .InstancePerLifetimeScope();

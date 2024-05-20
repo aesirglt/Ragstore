@@ -6,7 +6,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Totten.Solution.Ragstore.ApplicationService.Notifications.Callbacks;
-using Totten.Solution.Ragstore.Domain.Features.Callbacks;
+using Totten.Solution.Ragstore.Domain.Features.CallbackAggregation;
 
 public class NewStoreNotificationHandler : INotificationHandler<NewStoreNotification>
 {

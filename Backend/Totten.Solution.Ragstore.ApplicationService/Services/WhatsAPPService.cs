@@ -23,14 +23,15 @@ public class WhatsAPPService : IMessageService<NotificationMessageDto>
         {
             var json = JsonConvert.SerializeObject(new
             {
-                number = sendableClass.To.StartsWith('+') ? sendableClass.To : $"+55{sendableClass.To}",
+                number = sendableClass.To,
                 textMessage = new
                 {
                     text = sendableClass.Content
                 }
             });
-            var stringContent = new StringContent(json, Encoding.UTF8, "application/json");
+
             var httpMessage = new HttpRequestMessage(HttpMethod.Post, "message/sendText/ragnastore");
+            httpMessage.Content = new StringContent(json, Encoding.UTF8, "application/json");
 
             var response = await _httpClient.SendAsync(httpMessage);
 
