@@ -29,6 +29,23 @@ public readonly struct Result<TErr, TValue>
 
         return new Unit();
     }
+
+    public Unit IfSucc(Action<TValue> func)
+    {
+        if (_success)
+            func(_value);
+
+        return new Unit();
+    }
+
+    public async Task<Unit> IfSucc(Func<TValue, Task> func)
+    {
+        if (_success)
+            await func(_value);
+
+        return new Unit();
+    }
+
     public Task<Result<TErr, TValue>> AsTask()
         => Task.FromResult(this);
     public static Result<TErr, TValue> Ok(TValue v)

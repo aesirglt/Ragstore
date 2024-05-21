@@ -34,8 +34,7 @@ public class NewStoreNotificationHandler : INotificationHandler<NewStoreNotifica
             if (callback is { Count: > 0 })
             {
                 _ = notify.Items
-                          .Select(it => callback.Any(c => c.ItemId == it.ItemId && it.ItemPrice <= c.ItemPrice) ? it : null)
-                          .Where(it => it != null)
+                          .Where(it => callback.Any(c => c.ItemId == it.ItemId && it.ItemPrice <= c.ItemPrice))
                           .Select(it => new
                           {
                               notify = it,

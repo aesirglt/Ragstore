@@ -24,7 +24,6 @@
     <Folder Include="BackgroundServices\" />
     <Folder Include="Features\Accounts\CommandsHandler\" />
     <Folder Include="Features\Accounts\QueriesHandler\" />
-    <Folder Include="Features\Agents\CommandsHandler\" />
     <Folder Include="Features\Agents\QueriesHandler\" />
     <Folder Include="Features\Characters\CommandsHandler\" />
     <Folder Include="Features\Characters\QueriesHandler\" />

@@ -1,4 +1,4 @@
-﻿namespace Totten.Solution.Ragstore.WebApi.Controllers.Stores;
+﻿namespace Totten.Solution.Ragstore.WebApi.Controllers.WithMultiTenant.Stores;
 
 using Autofac;
 using Microsoft.AspNetCore.Mvc;
@@ -6,21 +6,21 @@ using Microsoft.AspNetCore.OData.Query;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Commands;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Queries;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.ResponseModels;
-using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Vendings;
+using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Buyings;
 using Totten.Solution.Ragstore.WebApi.Bases;
 using Totten.Solution.Ragstore.WebApi.ViewModels.Stores;
 /// <summary>
 /// 
 /// </summary>
 [ApiController]
-public class StoresVendingController : BaseApiController
+public class StoresBuyingController : BaseApiController
 {
-    const string API_ENDPOINT = "stores-vending";
+    const string API_ENDPOINT = "stores-buying";
     /// <summary>
     /// 
     /// </summary>
     /// <param name="lifetimeScope"></param>
-    public StoresVendingController(ILifetimeScope lifetimeScope) : base(lifetimeScope)
+    public StoresBuyingController(ILifetimeScope lifetimeScope) : base(lifetimeScope)
     {
     }
     /// <summary>
@@ -33,7 +33,7 @@ public class StoresVendingController : BaseApiController
     public async Task<IActionResult> GetAll(
         [FromQuery] string server,
         ODataQueryOptions<StoreResumeViewModel> queryOptions)
-            => await HandleQueryable(new VendingStoreCollectionQuery(), server, queryOptions);
+            => await HandleQueryable(new BuyingStoreCollectionQuery(), server, queryOptions);
     /// <summary>
     /// 
     /// </summary>
@@ -44,8 +44,8 @@ public class StoresVendingController : BaseApiController
     public async Task<IActionResult> GetById(
         [FromQuery] string server,
         [FromRoute] int id)
-            => await HandleQuery<VendingStore, StoreDetailViewModel>(
-                        new VendingStoreByIdQuery { Id = id },
+            => await HandleQuery<BuyingStore, StoreDetailViewModel>(
+                        new BuyingStoreByIdQuery { Id = id },
                         server);
     /// <summary>
     /// 
@@ -56,7 +56,7 @@ public class StoresVendingController : BaseApiController
     [HttpPost(API_ENDPOINT)]
     public async Task<IActionResult> Post(
         [FromQuery] string server,
-        [FromBody] VendingStoreSaveCommand createCmd)
+        [FromBody] BuyingStoreSaveCommand createCmd)
             => await HandleCommand(createCmd, server);
     /// <summary>
     /// 
@@ -67,7 +67,7 @@ public class StoresVendingController : BaseApiController
     [HttpPost($"{API_ENDPOINT}-batch")]
     public async Task<IActionResult> PostBatch(
         [FromQuery] string server,
-        [FromBody] VendingStoreSaveCommand[] createCmd)
+        [FromBody] BuyingStoreSaveCommand[] createCmd)
            => await HandleAccepted(server, createCmd);
 
     /// <summary>
@@ -77,13 +77,13 @@ public class StoresVendingController : BaseApiController
     /// <param name="server"></param>
     /// <param name="queryOptions"></param>
     /// <returns></returns>
-    [HttpGet("stores-vending/items")]
+    [HttpGet("stores-buying/items")]
     public async Task<IActionResult> GetByName(
         [FromQuery] string? itemName,
         [FromQuery] string server,
         ODataQueryOptions<StoreItemResponseModel> queryOptions)
     {
-        return await HandleQueryable(new VendingStoreItemsCollectionQuery
+        return await HandleQueryable(new BuyingStoreItemsCollectionQuery
         {
             ItemName = itemName
         }, server, queryOptions);

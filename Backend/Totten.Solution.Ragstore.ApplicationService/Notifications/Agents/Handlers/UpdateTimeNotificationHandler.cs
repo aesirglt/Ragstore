@@ -1,24 +1,25 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Notifications.Agents.Handlers;
 
-using Autofac;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
-using Totten.Solution.Ragstore.Domain.Features.AgentAggregation;
+using Totten.Solution.Ragstore.Domain.Features.Servers;
 
 public class UpdateTimeNotificationHandler : INotificationHandler<UpdateTimeNotification>
 {
+    private IServerRepository _serverRepository;
+    public UpdateTimeNotificationHandler(IServerRepository serverRepository)
+    {
+        _serverRepository = serverRepository;
+    }
     public async Task Handle(UpdateTimeNotification notification, CancellationToken cancellationToken)
     {
-        var scoped = notification.Scope;
-        var repository = scoped.Resolve<IAgentRepository>() ?? throw new Exception();
-        var updateTime = repository.GetAllByFilter(upd => notification.Server.Equals(upd.Name)).FirstOrDefault();
+        var server = _serverRepository.GetByName(notification.Server);
 
-        if (updateTime is null)
-            return;
-
-        updateTime.UpdatedAt = notification.UpdatedAt;
-
-        _ = await repository.Update(updateTime);
+        await server.IfSucc(async succ =>
+        {
+            succ.UpdatedAt = DateTime.Now;
+            await _serverRepository.Update(succ);
+        });
     }
 }

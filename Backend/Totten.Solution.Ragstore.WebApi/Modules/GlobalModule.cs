@@ -82,7 +82,7 @@ public class GlobalModule<TProgram> : Autofac.Module
                .As<ICallbackScheduleRepository>()
                .InstancePerLifetimeScope();
         
-        builder.RegisterType<UpdateTimeRepository>()
+        builder.RegisterType<AgentRepository>()
                .As<IAgentRepository>()
                .InstancePerLifetimeScope();
         

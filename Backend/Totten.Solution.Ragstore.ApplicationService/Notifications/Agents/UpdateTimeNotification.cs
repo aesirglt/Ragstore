@@ -7,5 +7,4 @@ public class UpdateTimeNotification : INotification
 {
     public string Server { get; set; } = string.Empty;
     public DateTime UpdatedAt { get; set; } = DateTime.Now;
-    public required ILifetimeScope Scope { get; set; }
 }

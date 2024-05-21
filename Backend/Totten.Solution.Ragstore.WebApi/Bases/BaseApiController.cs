@@ -94,6 +94,24 @@ public abstract class BaseApiController : ControllerBase
                 }
             }, HandleFailureTask);
     }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="notification"></param>
+    /// <returns></returns>
+    protected async Task<IActionResult> HandleEvent(INotification notification)
+    {
+        try
+        {
+            await _mediator.Publish(notification);
+
+            return Accepted();
+        }
+        catch (Exception ex)
+        {
+            return HandleFailure(ex);
+        }
+    }
 
     /// <summary>
     /// 

@@ -1,4 +1,4 @@
-﻿namespace Totten.Solution.Ragstore.WebApi.Controllers;
+﻿namespace Totten.Solution.Ragstore.WebApi.Controllers.WithMultiTenant;
 
 using Autofac;
 using Microsoft.AspNetCore.Mvc;
@@ -26,10 +26,9 @@ public class UpTimesController : BaseApiController
     [HttpPost("up-times")]
     public async Task<IActionResult> Post(
         [FromQuery] string server)
-            => await HandleEvent(scope => new UpdateTimeNotification
+            => await HandleEvent(new UpdateTimeNotification
             {
                 Server = server,
                 UpdatedAt = DateTime.Now,
-                Scope = scope
-            }, server);
+            });
 }
