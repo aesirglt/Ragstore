@@ -24,8 +24,10 @@ public class NewStoreNotificationHandler : INotificationHandler<NewStoreNotifica
     {
         try
         {
+            var notifyCallbackType = Enum.Parse<EStoreCallbackType>(notify.StoreType);
+
             List<int> itemsIds = notify.Items.Select(it => it.ItemId).ToList();
-            var callback = _repository.GetAllByFilter(x => x.Server == notify.Server)
+            var callback = _repository.GetAllByFilter(x => x.Server == notify.Server && x.StoreType == notifyCallbackType)
                                            .Where(c => itemsIds.Any(itemId => itemId == c.ItemId))
                                            .ToList();
 
@@ -43,10 +45,11 @@ public class NewStoreNotificationHandler : INotificationHandler<NewStoreNotifica
                           {
                               Server = notify.Server,
                               Location = notify.Where,
-                              Price = selected.notify?.ItemPrice ?? -1,
-                              ItemId = selected.notify?.ItemId ?? -1,
-                              Level = selected.callback?.Level ?? ECallbackType.None,
-                              UserCellphone = selected.callback?.UserCellphone ?? ""
+                              CallbackType = selected?.callback?.StoreType ?? EStoreCallbackType.None,
+                              Price = selected?.notify?.ItemPrice ?? -1,
+                              ItemId = selected?.notify?.ItemId ?? -1,
+                              Level = selected?.callback?.Level ?? ECallbackType.None,
+                              UserCellphone = selected?.callback?.UserCellphone ?? ""
                           })).ToArray();
             };
         }

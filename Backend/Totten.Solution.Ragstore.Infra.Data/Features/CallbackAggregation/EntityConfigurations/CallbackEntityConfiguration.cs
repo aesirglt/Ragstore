@@ -23,6 +23,7 @@ internal class CallbackEntityConfiguration : IEntityTypeConfiguration<Callback>
             Id = 1,
             CallbackOwnerId = $"d7aeb595-44a5-4f5d-822e-980f35ace12d",
             Level = ECallbackType.SYSTEM,
+            StoreType = EStoreCallbackType.VendingStore,
             Name = "CallbackObscuro",
             CreatedAt = DateTime.Now,
             Server = "broTHOR",

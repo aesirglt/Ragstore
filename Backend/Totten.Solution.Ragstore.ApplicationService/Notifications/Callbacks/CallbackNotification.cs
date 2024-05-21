@@ -10,5 +10,6 @@ public record CallbackNotification : INotification
     public required double Price { get; init; }
     public required string Location { get; init; }
     public required ECallbackType Level { get; init; }
+    public required EStoreCallbackType CallbackType { get; init; }
     public required string UserCellphone { get; init; }
 }

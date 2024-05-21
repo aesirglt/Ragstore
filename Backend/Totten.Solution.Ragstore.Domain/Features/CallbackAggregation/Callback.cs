@@ -9,4 +9,5 @@ public record Callback : Entity<Callback, int>
     public int ItemId { get; set; }
     public double ItemPrice { get; set; }
     public ECallbackType Level { get; set; }
+    public EStoreCallbackType StoreType { get; set; }
 }

@@ -12,8 +12,8 @@ using Totten.Solution.Ragstore.Infra.Data.Contexts.RagnaStoreContexts;
 namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
 {
     [DbContext(typeof(RagnaStoreContext))]
-    [Migration("20240519235003_CreateCallbackSchedule")]
-    partial class CreateCallbackSchedule
+    [Migration("20240520115234_First")]
+    partial class First
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -86,6 +86,9 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("StoreType")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
@@ -102,13 +105,14 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
                         {
                             Id = 1,
                             CallbackOwnerId = "d7aeb595-44a5-4f5d-822e-980f35ace12d",
-                            CreatedAt = new DateTime(2024, 5, 19, 20, 50, 2, 964, DateTimeKind.Local).AddTicks(9051),
+                            CreatedAt = new DateTime(2024, 5, 20, 8, 52, 34, 96, DateTimeKind.Local).AddTicks(2747),
                             ItemId = 490037,
                             ItemPrice = 500000000.0,
                             Level = 4,
                             Name = "CallbackObscuro",
                             Server = "broTHOR",
-                            UpdatedAt = new DateTime(2024, 5, 19, 20, 50, 2, 964, DateTimeKind.Local).AddTicks(9055),
+                            StoreType = 0,
+                            UpdatedAt = new DateTime(2024, 5, 20, 8, 52, 34, 96, DateTimeKind.Local).AddTicks(2750),
                             UserCellphone = "+5584988633251"
                         });
                 });
@@ -183,20 +187,20 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2024, 5, 19, 20, 50, 2, 964, DateTimeKind.Local).AddTicks(7125),
+                            CreatedAt = new DateTime(2024, 5, 20, 8, 52, 34, 96, DateTimeKind.Local).AddTicks(1047),
                             IsActive = false,
                             Name = "broTHOR",
                             SiteUrl = "https://playragnarokonlinebr.com",
-                            UpdatedAt = new DateTime(2024, 5, 19, 20, 50, 2, 964, DateTimeKind.Local).AddTicks(7141)
+                            UpdatedAt = new DateTime(2024, 5, 20, 8, 52, 34, 96, DateTimeKind.Local).AddTicks(1062)
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2024, 5, 19, 20, 50, 2, 964, DateTimeKind.Local).AddTicks(7144),
+                            CreatedAt = new DateTime(2024, 5, 20, 8, 52, 34, 96, DateTimeKind.Local).AddTicks(1067),
                             IsActive = false,
                             Name = "broVALHALLA",
                             SiteUrl = "https://playragnarokonlinebr.com",
-                            UpdatedAt = new DateTime(2024, 5, 19, 20, 50, 2, 964, DateTimeKind.Local).AddTicks(7145)
+                            UpdatedAt = new DateTime(2024, 5, 20, 8, 52, 34, 96, DateTimeKind.Local).AddTicks(1068)
                         });
                 });
 #pragma warning restore 612, 618

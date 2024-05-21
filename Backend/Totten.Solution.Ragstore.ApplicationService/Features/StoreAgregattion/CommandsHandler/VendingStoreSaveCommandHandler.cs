@@ -47,6 +47,7 @@ public class VendingStoreSaveCommandHandler : IRequestHandler<VendingStoreSaveCo
                 Server = request.Server,
                 Where = $"{request.Map} {request.Location}",
                 Merchant = request.CharacterName,
+                StoreType = nameof(VendingStore),
                 Date = DateTime.Now,
                 Items = request.StoreItems.Select(x => new NewStoreNotificationItem()
                 {
