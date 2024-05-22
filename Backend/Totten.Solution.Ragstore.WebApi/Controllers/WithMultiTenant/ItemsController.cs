@@ -4,7 +4,6 @@ using Autofac;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 using Totten.Solution.Ragstore.ApplicationService.Features.ItemsAggregation.Queries;
-using Totten.Solution.Ragstore.ApplicationService.Features.ItemsAggregation.ResponseModels;
 using Totten.Solution.Ragstore.WebApi.Bases;
 using Totten.Solution.Ragstore.WebApi.ViewModels.Items;
 /// <summary>
