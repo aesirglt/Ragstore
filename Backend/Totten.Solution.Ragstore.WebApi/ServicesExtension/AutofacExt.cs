@@ -4,6 +4,7 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using MediatR.Extensions.Autofac.DependencyInjection;
 using MediatR.Extensions.Autofac.DependencyInjection.Builder;
+using Totten.Solution.Ragstore.WebApi.AppSettings;
 using Totten.Solution.Ragstore.WebApi.Modules;
 
 /// <summary>
@@ -28,10 +29,14 @@ public static class AutofacExt
                                     .WithAllOpenGenericHandlerTypesRegistered()
                                     .WithRegistrationScope(RegistrationScope.Scoped)
                                     .Build();
-
+                
                 containerBuilder.RegisterModule(new FluentValidationModule());
                 containerBuilder.RegisterModule(new GlobalModule<Program>(cfgRoot));
                 containerBuilder.RegisterModule(new MediatRModule());
+                containerBuilder.RegisterModule(new HttpClientsModule
+                {
+                    Settings = context.Configuration.Get<AppSettings>()
+                });
 
                 containerBuilder.RegisterMediatR(configuration);
                 containerBuilder.Register(r => containerBuilder).AsSelf().InstancePerLifetimeScope();

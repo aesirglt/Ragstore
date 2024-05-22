@@ -3,6 +3,7 @@
 using Autofac;
 using FluentValidation;
 using Totten.Solution.Ragstore.ApplicationService;
+
 /// <summary>
 /// 
 /// </summary>

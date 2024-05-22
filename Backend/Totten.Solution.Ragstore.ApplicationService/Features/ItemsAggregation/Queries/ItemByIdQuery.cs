@@ -7,4 +7,6 @@ using Totten.Solution.Ragstore.Infra.Cross.Functionals;
 public class ItemByIdQuery : IRequest<Result<Exception, ItemDetailResponseModel>>
 {
     public int ItemId { get; set; }
+    public string Server { get; set; } = string.Empty;
+    public string ServerLanguage { get; set; } = string.Empty;
 }

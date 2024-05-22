@@ -4,5 +4,5 @@ using Totten.Solution.Ragstore.Domain.Bases;
 public record Server : Entity<Server, int>, IActive
 {
     public bool IsActive { get; set; }
-    public string SiteUrl { get; set; }
+    public string SiteUrl { get; set; } = string.Empty;
 }

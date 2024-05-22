@@ -4,13 +4,13 @@ using Autofac;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 using Totten.Solution.Ragstore.ApplicationService.Features.ItemsAggregation.Queries;
+using Totten.Solution.Ragstore.ApplicationService.Features.ItemsAggregation.ResponseModels;
 using Totten.Solution.Ragstore.WebApi.Bases;
 using Totten.Solution.Ragstore.WebApi.ViewModels.Items;
 /// <summary>
 /// 
 /// </summary>
 [ApiController]
-[Route("[controller]")]
 public class ItemsController : BaseApiController
 {
     /// <summary>
@@ -27,7 +27,7 @@ public class ItemsController : BaseApiController
     /// <param name="server"></param>
     /// <param name="queryOptions"></param>
     /// <returns></returns>
-    [HttpGet("{name}")]
+    [HttpGet("items-name/{name}")]
     public async Task<IActionResult> GetByName(
         [FromRoute] string name,
         [FromQuery] string server,
@@ -37,5 +37,23 @@ public class ItemsController : BaseApiController
         {
             Name = name
         }, server, queryOptions);
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="itemId"></param>
+    /// <param name="server"></param>
+    /// <returns></returns>
+    [HttpGet("items/{itemId}")]
+    public async Task<IActionResult> GetByName(
+        [FromRoute] int itemId,
+        [FromQuery] string server)
+    {
+        return await HandleQuery(new ItemByIdQuery
+        {
+            ItemId = itemId,
+            Server = server,
+            ServerLanguage = "pt-BR"
+        }, server);
     }
 }

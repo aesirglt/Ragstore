@@ -12,8 +12,7 @@ public static class ConfigureAppSettings
     /// </summary>
     public static IServiceCollection ConfigureAppSettingsClass(this IServiceCollection services, IConfigurationRoot configuration)
     {
-        services
-            .Configure<HttpClientSettings>(configuration.GetSection("HttpClients"));
+        services.Configure<AppSettings>(configuration.GetSection("HttpClients"));
 
         return services;
     }

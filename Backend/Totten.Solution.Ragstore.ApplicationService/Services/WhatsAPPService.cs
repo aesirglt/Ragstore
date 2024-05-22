@@ -1,5 +1,6 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Services;
 
+using Autofac;
 using Newtonsoft.Json;
 using System;
 using System.Text;
@@ -12,9 +13,9 @@ public class WhatsAPPService : IMessageService<NotificationMessageDto>
 {
     private HttpClient _httpClient;
 
-    public WhatsAPPService(IHttpClientFactory httpClientFactory)
+    public WhatsAPPService(IComponentContext httpClientFactory)
     {
-        _httpClient = httpClientFactory.CreateClient("UrlApiWPP");
+        _httpClient = httpClientFactory.ResolveNamed<HttpClient>("UrlApiWPP");
     }
 
     public async Task<Result<Exception, Unit>> Send(NotificationMessageDto sendableClass)

@@ -8,5 +8,17 @@ public class HttpClientSettings
     /// <summary>
     /// 
     /// </summary>
-    public string UrlApiWPP { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
+    /// <summary>
+    /// 
+    /// </summary>
+    public string Url { get; set; } = string.Empty;
+    /// <summary>
+    /// 
+    /// </summary>
+    public Dictionary<string, string> DefaultHeaders { get; set; } = new Dictionary<string, string>();
+    /// <summary>
+    /// 
+    /// </summary>
+    public Dictionary<string, string> DefaultInQueryData { get; set; } = new Dictionary<string, string>();
 }

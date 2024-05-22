@@ -1,10 +1,7 @@
-using Autofac.Core;
 using Microsoft.AspNetCore.OData;
-using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Totten.Solution.Ragstore.Infra.Data.Contexts.EntityFrameworkIdentity;
-using Totten.Solution.Ragstore.WebApi.AppSettings;
 using Totten.Solution.Ragstore.WebApi.BackgroundServices;
 using Totten.Solution.Ragstore.WebApi.Endpoints;
 using Totten.Solution.Ragstore.WebApi.ServicesExtension;
@@ -14,16 +11,6 @@ builder.Services.ConfigureAppSettingsClass(builder.Configuration);
 builder.Services.ConfigureIdentity();
 builder.Services.AddAntiforgery();
 builder.Services.AddProblemDetails().AddExceptionHandler<GlobalExceptionHandler>();
-
-builder.Services.AddHttpClient(
-        "UrlApiWPP",
-        (provider, client) =>
-        {
-            var service = provider?.GetService<IOptions<HttpClientSettings>>().Value;
-            var api = service?.UrlApiWPP;
-            client.BaseAddress = new Uri(api ?? "");
-            client.DefaultRequestHeaders.Add("apiKey", "guirono44o5xb5i8neynzj");
-        });
 
 builder.Services.AddCors(opt =>
 {

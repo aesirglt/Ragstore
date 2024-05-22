@@ -214,6 +214,21 @@ public abstract class BaseApiController : ControllerBase
                 return result.Match(succ => Ok(m.Map<TDestiny>(succ)), HandleFailure);
             }, HandleFailureTask);
     }
+    protected async Task<IActionResult> HandleQuery<TSource>(
+        IRequest<Result<Exception, TSource>> query,
+        string serverName)
+    {
+        return await _serverRepository
+            .GetByName(serverName)
+            .Match(async succ =>
+            {
+                var scope = CreateChildScope(serverName);
+                var mediator = scope.Resolve<IMediator>();
+                var result = await mediator.Send(query);
+
+                return result.Match(succ => Ok(succ), HandleFailure);
+            }, HandleFailureTask);
+    }
 
     /// <summary>
     /// 
