@@ -37,6 +37,13 @@ public abstract class RepositoryBase<TEntity> : IRepository<TEntity, int>
         .Where(filter)
         .AsNoTracking();
 
+    public TEntity? Get(Expression<Func<TEntity, bool>> filter)
+        => _context
+        .Set<TEntity>()
+        .Where(filter)
+        .AsNoTracking()
+        .FirstOrDefault();
+
     public async Task<TEntity?> GetById(int id)
     {
         var query = _context

@@ -1,4 +1,4 @@
-﻿namespace Totten.Solution.Ragstore.WebApi.Controllers.WithMultiTenant.Stores;
+﻿namespace Totten.Solution.Ragstore.WebApi.Controllers.WithMultTenant.Stores;
 
 using Autofac;
 using Microsoft.AspNetCore.Mvc;

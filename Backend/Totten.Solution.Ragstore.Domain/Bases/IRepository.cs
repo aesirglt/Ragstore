@@ -12,6 +12,7 @@ public interface IRepository<TEntity, TId>
     IQueryable<TEntity> GetAllWith<TProperty>(params Expression<Func<TEntity, TProperty>>[] configure);
     IQueryable<TEntity> GetAll();
     IQueryable<TEntity> GetAllByFilter(Expression<Func<TEntity, bool>> filter);
+    TEntity? Get(Expression<Func<TEntity, bool>> filter);
     Task<Unit> Save(TEntity entity);
     Task<Unit> Update(TEntity entity);
     Task<Unit> Remove(TEntity entity);

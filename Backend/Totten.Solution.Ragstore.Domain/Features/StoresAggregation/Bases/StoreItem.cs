@@ -47,7 +47,7 @@ public class StoreItemOptionInfo
     { }
 }
 public abstract record StoreItem<TStoreItem> : Entity<TStoreItem, int>
-    where TStoreItem : Entity<TStoreItem, int>
+    where TStoreItem : StoreItem<TStoreItem>
 {
     public string Map { get; set; }
     public string StoreName { get; set; }
