@@ -16,6 +16,8 @@ public class VendingStoreItemMappingProfile : Profile
     public VendingStoreItemMappingProfile()
     {
         CreateMap<VendingStoreItemCommand, VendingStoreItem>()
+            .ForMember(ds => ds.CreatedAt, m => m.MapFrom(src => DateTime.Now))
+            .ForMember(ds => ds.UpdatedAt, m => m.MapFrom(src => DateTime.Now))
             .ForMember(ds => ds.InfoCards, m => m.MapFrom(src => src.InfoCards))
             .ForMember(ds => ds.InfoOptions, m => m.MapFrom(src => src.InfoOptions));
 

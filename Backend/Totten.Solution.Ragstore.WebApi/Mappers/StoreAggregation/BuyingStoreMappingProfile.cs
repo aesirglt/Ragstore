@@ -19,7 +19,9 @@ public class BuyingStoreMappingProfile : Profile
         CreateMap<BuyingStore, StoreDetailViewModel>()
             .ForMember(ds => ds.Character, m => m.MapFrom(src => src.Character == null ? "" : src.Character.Name));
 
-        CreateMap<BuyingStoreSaveCommand, BuyingStore>();
+        CreateMap<BuyingStoreSaveCommand, BuyingStore>()
+            .ForMember(ds => ds.CreatedAt, m => m.MapFrom(src => DateTime.Now))
+            .ForMember(ds => ds.UpdatedAt, m => m.MapFrom(src => DateTime.Now));
         CreateMap<BuyingStore, BuyingStore>();
     }
 }

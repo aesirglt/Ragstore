@@ -29,6 +29,8 @@ public class CallbackMappingProfile : Profile
 
         CreateMap<CallbackSaveCommand, Callback>()
             .ForMember(ds => ds.Id, m => m.MapFrom(src => $"{Guid.NewGuid()}"))
+            .ForMember(ds => ds.CreatedAt, m => m.MapFrom(src => DateTime.Now))
+            .ForMember(ds => ds.UpdatedAt, m => m.MapFrom(src => DateTime.Now))
             .ForMember(ds => ds.CallbackOwnerId, m => m.MapFrom(src => src.UserId))
             .ForMember(ds => ds.UserCellphone, m => m.MapFrom(src => src.UserCellphone))
             .ForMember(ds => ds.Server, m => m.MapFrom(src => src.Server))

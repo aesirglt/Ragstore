@@ -13,6 +13,8 @@ public class BuyingStoreItemStoreMappingProfile : Profile
     /// </summary>
     public BuyingStoreItemStoreMappingProfile()
     {
-        CreateMap<BuyingStoreItemCommand, BuyingStoreItem>();
+        CreateMap<BuyingStoreItemCommand, BuyingStoreItem>()
+            .ForMember(ds => ds.CreatedAt, m => m.MapFrom(src => DateTime.Now))
+            .ForMember(ds => ds.UpdatedAt, m => m.MapFrom(src => DateTime.Now));
     }
 }
