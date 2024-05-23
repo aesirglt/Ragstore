@@ -26,27 +26,26 @@ public class ItemsController : BaseApiController
     /// <param name="server"></param>
     /// <param name="queryOptions"></param>
     /// <returns></returns>
-    [HttpGet("items-name/{name}")]
+    [HttpGet("{server}/items-name/{name}")]
     public async Task<IActionResult> GetByName(
         [FromRoute] string name,
-        [FromQuery] string server,
+        [FromRoute] string server,
         ODataQueryOptions<ItemResumeViewModel> queryOptions)
-    {
-        return await HandleQueryable(new ItemCollectionByNameQuery
+        => await HandleQueryable(new ItemCollectionByNameQuery
         {
             Name = name
         }, server, queryOptions);
-    }
+
     /// <summary>
     /// 
     /// </summary>
     /// <param name="itemId"></param>
     /// <param name="server"></param>
     /// <returns></returns>
-    [HttpGet("items/{itemId}")]
+    [HttpGet("{server}/items/{itemId}")]
     public async Task<IActionResult> GetByName(
         [FromRoute] int itemId,
-        [FromQuery] string server)
+        [FromRoute] string server)
     {
         return await HandleQuery(new ItemByIdQuery
         {

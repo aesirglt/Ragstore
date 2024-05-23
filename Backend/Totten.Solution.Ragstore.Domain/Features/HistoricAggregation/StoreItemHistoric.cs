@@ -1,4 +1,6 @@
 ﻿namespace Totten.Solution.Ragstore.Domain.Features.HistoricAggregation;
-public record StoreItemHistoric : HistoricBase
+using Totten.Solution.Ragstore.Domain.Features.HistoricAggregation.Bases;
+
+public record StoreItemHistoric : HistoricBase<StoreItemHistoric>
 {
 }

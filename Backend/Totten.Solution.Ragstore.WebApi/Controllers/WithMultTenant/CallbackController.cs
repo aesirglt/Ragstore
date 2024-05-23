@@ -33,9 +33,9 @@ public class CallbackController : BaseApiController
     /// <param name="server"></param>
     /// <param name="queryOptions"></param>
     /// <returns></returns>
-    [HttpGet("callbacks")]
+    [HttpGet("{server}/callbacks")]
     [ProducesResponseType<IQueryable<ItemResumeViewModel>>(statusCode: 200)]
-    public async Task<IActionResult> Get([FromQuery] string server, ODataQueryOptions<ItemResumeViewModel> queryOptions)
+    public async Task<IActionResult> Get([FromRoute] string server, ODataQueryOptions<ItemResumeViewModel> queryOptions)
         => await HandleQueryable(new CallbackCollectionQuery(), server, queryOptions);
 
     /// <summary>
@@ -44,9 +44,9 @@ public class CallbackController : BaseApiController
     /// <param name="server"></param>
     /// <param name="queryOptions"></param>
     /// <returns></returns>
-    [HttpGet("callbacks-user")]
+    [HttpGet("{server}/callbacks-user")]
     [ProducesResponseType<IQueryable<Callback>>(statusCode: 200)]
-    public async Task<IActionResult> GetUsers([FromQuery] string server, ODataQueryOptions<Callback> queryOptions)
+    public async Task<IActionResult> GetUsers([FromRoute] string server, ODataQueryOptions<Callback> queryOptions)
         => await HandleQueryable(new CallbackCollectionByUserIdQuery
         {
             UserId = "d7aeb595-44a5-4f5d-822e-980f35ace12d"
@@ -58,9 +58,9 @@ public class CallbackController : BaseApiController
     /// <param name="server"></param>
     /// <param name="createDto"></param>
     /// <returns></returns>
-    [HttpPost("callbacks-items")]
+    [HttpPost("{server}/callbacks-items")]
     [ProducesResponseType<Unit>(statusCode: 200)]
-    public async Task<IActionResult> PostItems([FromQuery] string server, [FromBody] CallbackCreateDto createDto)
+    public async Task<IActionResult> PostItems([FromRoute] string server, [FromBody] CallbackCreateDto createDto)
         => await HandleCommand(_mapper.Map<CallbackSaveCommand>((createDto, new UserData
         {
             Id = $"d7aeb595-44a5-4f5d-822e-980f35ace12d",

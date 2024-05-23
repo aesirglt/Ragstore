@@ -29,7 +29,7 @@ public class StoresVendingController : BaseApiController
     /// <param name="server"></param>
     /// <param name="queryOptions"></param>
     /// <returns></returns>
-    [HttpGet(API_ENDPOINT)]
+    [HttpGet($"{{server}}/{API_ENDPOINT}")]
     public async Task<IActionResult> GetAll(
         [FromQuery] string server,
         ODataQueryOptions<StoreResumeViewModel> queryOptions)
@@ -40,9 +40,9 @@ public class StoresVendingController : BaseApiController
     /// <param name="server"></param>
     /// <param name="id"></param>
     /// <returns></returns>
-    [HttpGet($"{API_ENDPOINT}/{{id}}")]
+    [HttpGet($"{{server}}/{API_ENDPOINT}/{{id}}")]
     public async Task<IActionResult> GetById(
-        [FromQuery] string server,
+        [FromRoute] string server,
         [FromRoute] int id)
             => await HandleQuery<VendingStore, StoreDetailViewModel>(
                         new VendingStoreByIdQuery { Id = id },
@@ -53,9 +53,9 @@ public class StoresVendingController : BaseApiController
     /// <param name="server"></param>
     /// <param name="createCmd"></param>
     /// <returns></returns>
-    [HttpPost(API_ENDPOINT)]
+    [HttpPost($"{{server}}/{API_ENDPOINT}")]
     public async Task<IActionResult> Post(
-        [FromQuery] string server,
+        [FromRoute] string server,
         [FromBody] VendingStoreSaveCommand createCmd)
             => await HandleCommand(createCmd, server);
     /// <summary>
@@ -64,9 +64,9 @@ public class StoresVendingController : BaseApiController
     /// <param name="server"></param>
     /// <param name="createCmd"></param>
     /// <returns></returns>
-    [HttpPost($"{API_ENDPOINT}-batch")]
+    [HttpPost($"{{server}}/{API_ENDPOINT}-batch")]
     public async Task<IActionResult> PostBatch(
-        [FromQuery] string server,
+        [FromRoute] string server,
         [FromBody] VendingStoreSaveCommand[] createCmd)
            => await HandleAccepted(server, createCmd);
 
@@ -77,15 +77,15 @@ public class StoresVendingController : BaseApiController
     /// <param name="server"></param>
     /// <param name="queryOptions"></param>
     /// <returns></returns>
-    [HttpGet("stores-vending/items")]
+    [HttpGet("{server}/stores-vending/items")]
     public async Task<IActionResult> GetByName(
+        [FromRoute] string server,
         [FromQuery] string? itemName,
-        [FromQuery] string server,
         ODataQueryOptions<StoreItemResponseModel> queryOptions)
     {
         return await HandleQueryable(new VendingStoreItemsCollectionQuery
         {
-            ItemName = itemName
+            ItemName = itemName ?? string.Empty
         }, server, queryOptions);
     }
 }

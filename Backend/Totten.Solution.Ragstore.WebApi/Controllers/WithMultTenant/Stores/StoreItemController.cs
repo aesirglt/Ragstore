@@ -2,11 +2,12 @@
 
 using Autofac;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.OData.Query;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Queries;
-using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.ResponseModels;
 using Totten.Solution.Ragstore.WebApi.Bases;
 
+/// <summary>
+/// 
+/// </summary>
 [ApiController]
 public class StoreItemController : BaseApiController
 {
@@ -16,32 +17,40 @@ public class StoreItemController : BaseApiController
     /// </summary>
     /// <param name="lifetimeScope"></param>
     public StoreItemController(ILifetimeScope lifetimeScope) : base(lifetimeScope)
-    {
-    }
+    { }
 
-    [HttpGet($"vending-{API_ENDPOINT}/{{itemId}}")]
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="server"></param>
+    /// <param name="itemId"></param>
+    /// <returns></returns>
+    [HttpGet($"{{server}}/vending-{API_ENDPOINT}/{{itemId}}")]
     public async Task<IActionResult> GetVending(
-        [FromRoute] int itemId,
-        [FromQuery] string server)
-    {
-        return await HandleQuery(new StoreItemValueSumaryQuery
+        [FromRoute] string server,
+        [FromRoute] int itemId)
+        => await HandleQuery(new StoreItemValueSumaryQuery
         {
             ItemId = itemId,
             Server = server,
-            StoreType =  StoreItemValueSumaryQuery.EStoreItemStoreType.Vending
+            StoreType = StoreItemValueSumaryQuery.EStoreItemStoreType.Vending
         }, server);
-    }
 
-    [HttpGet($"buying-{API_ENDPOINT}/{{itemId}}")]
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="server"></param>
+    /// <param name="itemId"></param>
+    /// <returns></returns>
+    [HttpGet($"{{server}}/buying-{API_ENDPOINT}/{{itemId}}")]
     public async Task<IActionResult> GetBuying(
-        [FromRoute] int itemId,
-        [FromQuery] string server)
-    {
-        return await HandleQuery(new StoreItemValueSumaryQuery
+        [FromRoute] string server,
+        [FromRoute] int itemId)
+        => await HandleQuery(new StoreItemValueSumaryQuery
         {
             ItemId = itemId,
             Server = server,
             StoreType = StoreItemValueSumaryQuery.EStoreItemStoreType.Buying
         }, server);
-    }
+
 }

@@ -13,7 +13,6 @@ using Totten.Solution.Ragstore.WebApi.ViewModels.Servers;
 /// 
 /// </summary>
 [ApiController]
-[Route("[controller]")]
 public class ServersController : BaseApiController
 {
     /// <summary>
@@ -27,7 +26,7 @@ public class ServersController : BaseApiController
     /// </summary>
     /// <param name="createCmd"></param>
     /// <returns></returns>
-    [HttpPost]
+    [HttpPost("servers")]
     public async Task<IActionResult> Post([FromBody] ServerCreateCommand createCmd)
             => await HandleCommand(createCmd);
 
@@ -36,7 +35,7 @@ public class ServersController : BaseApiController
     /// </summary>
     /// <param name="queryOptions"></param>
     /// <returns></returns>
-    [HttpGet()]
+    [HttpGet("servers")]
     [ProducesResponseType<IQueryable<Server>>(statusCode: 200)]
     public async Task<IActionResult> GetAll(ODataQueryOptions<ServerResume> queryOptions)
         => await HandleQueryable(new ServerCollectionQuery(), queryOptions);
@@ -45,7 +44,7 @@ public class ServersController : BaseApiController
     /// </summary>
     /// <param name="serverName"></param>
     /// <returns></returns>
-    [HttpGet("{serverName}")]
+    [HttpGet("servers/{serverName}")]
     public async Task<IActionResult> GetAll([FromRoute] string serverName)
         => await HandleQuery<Server, ServerVerifyDTO>(new ServerByNameQuery { Name = serverName });
 }

@@ -9,6 +9,7 @@ using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Resp
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Buyings;
 using Totten.Solution.Ragstore.WebApi.Bases;
 using Totten.Solution.Ragstore.WebApi.ViewModels.Stores;
+
 /// <summary>
 /// 
 /// </summary>
@@ -23,51 +24,50 @@ public class StoresBuyingController : BaseApiController
     public StoresBuyingController(ILifetimeScope lifetimeScope) : base(lifetimeScope)
     {
     }
+
     /// <summary>
     /// 
     /// </summary>
     /// <param name="server"></param>
     /// <param name="queryOptions"></param>
     /// <returns></returns>
-    [HttpGet(API_ENDPOINT)]
+    [HttpGet($"{{server}}/{API_ENDPOINT}")]
     public async Task<IActionResult> GetAll(
-        [FromQuery] string server,
-        ODataQueryOptions<StoreResumeViewModel> queryOptions)
+        [FromRoute] string server, ODataQueryOptions<StoreResumeViewModel> queryOptions)
             => await HandleQueryable(new BuyingStoreCollectionQuery(), server, queryOptions);
+
     /// <summary>
     /// 
     /// </summary>
     /// <param name="server"></param>
     /// <param name="id"></param>
     /// <returns></returns>
-    [HttpGet($"{API_ENDPOINT}/{{id}}")]
+    [HttpGet($"{{server}}/{API_ENDPOINT}/{{id}}")]
     public async Task<IActionResult> GetById(
-        [FromQuery] string server,
+        [FromRoute] string server,
         [FromRoute] int id)
-            => await HandleQuery<BuyingStore, StoreDetailViewModel>(
-                        new BuyingStoreByIdQuery { Id = id },
-                        server);
+            => await HandleQuery<BuyingStore, StoreDetailViewModel>(new BuyingStoreByIdQuery { Id = id }, server);
+
     /// <summary>
     /// 
     /// </summary>
     /// <param name="server"></param>
     /// <param name="createCmd"></param>
     /// <returns></returns>
-    [HttpPost(API_ENDPOINT)]
+    [HttpPost($"{{server}}/{API_ENDPOINT}")]
     public async Task<IActionResult> Post(
-        [FromQuery] string server,
-        [FromBody] BuyingStoreSaveCommand createCmd)
+        [FromRoute] string server, [FromBody] BuyingStoreSaveCommand createCmd)
             => await HandleCommand(createCmd, server);
+
     /// <summary>
     /// 
     /// </summary>
     /// <param name="server"></param>
     /// <param name="createCmd"></param>
     /// <returns></returns>
-    [HttpPost($"{API_ENDPOINT}-batch")]
+    [HttpPost($"{{server}}/{API_ENDPOINT}-batch")]
     public async Task<IActionResult> PostBatch(
-        [FromQuery] string server,
-        [FromBody] BuyingStoreSaveCommand[] createCmd)
+        [FromRoute] string server, [FromBody] BuyingStoreSaveCommand[] createCmd)
            => await HandleAccepted(server, createCmd);
 
     /// <summary>
@@ -77,15 +77,13 @@ public class StoresBuyingController : BaseApiController
     /// <param name="server"></param>
     /// <param name="queryOptions"></param>
     /// <returns></returns>
-    [HttpGet("stores-buying/items")]
+    [HttpGet("{server}/stores-buying/items")]
     public async Task<IActionResult> GetByName(
+        [FromRoute] string server,
         [FromQuery] string? itemName,
-        [FromQuery] string server,
         ODataQueryOptions<StoreItemResponseModel> queryOptions)
-    {
-        return await HandleQueryable(new BuyingStoreItemsCollectionQuery
+        => await HandleQueryable(new BuyingStoreItemsCollectionQuery
         {
-            ItemName = itemName
+            ItemName = itemName ?? string.Empty
         }, server, queryOptions);
-    }
 }
