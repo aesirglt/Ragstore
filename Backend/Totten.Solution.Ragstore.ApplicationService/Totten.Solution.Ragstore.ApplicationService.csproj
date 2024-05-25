@@ -34,6 +34,7 @@
     <Folder Include="Features\ItemsAggregation\CommandsHandler\" />
     <Folder Include="Features\Users\CommandsHandler\" />
     <Folder Include="Features\Users\QueriesHandler\" />
+    <Folder Include="Mappers\ItemAggregation\" />
   </ItemGroup>
 
 </Project>

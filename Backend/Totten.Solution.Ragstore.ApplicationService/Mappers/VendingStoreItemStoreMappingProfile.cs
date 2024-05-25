@@ -1,4 +1,4 @@
-﻿namespace Totten.Solution.Ragstore.WebApi.Mappers;
+﻿namespace Totten.Solution.Ragstore.ApplicationService.Mappers;
 using AutoMapper;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Commons;
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Vendings;

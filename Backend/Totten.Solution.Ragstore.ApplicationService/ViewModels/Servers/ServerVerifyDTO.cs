@@ -1,4 +1,4 @@
-﻿namespace Totten.Solution.Ragstore.WebApi.ViewModels.Servers;
+﻿namespace Totten.Solution.Ragstore.ApplicationService.ViewModels.Servers;
 /// <summary>
 /// 
 /// </summary>

@@ -8,7 +8,7 @@ using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Quer
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.ResponseModels;
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Buyings;
 using Totten.Solution.Ragstore.WebApi.Bases;
-using Totten.Solution.Ragstore.WebApi.ViewModels.Stores;
+using Totten.Solution.Ragstore.ApplicationService.ViewModels.Stores;
 
 /// <summary>
 /// 

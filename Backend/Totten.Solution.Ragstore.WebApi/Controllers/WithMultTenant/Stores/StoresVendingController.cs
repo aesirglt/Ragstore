@@ -8,7 +8,7 @@ using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Quer
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.ResponseModels;
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Vendings;
 using Totten.Solution.Ragstore.WebApi.Bases;
-using Totten.Solution.Ragstore.WebApi.ViewModels.Stores;
+using Totten.Solution.Ragstore.ApplicationService.ViewModels.Stores;
 /// <summary>
 /// 
 /// </summary>
@@ -31,7 +31,7 @@ public class StoresVendingController : BaseApiController
     /// <returns></returns>
     [HttpGet($"{{server}}/{API_ENDPOINT}")]
     public async Task<IActionResult> GetAll(
-        [FromQuery] string server,
+        [FromRoute] string server,
         ODataQueryOptions<StoreResumeViewModel> queryOptions)
             => await HandleQueryable(new VendingStoreCollectionQuery(), server, queryOptions);
     /// <summary>

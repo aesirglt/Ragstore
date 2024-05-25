@@ -1,10 +1,8 @@
-﻿namespace Totten.Solution.Ragstore.WebApi.Mappers;
+﻿namespace Totten.Solution.Ragstore.ApplicationService.Mappers;
 using AutoMapper;
 using Totten.Solution.Ragstore.ApplicationService.Features.Callbacks.Commands;
-using Totten.Solution.Ragstore.Domain.Features.CallbackAggregation;
 using Totten.Solution.Ragstore.Infra.Cross.CrossDTOs;
 using Totten.Solution.Ragstore.WebApi.Dtos.Callbacks;
-using Totten.Solution.Ragstore.WebApi.ViewModels.Items;
 
 /// <summary>
 /// 
@@ -16,8 +14,6 @@ public class CallbackMappingProfile : Profile
     /// </summary>
     public CallbackMappingProfile()
     {
-        CreateMap<Callback, ItemResumeViewModel>();
-
         CreateMap<(CallbackCreateDto dto, UserData data), CallbackSaveCommand>()
             .ForMember(ds => ds.Server, m => m.MapFrom(src => src.dto.Server))
             .ForMember(ds => ds.Name, m => m.MapFrom(src => src.dto.Name))
@@ -26,16 +22,5 @@ public class CallbackMappingProfile : Profile
             .ForMember(ds => ds.Level, m => m.MapFrom(src => $"{src.data.Level}"))
             .ForMember(ds => ds.ItemId, m => m.MapFrom(src => src.dto.ItemId))
             .ForMember(ds => ds.ItemPrice, m => m.MapFrom(src => src.dto.ItemPrice));
-
-        CreateMap<CallbackSaveCommand, Callback>()
-            .ForMember(ds => ds.Id, m => m.MapFrom(src => $"{Guid.NewGuid()}"))
-            .ForMember(ds => ds.CreatedAt, m => m.MapFrom(src => DateTime.Now))
-            .ForMember(ds => ds.UpdatedAt, m => m.MapFrom(src => DateTime.Now))
-            .ForMember(ds => ds.CallbackOwnerId, m => m.MapFrom(src => src.UserId))
-            .ForMember(ds => ds.UserCellphone, m => m.MapFrom(src => src.UserCellphone))
-            .ForMember(ds => ds.Server, m => m.MapFrom(src => src.Server))
-            .ForMember(ds => ds.ItemId, m => m.MapFrom(src => src.ItemId))
-            .ForMember(ds => ds.ItemPrice, m => m.MapFrom(src => src.ItemPrice))
-            .ForMember(ds => ds.Level, m => m.MapFrom(src => src.Level));
     }
 }

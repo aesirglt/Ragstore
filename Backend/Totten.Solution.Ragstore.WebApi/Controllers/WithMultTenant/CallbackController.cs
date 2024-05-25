@@ -10,7 +10,7 @@ using Totten.Solution.Ragstore.Domain.Features.CallbackAggregation;
 using Totten.Solution.Ragstore.Infra.Cross.CrossDTOs;
 using Totten.Solution.Ragstore.WebApi.Bases;
 using Totten.Solution.Ragstore.WebApi.Dtos.Callbacks;
-using Totten.Solution.Ragstore.WebApi.ViewModels.Items;
+using Totten.Solution.Ragstore.ApplicationService.ViewModels.Items;
 
 /// <summary>
 /// 

@@ -1,8 +1,8 @@
-﻿namespace Totten.Solution.Ragstore.WebApi.Mappers;
+﻿namespace Totten.Solution.Ragstore.ApplicationService.Mappers;
 using AutoMapper;
 using Totten.Solution.Ragstore.ApplicationService.Features.Agents.Commands;
 using Totten.Solution.Ragstore.Domain.Features.AgentAggregation;
-using Totten.Solution.Ragstore.WebApi.ViewModels.Items;
+using Totten.Solution.Ragstore.ApplicationService.ViewModels.Items;
 
 /// <summary>
 /// 
