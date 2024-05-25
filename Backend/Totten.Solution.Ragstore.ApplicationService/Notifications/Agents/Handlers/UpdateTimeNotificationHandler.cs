@@ -1,5 +1,6 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Notifications.Agents.Handlers;
 
+using LanguageExt;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,9 +15,9 @@ public class UpdateTimeNotificationHandler : INotificationHandler<UpdateTimeNoti
     }
     public async Task Handle(UpdateTimeNotification notification, CancellationToken cancellationToken)
     {
-        var server = _serverRepository.GetByName(notification.Server);
+        var server = await _serverRepository.GetByName(notification.Server).AsTask();
 
-        await server.IfSucc(async succ =>
+        _ = await server.IfSomeAsync(async succ =>
         {
             succ.UpdatedAt = DateTime.Now;
             await _serverRepository.Update(succ);

@@ -1,9 +1,9 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.ItemsAggregation.Queries;
 
+using LanguageExt.Common;
 using MediatR;
 using Totten.Solution.Ragstore.Domain.Features.CallbackAggregation;
-using Totten.Solution.Ragstore.Infra.Cross.Functionals;
 
-public class CallbackCollectionQuery : IRequest<Result<Exception, IQueryable<Callback>>>
+public class CallbackCollectionQuery : IRequest<Result<IQueryable<Callback>>>
 {
 }

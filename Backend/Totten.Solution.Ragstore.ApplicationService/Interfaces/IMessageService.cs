@@ -1,9 +1,10 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Interfaces;
 
-using Totten.Solution.Ragstore.Infra.Cross.Functionals;
+using LanguageExt;
+using LanguageExt.Common;
 
 public interface IMessageService<SendableClass>
     : ISendable<SendableClass> where SendableClass : ISendable<SendableClass>
 {
-    Task<Result<Exception, Unit>> Send(SendableClass sendableClass);
+    Task<Result<Unit>> Send(SendableClass sendableClass);
 }

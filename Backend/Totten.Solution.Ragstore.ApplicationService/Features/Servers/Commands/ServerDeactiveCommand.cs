@@ -1,11 +1,10 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.Servers.Commands;
 
+using LanguageExt.Common;
 using MediatR;
-using System;
-using Totten.Solution.Ragstore.Infra.Cross.Functionals;
-using Unit = Infra.Cross.Functionals.Unit;
+using Unit = LanguageExt.Unit;
 
-public class ServerDeactiveCommand : IRequest<Result<Exception, Unit>>
+public class ServerDeactiveCommand : IRequest<Result<Unit>>
 {
     public int ServerId { get; set; }
 }

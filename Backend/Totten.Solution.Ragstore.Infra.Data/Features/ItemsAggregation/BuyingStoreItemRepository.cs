@@ -1,10 +1,10 @@
 ﻿namespace Totten.Solution.Ragstore.Infra.Data.Features.ItemsAggregation;
 
+using LanguageExt;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Buyings;
-using Totten.Solution.Ragstore.Infra.Cross.Functionals;
 using Totten.Solution.Ragstore.Infra.Data.Bases;
 using Totten.Solution.Ragstore.Infra.Data.Contexts.StoreServerContext;
 using Item = string;
@@ -25,7 +25,7 @@ public class BuyingStoreItemRepository(ServerStoreContext context)
 
         await _context.SaveChangesAsync();
 
-        return new Unit();
+        return Unit.Default;
     }
 
     public IQueryable<BuyingStoreItem> GetAllByCharacterId(int id)

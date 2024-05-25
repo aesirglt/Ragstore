@@ -27,7 +27,7 @@ public class NewStoreNotificationHandler : INotificationHandler<NewStoreNotifica
             var notifyCallbackType = Enum.Parse<EStoreCallbackType>(notify.StoreType);
 
             List<int> itemsIds = notify.Items.Select(it => it.ItemId).ToList();
-            var callback = _repository.GetAllByFilter(x => x.Server == notify.Server && x.StoreType == notifyCallbackType)
+            var callback = _repository.GetAll(x => x.Server == notify.Server && x.StoreType == notifyCallbackType)
                                            .Where(c => itemsIds.Any(itemId => itemId == c.ItemId))
                                            .ToList();
 

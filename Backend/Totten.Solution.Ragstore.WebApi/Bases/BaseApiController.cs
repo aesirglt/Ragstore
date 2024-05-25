@@ -4,6 +4,8 @@ using Autofac;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using FluentValidation;
+using LanguageExt;
+using LanguageExt.Common;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Extensions;
@@ -13,9 +15,9 @@ using Newtonsoft.Json;
 using System.Net;
 using Totten.Solution.Ragstore.Domain.Features.Servers;
 using Totten.Solution.Ragstore.Infra.Cross.Errors;
-using Totten.Solution.Ragstore.Infra.Cross.Functionals;
+using Totten.Solution.Ragstore.Infra.Cross.Errors.EspecifiedErrors;
 using Totten.Solution.Ragstore.WebApi.Modules;
-using Unit = Infra.Cross.Functionals.Unit;
+using Unit = LanguageExt.Unit;
 
 /// <summary>
 /// 
@@ -92,7 +94,7 @@ public abstract class BaseApiController : ControllerBase
                 {
                     return HandleFailure(ex);
                 }
-            }, HandleFailureTask);
+            }, async () => await HandleFailureTask(ServerNotFound()));
     }
     /// <summary>
     /// 
@@ -121,7 +123,7 @@ public abstract class BaseApiController : ControllerBase
     /// <returns></returns>
     protected async Task<IActionResult> HandleAccepted(
         string serverName,
-        params IRequest<Result<Exception, Unit>>[] cmds)
+        params IRequest<Result<Unit>>[] cmds)
         => await _serverRepository
             .GetByName(serverName)
             .Match(async succ =>
@@ -141,7 +143,7 @@ public abstract class BaseApiController : ControllerBase
                 {
                     return await Task.FromResult(HandleFailure(ex));
                 }
-            }, HandleFailureTask);
+            }, async () => await HandleFailureTask(ServerNotFound()));
 
     /// <summary>
     /// 
@@ -150,7 +152,7 @@ public abstract class BaseApiController : ControllerBase
     /// <param name="serverName"></param>
     /// <returns></returns>
     protected async Task<IActionResult> HandleCommand(
-        IRequest<Result<Exception, Unit>> cmd,
+        IRequest<Result<Unit>> cmd,
         string serverName)
     {
         return await _serverRepository
@@ -162,7 +164,7 @@ public abstract class BaseApiController : ControllerBase
                 var result = await mediator.Send(cmd);
 
                 return result.Match(succ => Ok(succ), HandleFailure);
-            }, HandleFailureTask);
+            }, async () => await HandleFailureTask(ServerNotFound()));
     }
     /// <summary>
     /// 
@@ -171,7 +173,7 @@ public abstract class BaseApiController : ControllerBase
     /// <returns></returns>
 
     protected async Task<IActionResult> HandleCommand(
-        IRequest<Result<Exception, Unit>> cmd)
+        IRequest<Result<Unit>> cmd)
     {
         var result = await _mediator.Send(cmd);
         return result.Match(succ => Ok(succ), HandleFailure);
@@ -184,7 +186,7 @@ public abstract class BaseApiController : ControllerBase
     /// <param name="query"></param>
     /// <returns></returns>
     protected async Task<IActionResult> HandleQuery<TSource, TDestiny>(
-        IRequest<Result<Exception, TSource>> query)
+        IRequest<Result<TSource>> query)
     {
         var result = await _mediator.Send(query);
         return result.Match(succ => Ok(_mapper.Map<TDestiny>(succ)), HandleFailure);
@@ -199,7 +201,7 @@ public abstract class BaseApiController : ControllerBase
     /// <param name="serverName"></param>
     /// <returns></returns>
     protected async Task<IActionResult> HandleQuery<TSource, TDestiny>(
-        IRequest<Result<Exception, TSource>> query,
+        IRequest<Result<TSource>> query,
         string serverName)
     {
         return await _serverRepository
@@ -212,10 +214,17 @@ public abstract class BaseApiController : ControllerBase
                 var result = await mediator.Send(query);
 
                 return result.Match(succ => Ok(m.Map<TDestiny>(succ)), HandleFailure);
-            }, HandleFailureTask);
+            }, async () => await HandleFailureTask(ServerNotFound()));
     }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TSource"></typeparam>
+    /// <param name="query"></param>
+    /// <param name="serverName"></param>
+    /// <returns></returns>
     protected async Task<IActionResult> HandleQuery<TSource>(
-        IRequest<Result<Exception, TSource>> query,
+        IRequest<Result<TSource>> query,
         string serverName)
     {
         return await _serverRepository
@@ -227,7 +236,7 @@ public abstract class BaseApiController : ControllerBase
                 var result = await mediator.Send(query);
 
                 return result.Match(succ => Ok(succ), HandleFailure);
-            }, HandleFailureTask);
+            }, async () => await HandleFailureTask(ServerNotFound()));
     }
 
     /// <summary>
@@ -240,7 +249,7 @@ public abstract class BaseApiController : ControllerBase
     /// <param name="queryOptions"></param>
     /// <returns></returns>
     protected async Task<IActionResult> HandleQueryable<TSource, TDestiny>(
-        IRequest<Result<Exception, IQueryable<TSource>>> query,
+        IRequest<Result<IQueryable<TSource>>> query,
         string serverName,
         ODataQueryOptions<TDestiny> queryOptions)
     {
@@ -254,7 +263,7 @@ public abstract class BaseApiController : ControllerBase
                 var result = await mediator.Send(query);
 
                 return result.Match(succ => Ok(HandlePage(succ, mapper, queryOptions)), HandleFailure);
-            }, HandleFailureTask);
+            }, async () => await HandleFailureTask(ServerNotFound()));
     }
     /// <summary>
     /// 
@@ -265,7 +274,7 @@ public abstract class BaseApiController : ControllerBase
     /// <param name="queryOptions"></param>
     /// <returns></returns>
     protected async Task<IActionResult> HandleQueryable<TSource, TDestiny>(
-        IRequest<Result<Exception, IQueryable<TSource>>> query,
+        IRequest<Result<IQueryable<TSource>>> query,
         ODataQueryOptions<TDestiny> queryOptions)
     {
         var result = await _mediator.Send(query);
@@ -307,4 +316,6 @@ public abstract class BaseApiController : ControllerBase
                           .Apply(error => Problem(title: $"{exception.GetType().Name}",
                                                           detail: error.ErrorMessage,
                                                           statusCode: error.ErrorCode.GetHashCode()));
+
+    private Exception ServerNotFound() => new NotFoundError("Server not found");
 }

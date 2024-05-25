@@ -1,24 +1,24 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.QueriesHandler;
 
+using LanguageExt;
+using LanguageExt.Common;
 using MediatR;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Queries;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.ResponseModels;
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Vendings;
-using Totten.Solution.Ragstore.Infra.Cross.Functionals;
 
-public class VendingStoreItemsCollectionQueryHandler : IRequestHandler<VendingStoreItemsCollectionQuery, Result<Exception, IQueryable<StoreItemResponseModel>>>
+public class VendingStoreItemsCollectionQueryHandler : IRequestHandler<VendingStoreItemsCollectionQuery, Result<IQueryable<StoreItemResponseModel>>>
 {
     private IVendingStoreItemRepository _vendingStoreItemRepository;
 
     public VendingStoreItemsCollectionQueryHandler(IVendingStoreItemRepository vendingStoreItemRepository)
         => _vendingStoreItemRepository = vendingStoreItemRepository;
 
-    public async Task<Result<Exception, IQueryable<StoreItemResponseModel>>> Handle(VendingStoreItemsCollectionQuery request, CancellationToken cancellationToken)
+    public async Task<Result<IQueryable<StoreItemResponseModel>>> Handle(VendingStoreItemsCollectionQuery request, CancellationToken cancellationToken)
     {
-        var storeItem = _vendingStoreItemRepository
+        var storeItem = await _vendingStoreItemRepository
             .GetAllByItemName(request.ItemName)
             .Select(item => new StoreItemResponseModel
             {
@@ -31,11 +31,8 @@ public class VendingStoreItemsCollectionQueryHandler : IRequestHandler<VendingSt
                 StoreName = item.StoreName,
                 Map = item.Map,
                 CharacterName = item.CharacterName
-            });
+            }).AsTask();
 
-        return await
-            Result<Exception, IQueryable<StoreItemResponseModel>>
-            .Ok(storeItem)
-            .AsTask();
+        return new(storeItem);
     }
 }

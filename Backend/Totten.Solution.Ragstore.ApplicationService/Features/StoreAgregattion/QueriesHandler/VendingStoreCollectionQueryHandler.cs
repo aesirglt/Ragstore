@@ -1,14 +1,14 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.QueriesHandler;
 
+using LanguageExt;
+using LanguageExt.Common;
 using MediatR;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Queries;
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Vendings;
-using Totten.Solution.Ragstore.Infra.Cross.Functionals;
-
-public class VendingStoreCollectionQueryHandler : IRequestHandler<VendingStoreCollectionQuery, Result<Exception, IQueryable<VendingStore>>>
+public class VendingStoreCollectionQueryHandler : IRequestHandler<VendingStoreCollectionQuery, Result<IQueryable<VendingStore>>>
 {
     private IVendingStoreRepository _storeRepository;
 
@@ -18,10 +18,10 @@ public class VendingStoreCollectionQueryHandler : IRequestHandler<VendingStoreCo
         _storeRepository = storeRepository;
     }
 
-    public async Task<Result<Exception, IQueryable<VendingStore>>> Handle(VendingStoreCollectionQuery request, CancellationToken cancellationToken)
+    public async Task<Result<IQueryable<VendingStore>>> Handle(VendingStoreCollectionQuery request, CancellationToken cancellationToken)
     {
-        var result = Result<Exception, IQueryable<VendingStore>>.Ok(_storeRepository.GetAll());
+        var result = await _storeRepository.GetAll().AsTask();
 
-        return await Task.Run(() => result);
+        return new Result<IQueryable<VendingStore>>(result);
     }
 }

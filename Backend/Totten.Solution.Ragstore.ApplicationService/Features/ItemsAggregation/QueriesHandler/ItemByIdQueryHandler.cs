@@ -2,6 +2,7 @@
 
 using Autofac;
 using AutoMapper;
+using LanguageExt.Common;
 using MediatR;
 using Newtonsoft.Json;
 using System;
@@ -11,10 +12,9 @@ using System.Threading.Tasks;
 using Totten.Solution.Ragstore.ApplicationService.Features.ItemsAggregation.Queries;
 using Totten.Solution.Ragstore.ApplicationService.Features.ItemsAggregation.ResponseModels;
 using Totten.Solution.Ragstore.Domain.Features.ItemsAggregation;
-using Totten.Solution.Ragstore.Infra.Cross.Functionals;
 using Totten.Solution.Ragstore.Infra.Cross.Statics;
 
-public class ItemByIdQueryHandler : IRequestHandler<ItemByIdQuery, Result<Exception, ItemDetailResponseModel>>
+public class ItemByIdQueryHandler : IRequestHandler<ItemByIdQuery, Result<ItemDetailResponseModel>>
 {
     private IMapper _mapper;
     private IItemRepository _itemRepository;
@@ -32,7 +32,7 @@ public class ItemByIdQueryHandler : IRequestHandler<ItemByIdQuery, Result<Except
         _queries = clientFactory.ResolveNamed<Dictionary<string, string>>("ApiItemDB");
     }
 
-    public async Task<Result<Exception, ItemDetailResponseModel>> Handle(ItemByIdQuery query, CancellationToken cancellationToken)
+    public async Task<Result<ItemDetailResponseModel>> Handle(ItemByIdQuery query, CancellationToken cancellationToken)
     {
         var item = await _itemRepository.GetById(query.ItemId);
 
@@ -60,14 +60,14 @@ public class ItemByIdQueryHandler : IRequestHandler<ItemByIdQuery, Result<Except
                 return detail with
                 {
                     ItemUrlImage = $"https://static.divine-pride.net/images/items/item/{query.ItemId}.png"
-                };
+                };;
             }
 
-            return Result<Exception, ItemDetailResponseModel>.Err(new Exception("not found item"));
+            return new Result<ItemDetailResponseModel>(new Exception("not found item"));
         };
 
         return item == null
-                ? new Exception("Item not found")
+                ? new Result<ItemDetailResponseModel>( new Exception("Item not found"))
                 : await searchItemDetail();
     }
 }

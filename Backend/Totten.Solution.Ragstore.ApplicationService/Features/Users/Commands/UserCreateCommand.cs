@@ -1,10 +1,9 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.Users.Commands;
 
+using LanguageExt.Common;
 using MediatR;
-using System;
-using Totten.Solution.Ragstore.Infra.Cross.Functionals;
-using Unit = Infra.Cross.Functionals.Unit;
+using Unit = LanguageExt.Unit;
 
-public class UserCreateCommand : IRequest<Result<Exception, Unit>>
+public class UserCreateCommand : IRequest<Result<Unit>>
 {
 }

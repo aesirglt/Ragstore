@@ -1,7 +1,7 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Queries;
 
+using LanguageExt.Common;
 using MediatR;
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Vendings;
-using Totten.Solution.Ragstore.Infra.Cross.Functionals;
 
-public class VendingStoreCollectionQuery : IRequest<Result<Exception, IQueryable<VendingStore>>> { }
+public class VendingStoreCollectionQuery : IRequest<Result<IQueryable<VendingStore>>> { }

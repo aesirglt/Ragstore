@@ -1,11 +1,11 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.Callbacks.Commands;
 
+using LanguageExt.Common;
 using MediatR;
-using System;
 using Totten.Solution.Ragstore.Domain.Features.CallbackAggregation;
-using Totten.Solution.Ragstore.Infra.Cross.Functionals;
-using Unit = Infra.Cross.Functionals.Unit;
-public class CallbackSaveCommand : IRequest<Result<Exception, Unit>>
+using Unit = LanguageExt.Unit;
+
+public class CallbackSaveCommand : IRequest<Result<Unit>>
 {
     public string Name { get; set; } = string.Empty;
     public string UserId { get; set; } = string.Empty;

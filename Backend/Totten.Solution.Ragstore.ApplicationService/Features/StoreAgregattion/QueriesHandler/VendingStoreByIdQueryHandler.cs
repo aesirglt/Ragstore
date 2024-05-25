@@ -1,14 +1,14 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.QueriesHandler;
 
+using LanguageExt.Common;
 using MediatR;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Queries;
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Vendings;
-using Totten.Solution.Ragstore.Infra.Cross.Functionals;
+using Totten.Solution.Ragstore.Infra.Cross.Errors.EspecifiedErrors;
 
-public class VendingStoreByIdQueryHandler : IRequestHandler<VendingStoreByIdQuery, Result<Exception, VendingStore>>
+public class VendingStoreByIdQueryHandler : IRequestHandler<VendingStoreByIdQuery, Result<VendingStore>>
 {
     private IVendingStoreRepository _storeRepository;
 
@@ -17,12 +17,10 @@ public class VendingStoreByIdQueryHandler : IRequestHandler<VendingStoreByIdQuer
         _storeRepository = storeRepository;
     }
 
-    public async Task<Result<Exception, VendingStore>> Handle(VendingStoreByIdQuery request, CancellationToken cancellationToken)
+    public async Task<Result<VendingStore>> Handle(VendingStoreByIdQuery request, CancellationToken cancellationToken)
     {
-        var store = await _storeRepository.GetById(request.Id);
-
-        if (store is null) return new DirectoryNotFoundException();
-        
-        return store;
+        var maybeStore = await _storeRepository.GetById(request.Id);
+        return maybeStore.Match(store => new Result<VendingStore>(store),
+                                () => new(new NotFoundError("")));
     }
 }

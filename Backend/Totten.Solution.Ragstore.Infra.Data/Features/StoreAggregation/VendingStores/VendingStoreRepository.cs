@@ -1,5 +1,6 @@
 ﻿namespace Totten.Solution.Ragstore.Infra.Data.Features.StoreAggregation.VendingStores;
 
+using LanguageExt;
 using Microsoft.EntityFrameworkCore;
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Vendings;
 using Totten.Solution.Ragstore.Infra.Data.Bases;
@@ -16,7 +17,7 @@ public class VendingStoreRepository(ServerStoreContext context)
             .Include(x => x.Character)
             .AsNoTracking();
     
-    public VendingStore? GetByCharacterId(int id)
+    public Option<VendingStore?> GetByCharacterId(int id)
     {
         return _context
             .Set<VendingStore>()

@@ -29,7 +29,7 @@ public class CallbacksWorker : BackgroundService
     }
     private async Task Invoke()
     {
-        var callbacks = _repository.GetAllByFilter(x => !x.Sended && DateTime.Now >= x.SendIn).ToList();
+        var callbacks = _repository.GetAll(x => !x.Sended && DateTime.Now >= x.SendIn).ToList();
 
         foreach (var cb in callbacks)
         {
@@ -39,8 +39,8 @@ public class CallbacksWorker : BackgroundService
                 Content = cb.Body,
                 From = "RagnaStore - Seu mercado de ragnarok online"
             });
-
-            if (response.IsOk)
+            
+            if (response.IsSuccess)
             {
                 cb.Sended = true;
                 await _repository.Update(cb);

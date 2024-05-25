@@ -1,12 +1,12 @@
 ﻿namespace Totten.Solution.Ragstore.Infra.Data.Bases;
 
+using LanguageExt;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Totten.Solution.Ragstore.Domain.Bases;
-using Totten.Solution.Ragstore.Infra.Cross.Functionals;
 
 public abstract class RepositoryBase<TEntity> : IRepository<TEntity, int>
     where TEntity : notnull, Entity<TEntity, int>
@@ -18,33 +18,21 @@ public abstract class RepositoryBase<TEntity> : IRepository<TEntity, int>
 
     public IQueryable<TEntity> GetAll()
         => _context.Set<TEntity>().AsNoTracking();
-    public IQueryable<TEntity> GetAllWith<TProperty>(params Expression<Func<TEntity, TProperty>>[] configure)
-    {
-        var query = _context
-        .Set<TEntity>()
-        .AsNoTracking();
 
-        foreach (var cfg in configure ?? [])
-        {
-            query = query.Include(cfg);
-        }
-
-        return query;
-    }
-    public IQueryable<TEntity> GetAllByFilter(Expression<Func<TEntity, bool>> filter)
+    public IQueryable<TEntity> GetAll(Expression<Func<TEntity, bool>> filter)
         => _context
         .Set<TEntity>()
         .Where(filter)
         .AsNoTracking();
 
-    public TEntity? Get(Expression<Func<TEntity, bool>> filter)
+    public Option<TEntity?> Get(Expression<Func<TEntity, bool>> filter)
         => _context
         .Set<TEntity>()
         .Where(filter)
         .AsNoTracking()
         .FirstOrDefault();
 
-    public async Task<TEntity?> GetById(int id)
+    public async Task<Option<TEntity>> GetById(int id)
     {
         var query = _context
        .Set<TEntity>()

@@ -1,5 +1,7 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.Servers.QueriesHandler;
 
+using LanguageExt;
+using LanguageExt.Common;
 using MediatR;
 using System;
 using System.Linq;
@@ -7,9 +9,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Totten.Solution.Ragstore.ApplicationService.Features.Servers.Queries;
 using Totten.Solution.Ragstore.Domain.Features.Servers;
-using Totten.Solution.Ragstore.Infra.Cross.Functionals;
 
-public class ServerCollectionQueryHandler : IRequestHandler<ServerCollectionQuery, Result<Exception, IQueryable<Server>>>
+public class ServerCollectionQueryHandler : IRequestHandler<ServerCollectionQuery, Result<IQueryable<Server>>>
 {
     private IServerRepository _serverRepository;
 
@@ -18,18 +19,15 @@ public class ServerCollectionQueryHandler : IRequestHandler<ServerCollectionQuer
         _serverRepository = serverRepository;
     }
 
-    public async Task<Result<Exception, IQueryable<Server>>> Handle(ServerCollectionQuery request, CancellationToken cancellationToken)
+    public async Task<Result<IQueryable<Server>>> Handle(ServerCollectionQuery request, CancellationToken cancellationToken)
     {
         try
         {
-            var servers = _serverRepository.GetAll();
-            var result = Result<Exception, IQueryable<Server>>.Ok(servers);
-
-            return await Task.FromResult(result);
+            return await new Result<IQueryable<Server>>(_serverRepository.GetAll()).AsTask();
         }
         catch (Exception ex)
         {
-            return ex;
+            return new Result<IQueryable<Server>>(ex);
         }
     }
 }

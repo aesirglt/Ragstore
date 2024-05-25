@@ -1,10 +1,10 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Queries;
 
+using LanguageExt.Common;
 using MediatR;
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Buyings;
-using Totten.Solution.Ragstore.Infra.Cross.Functionals;
 
-public class BuyingStoreByIdQuery : IRequest<Result<Exception, BuyingStore>>
+public class BuyingStoreByIdQuery : IRequest<Result<BuyingStore>>
 {
     public int Id { get; set; }
 }

@@ -1,13 +1,13 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.Callbacks.QueriesHandler;
 
+using LanguageExt.Common;
 using MediatR;
 using System;
 using System.Threading.Tasks;
 using Totten.Solution.Ragstore.ApplicationService.Features.ItemsAggregation.Queries;
 using Totten.Solution.Ragstore.Domain.Features.CallbackAggregation;
-using Totten.Solution.Ragstore.Infra.Cross.Functionals;
 
-public class CallbackCollectionByUserIdQueryHandler : IRequestHandler<CallbackCollectionByUserIdQuery, Result<Exception, IQueryable<Callback>>>
+public class CallbackCollectionByUserIdQueryHandler : IRequestHandler<CallbackCollectionByUserIdQuery, Result<IQueryable<Callback>>>
 {
     private ICallbackRepository _repository;
 
@@ -16,7 +16,7 @@ public class CallbackCollectionByUserIdQueryHandler : IRequestHandler<CallbackCo
         _repository = repository;
     }
 
-    public async Task<Result<Exception, IQueryable<Callback>>> Handle(CallbackCollectionByUserIdQuery request, CancellationToken cancellationToken)
+    public async Task<Result<IQueryable<Callback>>> Handle(CallbackCollectionByUserIdQuery request, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }

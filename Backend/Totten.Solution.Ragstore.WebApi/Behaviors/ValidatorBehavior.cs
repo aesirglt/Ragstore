@@ -1,14 +1,14 @@
 ﻿namespace Totten.Solution.Ragstore.WebApi.Behaviors;
 
 using FluentValidation;
+using LanguageExt.Common;
 using MediatR;
-using Totten.Solution.Ragstore.Infra.Cross.Functionals;
 /// <summary>
 /// 
 /// </summary>
 /// <typeparam name="TRequest"></typeparam>
 /// <typeparam name="TResponse"></typeparam>
-public class ValidatorBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, Result<Exception, TResponse>> where TRequest : notnull
+public class ValidatorBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, Result<TResponse>> where TRequest : notnull
 {
     private readonly IValidator<TRequest>[] _validators;
     /// <summary>
@@ -23,7 +23,7 @@ public class ValidatorBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest
     /// <param name="next"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<Result<Exception, TResponse>> Handle(TRequest request, RequestHandlerDelegate<Result<Exception, TResponse>> next, CancellationToken cancellationToken)
+    public async Task<Result<TResponse>> Handle(TRequest request, RequestHandlerDelegate<Result<TResponse>> next, CancellationToken cancellationToken)
     {
         List<FluentValidation.Results.ValidationFailure> failures = _validators
             .Select(v => v.Validate(request))
@@ -32,7 +32,7 @@ public class ValidatorBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest
             .ToList();
 
         return failures.Any()
-               ? Result<Exception, TResponse>.Err(new ValidationException(failures))
+               ? new Result<TResponse>(new ValidationException(failures))
                : await next();
     }
 }

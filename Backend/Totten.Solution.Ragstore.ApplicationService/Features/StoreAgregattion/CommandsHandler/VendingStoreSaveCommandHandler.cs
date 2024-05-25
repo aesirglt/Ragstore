@@ -1,6 +1,7 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.CommandsHandler;
 
 using AutoMapper;
+using LanguageExt.Common;
 using MediatR;
 using System;
 using System.Linq;
@@ -10,11 +11,10 @@ using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Comm
 using Totten.Solution.Ragstore.ApplicationService.Notifications.Stores;
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Vendings;
 using Totten.Solution.Ragstore.Infra.Cross.Errors.EspecifiedErrors;
-using Totten.Solution.Ragstore.Infra.Cross.Functionals;
 using static Totten.Solution.Ragstore.ApplicationService.Notifications.Stores.NewStoreNotification;
-using Unit = Infra.Cross.Functionals.Unit;
+using Unit = LanguageExt.Unit;
 
-public class VendingStoreSaveCommandHandler : IRequestHandler<VendingStoreSaveCommand, Result<Exception, Unit>>
+public class VendingStoreSaveCommandHandler : IRequestHandler<VendingStoreSaveCommand, Result<Unit>>
 {
     private IMediator _mediator;
     private IMapper _mapper;
@@ -32,17 +32,13 @@ public class VendingStoreSaveCommandHandler : IRequestHandler<VendingStoreSaveCo
         _storeRepository = storeRepository;
         _vendingStoreItemRepository = vendingStoreItemRepository;
     }
-    public async Task<Result<Exception, Unit>> Handle(VendingStoreSaveCommand request, CancellationToken cancellationToken)
+    public async Task<Result<Unit>> Handle(VendingStoreSaveCommand request, CancellationToken cancellationToken)
     {
         try
         {
-            var flowByVending = _storeRepository.GetByCharacterId(request.CharacterId) switch
-            {
-                null => SaveFlow(request),
-                var storeInDb => UpdateFlow(request, storeInDb)
-            };
+            var flowByVending = _storeRepository.GetByCharacterId(request.CharacterId).Match(storeInDb => UpdateFlow(request, storeInDb), () => SaveFlow(request));
 
-            _ = Publish(new NewStoreNotification
+            _ = _mediator.Publish(new NewStoreNotification
             {
                 Server = request.Server,
                 Where = $"{request.Map} {request.Location}",
@@ -60,7 +56,7 @@ public class VendingStoreSaveCommandHandler : IRequestHandler<VendingStoreSaveCo
         }
         catch (Exception ex)
         {
-            return new InternalError("Erro ao salvar uma nova loja", ex);
+            return new(new InternalError("Erro ao salvar uma nova loja", ex));
         }
     }
 
@@ -70,7 +66,6 @@ public class VendingStoreSaveCommandHandler : IRequestHandler<VendingStoreSaveCo
         store.VendingStoreItems = MapStoreItem(request, store);
         return _storeRepository.Save(store);
     }
-
 
     private async Task<Unit> UpdateFlow(VendingStoreSaveCommand request, VendingStore storeInDb)
     {
@@ -86,9 +81,6 @@ public class VendingStoreSaveCommandHandler : IRequestHandler<VendingStoreSaveCo
 
         return new Unit();
     }
-
-    private Task Publish(NewStoreNotification newStoreNotification)
-        => _mediator.Publish(newStoreNotification);
 
     private VendingStore Map(VendingStoreSaveCommand request, VendingStore vendingStore)
     {

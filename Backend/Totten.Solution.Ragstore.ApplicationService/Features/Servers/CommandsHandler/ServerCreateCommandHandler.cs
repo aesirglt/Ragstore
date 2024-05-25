@@ -1,16 +1,16 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.Servers.CommandsHandler;
 
 using AutoMapper;
+using LanguageExt.Common;
 using MediatR;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Totten.Solution.Ragstore.ApplicationService.Features.Servers.Commands;
 using Totten.Solution.Ragstore.Domain.Features.Servers;
-using Totten.Solution.Ragstore.Infra.Cross.Functionals;
-using Unit = Infra.Cross.Functionals.Unit;
+using Unit = LanguageExt.Unit;
 
-public class ServerCreateCommandHandler : IRequestHandler<ServerCreateCommand, Result<Exception, Unit>>
+public class ServerCreateCommandHandler : IRequestHandler<ServerCreateCommand, Result<Unit>>
 {
     private IMapper _mapper;
     private IServerRepository _serverRepository;
@@ -19,7 +19,7 @@ public class ServerCreateCommandHandler : IRequestHandler<ServerCreateCommand, R
         _serverRepository = serverRepository;
         _mapper = mapper;
     }
-    public async Task<Result<Exception, Unit>> Handle(ServerCreateCommand request, CancellationToken cancellationToken)
+    public async Task<Result<Unit>> Handle(ServerCreateCommand request, CancellationToken cancellationToken)
     {
         try
         {
@@ -29,7 +29,7 @@ public class ServerCreateCommandHandler : IRequestHandler<ServerCreateCommand, R
         }
         catch (Exception e)
         {
-            return e;
+            return new Result<Unit>(e);
         }
     }
 }

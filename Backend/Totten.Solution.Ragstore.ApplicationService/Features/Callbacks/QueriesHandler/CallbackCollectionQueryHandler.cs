@@ -1,14 +1,14 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.Callbacks.QueriesHandler;
 
+using LanguageExt;
+using LanguageExt.Common;
 using MediatR;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Totten.Solution.Ragstore.ApplicationService.Features.ItemsAggregation.Queries;
 using Totten.Solution.Ragstore.Domain.Features.CallbackAggregation;
-using Totten.Solution.Ragstore.Infra.Cross.Functionals;
 
-public class CallbackCollectionQueryHandler : IRequestHandler<CallbackCollectionQuery, Result<Exception, IQueryable<Callback>>>
+public class CallbackCollectionQueryHandler : IRequestHandler<CallbackCollectionQuery, Result<IQueryable<Callback>>>
 {
     private ICallbackRepository _repository;
 
@@ -17,8 +17,8 @@ public class CallbackCollectionQueryHandler : IRequestHandler<CallbackCollection
         _repository = repository;
     }
 
-    public Task<Result<Exception, IQueryable<Callback>>> Handle(CallbackCollectionQuery request, CancellationToken cancellationToken)
+    public Task<Result<IQueryable<Callback>>> Handle(CallbackCollectionQuery request, CancellationToken cancellationToken)
     {
-        return Result<Exception, IQueryable<Callback>>.Ok(_repository.GetAll()).AsTask();
+        return new Result<IQueryable<Callback>>(_repository.GetAll()).AsTask();
     }
 }

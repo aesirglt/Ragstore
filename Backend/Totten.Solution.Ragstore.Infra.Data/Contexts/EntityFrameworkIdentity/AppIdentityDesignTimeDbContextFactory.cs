@@ -2,7 +2,6 @@
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using System;
 
 public class AppIdentityDesignTimeDbContextFactory : IDesignTimeDbContextFactory<AppIdentityContext>
 {

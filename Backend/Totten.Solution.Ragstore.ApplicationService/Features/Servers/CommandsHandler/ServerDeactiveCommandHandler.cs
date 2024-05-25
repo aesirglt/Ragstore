@@ -1,36 +1,39 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.Servers.CommandsHandler;
 
+using LanguageExt;
+using LanguageExt.Common;
 using MediatR;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Totten.Solution.Ragstore.ApplicationService.Features.Servers.Commands;
 using Totten.Solution.Ragstore.Domain.Features.Servers;
-using Totten.Solution.Ragstore.Infra.Cross.Functionals;
-using Unit = Infra.Cross.Functionals.Unit;
+using Unit = LanguageExt.Unit;
 
-public class ServerDeactiveCommandHandler : IRequestHandler<ServerDeactiveCommand, Result<Exception, Unit>>
+public class ServerDeactiveCommandHandler : IRequestHandler<ServerDeactiveCommand, Result<Unit>>
 {
     private IServerRepository _repository;
     public ServerDeactiveCommandHandler(IServerRepository repository)
     {
         _repository = repository;
     }
-    public async Task<Result<Exception, Unit>> Handle(ServerDeactiveCommand request, CancellationToken cancellationToken)
+    public async Task<Result<Unit>> Handle(ServerDeactiveCommand request, CancellationToken cancellationToken)
     {
         try
         {
-            var server = await _repository.GetById(request.ServerId);
+            var maybeServer = await _repository.GetById(request.ServerId);
 
-            if (server is null) return new Exception("server not found");
+            return await maybeServer.Match(async server =>
+            {
+                server.IsActive = false;
 
-            server.IsActive = false;
+                return new Result<Unit>(await _repository.Update(server));
+            }, async () => await new Result<Unit>(new Exception("server not found")).AsTask());
 
-            return await _repository.Update(server);
         }
         catch (Exception ex)
         {
-            return new Exception("Error for updating server, contact admin.", ex.InnerException);
+            return new Result<Unit>(new Exception("Error for updating server, contact admin.", ex.InnerException));
         }
     }
 }

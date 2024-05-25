@@ -1,21 +1,21 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.CommandsHandler;
 
 using AutoMapper;
+using LanguageExt;
+using LanguageExt.Common;
 using MediatR;
 using System;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Commands;
 using Totten.Solution.Ragstore.ApplicationService.Notifications.Stores;
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Buyings;
 using Totten.Solution.Ragstore.Infra.Cross.Errors.EspecifiedErrors;
-using Totten.Solution.Ragstore.Infra.Cross.Functionals;
 using static Totten.Solution.Ragstore.ApplicationService.Notifications.Stores.NewStoreNotification;
-using Unit = Infra.Cross.Functionals.Unit;
+using Unit = LanguageExt.Unit;
 
-public class BuyingStoreSaveCommandHandler : IRequestHandler<BuyingStoreSaveCommand, Result<Exception, Unit>>
+public class BuyingStoreSaveCommandHandler : IRequestHandler<BuyingStoreSaveCommand, Result<Unit>>
 {
     private IMediator _mediator;
     private IMapper _mapper;
@@ -34,17 +34,13 @@ public class BuyingStoreSaveCommandHandler : IRequestHandler<BuyingStoreSaveComm
         _storeItemRepository = storeItemRepository;
     }
 
-    public async Task<Result<Exception, Unit>> Handle(BuyingStoreSaveCommand request, CancellationToken cancellationToken)
+    public async Task<Result<Unit>> Handle(BuyingStoreSaveCommand request, CancellationToken cancellationToken)
     {
         try
         {
-            var flowByVending = _storeRepository.GetByCharacterId(request.CharacterId) switch
-            {
-                null => SaveFlow(request),
-                var storeInDb => UpdateFlow(request, storeInDb)
-            };
+            var flowByBuying = _storeRepository.GetByCharacterId(request.CharacterId).Match(storeInDb => UpdateFlow(request, storeInDb), () => SaveFlow(request));
 
-            _ = Publish(new NewStoreNotification
+            _ = _mediator.Publish(new NewStoreNotification
             {
                 Server = request.Server,
                 Where = $"{request.Map} {request.Location}",
@@ -58,11 +54,11 @@ public class BuyingStoreSaveCommandHandler : IRequestHandler<BuyingStoreSaveComm
                 }).ToList()
             });
 
-            return await flowByVending;
+            return await flowByBuying;
         }
         catch (Exception ex)
         {
-            return new InternalError("Erro ao salvar uma nova loja", ex);
+            return new(new InternalError("Erro ao salvar uma nova loja", ex));
         }
     }
 
@@ -89,8 +85,4 @@ public class BuyingStoreSaveCommandHandler : IRequestHandler<BuyingStoreSaveComm
 
         return await SaveFlow(request);
     }
-
-    private Task Publish(NewStoreNotification newStoreNotification)
-        => _mediator.Publish(newStoreNotification);
-
 }

@@ -1,6 +1,7 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.Callbacks.CommandsHandler;
 
 using AutoMapper;
+using LanguageExt.Common;
 using MediatR;
 using System;
 using System.Threading;
@@ -8,10 +9,9 @@ using System.Threading.Tasks;
 using Totten.Solution.Ragstore.ApplicationService.Features.Callbacks.Commands;
 using Totten.Solution.Ragstore.Domain.Features.CallbackAggregation;
 using Totten.Solution.Ragstore.Infra.Cross.Errors.EspecifiedErrors;
-using Totten.Solution.Ragstore.Infra.Cross.Functionals;
-using Unit = Infra.Cross.Functionals.Unit;
+using Unit = LanguageExt.Unit;
 
-public class CallbackSaveCommandHandler : IRequestHandler<CallbackSaveCommand, Result<Exception, Unit>>
+public class CallbackSaveCommandHandler : IRequestHandler<CallbackSaveCommand, Result<Unit>>
 {
     private IMediator _mediator;
     private IMapper _mapper;
@@ -24,7 +24,7 @@ public class CallbackSaveCommandHandler : IRequestHandler<CallbackSaveCommand, R
         _repository = repository;
     }
 
-    public async Task<Result<Exception, Unit>> Handle(CallbackSaveCommand request, CancellationToken cancellationToken)
+    public async Task<Result<Unit>> Handle(CallbackSaveCommand request, CancellationToken cancellationToken)
     {
         try
         {
@@ -36,7 +36,7 @@ public class CallbackSaveCommandHandler : IRequestHandler<CallbackSaveCommand, R
         }
         catch (Exception ex)
         {
-            return new InternalError("Erro ao salvar um callback", ex);
+            return new Result<Unit>(new InternalError("Erro ao salvar um callback", ex));
         }
     }
 }

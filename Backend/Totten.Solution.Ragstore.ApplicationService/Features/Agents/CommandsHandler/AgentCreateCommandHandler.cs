@@ -1,16 +1,15 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.Agents.CommandsHandler;
 
 using AutoMapper;
+using LanguageExt.Common;
 using MediatR;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Totten.Solution.Ragstore.ApplicationService.Features.Agents.Commands;
 using Totten.Solution.Ragstore.Domain.Features.AgentAggregation;
-using Totten.Solution.Ragstore.Infra.Cross.Functionals;
-using Unit = Infra.Cross.Functionals.Unit;
+using Unit = LanguageExt.Unit;
 
-public class AgentCreateCommandHandler : IRequestHandler<AgentCreateCommand, Result<Exception, Unit>>
+public class AgentCreateCommandHandler : IRequestHandler<AgentCreateCommand, Result<Unit>>
 {
     private IMapper _mapper;
     private IAgentRepository _repository;
@@ -20,7 +19,7 @@ public class AgentCreateCommandHandler : IRequestHandler<AgentCreateCommand, Res
         _mapper = mapper;
     }
 
-    public async Task<Result<Exception, Unit>> Handle(AgentCreateCommand request, CancellationToken cancellationToken)
+    public async Task<Result<Unit>> Handle(AgentCreateCommand request, CancellationToken cancellationToken)
     {
         var agent = _mapper.Map<Agent>(request);
 

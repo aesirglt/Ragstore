@@ -1,12 +1,12 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Commands;
 
+using LanguageExt.Common;
 using MediatR;
 using System;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Commons;
-using Totten.Solution.Ragstore.Infra.Cross.Functionals;
-using Unit = Infra.Cross.Functionals.Unit;
+using Unit = LanguageExt.Unit;
 
-public class BuyingStoreSaveCommand : IRequest<Result<Exception, Unit>>
+public class BuyingStoreSaveCommand : IRequest<Result<Unit>>
 {
     public string Server { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
