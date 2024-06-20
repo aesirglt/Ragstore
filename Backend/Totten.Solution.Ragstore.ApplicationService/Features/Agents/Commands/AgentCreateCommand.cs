@@ -1,10 +1,10 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.Agents.Commands;
 
-using LanguageExt.Common;
+using FunctionalConcepts.Results;using FunctionalConcepts;
 using MediatR;
-using Unit = LanguageExt.Unit;
 
-public class AgentCreateCommand : IRequest<Result<Unit>>
+
+public class AgentCreateCommand : IRequest<Result<Success>>
 {
     public string Name { get; set; } = string.Empty;
     public string Server { get; set; } = string.Empty;

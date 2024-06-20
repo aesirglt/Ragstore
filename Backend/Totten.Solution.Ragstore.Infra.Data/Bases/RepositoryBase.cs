@@ -1,6 +1,8 @@
 ﻿namespace Totten.Solution.Ragstore.Infra.Data.Bases;
 
-using LanguageExt;
+using FunctionalConcepts;
+using FunctionalConcepts.Options;
+using FunctionalConcepts.Results;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
@@ -8,13 +10,11 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Totten.Solution.Ragstore.Domain.Bases;
 
-public abstract class RepositoryBase<TEntity> : IRepository<TEntity, int>
+public abstract class RepositoryBase<TEntity>(DbContext context)
+    : IRepository<TEntity, int>
     where TEntity : notnull, Entity<TEntity, int>
 {
-    protected readonly DbContext _context;
-
-    public RepositoryBase(DbContext context)
-        => _context = context;
+    protected readonly DbContext _context = context;
 
     public IQueryable<TEntity> GetAll()
         => _context.Set<TEntity>().AsNoTracking();
@@ -41,27 +41,27 @@ public abstract class RepositoryBase<TEntity> : IRepository<TEntity, int>
         return await query.FirstOrDefaultAsync(x => x.Id == id);
     }
 
-    public async Task<Unit> Remove(TEntity entity)
+    public async Task<Success> Remove(TEntity entity)
     {
         _context
            .Set<TEntity>()
            .Entry(entity).State = EntityState.Deleted;
 
         await _context.SaveChangesAsync();
-        return new Unit();
+        return Result.Success;
     }
 
-    public async Task<Unit> Save(TEntity entity)
+    public async Task<Success> Save(TEntity entity)
     {
         _context.Set<TEntity>().Add(entity);
         await _context.SaveChangesAsync();
-        return new Unit();
+        return default;
     }
 
-    public async Task<Unit> Update(TEntity entity)
+    public async Task<Success> Update(TEntity entity)
     {
         _context.Set<TEntity>().Entry(entity).State = EntityState.Modified;
         await _context.SaveChangesAsync();
-        return new Unit();
+        return default;
     }
 }

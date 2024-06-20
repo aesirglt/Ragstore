@@ -1,6 +1,7 @@
 ﻿namespace Totten.Solution.Ragstore.Infra.Data.Features.ItemsAggregation;
 
-using LanguageExt;
+using FunctionalConcepts;
+using FunctionalConcepts.Results;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ using StoreId = int;
 public class VendingStoreItemRepository(ServerStoreContext context)
     : RepositoryBase<VendingStoreItem>(context), IVendingStoreItemRepository
 {
-    public async Task<Unit> DeleteAll(StoreId id)
+    public async Task<Success> DeleteAll(StoreId id)
     {
         var stores = await _context
             .Set<VendingStoreItem>()
@@ -25,7 +26,7 @@ public class VendingStoreItemRepository(ServerStoreContext context)
 
         await _context.SaveChangesAsync();
 
-        return new Unit();
+        return Result.Success;
     }
 
     public IQueryable<VendingStoreItem> GetAllByCharacterId(int id)
@@ -37,6 +38,6 @@ public class VendingStoreItemRepository(ServerStoreContext context)
     public IQueryable<VendingStoreItem> GetAllByItemName(ItemName name)
     => _context
            .Set<VendingStoreItem>()
-           .Where(item => string.IsNullOrEmpty(name) ? true : item.Name.Contains(name))
+           .Where(item => string.IsNullOrEmpty(name) || item.Name.Contains(name))
            .AsNoTracking();
 }

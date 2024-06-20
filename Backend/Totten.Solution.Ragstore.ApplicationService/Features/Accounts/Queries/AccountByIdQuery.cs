@@ -1,6 +1,6 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.Accounts.Queries;
 
-using LanguageExt.Common;
+using FunctionalConcepts.Results;using FunctionalConcepts;
 using MediatR;
 using System.Linq;
 using Totten.Solution.Ragstore.Domain.Features.Accounts;

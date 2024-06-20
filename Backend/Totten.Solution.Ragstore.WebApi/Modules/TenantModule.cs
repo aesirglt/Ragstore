@@ -1,8 +1,8 @@
 ﻿namespace Totten.Solution.Ragstore.WebApi.Modules;
 
 using Autofac;
-using LanguageExt;
 using Microsoft.EntityFrameworkCore;
+using Totten.Solution.Ragstore.Infra.Cross.Statics;
 using Totten.Solution.Ragstore.Infra.Data.Contexts.StoreServerContext;
 using Totten.Solution.Ragstore.WebApi.SystemConstants;
 

@@ -1,12 +1,12 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Commands;
 
-using LanguageExt.Common;
+using FunctionalConcepts.Results;using FunctionalConcepts;
 using MediatR;
 using System;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Commons;
-using Unit = LanguageExt.Unit;
 
-public class VendingStoreSaveCommand : IRequest<Result<Unit>>
+
+public class VendingStoreSaveCommand : IRequest<Result<Success>>
 {
     public string Server { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;

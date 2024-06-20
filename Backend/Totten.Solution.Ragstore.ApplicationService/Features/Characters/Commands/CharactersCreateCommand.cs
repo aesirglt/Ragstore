@@ -1,9 +1,9 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.Characters.Commands;
 
-using LanguageExt.Common;
+using FunctionalConcepts.Results;using FunctionalConcepts;
 using MediatR;
-using Unit = LanguageExt.Unit;
 
-public class CharactersCreateCommand : IRequest<Result<Unit>>
+
+public class CharactersCreateCommand : IRequest<Result<Success>>
 {
 }

@@ -1,16 +1,16 @@
 ﻿namespace Totten.Solution.Ragstore.WebApi.Controllers.WithMultTenant;
 
 using Autofac;
-using LanguageExt;
+using FunctionalConcepts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 using Totten.Solution.Ragstore.ApplicationService.Features.Callbacks.Commands;
 using Totten.Solution.Ragstore.ApplicationService.Features.ItemsAggregation.Queries;
+using Totten.Solution.Ragstore.ApplicationService.ViewModels.Items;
 using Totten.Solution.Ragstore.Domain.Features.CallbackAggregation;
 using Totten.Solution.Ragstore.Infra.Cross.CrossDTOs;
 using Totten.Solution.Ragstore.WebApi.Bases;
 using Totten.Solution.Ragstore.WebApi.Dtos.Callbacks;
-using Totten.Solution.Ragstore.ApplicationService.ViewModels.Items;
 
 /// <summary>
 /// 
@@ -59,7 +59,7 @@ public class CallbackController : BaseApiController
     /// <param name="createDto"></param>
     /// <returns></returns>
     [HttpPost("{server}/callbacks-items")]
-    [ProducesResponseType<Unit>(statusCode: 200)]
+    [ProducesResponseType<Success>(statusCode: 200)]
     public async Task<IActionResult> PostItems([FromRoute] string server, [FromBody] CallbackCreateDto createDto)
         => await HandleCommand(_mapper.Map<CallbackSaveCommand>((createDto, new UserData
         {

@@ -1,9 +1,8 @@
 ﻿namespace Totten.Solution.Ragstore.WebApi.Behaviors;
 
-using LanguageExt.Common;
+using FunctionalConcepts.Errors;
+using FunctionalConcepts.Results;
 using MediatR;
-using Totten.Solution.Ragstore.Infra.Cross.Errors;
-using Totten.Solution.Ragstore.Infra.Cross.Errors.EspecifiedErrors;
 
 /// <summary>
 /// 
@@ -38,24 +37,18 @@ public sealed class LoggingBehavior<TRequest, TResponse>
 
         _logger.LogInformation("Request: {requestData} has response: {responseData}", request, response);
 
-        response.IfFail(fail =>
+        response.Else(fail =>
         {
-            if (fail is InternalError internalError)
+            if (fail is UnhandledError internalError)
             {
                 _logger.LogCritical("InternalException handled");
-                _logger.LogCritical("message: {messageException}, exception: {exception}", internalError.Message, internalError);
-                _logger.LogCritical("InnerException: {innerException}", internalError.InnerException);
+                _logger.LogCritical("message: {messageException}, exception: {exception}", internalError.Message, internalError.Exception);
+                _logger.LogCritical("InnerException: {innerException}", internalError.Exception?.InnerException);
             }
-            else if (fail is BusinessError baseError)
+            else if (fail is BaseError baseError)
             {
                 _logger.LogError("BusinessError handled");
-                _logger.LogError("message: {messageError}, error: {error}", baseError.Message, baseError);
-            }
-            else
-            {
-                _logger.LogCritical("Exception handled");
-                _logger.LogCritical("message: {messageException}, exception: {exception}", fail.Message, fail);
-                _logger.LogCritical("InnerException: {innerException}", fail.InnerException);
+                _logger.LogError("message: {messageError}, error: {error}", baseError.Message, baseError.Exception);
             }
         });
 

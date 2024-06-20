@@ -1,7 +1,8 @@
 ﻿namespace Totten.Solution.Ragstore.WebApi.Behaviors;
 
 using FluentValidation;
-using LanguageExt.Common;
+using FunctionalConcepts.Errors;
+using FunctionalConcepts.Results;
 using MediatR;
 /// <summary>
 /// 
@@ -32,7 +33,7 @@ public class ValidatorBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest
             .ToList();
 
         return failures.Any()
-               ? new Result<TResponse>(new ValidationException(failures))
+               ? (InvalidObjectError)("Fail on validate request", new ValidationException(failures))
                : await next();
     }
 }

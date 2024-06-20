@@ -1,22 +1,18 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.QueriesHandler;
 
-using LanguageExt;
-using LanguageExt.Common;
+using FunctionalConcepts.Results;
 using MediatR;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Queries;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.ResponseModels;
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Buyings;
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Vendings;
+using Totten.Solution.Ragstore.Infra.Cross.Statics;
 
-public class BuyingStoreItemsCollectionQueryHandler : IRequestHandler<BuyingStoreItemsCollectionQuery, Result<IQueryable<StoreItemResponseModel>>>
+public class BuyingStoreItemsCollectionQueryHandler(IBuyingStoreItemRepository storeItemRepository) : IRequestHandler<BuyingStoreItemsCollectionQuery, Result<IQueryable<StoreItemResponseModel>>>
 {
-    private IBuyingStoreItemRepository _storeItemRepository;
-
-    public BuyingStoreItemsCollectionQueryHandler(IBuyingStoreItemRepository storeItemRepository)
-        => _storeItemRepository = storeItemRepository;
+    private readonly IBuyingStoreItemRepository _storeItemRepository = storeItemRepository;
 
     public async Task<Result<IQueryable<StoreItemResponseModel>>> Handle(BuyingStoreItemsCollectionQuery request, CancellationToken cancellationToken)
     {
@@ -36,6 +32,6 @@ public class BuyingStoreItemsCollectionQueryHandler : IRequestHandler<BuyingStor
             })
             .AsTask();
 
-        return new Result<IQueryable<StoreItemResponseModel>>(storeItems);
+        return Result.Of(storeItems);
     }
 }

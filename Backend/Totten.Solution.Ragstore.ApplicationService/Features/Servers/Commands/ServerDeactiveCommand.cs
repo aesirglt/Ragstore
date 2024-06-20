@@ -1,10 +1,10 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.Servers.Commands;
 
-using LanguageExt.Common;
+using FunctionalConcepts.Results;using FunctionalConcepts;
 using MediatR;
-using Unit = LanguageExt.Unit;
 
-public class ServerDeactiveCommand : IRequest<Result<Unit>>
+
+public class ServerDeactiveCommand : IRequest<Result<Success>>
 {
     public int ServerId { get; set; }
 }

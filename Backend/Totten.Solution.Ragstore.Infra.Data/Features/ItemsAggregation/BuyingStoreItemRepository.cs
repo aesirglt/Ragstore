@@ -1,6 +1,6 @@
 ﻿namespace Totten.Solution.Ragstore.Infra.Data.Features.ItemsAggregation;
 
-using LanguageExt;
+using FunctionalConcepts;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,7 +13,7 @@ using StoreId = int;
 public class BuyingStoreItemRepository(ServerStoreContext context)
     : RepositoryBase<BuyingStoreItem>(context), IBuyingStoreItemRepository
 {
-    public async Task<Unit> DeleteAll(StoreId id)
+    public async Task<Success> DeleteAll(StoreId id)
     {
         var stores = await _context
             .Set<BuyingStoreItem>()
@@ -25,7 +25,7 @@ public class BuyingStoreItemRepository(ServerStoreContext context)
 
         await _context.SaveChangesAsync();
 
-        return Unit.Default;
+        return default;
     }
 
     public IQueryable<BuyingStoreItem> GetAllByCharacterId(int id)

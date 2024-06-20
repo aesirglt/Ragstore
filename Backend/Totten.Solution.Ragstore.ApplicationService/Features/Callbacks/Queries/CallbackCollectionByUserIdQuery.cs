@@ -1,6 +1,6 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.ItemsAggregation.Queries;
 
-using LanguageExt.Common;
+using FunctionalConcepts.Results;using FunctionalConcepts;
 using MediatR;
 using Totten.Solution.Ragstore.Domain.Features.CallbackAggregation;
 

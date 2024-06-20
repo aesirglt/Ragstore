@@ -1,7 +1,7 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.Servers.QueriesHandler;
 
-using LanguageExt;
-using LanguageExt.Common;
+using FunctionalConcepts.Errors;
+using FunctionalConcepts.Results;
 using MediatR;
 using System;
 using System.Linq;
@@ -9,25 +9,22 @@ using System.Threading;
 using System.Threading.Tasks;
 using Totten.Solution.Ragstore.ApplicationService.Features.Servers.Queries;
 using Totten.Solution.Ragstore.Domain.Features.Servers;
+using Totten.Solution.Ragstore.Infra.Cross.Statics;
 
-public class ServerCollectionQueryHandler : IRequestHandler<ServerCollectionQuery, Result<IQueryable<Server>>>
+public class ServerCollectionQueryHandler(IServerRepository serverRepository) : IRequestHandler<ServerCollectionQuery, Result<IQueryable<Server>>>
 {
-    private IServerRepository _serverRepository;
-
-    public ServerCollectionQueryHandler(IServerRepository serverRepository)
-    {
-        _serverRepository = serverRepository;
-    }
+    private readonly IServerRepository _serverRepository = serverRepository;
 
     public async Task<Result<IQueryable<Server>>> Handle(ServerCollectionQuery request, CancellationToken cancellationToken)
     {
         try
         {
-            return await new Result<IQueryable<Server>>(_serverRepository.GetAll()).AsTask();
+            return await Result.Of(_serverRepository.GetAll()).AsTask();
         }
         catch (Exception ex)
         {
-            return new Result<IQueryable<Server>>(ex);
+            UnhandledError error = ("Erro ao salvar um callback", ex);
+            return error;
         }
     }
 }

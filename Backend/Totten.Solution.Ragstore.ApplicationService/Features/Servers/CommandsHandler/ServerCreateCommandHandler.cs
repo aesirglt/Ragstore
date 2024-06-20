@@ -1,16 +1,16 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.Servers.CommandsHandler;
 
 using AutoMapper;
-using LanguageExt.Common;
+using FunctionalConcepts.Results;using FunctionalConcepts;
 using MediatR;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Totten.Solution.Ragstore.ApplicationService.Features.Servers.Commands;
 using Totten.Solution.Ragstore.Domain.Features.Servers;
-using Unit = LanguageExt.Unit;
+using FunctionalConcepts.Errors;
 
-public class ServerCreateCommandHandler : IRequestHandler<ServerCreateCommand, Result<Unit>>
+public class ServerCreateCommandHandler : IRequestHandler<ServerCreateCommand, Result<Success>>
 {
     private IMapper _mapper;
     private IServerRepository _serverRepository;
@@ -19,17 +19,17 @@ public class ServerCreateCommandHandler : IRequestHandler<ServerCreateCommand, R
         _serverRepository = serverRepository;
         _mapper = mapper;
     }
-    public async Task<Result<Unit>> Handle(ServerCreateCommand request, CancellationToken cancellationToken)
+    public async Task<Result<Success>> Handle(ServerCreateCommand request, CancellationToken cancellationToken)
     {
         try
         {
             var server = _mapper.Map<Server>(request);
             _ = await _serverRepository.Save(server);
-            return await Task.FromResult(new Unit());
+            return await Task.FromResult(Result.Success);
         }
         catch (Exception e)
         {
-            return new Result<Unit>(e);
+            return (UnhandledError)(e.Message, e);
         }
     }
 }

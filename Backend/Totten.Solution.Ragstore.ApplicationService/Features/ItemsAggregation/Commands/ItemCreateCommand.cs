@@ -1,10 +1,10 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.ItemsAggregation.Commands;
 
-using LanguageExt.Common;
+using FunctionalConcepts.Results;using FunctionalConcepts;
 using MediatR;
 using System;
-using Unit = LanguageExt.Unit;
 
-public class ItemCreateCommand : IRequest<Result<Unit>>
+
+public class ItemCreateCommand : IRequest<Result<Success>>
 {
 }

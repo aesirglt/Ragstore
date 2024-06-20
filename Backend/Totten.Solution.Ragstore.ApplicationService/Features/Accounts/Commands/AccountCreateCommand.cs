@@ -1,8 +1,9 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.Accounts.Commands;
 
-using LanguageExt.Common;
+using FunctionalConcepts;
+using FunctionalConcepts.Results;
 using MediatR;
 
-public class AccountCreateCommand : IRequest<Result<Unit>>
+public class AccountCreateCommand : IRequest<Result<Success>>
 {
 }

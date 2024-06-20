@@ -1,7 +1,9 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.CommandsHandler;
 
 using AutoMapper;
-using LanguageExt.Common;
+using FunctionalConcepts;
+using FunctionalConcepts.Errors;
+using FunctionalConcepts.Results;
 using MediatR;
 using System;
 using System.Linq;
@@ -10,29 +12,22 @@ using System.Threading.Tasks;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Commands;
 using Totten.Solution.Ragstore.ApplicationService.Notifications.Stores;
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Vendings;
-using Totten.Solution.Ragstore.Infra.Cross.Errors.EspecifiedErrors;
 using static Totten.Solution.Ragstore.ApplicationService.Notifications.Stores.NewStoreNotification;
-using Unit = LanguageExt.Unit;
 
-public class VendingStoreSaveCommandHandler : IRequestHandler<VendingStoreSaveCommand, Result<Unit>>
+
+public class VendingStoreSaveCommandHandler(
+    IMediator mediator,
+    IMapper mapper,
+    IVendingStoreRepository storeRepository,
+    IVendingStoreItemRepository vendingStoreItemRepository)
+    : IRequestHandler<VendingStoreSaveCommand, Result<Success>>
 {
-    private IMediator _mediator;
-    private IMapper _mapper;
-    private IVendingStoreRepository _storeRepository;
-    private IVendingStoreItemRepository _vendingStoreItemRepository;
+    private readonly IMediator _mediator = mediator;
+    private readonly IMapper _mapper = mapper;
+    private readonly IVendingStoreRepository _storeRepository = storeRepository;
+    private readonly IVendingStoreItemRepository _vendingStoreItemRepository = vendingStoreItemRepository;
 
-    public VendingStoreSaveCommandHandler(
-        IMediator mediator,
-        IMapper mapper,
-        IVendingStoreRepository storeRepository,
-        IVendingStoreItemRepository vendingStoreItemRepository)
-    {
-        _mediator = mediator;
-        _mapper = mapper;
-        _storeRepository = storeRepository;
-        _vendingStoreItemRepository = vendingStoreItemRepository;
-    }
-    public async Task<Result<Unit>> Handle(VendingStoreSaveCommand request, CancellationToken cancellationToken)
+    public async Task<Result<Success>> Handle(VendingStoreSaveCommand request, CancellationToken cancellationToken)
     {
         try
         {
@@ -50,24 +45,25 @@ public class VendingStoreSaveCommandHandler : IRequestHandler<VendingStoreSaveCo
                     ItemId = x.ItemId,
                     ItemPrice = x.Price
                 }).ToList()
-            });
+            }, CancellationToken.None);
 
             return await flowByVending;
         }
         catch (Exception ex)
         {
-            return new(new InternalError("Erro ao salvar uma nova loja", ex));
+            UnhandledError error = ("Erro ao salvar uma nova loja", ex);
+            return error;
         }
     }
 
-    private Task<Unit> SaveFlow(VendingStoreSaveCommand request)
+    private Task<Success> SaveFlow(VendingStoreSaveCommand request)
     {
         var store = _mapper.Map<VendingStore>(request);
         store.VendingStoreItems = MapStoreItem(request, store);
         return _storeRepository.Save(store);
     }
 
-    private async Task<Unit> UpdateFlow(VendingStoreSaveCommand request, VendingStore storeInDb)
+    private async Task<Success> UpdateFlow(VendingStoreSaveCommand request, VendingStore storeInDb)
     {
         storeInDb = Map(request, storeInDb);
         await _storeRepository.Update(storeInDb);
@@ -79,7 +75,7 @@ public class VendingStoreSaveCommandHandler : IRequestHandler<VendingStoreSaveCo
             await _vendingStoreItemRepository.Save(vending);
         }
 
-        return new Unit();
+        return Result.Success;
     }
 
     private VendingStore Map(VendingStoreSaveCommand request, VendingStore vendingStore)

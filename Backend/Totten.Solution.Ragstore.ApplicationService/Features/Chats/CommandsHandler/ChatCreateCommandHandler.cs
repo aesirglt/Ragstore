@@ -1,15 +1,15 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.Chats.CommandsHandler;
 
-using LanguageExt.Common;
+using FunctionalConcepts.Results;using FunctionalConcepts;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 using Totten.Solution.Ragstore.ApplicationService.Features.Chats.Commands;
-using Unit = LanguageExt.Unit;
 
-public class ChatCreateCommandHandler : IRequestHandler<ChatCreateCommand, Result<Unit>>
+
+public class ChatCreateCommandHandler : IRequestHandler<ChatCreateCommand, Result<Success>>
 {
-    public Task<Result<Unit>> Handle(ChatCreateCommand request, CancellationToken cancellationToken)
+    public Task<Result<Success>> Handle(ChatCreateCommand request, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }

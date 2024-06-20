@@ -1,8 +1,9 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.CommandsHandler;
 
 using AutoMapper;
-using LanguageExt;
-using LanguageExt.Common;
+using FunctionalConcepts;
+using FunctionalConcepts.Errors;
+using FunctionalConcepts.Results;
 using MediatR;
 using System;
 using System.Linq;
@@ -11,34 +12,27 @@ using System.Threading.Tasks;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Commands;
 using Totten.Solution.Ragstore.ApplicationService.Notifications.Stores;
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Buyings;
-using Totten.Solution.Ragstore.Infra.Cross.Errors.EspecifiedErrors;
 using static Totten.Solution.Ragstore.ApplicationService.Notifications.Stores.NewStoreNotification;
-using Unit = LanguageExt.Unit;
 
-public class BuyingStoreSaveCommandHandler : IRequestHandler<BuyingStoreSaveCommand, Result<Unit>>
+
+public class BuyingStoreSaveCommandHandler(
+    IMediator mediator,
+    IMapper mapper,
+    IBuyingStoreRepository storeRepository,
+    IBuyingStoreItemRepository storeItemRepository)
+    : IRequestHandler<BuyingStoreSaveCommand, Result<Success>>
 {
-    private IMediator _mediator;
-    private IMapper _mapper;
-    private IBuyingStoreRepository _storeRepository;
-    private IBuyingStoreItemRepository _storeItemRepository;
+    private readonly IMediator _mediator = mediator;
+    private readonly IMapper _mapper = mapper;
+    private readonly IBuyingStoreRepository _storeRepository = storeRepository;
+    private readonly IBuyingStoreItemRepository _storeItemRepository = storeItemRepository;
 
-    public BuyingStoreSaveCommandHandler(
-        IMediator mediator,
-        IMapper mapper,
-        IBuyingStoreRepository storeRepository,
-        IBuyingStoreItemRepository storeItemRepository)
-    {
-        _mediator = mediator;
-        _mapper = mapper;
-        _storeRepository = storeRepository;
-        _storeItemRepository = storeItemRepository;
-    }
-
-    public async Task<Result<Unit>> Handle(BuyingStoreSaveCommand request, CancellationToken cancellationToken)
+    public async Task<Result<Success>> Handle(BuyingStoreSaveCommand request, CancellationToken cancellationToken)
     {
         try
         {
-            var flowByBuying = _storeRepository.GetByCharacterId(request.CharacterId).Match(storeInDb => UpdateFlow(request, storeInDb), () => SaveFlow(request));
+            var flowByBuying = _storeRepository.GetByCharacterId(request.CharacterId)
+                .MatchAsync(storeInDb => UpdateFlow(request, storeInDb), () => SaveFlow(request));
 
             _ = _mediator.Publish(new NewStoreNotification
             {
@@ -52,13 +46,14 @@ public class BuyingStoreSaveCommandHandler : IRequestHandler<BuyingStoreSaveComm
                     ItemId = x.ItemId,
                     ItemPrice = x.Price
                 }).ToList()
-            });
+            }, CancellationToken.None);
 
             return await flowByBuying;
         }
         catch (Exception ex)
         {
-            return new(new InternalError("Erro ao salvar uma nova loja", ex));
+            UnhandledError error = ("Erro ao salvar uma nova loja", ex);
+            return error;
         }
     }
 
@@ -71,14 +66,14 @@ public class BuyingStoreSaveCommandHandler : IRequestHandler<BuyingStoreSaveComm
 
         return buyingStoreItem;
     }
-    private Task<Unit> SaveFlow(BuyingStoreSaveCommand request)
+    private Task<Success> SaveFlow(BuyingStoreSaveCommand request)
     {
         var mappedStore = _mapper.Map<BuyingStore>(request);
         var store = mappedStore with { BuyingStoreItem = MapBuyingItem(request, mappedStore) };
         return _storeRepository.Save(store);
     }
 
-    private async Task<Unit> UpdateFlow(BuyingStoreSaveCommand request, BuyingStore storeInDb)
+    private async Task<Success> UpdateFlow(BuyingStoreSaveCommand request, BuyingStore storeInDb)
     {
         _ = await _storeItemRepository.DeleteAll(storeInDb.Id);
         _ = await _storeRepository.Remove(storeInDb);

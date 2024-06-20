@@ -8,12 +8,10 @@ public class ErrorPayload
 
     private ErrorPayload() { }
 
-    public static ErrorPayload New(Exception? exception)
+    public static ErrorPayload New(Exception? exception, string msg, int code)
         => new()
         {
-            ErrorCode = exception is BusinessError error
-                        ? error.ErrorCode.GetHashCode()
-                        : ECodeError.Unhandled.GetHashCode(),
-            ErrorMessage = exception?.Message ?? "Exception was null",
+            ErrorCode = code,
+            ErrorMessage = exception?.Message ?? msg,
         };
 }

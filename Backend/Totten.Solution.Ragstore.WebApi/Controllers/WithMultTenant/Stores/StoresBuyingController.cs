@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.OData.Query;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Commands;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Queries;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.ResponseModels;
+using Totten.Solution.Ragstore.ApplicationService.ViewModels.Stores;
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Buyings;
 using Totten.Solution.Ragstore.WebApi.Bases;
-using Totten.Solution.Ragstore.ApplicationService.ViewModels.Stores;
 
 /// <summary>
 /// 

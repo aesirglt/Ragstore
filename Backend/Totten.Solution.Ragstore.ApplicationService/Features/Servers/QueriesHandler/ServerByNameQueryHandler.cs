@@ -1,26 +1,23 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.Servers.QueriesHandler;
 
-using LanguageExt;
-using LanguageExt.Common;
+using FunctionalConcepts.Errors;
+using FunctionalConcepts.Results;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 using Totten.Solution.Ragstore.ApplicationService.Features.Servers.Queries;
 using Totten.Solution.Ragstore.Domain.Features.Servers;
-using Totten.Solution.Ragstore.Infra.Cross.Errors.EspecifiedErrors;
+using Totten.Solution.Ragstore.Infra.Cross.Statics;
 
-public class ServerByNameQueryHandler : IRequestHandler<ServerByNameQuery, Result<Server>>
+public class ServerByNameQueryHandler(IServerRepository repository) : IRequestHandler<ServerByNameQuery, Result<Server>>
 {
-    private IServerRepository _repository;
-    public ServerByNameQueryHandler(IServerRepository repository)
-    {
-        _repository = repository;
-    }
+    private readonly IServerRepository _repository = repository;
+
     public Task<Result<Server>> Handle(ServerByNameQuery request, CancellationToken cancellationToken)
     {
         return _repository.GetByName(request.Name)
-                          .Match(server => new Result<Server>(server),
-                                 () => new Result<Server>(new NotFoundError("")))
+                          .Match(server => server,
+                                () => Result.Of<Server>((NotFoundError)""))
                           .AsTask();
     }
 }

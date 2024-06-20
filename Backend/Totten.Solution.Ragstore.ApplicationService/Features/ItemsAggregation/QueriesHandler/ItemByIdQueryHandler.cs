@@ -2,10 +2,10 @@
 
 using Autofac;
 using AutoMapper;
-using LanguageExt.Common;
+using FunctionalConcepts.Errors;
+using FunctionalConcepts.Results;
 using MediatR;
 using Newtonsoft.Json;
-using System;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
@@ -63,11 +63,11 @@ public class ItemByIdQueryHandler : IRequestHandler<ItemByIdQuery, Result<ItemDe
                 };;
             }
 
-            return new Result<ItemDetailResponseModel>(new Exception("not found item"));
+            return Result.Of<ItemDetailResponseModel>((NotFoundError)("not found item"));
         };
 
-        return item == null
-                ? new Result<ItemDetailResponseModel>( new Exception("Item not found"))
-                : await searchItemDetail();
+        return await item.MatchAsync(
+            async _ => await searchItemDetail(),
+            () => (NotFoundError)("Item not found"));
     }
 }
