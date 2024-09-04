@@ -22,6 +22,12 @@ public class UsersController : BaseApiController
     {
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="server">servidor que será feita a consulta</param>
+    /// <param name="queryOptions">filtros de odata para retornos</param>
+    /// <returns></returns>
     [HttpGet()]
     public async Task<IActionResult> Get(
         [FromQuery] string server,

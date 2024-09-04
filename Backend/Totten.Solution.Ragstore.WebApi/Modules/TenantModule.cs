@@ -9,7 +9,6 @@ using Totten.Solution.Ragstore.WebApi.SystemConstants;
 /// <summary>
 /// 
 /// </summary>
-/// <typeparam name="TProgram"></typeparam>
 public class TenantModule : Autofac.Module
 {
     /// <summary>

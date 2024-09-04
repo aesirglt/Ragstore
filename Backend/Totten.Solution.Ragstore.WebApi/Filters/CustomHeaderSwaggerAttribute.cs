@@ -4,8 +4,16 @@ using Microsoft.AspNetCore.OData.Query;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
+/// <summary>
+/// 
+/// </summary>
 public class CustomHeaderSwaggerAttribute : IOperationFilter
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="operation"></param>
+    /// <param name="context"></param>
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
         var oDataParamsInfo = context.MethodInfo.GetParameters()

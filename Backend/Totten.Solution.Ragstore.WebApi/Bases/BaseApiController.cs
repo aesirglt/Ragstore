@@ -166,7 +166,7 @@ public abstract class BaseApiController : ControllerBase
                 var mediator = scope.Resolve<IMediator>();
                 var result = await mediator.Send(cmd);
 
-                return result.Match(succ => Ok(succ), HandleFailure);
+                return result.Match(succ => Ok(succ), HandleFailure)!;
             }, () => HandleFailure(ServerNotFound()));
     }
     /// <summary>
@@ -179,7 +179,7 @@ public abstract class BaseApiController : ControllerBase
         IRequest<Result<Success>> cmd)
     {
         var result = await _mediator.Send(cmd);
-        return result.Match(succ => Ok(succ), HandleFailure);
+        return result.Match(succ => Ok(succ), HandleFailure)!;
     }
     /// <summary>
     /// 
@@ -192,7 +192,7 @@ public abstract class BaseApiController : ControllerBase
         IRequest<Result<TSource>> query)
     {
         var result = await _mediator.Send(query);
-        return result.Match(succ => Ok(_mapper.Map<TDestiny>(succ)), HandleFailure);
+        return result.Match(succ => Ok(_mapper.Map<TDestiny>(succ)), HandleFailure)!;
     }
 
     /// <summary>
@@ -216,7 +216,7 @@ public abstract class BaseApiController : ControllerBase
                 var mediator = scope.Resolve<IMediator>();
                 var result = await mediator.Send(query);
 
-                return result.Match(succ => Ok(m.Map<TDestiny>(succ)), HandleFailure);
+                return result.Match(succ => Ok(m.Map<TDestiny>(succ)), HandleFailure)!;
             }, () => HandleFailure(ServerNotFound()));
     }
     /// <summary>
@@ -238,7 +238,7 @@ public abstract class BaseApiController : ControllerBase
                 var mediator = scope.Resolve<IMediator>();
                 var result = await mediator.Send(query);
 
-                return result.Match(succ => Ok(succ), HandleFailure);
+                return result.Match(succ => Ok(succ), HandleFailure)!;
             }, () => HandleFailure(ServerNotFound()));
     }
 
@@ -265,7 +265,7 @@ public abstract class BaseApiController : ControllerBase
                 var mediator = scope.Resolve<IMediator>();
                 var result = await mediator.Send(query);
 
-                return result.Match(succ => Ok(HandlePage(succ, mapper, queryOptions)), HandleFailure);
+                return result.Match(succ => Ok(HandlePage(succ, mapper, queryOptions)), HandleFailure)!;
             }, () => HandleFailure(ServerNotFound()));
     }
     /// <summary>
@@ -282,7 +282,8 @@ public abstract class BaseApiController : ControllerBase
     {
         var result = await _mediator.Send(query);
 
-        return result.Match(succ => Ok(HandlePage(succ, _currentGlobalScoped.Resolve<IMapper>(), queryOptions)), HandleFailure);
+        return result.Match(succ => Ok(HandlePage(succ, _currentGlobalScoped.Resolve<IMapper>(), queryOptions)),
+                            HandleFailure)!;
     }
     /// <summary>
     /// 

@@ -15,6 +15,11 @@ using Totten.Solution.Ragstore.WebApi.Filters;
 /// </summary>
 public static class SwaggerExt
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="options"></param>
+    /// <returns></returns>
     public static MvcOptions AddSwaggerMediaTypes(this MvcOptions options)
     {
         foreach (var outputFormatter in options.OutputFormatters.OfType<ODataOutputFormatter>().Where(_ => _.SupportedMediaTypes.Count == 0))
