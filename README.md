@@ -1,13 +1,19 @@
 ## Quickstart
 
-1. 
+1. Necessario ter docker instalado na maquina para rodar o projeto localmente
+2.  
+3. 
+4. 
+5. 
+6. 
 
 ## F.A.Q.
- 1. 
+1. Este projeto tem o intuito de fazer uma api completa para um sistema de monitoramento de itens em comercios dentro de servidores de ragnarok online.
+
 
 ## Things to know
 
-* Please post in English.
+* 
 
 ## Status on Official Servers
 
