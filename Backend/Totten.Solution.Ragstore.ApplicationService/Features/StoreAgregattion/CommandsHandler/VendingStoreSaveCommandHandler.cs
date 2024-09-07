@@ -59,8 +59,7 @@ public class VendingStoreSaveCommandHandler(
         }
         catch (Exception ex)
         {
-            UnhandledError error = ("Erro ao salvar uma nova loja", ex);
-            return error;
+            return UnhandledError.New("Erro ao salvar uma nova loja", ex);
         }
     }
 
