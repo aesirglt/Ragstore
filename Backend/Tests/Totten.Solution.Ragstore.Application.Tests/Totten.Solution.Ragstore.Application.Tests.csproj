@@ -18,6 +18,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Totten.Solution.Ragstore.ApplicationService\Totten.Solution.Ragstore.ApplicationService.csproj" />
+    <ProjectReference Include="..\Common.Tests\Common.Tests.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Using Include="NUnit.Framework" />
   </ItemGroup>
 

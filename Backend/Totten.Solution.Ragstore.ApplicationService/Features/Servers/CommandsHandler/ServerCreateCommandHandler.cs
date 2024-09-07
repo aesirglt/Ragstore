@@ -27,9 +27,9 @@ public class ServerCreateCommandHandler : IRequestHandler<ServerCreateCommand, R
             _ = await _serverRepository.Save(server);
             return await Task.FromResult(Result.Success);
         }
-        catch (Exception e)
+        catch (Exception exn)
         {
-            return (UnhandledError)(e.Message, e);
+            return UnhandledError.New(exn.Message, exn);
         }
     }
 }

@@ -7,6 +7,7 @@ public interface IServerRepository : IRepository<Server, int>
     public Option<Server> GetByName(string serverName)
     {
         if (serverName is null or "") return NoneType.Value;
-        return this.GetAll(x => serverName.Equals(x.Name)).FirstOrDefault();
+        var server = this.GetAll(x => serverName.Equals(x.Name)).FirstOrDefault();
+        return server is null ? NoneType.Value : server;
     }
 }

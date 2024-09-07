@@ -9,8 +9,7 @@ using Totten.Solution.Ragstore.Infra.Data.Contexts.StoreServerContext;
 public class VendingStoreRepository(ServerStoreContext context)
     : RepositoryBase<VendingStore>(context), IVendingStoreRepository
 {
-
-    public IQueryable<VendingStore> GetAll()
+    public new IQueryable<VendingStore> GetAll()
         => _context
             .Set<VendingStore>()
             .Include(x => x.VendingStoreItems)
@@ -19,9 +18,13 @@ public class VendingStoreRepository(ServerStoreContext context)
     
     public Option<VendingStore> GetByCharacterId(int id)
     {
-        return _context
+        var entity = _context
             .Set<VendingStore>()
             .AsNoTracking()
             .FirstOrDefault(x => x.CharacterId == id);
+
+        return entity is null
+            ? NoneType.Value
+            : entity;
     }
 }

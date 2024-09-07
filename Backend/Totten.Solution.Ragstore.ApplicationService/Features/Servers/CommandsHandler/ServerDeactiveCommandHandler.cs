@@ -10,12 +10,14 @@ using System.Threading.Tasks;
 using Totten.Solution.Ragstore.ApplicationService.Features.Servers.Commands;
 using Totten.Solution.Ragstore.Domain.Features.Servers;
 
-
-public class ServerDeactiveCommandHandler(IServerRepository repository) : IRequestHandler<ServerDeactiveCommand, Result<Success>>
+public class ServerDeactiveCommandHandler(IServerRepository repository)
+    : IRequestHandler<ServerDeactiveCommand, Result<Success>>
 {
     private readonly IServerRepository _repository = repository;
 
-    public async Task<Result<Success>> Handle(ServerDeactiveCommand request, CancellationToken cancellationToken)
+    public async Task<Result<Success>> Handle(
+        ServerDeactiveCommand request,
+        CancellationToken cancellationToken)
     {
         try
         {
@@ -24,15 +26,13 @@ public class ServerDeactiveCommandHandler(IServerRepository repository) : IReque
             return await maybeServer.MatchAsync(async server =>
             {
                 server.IsActive = false;
-
                 return Result.Of(await _repository.Update(server));
-            }, () => (NotFoundError)"server not found");
+            }, () => NotFoundError.New("server not found"));
 
         }
         catch (Exception ex)
         {
-            UnhandledError error = ("Error for updating server, contact admin.", ex);
-            return error;
+            return UnhandledError.New("Error for updating server, contact the admin.", ex);
         }
     }
 }

@@ -25,12 +25,16 @@ public abstract class RepositoryBase<TEntity>(DbContext context)
         .Where(filter)
         .AsNoTracking();
 
-    public Option<TEntity?> Get(Expression<Func<TEntity, bool>> filter)
-        => _context
+    public Option<TEntity> Get(Expression<Func<TEntity, bool>> filter)
+    {
+        var entity = _context
         .Set<TEntity>()
         .Where(filter)
         .AsNoTracking()
         .FirstOrDefault();
+
+        return entity is null ? NoneType.Value : entity;
+    }
 
     public async Task<Option<TEntity>> GetById(int id)
     {
@@ -38,7 +42,9 @@ public abstract class RepositoryBase<TEntity>(DbContext context)
        .Set<TEntity>()
        .AsNoTracking();
 
-        return await query.FirstOrDefaultAsync(x => x.Id == id);
+        var entity = await query.FirstOrDefaultAsync(x => x.Id == id);
+
+        return entity is null ? NoneType.Value : entity;
     }
 
     public async Task<Success> Remove(TEntity entity)
@@ -53,15 +59,18 @@ public abstract class RepositoryBase<TEntity>(DbContext context)
 
     public async Task<Success> Save(TEntity entity)
     {
-        _context.Set<TEntity>().Add(entity);
+        var tracked = _context.Set<TEntity>().Add(entity);
         await _context.SaveChangesAsync();
+        tracked.State = EntityState.Detached;
         return default;
     }
 
     public async Task<Success> Update(TEntity entity)
     {
-        _context.Set<TEntity>().Entry(entity).State = EntityState.Modified;
+        var tracked = _context.Set<TEntity>().Entry(entity);
+        tracked.State = EntityState.Modified;
         await _context.SaveChangesAsync();
+        tracked.State = EntityState.Detached;
         return default;
     }
 }

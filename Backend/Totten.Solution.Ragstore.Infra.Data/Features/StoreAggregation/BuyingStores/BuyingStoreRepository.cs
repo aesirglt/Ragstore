@@ -12,9 +12,11 @@ public class BuyingStoreRepository(ServerStoreContext context)
 {
     public Option<BuyingStore> GetByCharacterId(int id)
     {
-        return _context
+        var entity = _context
             .Set<BuyingStore>()
             .AsNoTracking()
             .FirstOrDefault(x => x.CharacterId == id);
+
+        return entity is null ? NoneType.Value : entity;
     }
 }
