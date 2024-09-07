@@ -14,7 +14,6 @@ using Totten.Solution.Ragstore.ApplicationService.Notifications.Stores;
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Vendings;
 using static Totten.Solution.Ragstore.ApplicationService.Notifications.Stores.NewStoreNotification;
 
-
 public class VendingStoreSaveCommandHandler(
     IMediator mediator,
     IMapper mapper,
@@ -27,11 +26,17 @@ public class VendingStoreSaveCommandHandler(
     private readonly IVendingStoreRepository _storeRepository = storeRepository;
     private readonly IVendingStoreItemRepository _vendingStoreItemRepository = vendingStoreItemRepository;
 
-    public async Task<Result<Success>> Handle(VendingStoreSaveCommand request, CancellationToken cancellationToken)
+    public async Task<Result<Success>> Handle(
+        VendingStoreSaveCommand request,
+        CancellationToken cancellationToken)
     {
         try
         {
-            var flowByVending = _storeRepository.GetByCharacterId(request.CharacterId).Match(storeInDb => UpdateFlow(request, storeInDb), () => SaveFlow(request));
+            var result = 
+                _storeRepository
+                    .GetByCharacterId(request.CharacterId)
+                    .Match(storeInDb => UpdateFlow(request, storeInDb),
+                           () => SaveFlow(request));
 
             _ = _mediator.Publish(new NewStoreNotification
             {
@@ -40,14 +45,17 @@ public class VendingStoreSaveCommandHandler(
                 Merchant = request.CharacterName,
                 StoreType = nameof(VendingStore),
                 Date = DateTime.Now,
-                Items = request.StoreItems.Select(x => new NewStoreNotificationItem()
-                {
-                    ItemId = x.ItemId,
-                    ItemPrice = x.Price
-                }).ToList()
+                Items =
+                    request.StoreItems
+                           .Select(x => new NewStoreNotificationItem()
+                            {
+                                ItemId = x.ItemId,
+                                ItemPrice = x.Price
+                            })
+                           .ToList()
             }, CancellationToken.None);
 
-            return await flowByVending;
+            return await result;
         }
         catch (Exception ex)
         {
