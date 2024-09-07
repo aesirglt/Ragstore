@@ -14,8 +14,8 @@ public class VendingStoreRepository(ServerStoreContext context)
             .Set<VendingStore>()
             .Include(x => x.VendingStoreItems)
             .Include(x => x.Character)
-            .AsNoTracking();
-    
+            .AsNoTrackingWithIdentityResolution();
+
     public Option<VendingStore> GetByCharacterId(int id)
     {
         var entity = _context

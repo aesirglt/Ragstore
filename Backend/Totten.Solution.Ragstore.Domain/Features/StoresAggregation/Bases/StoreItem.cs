@@ -1,7 +1,4 @@
 ﻿namespace Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Bases;
-
-using System.Collections;
-using System.Diagnostics.CodeAnalysis;
 using Totten.Solution.Ragstore.Domain.Bases;
 public class StoreItemCardInfo
 {
@@ -14,8 +11,9 @@ public class StoreItemCardInfo
         Id = int.Parse(splited[0]);
         Name = splited[1];
     }
-    public StoreItemCardInfo()
-    { }
+    public StoreItemCardInfo() : this(0, string.Empty)
+    {
+    }
     public StoreItemCardInfo(int id, string name)
     {
         Id = id;
@@ -43,15 +41,15 @@ public class StoreItemOptionInfo
         Param = param;
         Name = str;
     }
-    public StoreItemOptionInfo()
+    public StoreItemOptionInfo() : this(0, 0, 0, string.Empty)
     { }
 }
 public abstract record StoreItem<TStoreItem> : Entity<TStoreItem, int>
     where TStoreItem : StoreItem<TStoreItem>
 {
-    public string Map { get; set; }
-    public string StoreName { get; set; }
-    public string CharacterName { get; set; }
+    public string Map { get; set; } = string.Empty;
+    public string StoreName { get; set; } = string.Empty;
+    public string CharacterName { get; set; } = string.Empty;
     public int StoreId { get; set; }
     public int AccountId { get; set; }
     public int CharacterId { get; set; }

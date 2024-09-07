@@ -16,7 +16,8 @@ public static class CallbackTypeExp
         ECallbackType.VIP1 => 10,
         ECallbackType.VIP2 => 5,
         ECallbackType.AGENT => 1,
-        ECallbackType.SYSTEM => 1
+        ECallbackType.SYSTEM => 1,
+        _ => 120
     };
 }
 

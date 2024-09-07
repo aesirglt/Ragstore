@@ -16,10 +16,10 @@ public static class ContextObjectMother
         return new(options);
     }
 
-    public static ServerStoreContext GetInMemoryServerStore()
+    public static ServerStoreContext GetInMemoryServerStore(string dbName)
     {
         var options = new DbContextOptionsBuilder<ServerStoreContext>()
-            .UseInMemoryDatabase(databaseName: "ServerStoreContextInMemoryDb")
+            .UseInMemoryDatabase(databaseName: dbName)
         .Options;
 
         return new(options);

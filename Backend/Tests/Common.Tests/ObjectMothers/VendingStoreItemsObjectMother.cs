@@ -3,21 +3,23 @@ using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Vendings;
 
 public static partial class ObjectMother
 {
-    public static VendingStoreItem GetVendingStoreItem(int storeId)
+    public static VendingStoreItem GetVendingStoreItem(
+        int itemId, string itemName, int itemPrice, int storeId,
+        int accountId, int characterId, string character, string storeName, string map)
         => new()
         {
-            Id = 1,
-            ItemId = 2,
-            Name = "",
-            Price = 3,
-            Quantity = 4,
+            Id = 0,
+            ItemId = itemId,
+            Name = itemName,
+            Price = itemPrice,
+            Quantity = 1,
             StoreId = storeId,
-            AccountId = 5,
-            CharacterName = "",
-            CharacterId = 6,
-            StoreName = "",
+            AccountId = accountId,
+            CharacterName = character,
+            CharacterId = characterId,
+            StoreName = storeName,
             UpdatedAt = DateTime.UtcNow,
             CreatedAt = DateTime.UtcNow,
-            Map = ""
+            Map = map
         };
 }

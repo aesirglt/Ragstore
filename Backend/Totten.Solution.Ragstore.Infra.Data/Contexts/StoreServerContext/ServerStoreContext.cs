@@ -27,7 +27,11 @@ public class ServerStoreContext : DbContext
 
     public ServerStoreContext(DbContextOptions<ServerStoreContext> options) : base(options)
     {
-        Database?.Migrate();
+        if (Database.IsRelational())
+        {
+            Database?.Migrate();
+        }
+        ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -48,6 +52,7 @@ public class ServerStoreContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseLazyLoadingProxies();
+        optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
         base.OnConfiguring(optionsBuilder);
     }
 

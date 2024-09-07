@@ -16,7 +16,7 @@ public class CallbackCollectionByUserIdQueryHandler : IRequestHandler<CallbackCo
         _repository = repository;
     }
 
-    public async Task<Result<IQueryable<Callback>>> Handle(CallbackCollectionByUserIdQuery request, CancellationToken cancellationToken)
+    public Task<Result<IQueryable<Callback>>> Handle(CallbackCollectionByUserIdQuery request, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }

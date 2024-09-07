@@ -15,7 +15,9 @@ public class ServerCollectionQueryHandler(IServerRepository serverRepository) : 
 {
     private readonly IServerRepository _serverRepository = serverRepository;
 
-    public async Task<Result<IQueryable<Server>>> Handle(ServerCollectionQuery request, CancellationToken cancellationToken)
+    public async Task<Result<IQueryable<Server>>> Handle(
+        ServerCollectionQuery _,
+        CancellationToken cancellationToken)
     {
         try
         {

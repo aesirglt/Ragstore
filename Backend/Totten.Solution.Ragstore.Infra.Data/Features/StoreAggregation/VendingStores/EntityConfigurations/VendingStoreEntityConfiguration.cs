@@ -24,7 +24,7 @@ public class VendingStoreEntityConfiguration : IEntityTypeConfiguration<VendingS
         builder.HasMany(e => e.VendingStoreItems)
                .WithOne()
                .HasForeignKey(e => e.StoreId)
-               .OnDelete(DeleteBehavior.NoAction);
+               .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasIndex(e => e.CharacterId).IsUnique();
     }
