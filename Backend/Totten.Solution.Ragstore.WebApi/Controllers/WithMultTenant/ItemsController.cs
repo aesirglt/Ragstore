@@ -7,7 +7,7 @@ using Totten.Solution.Ragstore.ApplicationService.Features.ItemsAggregation.Quer
 using Totten.Solution.Ragstore.WebApi.Bases;
 using Totten.Solution.Ragstore.ApplicationService.ViewModels.Items;
 /// <summary>
-/// 
+/// Enpoint responsavel por itens dentro do jogo
 /// </summary>
 [ApiController]
 public class ItemsController : BaseApiController
@@ -20,10 +20,10 @@ public class ItemsController : BaseApiController
     {
     }
     /// <summary>
-    /// 
+    /// Busca um item com base em seu nome.
     /// </summary>
-    /// <param name="name"></param>
-    /// <param name="server"></param>
+    /// <param name="name">Nome do item</param>
+    /// <param name="server">Servidor</param>
     /// <param name="queryOptions"></param>
     /// <returns></returns>
     [HttpGet("{server}/items-name/{name}")]
@@ -37,10 +37,10 @@ public class ItemsController : BaseApiController
         }, server, queryOptions);
 
     /// <summary>
-    /// 
+    /// busca um item com base em seu id.
     /// </summary>
-    /// <param name="itemId"></param>
-    /// <param name="server"></param>
+    /// <param name="itemId">Identificador</param>
+    /// <param name="server">Servidor</param>
     /// <returns></returns>
     [HttpGet("{server}/items/{itemId}")]
     public async Task<IActionResult> GetByName(

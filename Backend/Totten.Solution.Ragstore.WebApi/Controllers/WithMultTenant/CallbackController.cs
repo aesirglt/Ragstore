@@ -13,9 +13,8 @@ using Totten.Solution.Ragstore.WebApi.Bases;
 using Totten.Solution.Ragstore.WebApi.Dtos.Callbacks;
 
 /// <summary>
-/// 
+/// Endpoint responsavel por notificações de items com baixos valores.
 /// </summary>
-/// 
 [ApiController]
 public class CallbackController : BaseApiController
 {
@@ -28,10 +27,10 @@ public class CallbackController : BaseApiController
     }
 
     /// <summary>
-    /// 
+    /// Busca todas as notificações do servidor.
     /// </summary>
-    /// <param name="server"></param>
-    /// <param name="queryOptions"></param>
+    /// <param name="server">Servidor</param>
+    /// <param name="queryOptions">Filtro Dinamico</param>
     /// <returns></returns>
     [HttpGet("{server}/callbacks")]
     [ProducesResponseType<IQueryable<ItemResumeViewModel>>(statusCode: 200)]
@@ -39,10 +38,10 @@ public class CallbackController : BaseApiController
         => await HandleQueryable(new CallbackCollectionQuery(), server, queryOptions);
 
     /// <summary>
-    /// 
+    /// Busca todas as notificações do usuário no servidor especificado.
     /// </summary>
-    /// <param name="server"></param>
-    /// <param name="queryOptions"></param>
+    /// <param name="server">Servidor</param>
+    /// <param name="queryOptions">Filtro Dinamico</param>
     /// <returns></returns>
     [HttpGet("{server}/callbacks-user")]
     [ProducesResponseType<IQueryable<Callback>>(statusCode: 200)]
@@ -53,10 +52,10 @@ public class CallbackController : BaseApiController
         }, server, queryOptions);
 
     /// <summary>
-    /// 
+    /// Cria uma notificação no servidor especificado.
     /// </summary>
-    /// <param name="server"></param>
-    /// <param name="createDto"></param>
+    /// <param name="server">Servidor</param>
+    /// <param name="createDto">Objeto de criação de notificação</param>
     /// <returns></returns>
     [HttpPost("{server}/callbacks-items")]
     [ProducesResponseType<Success>(statusCode: 200)]

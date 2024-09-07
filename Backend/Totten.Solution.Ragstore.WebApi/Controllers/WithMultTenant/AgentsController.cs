@@ -6,7 +6,8 @@ using Totten.Solution.Ragstore.ApplicationService.Features.Agents.Commands;
 using Totten.Solution.Ragstore.WebApi.Bases;
 
 /// <summary>
-/// 
+/// Endpoint responsavel por clients que enviam informações dos servidores
+/// Esses clients podem ser envios manuais ou automaticos.
 /// </summary>
 [ApiController]
 [Route("[controller]")]

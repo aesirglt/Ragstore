@@ -77,7 +77,7 @@ public class StoresVendingController : BaseApiController
     /// <param name="server"></param>
     /// <param name="queryOptions"></param>
     /// <returns></returns>
-    [HttpGet("{server}/stores-vending/items")]
+    [HttpGet($"{{server}}/{API_ENDPOINT}/items")]
     public async Task<IActionResult> GetByName(
         [FromRoute] string server,
         [FromQuery] string? itemName,

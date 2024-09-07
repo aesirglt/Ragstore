@@ -1,6 +1,5 @@
 ﻿namespace Totten.Solution.Ragstore.WebApi.Dtos.Callbacks;
-using ItemId = int;
-using ItemPrice = double;
+
 /// <summary>
 /// 
 /// </summary>
