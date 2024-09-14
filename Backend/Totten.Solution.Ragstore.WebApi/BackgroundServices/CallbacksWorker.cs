@@ -29,23 +29,23 @@ public class CallbacksWorker : BackgroundService
     }
     private async Task Invoke()
     {
-        var callbacks = _repository.GetAll(x => !x.Sended && DateTime.Now >= x.SendIn).ToList();
+        //var callbacks = _repository.GetAll(x => !x.Sended && DateTime.Now >= x.SendIn).ToList();
 
-        foreach (var cb in callbacks)
-        {
-            var response = await _service.Send(new NotificationMessageDto
-            {
-                To = cb.Contact,
-                Content = cb.Body,
-                From = "RagnaStore - Seu mercado de ragnarok online"
-            });
+        //foreach (var cb in callbacks)
+        //{
+        //    var response = await _service.Send(new NotificationMessageDto
+        //    {
+        //        To = cb.Contact,
+        //        Content = cb.Body,
+        //        From = "RagnaStore - Seu mercado de ragnarok online"
+        //    });
             
-            if (response.IsSuccess)
-            {
-                cb.Sended = true;
-                await _repository.Update(cb);
-            }
-        }
+        //    if (response.IsSuccess)
+        //    {
+        //        cb.Sended = true;
+        //        await _repository.Update(cb);
+        //    }
+        //}
     }
     /// <summary>
     /// 

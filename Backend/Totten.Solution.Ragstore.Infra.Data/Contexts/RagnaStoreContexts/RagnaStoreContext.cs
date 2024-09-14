@@ -16,7 +16,11 @@ public class RagnaStoreContext : DbContext
 
     public RagnaStoreContext(DbContextOptions<RagnaStoreContext> options) : base(options)
     {
-        //Database?.Migrate();
+        if (Database.IsRelational())
+        {
+            //Database?.Migrate();
+        }
+        ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
