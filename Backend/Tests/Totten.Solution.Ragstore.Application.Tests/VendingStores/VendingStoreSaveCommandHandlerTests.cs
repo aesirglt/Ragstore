@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.CommandsHandler;
 using Totten.Solution.Ragstore.ApplicationService.Notifications.Stores;
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Vendings;
-using Totten.Solution.Ragstore.Infra.Data.Features.ItemsAggregation;
 
 [TestFixture]
 public class VendingStoreSaveCommandHandlerTests

@@ -5,7 +5,6 @@ using MediatR;
 using System;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Commons;
 
-
 public class BuyingStoreSaveCommand : IRequest<Result<Success>>
 {
     public string Server { get; set; } = string.Empty;

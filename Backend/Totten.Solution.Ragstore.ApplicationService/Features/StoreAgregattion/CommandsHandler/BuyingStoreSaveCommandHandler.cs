@@ -14,7 +14,6 @@ using Totten.Solution.Ragstore.ApplicationService.Notifications.Stores;
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Buyings;
 using static Totten.Solution.Ragstore.ApplicationService.Notifications.Stores.NewStoreNotification;
 
-
 public class BuyingStoreSaveCommandHandler(
     IMediator mediator,
     IMapper mapper,
@@ -31,7 +30,7 @@ public class BuyingStoreSaveCommandHandler(
     {
         try
         {
-            var flowByBuying = _storeRepository.GetByCharacterId(request.CharacterId)
+            var flowByBuying = await _storeRepository.GetByCharacterId(request.CharacterId)
                 .MatchAsync(storeInDb => UpdateFlow(request, storeInDb), () => SaveFlow(request));
 
             _ = _mediator.Publish(new NewStoreNotification
@@ -48,7 +47,7 @@ public class BuyingStoreSaveCommandHandler(
                 }).ToList()
             }, CancellationToken.None);
 
-            return await flowByBuying;
+            return flowByBuying;
         }
         catch (Exception ex)
         {
@@ -66,6 +65,7 @@ public class BuyingStoreSaveCommandHandler(
 
         return buyingStoreItem;
     }
+
     private Task<Success> SaveFlow(BuyingStoreSaveCommand request)
     {
         var mappedStore = _mapper.Map<BuyingStore>(request);
