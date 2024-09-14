@@ -8,8 +8,11 @@
 
   <ItemGroup>
     <Compile Remove="BackgroundServices\**" />
+    <Compile Remove="Mappers\ItemAggregation\**" />
     <EmbeddedResource Remove="BackgroundServices\**" />
+    <EmbeddedResource Remove="Mappers\ItemAggregation\**" />
     <None Remove="BackgroundServices\**" />
+    <None Remove="Mappers\ItemAggregation\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,7 +42,6 @@
     <Folder Include="Features\ItemsAggregation\CommandsHandler\" />
     <Folder Include="Features\Users\CommandsHandler\" />
     <Folder Include="Features\Users\QueriesHandler\" />
-    <Folder Include="Mappers\ItemAggregation\" />
   </ItemGroup>
 
 </Project>

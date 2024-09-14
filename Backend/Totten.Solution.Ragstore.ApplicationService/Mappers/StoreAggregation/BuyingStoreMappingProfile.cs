@@ -17,7 +17,23 @@ public class BuyingStoreMappingProfile : Profile
         CreateMap<BuyingStore, StoreResumeViewModel>();
 
         CreateMap<BuyingStore, StoreDetailViewModel>()
-            .ForMember(ds => ds.Character, m => m.MapFrom(src => src.Character == null ? "" : src.Character.Name));
+            .ForMember(ds => ds.Character, m => m.MapFrom(src => src.Character == null ? "" : src.Character.Name))
+            .ForMember(
+                ds => ds.Items,
+                m => m.MapFrom(src =>
+                src.BuyingStoreItem == null
+                ? new()
+                : new Dictionary<int, StoreDetailViewModel.ItemDetail>
+                {
+                    {
+                        src.BuyingStoreItem.ItemId,
+                        new()
+                        {
+                            Name = src.BuyingStoreItem.Name,
+                            Price = src.BuyingStoreItem.Price
+                        }
+                    }
+                }));
 
         CreateMap<BuyingStoreSaveCommand, BuyingStore>()
             .ForMember(ds => ds.CreatedAt, m => m.MapFrom(src => DateTime.Now))

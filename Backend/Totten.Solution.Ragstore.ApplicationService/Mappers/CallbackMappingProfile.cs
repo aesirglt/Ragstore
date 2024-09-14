@@ -16,7 +16,7 @@ public class CallbackMappingProfile : Profile
     {
         CreateMap<Callback, ItemResumeViewModel>();
         CreateMap<CallbackSaveCommand, Callback>()
-            .ForMember(ds => ds.Id, m => m.MapFrom(src => $"{Guid.NewGuid()}"))
+            .ForMember(ds => ds.Id, m => m.MapFrom(_ => 0))
             .ForMember(ds => ds.CreatedAt, m => m.MapFrom(src => DateTime.Now))
             .ForMember(ds => ds.UpdatedAt, m => m.MapFrom(src => DateTime.Now))
             .ForMember(ds => ds.CallbackOwnerId, m => m.MapFrom(src => src.UserId))
