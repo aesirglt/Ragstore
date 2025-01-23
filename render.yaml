@@ -1,6 +1,6 @@
 services:
   - name: ragstore-backend
-    type: service
+    type: web
     env: docker
     repo: https://github.com/aleffmoura/Ragstore.git
     branch: master
