@@ -1,0 +1,24 @@
+services:
+  - name: ragstore-backend
+    type: web_service
+    env: docker
+    repo: https://github.com/aleffmoura/Ragstore.git
+    branch: master
+    dockerfile_path: Backend/Totten.Solution.Ragstore.WebApi/Dockerfile
+    env_vars:
+      DATABASE_URL: your_database_connection_string_here
+    build_command: ""
+    start_command: "python manage.py runserver 0.0.0.0:5000" # Ajuste conforme necessário
+    health_check_path: "/health" # Configure o endpoint de health check se necessário
+    region: oregon # Ajuste para a região preferida
+    plan: free # Alterar conforme o plano desejado (starter, standard, etc.)
+    auto_deploy: true
+
+databases:
+  - name: ragstore-db
+    type: postgresql
+    plan: free # Pode ser ajustado para um plano superior
+    region: oregon
+    secret_name: DATABASE_URL # Nome da variável de ambiente para conexão
+
+static_sites: []
