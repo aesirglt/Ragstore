@@ -10,5 +10,5 @@ public class SysConstantDBConfig
     /// <summary>
     /// 
     /// </summary>
-    public const string DEFAULT_CONNECTION_STRING = $"Server={InfraConstants.MAIN_IP};Database={{dbName}};User Id=sa;Password=Sup3rS3cr3t;TrustServerCertificate=true;";
+    public static readonly string DEFAULT_CONNECTION_STRING = $"Server={InfraConstants.MAIN_IP};Database={{dbName}};User Id=sa;Password=Sup3rS3cr3t;TrustServerCertificate=true;";
 }
