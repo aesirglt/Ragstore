@@ -22,7 +22,7 @@ public class TenantModule : Autofac.Module
     /// <param name="builder"></param>
     protected override void Load(ContainerBuilder builder)
     {
-        SysConstantDBConfig.DEFAULT_CONNECTION_STRING
+        ( Environment.GetEnvironmentVariable($"POSTGRES_DB_{Server}") ?? SysConstantDBConfig.DEFAULT_CONNECTION_STRING )
                             .Replace("{dbName}", Server)
                             .Apply(strConnection => new DbContextOptionsBuilder<ServerStoreContext>().UseNpgsql(strConnection))
                             .Apply(dbBuilder => builder.Register(context => new ServerStoreContext(dbBuilder.Options)))
