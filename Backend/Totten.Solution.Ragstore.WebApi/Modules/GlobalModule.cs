@@ -15,6 +15,7 @@ using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Buyings;
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Vendings;
 using Totten.Solution.Ragstore.Infra.Data.Bases;
 using Totten.Solution.Ragstore.Infra.Data.Contexts.RagnaStoreContexts;
+using Totten.Solution.Ragstore.Infra.Data.Contexts.StoreServerContext;
 using Totten.Solution.Ragstore.Infra.Data.Features.Agents;
 using Totten.Solution.Ragstore.Infra.Data.Features.CallbackAggregation;
 using Totten.Solution.Ragstore.Infra.Data.Features.ItemAggregation;
@@ -98,6 +99,17 @@ public class GlobalModule<TProgram> : Autofac.Module
                                              .UseNpgsql(strConn)
                                              .Options;
             return new RagnaStoreContext(opt);
+        }).AsSelf()
+        .InstancePerLifetimeScope();
+
+        builder.Register(ctx =>
+        {
+            var strConn = SysConstantDBConfig.DEFAULT_CONNECTION_STRING
+                                             .Replace("{dbName}", InfraConstants.PRINCIPAL_SERVER_DB_NAME);
+            var opt = new DbContextOptionsBuilder<ServerStoreContext>()
+                                             .UseNpgsql(strConn)
+                                             .Options;
+            return new ServerStoreContext(opt);
         }).AsSelf()
         .InstancePerLifetimeScope();
 
