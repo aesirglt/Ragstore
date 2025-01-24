@@ -1,13 +1,15 @@
 ﻿namespace Totten.Solution.Ragstore.WebApi.Controllers;
 
 using Autofac;
+using FunctionalConcepts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 using Totten.Solution.Ragstore.ApplicationService.Features.Servers.Commands;
 using Totten.Solution.Ragstore.ApplicationService.Features.Servers.Queries;
+using Totten.Solution.Ragstore.ApplicationService.ViewModels.Servers;
+using Totten.Solution.Ragstore.Domain.Features.CallbackAggregation;
 using Totten.Solution.Ragstore.Domain.Features.Servers;
 using Totten.Solution.Ragstore.WebApi.Bases;
-using Totten.Solution.Ragstore.ApplicationService.ViewModels.Servers;
 
 /// <summary>
 /// Endpoint responsavel por servidores.
@@ -27,6 +29,7 @@ public class ServersController : BaseApiController
     /// <param name="createCmd">Objeto de criação com dados do servidor</param>
     /// <returns></returns>
     [HttpPost("servers")]
+    [ProducesResponseType<Success>(statusCode: 201)]
     public async Task<IActionResult> Post([FromBody] ServerCreateCommand createCmd)
             => await HandleCommand(createCmd);
 
@@ -36,7 +39,7 @@ public class ServersController : BaseApiController
     /// <param name="queryOptions">Filtro dinamico</param>
     /// <returns></returns>
     [HttpGet("servers")]
-    [ProducesResponseType<IQueryable<Server>>(statusCode: 200)]
+    [ProducesResponseType<IQueryable<ServerResume>>(statusCode: 200)]
     public async Task<IActionResult> GetAll(ODataQueryOptions<ServerResume> queryOptions)
         => await HandleQueryable(new ServerCollectionQuery(), queryOptions);
     
@@ -46,6 +49,7 @@ public class ServersController : BaseApiController
     /// <param name="serverName">Servidor</param>
     /// <returns></returns>
     [HttpGet("servers/{serverName}")]
+    [ProducesResponseType<IQueryable<ServerVerifyDTO>>(statusCode: 200)]
     public async Task<IActionResult> GetAll([FromRoute] string serverName)
         => await HandleQuery<Server, ServerVerifyDTO>(new ServerByNameQuery { Name = serverName });
 }

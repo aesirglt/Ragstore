@@ -3,6 +3,8 @@
 using Autofac;
 using Microsoft.AspNetCore.Mvc;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Queries;
+using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.ResponseModels;
+using Totten.Solution.Ragstore.ApplicationService.ViewModels.Servers;
 using Totten.Solution.Ragstore.WebApi.Bases;
 
 /// <summary>
@@ -26,6 +28,7 @@ public class StoreItemController : BaseApiController
     /// <param name="itemId"></param>
     /// <returns></returns>
     [HttpGet($"{{server}}/vending-{API_ENDPOINT}/{{itemId}}")]
+    [ProducesResponseType<StoreItemValueSumaryResponseModel>(statusCode: 200)]
     public async Task<IActionResult> GetVending(
         [FromRoute] string server,
         [FromRoute] int itemId)
@@ -43,6 +46,7 @@ public class StoreItemController : BaseApiController
     /// <param name="itemId"></param>
     /// <returns></returns>
     [HttpGet($"{{server}}/buying-{API_ENDPOINT}/{{itemId}}")]
+    [ProducesResponseType<StoreItemValueSumaryResponseModel>(statusCode: 200)]
     public async Task<IActionResult> GetBuying(
         [FromRoute] string server,
         [FromRoute] int itemId)

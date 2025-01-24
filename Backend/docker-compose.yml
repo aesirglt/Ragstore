@@ -3,6 +3,7 @@ version: '3.4'
 services:
     postgresql:
         image: postgres:latest
+        container_name: postgres_container
         environment:
             POSTGRES_USER: "admin"
             POSTGRES_PASSWORD: "Sup3rS3cr3t"
@@ -11,6 +12,17 @@ services:
             - "5432:5432"
         volumes:
             - pgdata:/var/lib/postgresql/data
+    pgadmin:
+        image: dpage/pgadmin4:latest
+        container_name: pgadmin_container
+        restart: always
+        environment:
+          PGADMIN_DEFAULT_EMAIL: admin@example.com
+          PGADMIN_DEFAULT_PASSWORD: Sup3rS3cr3t
+        ports:
+          - "8080:80"
+        depends_on:
+          - postgresql
     totten.solution.ragstore.webapi:
         image: ${DOCKER_REGISTRY-}tottensolutionragstorewebapi
         build:

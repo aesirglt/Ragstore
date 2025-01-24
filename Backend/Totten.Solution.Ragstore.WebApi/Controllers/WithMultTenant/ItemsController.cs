@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.OData.Query;
 using Totten.Solution.Ragstore.ApplicationService.Features.ItemsAggregation.Queries;
 using Totten.Solution.Ragstore.WebApi.Bases;
 using Totten.Solution.Ragstore.ApplicationService.ViewModels.Items;
+using FunctionalConcepts;
+using Totten.Solution.Ragstore.ApplicationService.Features.ItemsAggregation.ResponseModels;
+
 /// <summary>
 /// Enpoint responsavel por itens dentro do jogo
 /// </summary>
@@ -27,6 +30,7 @@ public class ItemsController : BaseApiController
     /// <param name="queryOptions"></param>
     /// <returns></returns>
     [HttpGet("{server}/items-name/{name}")]
+    [ProducesResponseType<IQueryable<ItemResumeViewModel>>(statusCode: 200)]
     public async Task<IActionResult> GetByName(
         [FromRoute] string name,
         [FromRoute] string server,
@@ -43,6 +47,7 @@ public class ItemsController : BaseApiController
     /// <param name="server">Servidor</param>
     /// <returns></returns>
     [HttpGet("{server}/items/{itemId}")]
+    [ProducesResponseType<ItemDetailResponseModel>(statusCode: 200)]
     public async Task<IActionResult> GetByName(
         [FromRoute] int itemId,
         [FromRoute] string server)

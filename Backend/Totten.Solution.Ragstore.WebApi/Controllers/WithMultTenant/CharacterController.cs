@@ -1,6 +1,7 @@
 ﻿namespace Totten.Solution.Ragstore.WebApi.Controllers.WithMultTenant;
 
 using Autofac;
+using FunctionalConcepts;
 using Microsoft.AspNetCore.Mvc;
 using Totten.Solution.Ragstore.ApplicationService.Features.Characters.Commands;
 using Totten.Solution.Ragstore.WebApi.Bases;
@@ -27,6 +28,7 @@ public class CharacterController : BaseApiController
     /// <param name="createCmd"></param>
     /// <returns></returns>
     [HttpPost("{server}")]
+    [ProducesResponseType<Success>(statusCode: 201)]
     public async Task<IActionResult> Post(
         [FromRoute] string server,
         [FromBody] CharacterCreateCommand createCmd)

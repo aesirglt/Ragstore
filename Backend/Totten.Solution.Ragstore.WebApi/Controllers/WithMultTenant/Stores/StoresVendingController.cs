@@ -9,6 +9,8 @@ using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Resp
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Vendings;
 using Totten.Solution.Ragstore.WebApi.Bases;
 using Totten.Solution.Ragstore.ApplicationService.ViewModels.Stores;
+using FunctionalConcepts;
+
 /// <summary>
 /// 
 /// </summary>
@@ -30,6 +32,7 @@ public class StoresVendingController : BaseApiController
     /// <param name="queryOptions"></param>
     /// <returns></returns>
     [HttpGet($"{{server}}/{API_ENDPOINT}")]
+    [ProducesResponseType<IQueryable<StoreResumeViewModel>>(statusCode: 200)]
     public async Task<IActionResult> GetAll(
         [FromRoute] string server,
         ODataQueryOptions<StoreResumeViewModel> queryOptions)
@@ -41,6 +44,7 @@ public class StoresVendingController : BaseApiController
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet($"{{server}}/{API_ENDPOINT}/{{id}}")]
+    [ProducesResponseType<StoreDetailViewModel>(statusCode: 200)]
     public async Task<IActionResult> GetById(
         [FromRoute] string server,
         [FromRoute] int id)
@@ -54,6 +58,7 @@ public class StoresVendingController : BaseApiController
     /// <param name="createCmd"></param>
     /// <returns></returns>
     [HttpPost($"{{server}}/{API_ENDPOINT}")]
+    [ProducesResponseType<Success>(statusCode: 201)]
     public async Task<IActionResult> Post(
         [FromRoute] string server,
         [FromBody] VendingStoreSaveCommand createCmd)
@@ -65,6 +70,7 @@ public class StoresVendingController : BaseApiController
     /// <param name="createCmd"></param>
     /// <returns></returns>
     [HttpPost($"{{server}}/{API_ENDPOINT}-batch")]
+    [ProducesResponseType<Success>(statusCode: 201)]
     public async Task<IActionResult> PostBatch(
         [FromRoute] string server,
         [FromBody] VendingStoreSaveCommand[] createCmd)
@@ -78,6 +84,7 @@ public class StoresVendingController : BaseApiController
     /// <param name="queryOptions"></param>
     /// <returns></returns>
     [HttpGet($"{{server}}/{API_ENDPOINT}/items")]
+    [ProducesResponseType<StoreItemResponseModel>(statusCode: 200)]
     public async Task<IActionResult> GetByName(
         [FromRoute] string server,
         [FromQuery] string? itemName,

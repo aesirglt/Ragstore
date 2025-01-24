@@ -2,6 +2,7 @@
 
 using Autofac;
 using Microsoft.AspNetCore.Mvc;
+using Totten.Solution.Ragstore.ApplicationService.Features.ItemsAggregation.ResponseModels;
 using Totten.Solution.Ragstore.ApplicationService.Notifications.Agents;
 using Totten.Solution.Ragstore.WebApi.Bases;
 
@@ -24,6 +25,7 @@ public class UpTimesController : BaseApiController
     /// <param name="server">Servidor</param>
     /// <returns></returns>
     [HttpPost("up-times")]
+    [ProducesResponseType<AcceptedResult>(statusCode: 202)]
     public async Task<IActionResult> Post(
         [FromQuery] string server)
             => await HandleEvent(new UpdateTimeNotification
