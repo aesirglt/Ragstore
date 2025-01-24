@@ -50,6 +50,7 @@ public class ServerStoreContext : DbContext
     {
         optionsBuilder.UseLazyLoadingProxies();
         optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+        optionsBuilder.LogTo(Console.WriteLine);
         base.OnConfiguring(optionsBuilder);
     }
 
