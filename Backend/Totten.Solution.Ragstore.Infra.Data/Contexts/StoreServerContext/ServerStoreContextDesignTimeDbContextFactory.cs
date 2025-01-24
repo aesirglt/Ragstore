@@ -11,7 +11,7 @@ internal class ServerStoreContextDesignTimeDbContextFactory : IDesignTimeDbConte
     {
         var optionsBuilder = new DbContextOptionsBuilder<ServerStoreContext>();
         optionsBuilder.UseNpgsql(
-            $"Host={InfraConstants.MAIN_IP};Port=5432;Username={user};Password={pass};Database=broTHOR"
+            $"Host={InfraConstants.MAIN_IP};Port=5432;Username={user};Password={pass};Database={InfraConstants.STORE_DB_NAME}"
             );
 
         return new ServerStoreContext(optionsBuilder.Options);

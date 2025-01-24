@@ -102,14 +102,14 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
                         {
                             Id = 1,
                             CallbackOwnerId = "d7aeb595-44a5-4f5d-822e-980f35ace12d",
-                            CreatedAt = new DateTime(2025, 1, 24, 9, 19, 36, 537, DateTimeKind.Utc).AddTicks(1790),
+                            CreatedAt = new DateTime(2025, 1, 24, 14, 10, 39, 353, DateTimeKind.Utc).AddTicks(5853),
                             ItemId = 490037,
                             ItemPrice = 500000000.0,
                             Level = 4,
                             Name = "CallbackObscuro",
                             Server = "broTHOR",
                             StoreType = 2,
-                            UpdatedAt = new DateTime(2025, 1, 24, 9, 19, 36, 537, DateTimeKind.Utc).AddTicks(1791),
+                            UpdatedAt = new DateTime(2025, 1, 24, 14, 10, 39, 353, DateTimeKind.Utc).AddTicks(5855),
                             UserCellphone = "+5584988633251"
                         });
                 });
@@ -184,20 +184,20 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2025, 1, 24, 9, 19, 36, 537, DateTimeKind.Utc).AddTicks(92),
+                            CreatedAt = new DateTime(2025, 1, 24, 14, 10, 39, 353, DateTimeKind.Utc).AddTicks(4133),
                             IsActive = false,
                             Name = "broTHOR",
                             SiteUrl = "https://playragnarokonlinebr.com",
-                            UpdatedAt = new DateTime(2025, 1, 24, 9, 19, 36, 537, DateTimeKind.Utc).AddTicks(93)
+                            UpdatedAt = new DateTime(2025, 1, 24, 14, 10, 39, 353, DateTimeKind.Utc).AddTicks(4135)
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2025, 1, 24, 9, 19, 36, 537, DateTimeKind.Utc).AddTicks(95),
+                            CreatedAt = new DateTime(2025, 1, 24, 14, 10, 39, 353, DateTimeKind.Utc).AddTicks(4138),
                             IsActive = false,
                             Name = "broVALHALLA",
                             SiteUrl = "https://playragnarokonlinebr.com",
-                            UpdatedAt = new DateTime(2025, 1, 24, 9, 19, 36, 537, DateTimeKind.Utc).AddTicks(96)
+                            UpdatedAt = new DateTime(2025, 1, 24, 14, 10, 39, 353, DateTimeKind.Utc).AddTicks(4139)
                         });
                 });
 #pragma warning restore 612, 618

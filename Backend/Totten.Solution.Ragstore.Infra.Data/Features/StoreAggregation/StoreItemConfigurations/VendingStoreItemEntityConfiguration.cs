@@ -33,7 +33,6 @@ public class VendingStoreItemEntityConfiguration : IEntityTypeConfiguration<Vend
         builder.Property(e => e.SpriteId);
         builder.Property(e => e.Slots);
 
-
         builder.Property(e => e.InfoCards)
                    .HasConversion(
                     list => list.Count() == 0

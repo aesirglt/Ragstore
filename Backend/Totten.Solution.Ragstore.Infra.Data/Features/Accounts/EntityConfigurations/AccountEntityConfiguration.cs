@@ -29,7 +29,6 @@ public class AccountEntityConfiguration : IEntityTypeConfiguration<Account>
                .HasForeignKey(e => e.AccountId)
                .OnDelete(DeleteBehavior.NoAction);
 
-
         builder.HasMany(e => e.Chats)
                .WithOne()
                .HasForeignKey(e => e.AccountId)

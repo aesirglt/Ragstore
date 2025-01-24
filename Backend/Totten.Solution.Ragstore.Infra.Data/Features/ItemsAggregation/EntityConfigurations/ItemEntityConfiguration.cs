@@ -36,7 +36,7 @@ public class ItemEntityConfiguration : IEntityTypeConfiguration<Item>
                .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasData(MyItemSeed.Seed());
-        
+
         builder.HasIndex(e => e.Name);
     }
 }
