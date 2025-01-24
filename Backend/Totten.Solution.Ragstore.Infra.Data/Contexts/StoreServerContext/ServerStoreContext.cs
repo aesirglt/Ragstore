@@ -27,10 +27,7 @@ public class ServerStoreContext : DbContext
 
     public ServerStoreContext(DbContextOptions<ServerStoreContext> options) : base(options)
     {
-        if (Database.IsRelational())
-        {
-            Database?.Migrate();
-        }
+        Database?.Migrate();
         ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
     }
 
@@ -45,7 +42,7 @@ public class ServerStoreContext : DbContext
         modelBuilder.ApplyConfiguration(new VendingStoreItemEntityConfiguration());
         modelBuilder.ApplyConfiguration(new BuyingStoreEntityConfiguration());
         modelBuilder.ApplyConfiguration(new BuyingStoreItemEntityConfiguration());
-        
+
         base.OnModelCreating(modelBuilder);
     }
 
