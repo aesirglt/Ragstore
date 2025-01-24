@@ -3,6 +3,7 @@
 using Totten.Solution.Ragstore.ApplicationService.DTOs.Messages;
 using Totten.Solution.Ragstore.ApplicationService.Interfaces;
 using Totten.Solution.Ragstore.Domain.Features.CallbackAggregation;
+using Totten.Solution.Ragstore.Infra.Data.Contexts.StoreServerContext;
 
 /// <summary>
 /// 
@@ -11,6 +12,7 @@ public class CallbacksWorker : BackgroundService
 {
     private readonly ILogger<CallbacksWorker> _logger;
     private ICallbackScheduleRepository _repository;
+    private ServerStoreContext _ctx;
     private IMessageService<NotificationMessageDto> _service;
 
     /// <summary>
@@ -21,10 +23,12 @@ public class CallbacksWorker : BackgroundService
     /// <param name="service"></param>
     public CallbacksWorker(ILogger<CallbacksWorker> logger,
         ICallbackScheduleRepository repository,
+        ServerStoreContext ctx,
         IMessageService<NotificationMessageDto> service)
     {
         _logger = logger;
         _repository = repository;
+        _ctx = ctx;
         _service = service;
     }
     private async Task Invoke()
