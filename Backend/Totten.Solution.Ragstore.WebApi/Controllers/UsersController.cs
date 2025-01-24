@@ -1,11 +1,9 @@
 ﻿namespace Totten.Solution.Ragstore.WebApi.Controllers;
 
-using Autofac;
 using FunctionalConcepts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Totten.Solution.Ragstore.Infra.Data.Contexts.StoreServerContext;
-using Totten.Solution.Ragstore.WebApi.Bases;
 using Totten.Solution.Ragstore.WebApi.SystemConstants;
 
 /// <summary>
@@ -13,16 +11,8 @@ using Totten.Solution.Ragstore.WebApi.SystemConstants;
 /// </summary>
 [ApiController]
 [Route("[controller]")]
-public class UsersController : BaseApiController
+public class UsersController : ControllerBase
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="lifetimeScope"></param>
-    public UsersController(ILifetimeScope lifetimeScope) : base(lifetimeScope)
-    {
-    }
-
     /// <summary>
     /// 
     /// </summary>
