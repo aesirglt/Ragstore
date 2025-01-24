@@ -62,7 +62,7 @@ app.MapGroup("identity")
    .MapIdentityApi<MyUserIdenty>()
    .WithTags("Identity");
 
-//app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 app.MapControllers();
 
 app.Run();
