@@ -28,8 +28,8 @@ public class VendingStoreMappingProfile : Profile
             .ForMember(ds => ds.Character, m => m.MapFrom(src => src.Character == null ? "" : src.Character.Name));
 
         CreateMap<VendingStoreSaveCommand, VendingStore>()
-            .ForMember(ds => ds.CreatedAt, m => m.MapFrom(src => DateTime.Now))
-            .ForMember(ds => ds.UpdatedAt, m => m.MapFrom(src => DateTime.Now))
+            .ForMember(ds => ds.CreatedAt, m => m.MapFrom(src => DateTime.UtcNow))
+            .ForMember(ds => ds.UpdatedAt, m => m.MapFrom(src => DateTime.UtcNow))
             .ForMember(ds => ds.VendingStoreItems, m => m.MapFrom(src => src.StoreItems))
             .ForMember(ds => ds.VendingStoreItems, m => m.MapFrom(src => src.StoreItems));
 

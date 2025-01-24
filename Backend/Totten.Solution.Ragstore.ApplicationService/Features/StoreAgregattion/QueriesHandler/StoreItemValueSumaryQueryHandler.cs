@@ -51,7 +51,7 @@ public class StoreItemValueSumaryQueryHandler(
 
         var itemsOnThisMonth = repository.GetAll(x => x.ItemId == itemId)
                                         .AsEnumerable()
-                                        .Where(x => x.UpdatedAt.Month == DateTime.Now.Month && x.UpdatedAt.Year == DateTime.Now.Year)
+                                        .Where(x => x.UpdatedAt.Month == DateTime.UtcNow.Month && x.UpdatedAt.Year == DateTime.UtcNow.Year)
                                         .Select(s => s.Price)
                                         .OrderBy(price => price)
                                         .ToArray();

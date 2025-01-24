@@ -44,7 +44,7 @@ public class VendingStoreSaveCommandHandler(
                 Where = $"{request.Map} {request.Location}",
                 Merchant = request.CharacterName,
                 StoreType = nameof(VendingStore),
-                Date = DateTime.Now,
+                Date = DateTime.UtcNow,
                 Items =
                     request.StoreItems
                            .Select(x => new NewStoreNotificationItem()

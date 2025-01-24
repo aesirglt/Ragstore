@@ -43,10 +43,10 @@ public class CallbackNotificationHandler : INotificationHandler<CallbackNotifica
             {
                 Id = 0,
                 Name = $"UserPhone:{notify.UserCellphone}-Server:{notify.Server}-ItemId:{notify.ItemId}-Price:{notify.Price}",
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow,
                 Contact = message.Contact,
-                SendIn = DateTime.Now.AddMinutes(notify.Level.GetMinutesToSendMessage()),
+                SendIn = DateTime.UtcNow.AddMinutes(notify.Level.GetMinutesToSendMessage()),
                 Body = message.Body
             });
         }

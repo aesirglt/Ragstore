@@ -39,7 +39,7 @@ public class BuyingStoreSaveCommandHandler(
                 Where = $"{request.Map} {request.Location}",
                 StoreType = nameof(BuyingStore),
                 Merchant = request.CharacterName,
-                Date = DateTime.Now,
+                Date = DateTime.UtcNow,
                 Items = request.StoreItems.Select(x => new NewStoreNotificationItem()
                 {
                     ItemId = x.ItemId,

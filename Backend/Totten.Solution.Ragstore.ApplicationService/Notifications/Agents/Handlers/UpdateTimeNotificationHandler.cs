@@ -16,7 +16,7 @@ public class UpdateTimeNotificationHandler(IServerRepository serverRepository) :
 
         await server.ThenAsync(async succ =>
         {
-            succ.UpdatedAt = DateTime.Now;
+            succ.UpdatedAt = DateTime.UtcNow;
             await _serverRepository.Update(succ);
         });
     }

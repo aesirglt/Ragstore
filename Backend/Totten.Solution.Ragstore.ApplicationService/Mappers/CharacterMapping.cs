@@ -17,7 +17,7 @@ public class CharacterMapping : Profile
     {
         CreateMap<CharacterCreateCommand, Character>()
             //.ForMember(ds => ds.IdInServer, m => m.MapFrom(src => src.Id))
-            .ForMember(ds => ds.CreatedAt, m => m.MapFrom(src => DateTime.Now))
-            .ForMember(ds => ds.UpdatedAt, m => m.MapFrom(src => DateTime.Now));
+            .ForMember(ds => ds.CreatedAt, m => m.MapFrom(src => DateTime.UtcNow))
+            .ForMember(ds => ds.UpdatedAt, m => m.MapFrom(src => DateTime.UtcNow));
     }
 }

@@ -16,8 +16,8 @@ public class AgentMappingProfile : Profile
     {
         CreateMap<AgentCreateCommand, Agent>()
             .ForMember(ds => ds.Name, m => m.MapFrom(src => src.Name))
-            .ForMember(ds => ds.CreatedAt, m => m.MapFrom(src => DateTime.Now))
-            .ForMember(ds => ds.UpdatedAt, m => m.MapFrom(src => DateTime.Now))
+            .ForMember(ds => ds.CreatedAt, m => m.MapFrom(src => DateTime.UtcNow))
+            .ForMember(ds => ds.UpdatedAt, m => m.MapFrom(src => DateTime.UtcNow))
             .ForMember(ds => ds.IsActive, m => m.MapFrom(_ => true));
 
         CreateMap<Agent, ItemResumeViewModel>();

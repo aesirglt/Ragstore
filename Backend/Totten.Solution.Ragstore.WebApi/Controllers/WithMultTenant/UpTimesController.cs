@@ -29,6 +29,6 @@ public class UpTimesController : BaseApiController
             => await HandleEvent(new UpdateTimeNotification
             {
                 Server = server,
-                UpdatedAt = DateTime.Now,
+                UpdatedAt = DateTime.UtcNow,
             });
 }

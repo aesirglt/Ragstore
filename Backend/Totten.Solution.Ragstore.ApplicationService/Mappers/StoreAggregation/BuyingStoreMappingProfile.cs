@@ -36,8 +36,8 @@ public class BuyingStoreMappingProfile : Profile
                 }));
 
         CreateMap<BuyingStoreSaveCommand, BuyingStore>()
-            .ForMember(ds => ds.CreatedAt, m => m.MapFrom(src => DateTime.Now))
-            .ForMember(ds => ds.UpdatedAt, m => m.MapFrom(src => DateTime.Now));
+            .ForMember(ds => ds.CreatedAt, m => m.MapFrom(src => DateTime.UtcNow))
+            .ForMember(ds => ds.UpdatedAt, m => m.MapFrom(src => DateTime.UtcNow));
         CreateMap<BuyingStore, BuyingStore>();
     }
 }
