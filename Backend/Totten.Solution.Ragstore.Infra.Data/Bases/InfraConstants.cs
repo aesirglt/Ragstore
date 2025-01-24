@@ -2,5 +2,5 @@
 public class InfraConstants
 {
     public static readonly string MAIN_IP = Environment.GetEnvironmentVariable("POSTGRES_HOST") ?? "postgres";
-    public static readonly string STORE_DB_NAME = Environment.GetEnvironmentVariable("POSTGRES_DB") ?? "ragnastore";
+    public static readonly string STORE_DB_NAME = Environment.GetEnvironmentVariable("POSTGRES_DB") ?? "ragstore";
 }
