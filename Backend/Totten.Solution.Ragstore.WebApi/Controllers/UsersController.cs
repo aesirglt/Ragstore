@@ -30,11 +30,11 @@ public class UsersController : BaseApiController
     /// <returns></returns>
     [HttpPost("{server}/migrate")]
     [ProducesResponseType<Success>(statusCode: 201)]
-    public async Task<IActionResult> Create([FromRoute]string server)
+    public async Task<IActionResult> Create([FromRoute] string server)
     {
         var opt = new DbContextOptionsBuilder<ServerStoreContext>().UseNpgsql(SysConstantDBConfig.DEFAULT_CONNECTION_STRING.Replace("{dbName}", server));
         var ctx = new ServerStoreContext(opt.Options);
-        await ctx.Database.MigrateAsync();
-        return Ok();
+        _ = Task.Run(ctx.Database.Migrate);
+        return await Task.Run(Ok);
     }
 }
