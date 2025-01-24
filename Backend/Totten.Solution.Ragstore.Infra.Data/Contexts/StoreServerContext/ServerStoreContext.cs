@@ -27,7 +27,7 @@ public class ServerStoreContext : DbContext
 
     public ServerStoreContext(DbContextOptions<ServerStoreContext> options) : base(options)
     {
-        Database?.Migrate();
+        //Database?.Migrate();
         ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
     }
 

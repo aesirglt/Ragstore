@@ -18,7 +18,7 @@ public class RagnaStoreContext : DbContext
     {
         if (Database.IsRelational())
         {
-            Database?.Migrate();
+            //Database?.Migrate();
         }
         ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
     }
