@@ -29,6 +29,7 @@ public class CallbacksWorker : BackgroundService
     }
     private async Task Invoke()
     {
+        await Task.Delay(10000);
         //var callbacks = _repository.GetAll(x => !x.Sended && DateTime.Now >= x.SendIn).ToList();
 
         //foreach (var cb in callbacks)

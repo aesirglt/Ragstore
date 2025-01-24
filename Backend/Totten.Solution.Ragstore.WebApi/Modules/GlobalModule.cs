@@ -95,7 +95,7 @@ public class GlobalModule<TProgram> : Autofac.Module
             var strConn = SysConstantDBConfig.DEFAULT_CONNECTION_STRING
                                              .Replace("{dbName}", InfraConstants.STORE_DB_NAME);
             var opt = new DbContextOptionsBuilder<RagnaStoreContext>()
-                                             .UseSqlServer(strConn)
+                                             .UseNpgsql(strConn)
                                              .Options;
             return new RagnaStoreContext(opt);
         }).AsSelf()

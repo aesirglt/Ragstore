@@ -12,11 +12,11 @@ public class MyItemSeed
         {
             string filePath = ".\\Seeds\\Jsons\\items.json";
 
-            return JsonConvert.DeserializeObject<List<Item>>(File.ReadAllText(filePath, Encoding.UTF8)) ?? new();
+            return JsonConvert.DeserializeObject<List<Item>>(File.ReadAllText(filePath, Encoding.UTF8)) ?? [];
         }
         catch
         {
-            return new List<Item>();
+            return [];
         }
     }
 }

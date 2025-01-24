@@ -1,19 +1,25 @@
 version: '3.4'
 
 services:
-    sqlserver:
-        image: mcr.microsoft.com/mssql/server
+    postgresql:
+        image: postgres:latest
         environment:
-            SA_PASSWORD: "Sup3rS3cr3t"
-            ACCEPT_EULA: "Y"
+            POSTGRES_USER: "admin"
+            POSTGRES_PASSWORD: "Sup3rS3cr3t"
+            POSTGRES_DB: "ragstore"
         ports:
-            - "1433:1433"
+            - "5432:5432"
         volumes:
-              - sqldata:/var/opt/mssql
+            - pgdata:/var/lib/postgresql/data
     totten.solution.ragstore.webapi:
         image: ${DOCKER_REGISTRY-}tottensolutionragstorewebapi
         build:
             context: .
             dockerfile: Totten.Solution.Ragstore.WebApi/Dockerfile
+        environment:
+            POSTGRES_USER: "admin"
+            POSTGRES_PASSWORD: "Sup3rS3cr3t"
+            POSTGRES_DB: "ragstore"
+            POSTGRES_HOST: "postgresql"
 volumes:
-    sqldata:
+    pgdata:

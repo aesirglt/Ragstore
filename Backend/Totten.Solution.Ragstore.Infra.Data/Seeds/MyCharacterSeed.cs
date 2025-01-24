@@ -16,8 +16,8 @@ public class MyCharacterSeed
                 BaseLevel = 99,
                 Map = "Prontera",
                 Location = "150,150",
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow
             }
         };
 }

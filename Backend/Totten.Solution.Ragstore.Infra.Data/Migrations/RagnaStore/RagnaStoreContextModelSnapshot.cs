@@ -2,8 +2,8 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Totten.Solution.Ragstore.Infra.Data.Contexts.RagnaStoreContexts;
 
 #nullable disable
@@ -17,34 +17,34 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.3")
+                .HasAnnotation("ProductVersion", "8.0.12")
                 .HasAnnotation("Proxies:ChangeTracking", false)
                 .HasAnnotation("Proxies:CheckEquality", false)
                 .HasAnnotation("Proxies:LazyLoading", true)
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("Totten.Solution.Ragstore.Domain.Features.AgentAggregation.Agent", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
@@ -55,43 +55,43 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CallbackOwnerId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("ItemId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<double>("ItemPrice")
-                        .HasColumnType("float");
+                        .HasColumnType("double precision");
 
                     b.Property<int>("Level")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Server")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<int>("StoreType")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("UserCellphone")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -102,14 +102,14 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
                         {
                             Id = 1,
                             CallbackOwnerId = "d7aeb595-44a5-4f5d-822e-980f35ace12d",
-                            CreatedAt = new DateTime(2024, 5, 20, 8, 52, 34, 96, DateTimeKind.Local).AddTicks(2747),
+                            CreatedAt = new DateTime(2025, 1, 24, 9, 19, 36, 537, DateTimeKind.Utc).AddTicks(1790),
                             ItemId = 490037,
                             ItemPrice = 500000000.0,
                             Level = 4,
                             Name = "CallbackObscuro",
                             Server = "broTHOR",
-                            StoreType = 0,
-                            UpdatedAt = new DateTime(2024, 5, 20, 8, 52, 34, 96, DateTimeKind.Local).AddTicks(2750),
+                            StoreType = 2,
+                            UpdatedAt = new DateTime(2025, 1, 24, 9, 19, 36, 537, DateTimeKind.Utc).AddTicks(1791),
                             UserCellphone = "+5584988633251"
                         });
                 });
@@ -118,33 +118,33 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Body")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Contact")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("SendIn")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("Sended")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
@@ -155,26 +155,26 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("SiteUrl")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
@@ -184,20 +184,20 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2024, 5, 20, 8, 52, 34, 96, DateTimeKind.Local).AddTicks(1047),
+                            CreatedAt = new DateTime(2025, 1, 24, 9, 19, 36, 537, DateTimeKind.Utc).AddTicks(92),
                             IsActive = false,
                             Name = "broTHOR",
                             SiteUrl = "https://playragnarokonlinebr.com",
-                            UpdatedAt = new DateTime(2024, 5, 20, 8, 52, 34, 96, DateTimeKind.Local).AddTicks(1062)
+                            UpdatedAt = new DateTime(2025, 1, 24, 9, 19, 36, 537, DateTimeKind.Utc).AddTicks(93)
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2024, 5, 20, 8, 52, 34, 96, DateTimeKind.Local).AddTicks(1067),
+                            CreatedAt = new DateTime(2025, 1, 24, 9, 19, 36, 537, DateTimeKind.Utc).AddTicks(95),
                             IsActive = false,
                             Name = "broVALHALLA",
                             SiteUrl = "https://playragnarokonlinebr.com",
-                            UpdatedAt = new DateTime(2024, 5, 20, 8, 52, 34, 96, DateTimeKind.Local).AddTicks(1068)
+                            UpdatedAt = new DateTime(2025, 1, 24, 9, 19, 36, 537, DateTimeKind.Utc).AddTicks(96)
                         });
                 });
 #pragma warning restore 612, 618

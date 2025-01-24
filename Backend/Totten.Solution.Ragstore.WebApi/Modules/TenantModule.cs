@@ -24,7 +24,7 @@ public class TenantModule : Autofac.Module
     {
         SysConstantDBConfig.DEFAULT_CONNECTION_STRING
                             .Replace("{dbName}", Server)
-                            .Apply(strConnection => new DbContextOptionsBuilder<ServerStoreContext>().UseSqlServer(strConnection))
+                            .Apply(strConnection => new DbContextOptionsBuilder<ServerStoreContext>().UseNpgsql(strConnection))
                             .Apply(dbBuilder => builder.Register(context => new ServerStoreContext(dbBuilder.Options)))
                             .Apply(registration => registration.AsSelf().InstancePerLifetimeScope());
     }

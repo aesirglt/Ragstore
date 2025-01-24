@@ -7,8 +7,11 @@ using Totten.Solution.Ragstore.Infra.Data.Bases;
 /// </summary>
 public class SysConstantDBConfig
 {
+    static string user = Environment.GetEnvironmentVariable("POSTGRES_USER") ?? "admin";
+    static string pass = Environment.GetEnvironmentVariable("POSTGRES_PASSWORD") ?? "Sup3rS3cr3t";
+
     /// <summary>
     /// 
     /// </summary>
-    public static readonly string DEFAULT_CONNECTION_STRING = $"Server={InfraConstants.MAIN_IP};Database={{dbName}};User Id=sa;Password=Sup3rS3cr3t;TrustServerCertificate=true;";
+    public static readonly string DEFAULT_CONNECTION_STRING = $"Host={InfraConstants.MAIN_IP};Port=5432;Username={user};Password={pass};Database={{dbName}}";
 }

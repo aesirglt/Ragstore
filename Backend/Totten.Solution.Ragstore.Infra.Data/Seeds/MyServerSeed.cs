@@ -10,18 +10,18 @@ public static class MyServerSeed
         new ()
         {
             Id = 1,
-            CreatedAt = DateTime.Now,
+            CreatedAt = DateTime.UtcNow,
             Name = "broTHOR",
             SiteUrl = "https://playragnarokonlinebr.com",
-            UpdatedAt = DateTime.Now
+            UpdatedAt = DateTime.UtcNow
         },
         new ()
         {
             Id = 2,
-            CreatedAt = DateTime.Now,
+            CreatedAt = DateTime.UtcNow,
             Name = "broVALHALLA",
             SiteUrl = "https://playragnarokonlinebr.com",
-            UpdatedAt = DateTime.Now
+            UpdatedAt = DateTime.UtcNow
         }
     };
 }

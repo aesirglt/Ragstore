@@ -5,11 +5,13 @@ using Totten.Solution.Ragstore.Infra.Data.Bases;
 
 internal class ServerStoreContextDesignTimeDbContextFactory : IDesignTimeDbContextFactory<ServerStoreContext>
 {
+    static string user = Environment.GetEnvironmentVariable("POSTGRES_USER") ?? "admin";
+    static string pass = Environment.GetEnvironmentVariable("POSTGRES_PASSWORD") ?? "Sup3rS3cr3t";
     public ServerStoreContext CreateDbContext(string[] args)
     {
         var optionsBuilder = new DbContextOptionsBuilder<ServerStoreContext>();
-        optionsBuilder.UseSqlServer(
-            $"Server={InfraConstants.MAIN_IP};Database=broTHOR;User Id=sa;Password=Sup3rS3cr3t;TrustServerCertificate=true;"
+        optionsBuilder.UseNpgsql(
+            $"Host={InfraConstants.MAIN_IP};Port=5432;Username={user};Password={pass};Database=broTHOR"
             );
 
         return new ServerStoreContext(optionsBuilder.Options);

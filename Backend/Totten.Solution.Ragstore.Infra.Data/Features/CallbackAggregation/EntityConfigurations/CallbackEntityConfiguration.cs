@@ -17,7 +17,6 @@ internal class CallbackEntityConfiguration : IEntityTypeConfiguration<Callback>
         builder.Property(e => e.ItemPrice).IsRequired();
         builder.Property(e => e.ItemId).IsRequired();
 
-
         builder.HasData(new Callback
         {
             Id = 1,
@@ -25,9 +24,9 @@ internal class CallbackEntityConfiguration : IEntityTypeConfiguration<Callback>
             Level = ECallbackType.SYSTEM,
             StoreType = EStoreCallbackType.VendingStore,
             Name = "CallbackObscuro",
-            CreatedAt = DateTime.Now,
+            CreatedAt = DateTime.UtcNow,
             Server = "broTHOR",
-            UpdatedAt = DateTime.Now,
+            UpdatedAt = DateTime.UtcNow,
             UserCellphone = "+5584988633251",
             ItemId = 490037,
             ItemPrice = 500_000_000

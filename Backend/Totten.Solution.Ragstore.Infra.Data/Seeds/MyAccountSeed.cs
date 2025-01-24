@@ -12,8 +12,8 @@ public class MyAccountSeed
                 Id = 1,
                 Name = "account",
                 IsReported = false,
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow
             }
         };
 }
