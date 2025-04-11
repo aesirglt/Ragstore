@@ -1,8 +1,8 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Mappers;
 using AutoMapper;
 using Totten.Solution.Ragstore.ApplicationService.Features.Servers.Commands;
-using Totten.Solution.Ragstore.Domain.Features.Servers;
 using Totten.Solution.Ragstore.ApplicationService.ViewModels.Servers;
+using Totten.Solution.Ragstore.Domain.Features.Servers;
 
 /// <summary>
 /// 

@@ -1,9 +1,9 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.Callbacks.Commands;
 
-using FunctionalConcepts.Results;using FunctionalConcepts;
+using FunctionalConcepts;
+using FunctionalConcepts.Results;
 using MediatR;
 using Totten.Solution.Ragstore.Domain.Features.CallbackAggregation;
-
 
 public class CallbackSaveCommand : IRequest<Result<Success>>
 {

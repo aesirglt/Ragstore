@@ -1,11 +1,11 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.Chats.CommandsHandler;
 
-using FunctionalConcepts.Results;using FunctionalConcepts;
+using FunctionalConcepts;
+using FunctionalConcepts.Results;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 using Totten.Solution.Ragstore.ApplicationService.Features.Chats.Commands;
-
 
 public class ChatCreateCommandHandler : IRequestHandler<ChatCreateCommand, Result<Success>>
 {

@@ -1,10 +1,10 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Commands;
 
-using FunctionalConcepts.Results;using FunctionalConcepts;
+using FunctionalConcepts;
+using FunctionalConcepts.Results;
 using MediatR;
 using System;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Commons;
-
 
 public class VendingStoreSaveCommand : IRequest<Result<Success>>
 {

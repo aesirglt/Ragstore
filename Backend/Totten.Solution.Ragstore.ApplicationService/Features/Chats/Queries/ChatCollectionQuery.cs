@@ -1,6 +1,6 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.Chats.Queries;
 
-using FunctionalConcepts.Results;using FunctionalConcepts;
+using FunctionalConcepts.Results;
 using MediatR;
 using Totten.Solution.Ragstore.Domain.Features.Chats;
 using Totten.Solution.Ragstore.Domain.Features.Servers;

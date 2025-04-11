@@ -1,6 +1,7 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.Servers.Commands;
 
-using FunctionalConcepts.Results;using FunctionalConcepts;
+using FunctionalConcepts;
+using FunctionalConcepts.Results;
 using MediatR;
 
 

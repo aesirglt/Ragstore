@@ -1,6 +1,6 @@
-﻿using FunctionalConcepts;
+﻿namespace Totten.Solution.Ragstore.ApplicationService.Interfaces;
+using FunctionalConcepts;
 using FunctionalConcepts.Results;
-namespace Totten.Solution.Ragstore.ApplicationService.Interfaces;
 
 public interface IMessageService<SendableClass>
     : ISendable<SendableClass> where SendableClass : ISendable<SendableClass>

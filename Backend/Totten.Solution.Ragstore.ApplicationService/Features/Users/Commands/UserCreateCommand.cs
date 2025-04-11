@@ -4,7 +4,6 @@ using FunctionalConcepts;
 using FunctionalConcepts.Results;
 using MediatR;
 
-
 public class UserCreateCommand : IRequest<Result<Success>>
 {
 }

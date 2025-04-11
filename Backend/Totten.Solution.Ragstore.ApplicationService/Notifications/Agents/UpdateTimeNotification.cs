@@ -1,6 +1,5 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Notifications.Agents;
 
-using Autofac;
 using MediatR;
 
 public class UpdateTimeNotification : INotification

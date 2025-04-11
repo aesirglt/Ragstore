@@ -1,14 +1,15 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.Servers.CommandsHandler;
 
 using AutoMapper;
-using FunctionalConcepts.Results;using FunctionalConcepts;
+using FunctionalConcepts;
+using FunctionalConcepts.Errors;
+using FunctionalConcepts.Results;
 using MediatR;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Totten.Solution.Ragstore.ApplicationService.Features.Servers.Commands;
 using Totten.Solution.Ragstore.Domain.Features.Servers;
-using FunctionalConcepts.Errors;
 
 public class ServerCreateCommandHandler : IRequestHandler<ServerCreateCommand, Result<Success>>
 {

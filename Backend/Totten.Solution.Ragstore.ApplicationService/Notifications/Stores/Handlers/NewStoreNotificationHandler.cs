@@ -33,24 +33,30 @@ public class NewStoreNotificationHandler : INotificationHandler<NewStoreNotifica
 
             if (callback is { Count: > 0 })
             {
-                _ = notify.Items
+                var tasks = notify.Items
                           .Where(it => callback.Any(c => c.ItemId == it.ItemId && it.ItemPrice <= c.ItemPrice))
                           .Select(it => new
                           {
                               notify = it,
-                              callback = callback.FirstOrDefault(c => c.ItemId == it?.ItemId)
+                              callbacks = callback.Where(c => c.ItemId == it?.ItemId)
                           })
-                          .Select(selected => _mediator.Publish(new CallbackNotification
-                          {
-                              Server = notify.Server,
-                              Location = notify.Where,
-                              CallbackType = selected?.callback?.StoreType ?? EStoreCallbackType.None,
-                              Price = selected?.notify?.ItemPrice ?? -1,
-                              ItemId = selected?.notify?.ItemId ?? -1,
-                              Level = selected?.callback?.Level ?? ECallbackType.None,
-                              UserCellphone = selected?.callback?.UserCellphone ?? ""
-                          })).ToArray();
-            };
+                          .SelectMany(selected => selected.callbacks.Select(cb =>
+                               _mediator.Publish(new CallbackNotification
+                               {
+                                   Server = notify.Server,
+                                   Location = notify.Where,
+                                   CallbackType = cb?.StoreType ?? EStoreCallbackType.None,
+                                   Price = selected?.notify?.ItemPrice ?? -1,
+                                   ItemId = selected?.notify?.ItemId ?? -1,
+                                   Level = cb?.Level ?? ECallbackType.None,
+                                   UserCellphone = cb?.UserCellphone ?? ""
+                               })
+                            ))
+                          .ToArray();
+
+                Task.WaitAll(tasks, cancellationToken);
+            }
+            ;
         }
         catch (Exception ex)
         {
