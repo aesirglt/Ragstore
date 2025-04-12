@@ -1,20 +1,46 @@
-﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Commands;
+﻿namespace Totten.Solution.Ragstore.WebApi.Dtos.Stores;
 
-using FunctionalConcepts;
-using FunctionalConcepts.Results;
-using MediatR;
-using System;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Commons;
 
-public class BuyingStoreSaveCommand : IRequest<Result<Success>>
+/// <summary>
+/// 
+/// </summary>
+public class BuyingStoreSaveDto
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public string Server { get; set; } = string.Empty;
+    /// <summary>
+    /// 
+    /// </summary>
     public string Name { get; set; } = string.Empty;
+    /// <summary>
+    /// 
+    /// </summary>
     public string CharacterName { get; set; } = string.Empty;
+    /// <summary>
+    /// 
+    /// </summary>
     public int AccountId { get; set; }
+    /// <summary>
+    /// 
+    /// </summary>
     public int CharacterId { get; set; }
+    /// <summary>
+    /// 
+    /// </summary>
     public string Map { get; set; } = string.Empty;
+    /// <summary>
+    /// 
+    /// </summary>
     public string Location { get; set; } = string.Empty;
+    /// <summary>
+    /// 
+    /// </summary>
     public DateTime? ExpireDate { get; set; }
+    /// <summary>
+    /// 
+    /// </summary>
     public List<BuyingStoreItemCommand> StoreItems { get; set; } = [];
 }

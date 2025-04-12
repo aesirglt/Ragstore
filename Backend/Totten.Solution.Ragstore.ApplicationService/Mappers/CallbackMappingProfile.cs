@@ -1,7 +1,7 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Mappers;
 using AutoMapper;
 using Totten.Solution.Ragstore.ApplicationService.Features.Callbacks.Commands;
-using Totten.Solution.Ragstore.ApplicationService.ViewModels.Items;
+using Totten.Solution.Ragstore.ApplicationService.ViewModels.Callbacks;
 using Totten.Solution.Ragstore.Domain.Features.CallbackAggregation;
 
 /// <summary>
@@ -14,7 +14,7 @@ public class CallbackMappingProfile : Profile
     /// </summary>
     public CallbackMappingProfile()
     {
-        CreateMap<Callback, ItemResumeViewModel>();
+        CreateMap<Callback, CallbackResumeViewModel>();
         CreateMap<CallbackSaveCommand, Callback>()
             .ForMember(ds => ds.Id, m => m.MapFrom(_ => 0))
             .ForMember(ds => ds.CreatedAt, m => m.MapFrom(src => DateTime.UtcNow))

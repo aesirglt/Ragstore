@@ -39,12 +39,8 @@ public static partial class ObjectMother
         CharacterName = "",
         ExpireDate = DateTime.UtcNow,
         Name = "Lojinha 4i20",
-        Server = "bRO - thor",
         Location = "150,150",
-        StoreItems = new()
-        {
-            GetItemStoreCmd(ItemRedPotion.Id, ItemRedPotion.Name, 100, 1000)
-        }
+        StoreItems = [GetItemStoreCmd(ItemRedPotion.Id, ItemRedPotion.Name, 100, 1000)]
     };
 
     public static BuyingStoreSaveCommand GetBuyingStoreSaveCmd() => new()
@@ -55,11 +51,7 @@ public static partial class ObjectMother
         CharacterName = "",
         ExpireDate = DateTime.UtcNow,
         Name = "Lojinha 4i20",
-        Server = "bRO - thor",
         Location = "150,150",
-        StoreItems = new()
-        {
-            GetBuyItemStoreCmd(ItemRedPotion.Id, ItemRedPotion.Name, 100, 1000)
-        }
+        StoreItems = [GetBuyItemStoreCmd(ItemRedPotion.Id, ItemRedPotion.Name, 100, 1000)]
     };
 }

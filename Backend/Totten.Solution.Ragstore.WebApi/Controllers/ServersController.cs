@@ -14,14 +14,13 @@ using Totten.Solution.Ragstore.WebApi.Bases;
 /// <summary>
 /// Endpoint responsavel por servidores.
 /// </summary>
+/// <remarks>
+/// 
+/// </remarks>
+/// <param name="lifetimeScope"></param>
 [ApiController]
-public class ServersController : BaseApiController
+public class ServersController(ILifetimeScope lifetimeScope) : BaseApiController(lifetimeScope)
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="lifetimeScope"></param>
-    public ServersController(ILifetimeScope lifetimeScope) : base(lifetimeScope) { }
 
     /// <summary>
     /// Cria um novo servidor que será monitorado pela api.

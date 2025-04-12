@@ -10,16 +10,14 @@ using Totten.Solution.Ragstore.WebApi.Bases;
 /// <summary>
 /// 
 /// </summary>
+/// <remarks>
+/// 
+/// </remarks>
+/// <param name="lifetimeScope"></param>
 [ApiController]
-public class StoreItemController : BaseApiController
+public class StoreItemController(ILifetimeScope lifetimeScope) : BaseApiController(lifetimeScope)
 {
     const string API_ENDPOINT = "store-sumary";
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="lifetimeScope"></param>
-    public StoreItemController(ILifetimeScope lifetimeScope) : base(lifetimeScope)
-    { }
 
     /// <summary>
     /// 

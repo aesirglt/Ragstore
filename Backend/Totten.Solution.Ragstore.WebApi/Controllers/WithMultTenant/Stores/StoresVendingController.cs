@@ -10,21 +10,21 @@ using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Vendings;
 using Totten.Solution.Ragstore.WebApi.Bases;
 using Totten.Solution.Ragstore.ApplicationService.ViewModels.Stores;
 using FunctionalConcepts;
+using Totten.Solution.Ragstore.WebApi.Dtos.Stores;
+using Totten.Solution.Ragstore.Infra.Cross.Statics;
 
 /// <summary>
 /// 
 /// </summary>
+/// <remarks>
+/// 
+/// </remarks>
+/// <param name="lifetimeScope"></param>
 [ApiController]
-public class StoresVendingController : BaseApiController
+public class StoresVendingController(ILifetimeScope lifetimeScope) : BaseApiController(lifetimeScope)
 {
     const string API_ENDPOINT = "stores-vending";
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="lifetimeScope"></param>
-    public StoresVendingController(ILifetimeScope lifetimeScope) : base(lifetimeScope)
-    {
-    }
+
     /// <summary>
     /// 
     /// </summary>
@@ -55,26 +55,34 @@ public class StoresVendingController : BaseApiController
     /// 
     /// </summary>
     /// <param name="server"></param>
-    /// <param name="createCmd"></param>
+    /// <param name="createCmdDto"></param>
     /// <returns></returns>
     [HttpPost($"{{server}}/{API_ENDPOINT}")]
     [ProducesResponseType<Success>(statusCode: 201)]
     public async Task<IActionResult> Post(
         [FromRoute] string server,
-        [FromBody] VendingStoreSaveCommand createCmd)
-            => await HandleCommand(createCmd, server);
+        [FromBody] VendingStoreSaveDto createCmdDto)
+            => await HandleCommand(_mapper.Map<VendingStoreSaveCommand>(createCmdDto).Apply(cmd =>
+            {
+                cmd.Server = server;
+                return cmd;
+            }), server);
     /// <summary>
     /// 
     /// </summary>
     /// <param name="server"></param>
-    /// <param name="createCmd"></param>
+    /// <param name="createCmdDto"></param>
     /// <returns></returns>
     [HttpPost($"{{server}}/{API_ENDPOINT}-batch")]
     [ProducesResponseType<Success>(statusCode: 201)]
     public async Task<IActionResult> PostBatch(
         [FromRoute] string server,
-        [FromBody] VendingStoreSaveCommand[] createCmd)
-           => await HandleAccepted(server, createCmd);
+        [FromBody] VendingStoreSaveDto[] createCmdDto)
+           => await HandleAccepted(server, [.. createCmdDto.Select(cmd =>  _mapper.Map<VendingStoreSaveCommand>(cmd).Apply(cmd =>
+           {
+               cmd.Server = server;
+               return cmd;
+           }))]);
 
     /// <summary>
     /// 

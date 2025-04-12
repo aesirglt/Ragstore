@@ -14,16 +14,13 @@ using Totten.Solution.Ragstore.WebApi.Dtos.Agents;
 /// Endpoint responsavel por clients que enviam informações dos servidores
 /// Esses clients podem ser envios manuais ou automaticos.
 /// </summary>
+/// <remarks>
+/// 
+/// </remarks>
+/// <param name="lifetimeScope"></param>
 [ApiController]
-public class AgentsController : BaseApiController
+public class AgentsController(ILifetimeScope lifetimeScope) : BaseApiController(lifetimeScope)
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="lifetimeScope"></param>
-    public AgentsController(ILifetimeScope lifetimeScope) : base(lifetimeScope)
-    {
-    }
 
     /// <summary>
     /// 

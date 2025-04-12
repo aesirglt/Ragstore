@@ -4,24 +4,20 @@ using Autofac;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 using Totten.Solution.Ragstore.ApplicationService.Features.ItemsAggregation.Queries;
-using Totten.Solution.Ragstore.WebApi.Bases;
-using Totten.Solution.Ragstore.ApplicationService.ViewModels.Items;
-using FunctionalConcepts;
 using Totten.Solution.Ragstore.ApplicationService.Features.ItemsAggregation.ResponseModels;
+using Totten.Solution.Ragstore.ApplicationService.ViewModels.Items;
+using Totten.Solution.Ragstore.WebApi.Bases;
 
 /// <summary>
 /// Enpoint responsavel por itens dentro do jogo
 /// </summary>
+/// <remarks>
+/// 
+/// </remarks>
+/// <param name="lifetimeScope"></param>
 [ApiController]
-public class ItemsController : BaseApiController
+public class ItemsController(ILifetimeScope lifetimeScope) : BaseApiController(lifetimeScope)
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="lifetimeScope"></param>
-    public ItemsController(ILifetimeScope lifetimeScope) : base(lifetimeScope)
-    {
-    }
     /// <summary>
     /// Busca um item com base em seu nome.
     /// </summary>
@@ -29,11 +25,11 @@ public class ItemsController : BaseApiController
     /// <param name="server">Servidor</param>
     /// <param name="queryOptions"></param>
     /// <returns></returns>
-    [HttpGet("{server}/items-name/{name}")]
+    [HttpGet("{server}/items-name")]
     [ProducesResponseType<IQueryable<ItemResumeViewModel>>(statusCode: 200)]
     public async Task<IActionResult> GetByName(
-        [FromRoute] string name,
         [FromRoute] string server,
+        [FromQuery] string name,
         ODataQueryOptions<ItemResumeViewModel> queryOptions)
         => await HandleQueryable(new ItemCollectionByNameQuery
         {

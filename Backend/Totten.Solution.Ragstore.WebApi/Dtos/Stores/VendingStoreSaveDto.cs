@@ -1,14 +1,12 @@
-﻿namespace Totten.Solution.Ragstore.ApplicationService.ViewModels.Stores;
+﻿namespace Totten.Solution.Ragstore.WebApi.Dtos.Stores;
+
+using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Commons;
 
 /// <summary>
 /// 
 /// </summary>
-public record StoreDetailViewModel
+public class VendingStoreSaveDto
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public int Id { get; set; }
     /// <summary>
     /// 
     /// </summary>
@@ -16,11 +14,12 @@ public record StoreDetailViewModel
     /// <summary>
     /// 
     /// </summary>
+    public string CharacterName { get; set; } = string.Empty;
     public int AccountId { get; set; }
     /// <summary>
     /// 
     /// </summary>
-    public string Character { get; set; } = string.Empty;
+    public int CharacterId { get; set; }
     /// <summary>
     /// 
     /// </summary>
@@ -36,20 +35,5 @@ public record StoreDetailViewModel
     /// <summary>
     /// 
     /// </summary>
-    public Dictionary<int, ItemDetail> Items { get; set; } = new();
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public record ItemDetail
-    {
-        /// <summary>
-        /// 
-        /// </summary>
-        public string Name { get; set; } = "";
-        /// <summary>
-        /// 
-        /// </summary>
-        public double Price { get; set; }
-    }
+    public List<VendingStoreItemCommand> StoreItems { get; set; } = new();
 }

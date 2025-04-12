@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 using Totten.Solution.Ragstore.ApplicationService.Features.Callbacks.Commands;
 using Totten.Solution.Ragstore.ApplicationService.Features.ItemsAggregation.Queries;
-using Totten.Solution.Ragstore.ApplicationService.ViewModels.Items;
+using Totten.Solution.Ragstore.ApplicationService.ViewModels.Callbacks;
 using Totten.Solution.Ragstore.Domain.Features.CallbackAggregation;
 using Totten.Solution.Ragstore.Infra.Cross.CrossDTOs;
 using Totten.Solution.Ragstore.WebApi.Bases;
@@ -15,17 +15,13 @@ using Totten.Solution.Ragstore.WebApi.Dtos.Callbacks;
 /// <summary>
 /// Endpoint responsavel por notificações de items com baixos valores.
 /// </summary>
+/// <remarks>
+/// 
+/// </remarks>
+/// <param name="lifetimeScope"></param>
 [ApiController]
-[Route("[controller]")]
-public class CallbackController : BaseApiController
+public class CallbackController(ILifetimeScope lifetimeScope) : BaseApiController(lifetimeScope)
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="lifetimeScope"></param>
-    public CallbackController(ILifetimeScope lifetimeScope) : base(lifetimeScope)
-    {
-    }
 
     /// <summary>
     /// Busca todas as notificações do servidor.
@@ -34,8 +30,8 @@ public class CallbackController : BaseApiController
     /// <param name="queryOptions">Filtro Dinamico</param>
     /// <returns></returns>
     [HttpGet("{server}/callbacks")]
-    [ProducesResponseType<IQueryable<ItemResumeViewModel>>(statusCode: 200)]
-    public async Task<IActionResult> Get([FromRoute] string server, ODataQueryOptions<ItemResumeViewModel> queryOptions)
+    [ProducesResponseType<IQueryable<CallbackResumeViewModel>>(statusCode: 200)]
+    public async Task<IActionResult> Get([FromRoute] string server, ODataQueryOptions<CallbackResumeViewModel> queryOptions)
         => await HandleQueryable(new CallbackCollectionQuery(), server, queryOptions);
 
     /// <summary>
@@ -46,7 +42,7 @@ public class CallbackController : BaseApiController
     /// <returns></returns>
     [HttpGet("{server}/callbacks-user")]
     [ProducesResponseType<IQueryable<Callback>>(statusCode: 200)]
-    public async Task<IActionResult> GetUsers([FromRoute] string server, ODataQueryOptions<Callback> queryOptions)
+    public async Task<IActionResult> GetCallbackByUser([FromRoute] string server, ODataQueryOptions<Callback> queryOptions)
         => await HandleQueryable(new CallbackCollectionByUserIdQuery
         {
             UserId = "d7aeb595-44a5-4f5d-822e-980f35ace12d"

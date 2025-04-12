@@ -2,23 +2,19 @@
 
 using Autofac;
 using Microsoft.AspNetCore.Mvc;
-using Totten.Solution.Ragstore.ApplicationService.Features.ItemsAggregation.ResponseModels;
 using Totten.Solution.Ragstore.ApplicationService.Notifications.Agents;
 using Totten.Solution.Ragstore.WebApi.Bases;
 
 /// <summary>
 /// Endpoint responsavel por adicionar ultimo horario de atualização do servidor.
 /// </summary>
+/// <remarks>
+/// 
+/// </remarks>
+/// <param name="lifetimeScope"></param>
 [ApiController]
-public class UpTimesController : BaseApiController
+public class UpTimesController(ILifetimeScope lifetimeScope) : BaseApiController(lifetimeScope)
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="lifetimeScope"></param>
-    public UpTimesController(ILifetimeScope lifetimeScope) : base(lifetimeScope)
-    {
-    }
     /// <summary>
     /// Cria um ponto de horario de atualização
     /// </summary>

@@ -10,18 +10,20 @@ using Totten.Solution.Ragstore.WebApi.SystemConstants;
 /// Endpoint responsavel por usuários
 /// </summary>
 [ApiController]
-[Route("[controller]")]
-public class UsersController : ControllerBase
+public class MigrateController : ControllerBase
 {
     /// <summary>
     /// 
     /// </summary>
     /// <param name="server"></param>
+    /// <param name="cod"></param>
     /// <returns></returns>
     [HttpPost("{server}/migrate")]
     [ProducesResponseType<Success>(statusCode: 201)]
-    public async Task<IActionResult> Create([FromRoute] string server)
+    public async Task<IActionResult> Create([FromRoute] string server, [FromQuery] string cod)
     {
+        if (cod != "supercode") return await Task.Run(base.Unauthorized);
+
         var opt = new DbContextOptionsBuilder<ServerStoreContext>().UseNpgsql(SysConstantDBConfig.DEFAULT_CONNECTION_STRING.Replace("{dbName}", server));
         var ctx = new ServerStoreContext(opt.Options);
         _ = Task.Run(ctx.Database.Migrate);

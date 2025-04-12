@@ -7,7 +7,7 @@ services:
         environment:
             POSTGRES_USER: "admin"
             POSTGRES_PASSWORD: "Sup3rS3cr3t"
-            POSTGRES_DB: "ragstore"
+            POSTGRES_DB: "ragstoredb"
         ports:
             - "5432:5432"
         volumes:

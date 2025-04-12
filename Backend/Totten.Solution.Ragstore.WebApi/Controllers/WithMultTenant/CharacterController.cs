@@ -9,18 +9,14 @@ using Totten.Solution.Ragstore.WebApi.Bases;
 /// <summary>
 /// 
 /// </summary>
+/// <remarks>
+/// 
+/// </remarks>
+/// <param name="lifetimeScope"></param>
 [ApiController]
 [Route("[controller]")]
-public class CharacterController : BaseApiController
+public class CharacterController(ILifetimeScope lifetimeScope) : BaseApiController(lifetimeScope)
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="lifetimeScope"></param>
-    public CharacterController(ILifetimeScope lifetimeScope) : base(lifetimeScope)
-    {
-    }
-
     /// <summary>
     /// 
     /// </summary>
