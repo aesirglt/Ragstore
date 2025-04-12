@@ -16,17 +16,17 @@ public class RagnaStoreContext : DbContext
 
     public RagnaStoreContext(DbContextOptions<RagnaStoreContext> options) : base(options)
     {
-        if (Database.IsRelational())
-        {
-            //Database?.Migrate();
-        }
+        //if (Database.IsRelational())
+        //{
+        //    Database?.Migrate();
+        //}
         ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
         => base.OnModelCreating(
                 modelBuilder.ApplyConfiguration(new ServerEntityConfiguration())
-                            .ApplyConfiguration(new UpdateTimeEntityConfiguration())
+                            .ApplyConfiguration(new AgentEntityConfiguration())
                             .ApplyConfiguration(new CallbackScheduleConfiguration())
                             .ApplyConfiguration(new CallbackEntityConfiguration()));
 

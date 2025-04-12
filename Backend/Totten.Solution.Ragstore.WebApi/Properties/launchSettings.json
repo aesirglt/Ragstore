@@ -5,7 +5,11 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "POSTGRES_USER": "admin",
+        "POSTGRES_PASSWORD": "Sup3rS3cr3t",
+        "POSTGRES_DB": "ragstoredb",
+        "POSTGRES_HOST": "postgresql"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "http://localhost:5196"
@@ -15,7 +19,11 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "POSTGRES_USER": "admin",
+        "POSTGRES_PASSWORD": "Sup3rS3cr3t",
+        "POSTGRES_DB": "ragstoredb",
+        "POSTGRES_HOST": "postgresql"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "https://localhost:7248;http://localhost:5196"

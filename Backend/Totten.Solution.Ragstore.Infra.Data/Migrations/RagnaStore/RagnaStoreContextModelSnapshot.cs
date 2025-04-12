@@ -43,12 +43,22 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("ServerId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("ServerId1")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
-                    b.ToTable("UpdateTimes", (string)null);
+                    b.HasIndex("ServerId");
+
+                    b.HasIndex("ServerId1");
+
+                    b.ToTable("Agents", (string)null);
                 });
 
             modelBuilder.Entity("Totten.Solution.Ragstore.Domain.Features.CallbackAggregation.Callback", b =>
@@ -79,9 +89,11 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Server")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("ServerId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("ServerId1")
+                        .HasColumnType("integer");
 
                     b.Property<int>("StoreType")
                         .HasColumnType("integer");
@@ -95,6 +107,10 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ServerId");
+
+                    b.HasIndex("ServerId1");
+
                     b.ToTable("Callbacks", (string)null);
 
                     b.HasData(
@@ -102,14 +118,14 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
                         {
                             Id = 1,
                             CallbackOwnerId = "d7aeb595-44a5-4f5d-822e-980f35ace12d",
-                            CreatedAt = new DateTime(2025, 1, 24, 14, 10, 39, 353, DateTimeKind.Utc).AddTicks(5853),
+                            CreatedAt = new DateTime(2025, 4, 12, 19, 31, 3, 792, DateTimeKind.Utc).AddTicks(9411),
                             ItemId = 490037,
                             ItemPrice = 500000000.0,
                             Level = 4,
                             Name = "CallbackObscuro",
-                            Server = "broTHOR",
+                            ServerId = 1,
                             StoreType = 2,
-                            UpdatedAt = new DateTime(2025, 1, 24, 14, 10, 39, 353, DateTimeKind.Utc).AddTicks(5855),
+                            UpdatedAt = new DateTime(2025, 4, 12, 19, 31, 3, 792, DateTimeKind.Utc).AddTicks(9412),
                             UserCellphone = "+5584988633251"
                         });
                 });
@@ -184,21 +200,58 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2025, 1, 24, 14, 10, 39, 353, DateTimeKind.Utc).AddTicks(4133),
+                            CreatedAt = new DateTime(2025, 4, 12, 19, 31, 3, 792, DateTimeKind.Utc).AddTicks(6713),
                             IsActive = false,
                             Name = "broTHOR",
                             SiteUrl = "https://playragnarokonlinebr.com",
-                            UpdatedAt = new DateTime(2025, 1, 24, 14, 10, 39, 353, DateTimeKind.Utc).AddTicks(4135)
+                            UpdatedAt = new DateTime(2025, 4, 12, 19, 31, 3, 792, DateTimeKind.Utc).AddTicks(6715)
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2025, 1, 24, 14, 10, 39, 353, DateTimeKind.Utc).AddTicks(4138),
+                            CreatedAt = new DateTime(2025, 4, 12, 19, 31, 3, 792, DateTimeKind.Utc).AddTicks(6718),
                             IsActive = false,
                             Name = "broVALHALLA",
                             SiteUrl = "https://playragnarokonlinebr.com",
-                            UpdatedAt = new DateTime(2025, 1, 24, 14, 10, 39, 353, DateTimeKind.Utc).AddTicks(4139)
+                            UpdatedAt = new DateTime(2025, 4, 12, 19, 31, 3, 792, DateTimeKind.Utc).AddTicks(6718)
                         });
+                });
+
+            modelBuilder.Entity("Totten.Solution.Ragstore.Domain.Features.AgentAggregation.Agent", b =>
+                {
+                    b.HasOne("Totten.Solution.Ragstore.Domain.Features.Servers.Server", null)
+                        .WithMany("Agents")
+                        .HasForeignKey("ServerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Totten.Solution.Ragstore.Domain.Features.Servers.Server", "Server")
+                        .WithMany()
+                        .HasForeignKey("ServerId1");
+
+                    b.Navigation("Server");
+                });
+
+            modelBuilder.Entity("Totten.Solution.Ragstore.Domain.Features.CallbackAggregation.Callback", b =>
+                {
+                    b.HasOne("Totten.Solution.Ragstore.Domain.Features.Servers.Server", null)
+                        .WithMany("Callbacks")
+                        .HasForeignKey("ServerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Totten.Solution.Ragstore.Domain.Features.Servers.Server", "Server")
+                        .WithMany()
+                        .HasForeignKey("ServerId1");
+
+                    b.Navigation("Server");
+                });
+
+            modelBuilder.Entity("Totten.Solution.Ragstore.Domain.Features.Servers.Server", b =>
+                {
+                    b.Navigation("Agents");
+
+                    b.Navigation("Callbacks");
                 });
 #pragma warning restore 612, 618
         }

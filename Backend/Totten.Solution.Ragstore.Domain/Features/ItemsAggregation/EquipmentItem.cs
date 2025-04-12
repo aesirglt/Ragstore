@@ -5,7 +5,7 @@ using Totten.Solution.Ragstore.Domain.Bases;
 public class EquipmentItemCardInfo
 {
     public int Id { get; set; }
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
 
     public EquipmentItemCardInfo(string str)
     {
@@ -24,7 +24,7 @@ public class EquipmentItemOptionInfo
     public int Id { get; set; }
     public int Val { get; set; }
     public int Param { get; set; }
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
     public EquipmentItemOptionInfo(string str)
     {
         var splited = str.Split(':', StringSplitOptions.RemoveEmptyEntries);
@@ -54,8 +54,8 @@ public record EquipmentItem : Entity<EquipmentItem, int>
     public int? SpriteId { get; set; }
     public int Slots { get; set; }
 
-    public virtual EquipmentItemCardInfo[] InfoCards { get; set; } = Array.Empty<EquipmentItemCardInfo>();
-    public virtual EquipmentItemOptionInfo[] InfoOptions { get; set; } = Array.Empty<EquipmentItemOptionInfo>();
+    public virtual EquipmentItemCardInfo[] InfoCards { get; set; } = [];
+    public virtual EquipmentItemOptionInfo[] InfoOptions { get; set; } = [];
 
     public int? CrafterId { get; set; }
     public string? CrafterName { get; set; }

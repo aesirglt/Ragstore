@@ -46,13 +46,12 @@ public class VendingStoreSaveCommandHandler(
                 StoreType = nameof(VendingStore),
                 Date = DateTime.UtcNow,
                 Items =
-                    request.StoreItems
+                    [.. request.StoreItems
                            .Select(x => new NewStoreNotificationItem()
                             {
                                 ItemId = x.ItemId,
                                 ItemPrice = x.Price
-                            })
-                           .ToList()
+                            })]
             }, CancellationToken.None);
 
             return await result;

@@ -16,6 +16,7 @@ using Totten.Solution.Ragstore.WebApi.Dtos.Callbacks;
 /// Endpoint responsavel por notificações de items com baixos valores.
 /// </summary>
 [ApiController]
+[Route("[controller]")]
 public class CallbackController : BaseApiController
 {
     /// <summary>
@@ -64,7 +65,7 @@ public class CallbackController : BaseApiController
         {
             Id = $"d7aeb595-44a5-4f5d-822e-980f35ace12d",
             Email = "aleffmds@gmail.com",
-            Cellphone = "+5584988633251",
+            Cellphone = "+351929284645",
             Level = EUserLevel.SYSTEM
         })), server);
 }

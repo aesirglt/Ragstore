@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Totten.Solution.Ragstore.Domain.Features.AgentAggregation;
 
-public class UpdateTimeEntityConfiguration : IEntityTypeConfiguration<Agent>
+public class AgentEntityConfiguration : IEntityTypeConfiguration<Agent>
 {
-    const string TABLE_NAME = "UpdateTimes";
+    const string TABLE_NAME = "Agents";
 
     public void Configure(EntityTypeBuilder<Agent> builder)
     {

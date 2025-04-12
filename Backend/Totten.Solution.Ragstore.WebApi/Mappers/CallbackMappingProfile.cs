@@ -15,7 +15,7 @@ public class CallbackMappingProfile : Profile
     public CallbackMappingProfile()
     {
         CreateMap<(CallbackCreateDto dto, UserData data), CallbackSaveCommand>()
-            .ForMember(ds => ds.Server, m => m.MapFrom(src => src.dto.Server))
+            .ForMember(ds => ds.ServerId, m => m.MapFrom(src => src.dto.ServerId))
             .ForMember(ds => ds.Name, m => m.MapFrom(src => src.dto.Name))
             .ForMember(ds => ds.UserId, m => m.MapFrom(src => src.data.Id))
             .ForMember(ds => ds.UserCellphone, m => m.MapFrom(src => src.data.Cellphone))

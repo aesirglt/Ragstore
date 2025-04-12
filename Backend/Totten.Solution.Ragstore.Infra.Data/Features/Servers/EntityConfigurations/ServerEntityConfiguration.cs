@@ -8,6 +8,7 @@ using Totten.Solution.Ragstore.Infra.Data.Seeds;
 internal class ServerEntityConfiguration : IEntityTypeConfiguration<Server>
 {
     const string TABLE_NAME = "Servers";
+
     public void Configure(EntityTypeBuilder<Server> builder)
     {
         builder.ToTable(TABLE_NAME);
@@ -17,6 +18,14 @@ internal class ServerEntityConfiguration : IEntityTypeConfiguration<Server>
         builder.Property(e => e.UpdatedAt).IsRequired();
         builder.Property(e => e.IsActive).IsRequired();
         builder.Property(e => e.SiteUrl);
+
+        builder.HasMany(e => e.Agents)
+               .WithOne()
+               .HasForeignKey(a => a.ServerId);
+
+        builder.HasMany(e => e.Callbacks)
+               .WithOne()
+               .HasForeignKey(c => c.ServerId);
 
         builder.HasData(MyServerSeed.Seed());
     }

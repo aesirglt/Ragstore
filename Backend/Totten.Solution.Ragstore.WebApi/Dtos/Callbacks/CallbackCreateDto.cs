@@ -8,11 +8,12 @@ public class CallbackCreateDto
     /// <summary>
     /// 
     /// </summary>
-    public string Name { get; set; } = string.Empty;
+    public int ServerId { get; set; }
+
     /// <summary>
     /// 
     /// </summary>
-    public string Server { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
     /// <summary>
     /// 
     /// </summary>

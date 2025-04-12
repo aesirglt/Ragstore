@@ -172,6 +172,27 @@ public abstract class BaseApiController : ControllerBase
     /// <summary>
     /// 
     /// </summary>
+    /// <param name="getCmdWithServerId">Func to get configured comand with server id</param>
+    /// <param name="serverName"></param>
+    /// <returns></returns>
+    protected async Task<IActionResult> HandleCommand(
+        Func<int, IRequest<Result<Success>>> getCmdWithServerId,
+        string serverName)
+    {
+        return await _serverRepository
+            .GetByName(serverName)
+            .MatchAsync(async server =>
+            {
+                var scope = CreateChildScope(serverName);
+                var mediator = scope.Resolve<IMediator>();
+                var result = await mediator.Send(getCmdWithServerId(server.Id));
+
+                return result.Match(succ => Ok(succ), HandleFailure)!;
+            }, () => HandleFailure(ServerNotFound()));
+    }
+    /// <summary>
+    /// 
+    /// </summary>
     /// <param name="cmd"></param>
     /// <returns></returns>
 
@@ -264,6 +285,33 @@ public abstract class BaseApiController : ControllerBase
                 var mapper = scope.Resolve<IMapper>();
                 var mediator = scope.Resolve<IMediator>();
                 var result = await mediator.Send(query);
+
+                return result.Match(succ => Ok(HandlePage(succ, mapper, queryOptions)), HandleFailure)!;
+            }, () => HandleFailure(ServerNotFound()));
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TSource"></typeparam>
+    /// <typeparam name="TDestiny"></typeparam>
+    /// <param name="getQueryWithServerId">função para retornar uma query que precisa de um server id</param>
+    /// <param name="serverName"></param>
+    /// <param name="queryOptions"></param>
+    /// <returns></returns>
+    protected async Task<IActionResult> HandleQueryable<TSource, TDestiny>(
+        Func<int, IRequest<Result<IQueryable<TSource>>>> getQueryWithServerId,
+        string serverName,
+        ODataQueryOptions<TDestiny> queryOptions)
+    {
+        return await _serverRepository
+            .GetByName(serverName)
+            .MatchAsync(async server =>
+            {
+                var scope = CreateChildScope(serverName);
+                var mapper = scope.Resolve<IMapper>();
+                var mediator = scope.Resolve<IMediator>();
+                var result = await mediator.Send(getQueryWithServerId(server.Id));
 
                 return result.Match(succ => Ok(HandlePage(succ, mapper, queryOptions)), HandleFailure)!;
             }, () => HandleFailure(ServerNotFound()));

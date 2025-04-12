@@ -25,7 +25,7 @@ internal class CallbackEntityConfiguration : IEntityTypeConfiguration<Callback>
             StoreType = EStoreCallbackType.VendingStore,
             Name = "CallbackObscuro",
             CreatedAt = DateTime.UtcNow,
-            Server = "broTHOR",
+            ServerId = 1,
             UpdatedAt = DateTime.UtcNow,
             UserCellphone = "+5584988633251",
             ItemId = 490037,

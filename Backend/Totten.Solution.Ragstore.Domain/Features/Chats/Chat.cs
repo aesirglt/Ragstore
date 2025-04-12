@@ -12,5 +12,5 @@ public record Chat : Entity<Chat, int>
     public string Map { get; set; } = string.Empty;
     public string Location { get; set; } = string.Empty;
     public int QuantityUsers { get; set; }
-    public virtual List<EquipmentItem> EquipmentItems { get; set; } = new();
+    public virtual List<EquipmentItem> EquipmentItems { get; set; } = [];
 }
