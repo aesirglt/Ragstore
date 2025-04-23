@@ -4,7 +4,8 @@ import Head from 'next/head';
 
 interface Item {
   id: number;
-  name: string;
+  storeId: number;
+  itemName: string;
   price: number;
   quantity: number;
   image: string;
@@ -96,10 +97,10 @@ export default function MarketPage() {
             items.map(item => (
               <div key={item.id} className="bg-white rounded-lg shadow hover:shadow-lg hover:-translate-y-1 transition p-2">
                 <div className="w-full h-44 bg-gray-200 flex items-center justify-center">
-                  <img src="/api/placeholder/200/180" alt={item.name} width={100} height={100} />
+                  <img src="/api/placeholder/200/180" alt={item.itemName} width={100} height={100} />
                 </div>
                 <div className="p-3">
-                  <h3 className="font-bold mb-1">{item.name}</h3>
+                  <h3 className="font-bold mb-1">{item.itemName}</h3>
                   <p className="text-red-500 font-semibold text-lg mb-1">{formatPrice(item.price)} zeny</p>
                   <p className="text-sm text-gray-500">Quantidade: {item.quantity}</p>
                 </div>

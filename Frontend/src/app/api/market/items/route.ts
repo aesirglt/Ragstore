@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 const mockItems = [
   {
     id: 1,
-    name: 'Espada Sagrada',
+    itemName: 'Espada Sagrada',
     price: 500000,
     quantity: 2,
     image: '',
@@ -11,7 +11,7 @@ const mockItems = [
   },
   {
     id: 2,
-    name: 'Armadura do Herói',
+    itemName: 'Armadura do Herói',
     price: 1200000,
     quantity: 1,
     image: '',
@@ -19,7 +19,7 @@ const mockItems = [
   },
   {
     id: 3,
-    name: 'Carta MvP',
+    itemName: 'Carta MvP',
     price: 50000000,
     quantity: 1,
     image: '',
@@ -36,12 +36,12 @@ export async function GET(req: NextRequest) {
   const category = searchParams.get('category') || '';
   const priceOrder = searchParams.get('priceOrder') || '';
 
-  const url = `http://localhost/${server}/sell-stores/items?${queryString}`;
+  const url = `https://localhost:62242/${server}/stores-buying/items?${queryString}`;
 
   let items = [...mockItems];
 
   if (search) {
-    items = items.filter(item => item.name.toLowerCase().includes(search));
+    items = items.filter(item => item.itemName.toLowerCase().includes(search));
   }
 
   if (category) {

@@ -16,21 +16,27 @@ public class VendingStoreItemsCollectionQueryHandler(IVendingStoreItemRepository
 
     public async Task<Result<IQueryable<StoreItemResponseModel>>> Handle(VendingStoreItemsCollectionQuery request, CancellationToken cancellationToken)
     {
-        var storeItem = await _vendingStoreItemRepository
+        var result = _vendingStoreItemRepository
             .GetAllByItemName(request.ItemName)
-            .Select(item => new StoreItemResponseModel
+            .GroupBy(item => new
             {
-                Id = item.ItemId,
-                StoreId = item.StoreId,
-                ItemName = item.Name,
-                Price = item.Price,
-                Quantity = item.Quantity,
-                VendingType = nameof(VendingStoreItem),
-                StoreName = item.StoreName,
-                Map = item.Map,
-                CharacterName = item.CharacterName
-            }).AsTask();
+                item.ItemId,
+                item.StoreId,
+                item.Name,
+                item.Type,
+                item.Price
+            })
+            .Select(group => new StoreItemResponseModel
+            {
+                ItemId = group.Key.ItemId,
+                StoreId = group.Key.StoreId,
+                ItemName = group.Key.Name,
+                Price = group.Key.Price,
+                Category = group.Key.Type.ToString(),
+                Quantity = group.Sum(i => i.Quantity),
+                Image = $"url/{group.Key.ItemId}"
+            });
 
-        return Result.Of(storeItem);
+        return Result.Of(await result.AsTask());
     }
 }
