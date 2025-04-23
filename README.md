@@ -19,7 +19,9 @@
 
 | Server | Description | Protection | Status | Supporter |
 | --- | --- | --- | --- | --- |
+| [LatamRO](https://ro.gnjoylatam.com/****) | Latam RO | N/I | Not working | N/A |
 | [bRO](https://playragnarokonlinebr.com/) | Brazil RO | EAC | Not working | N/A |
+
 
 ## Contributing
 
