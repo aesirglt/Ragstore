@@ -34,7 +34,7 @@ public class VendingStoreItemsCollectionQueryHandler(IVendingStoreItemRepository
                 Price = group.Key.Price,
                 Category = group.Key.Type.ToString(),
                 Quantity = group.Sum(i => i.Quantity),
-                Image = $"url/{group.Key.ItemId}"
+                Image = "url/" + group.Key.ItemId
             });
 
         return Result.Of(await result.AsTask());

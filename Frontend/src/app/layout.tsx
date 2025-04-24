@@ -1,40 +1,26 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import Footer from "@/components/layout/Footer";
-import Header from "@/components/layout/Header";
+import { Inter } from 'next/font/google';
+import { Providers } from './providers';
+import type { Metadata } from 'next';
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: "RagStore",
-  description: "your next level search ragnarok",
+  title: 'RagStore - Seu mercado de Ragnarok',
+  description: 'Encontre os melhores preços e lojas de Ragnarok Online',
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <div>
-          <Header /> {/* Componente Header */}
-          <main>{children}</main> {/* Conteúdo da página */}
-          <Footer /> {/* Componente Footer */}
-        </div>
+    <html lang="pt-BR">
+      <body className={inter.className}>
+        <Providers>
+          {children}
+        </Providers>
       </body>
     </html>
   );
-}
+} 
