@@ -10,17 +10,36 @@ const ITEMS_PER_PAGE = 12;
 export default function MercadoPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState(() => {
+    // Recupera o termo de busca do localStorage ao inicializar
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('marketSearchTerm') || '';
+    }
+    return '';
+  });
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
 
   // Efeito para debounce da pesquisa
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedSearchTerm(searchTerm);
+      // Salva o termo de busca no localStorage
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('marketSearchTerm', searchTerm);
+      }
     }, 500);
 
     return () => clearTimeout(timer);
   }, [searchTerm]);
+
+  // Efeito para limpar o localStorage quando o componente é desmontado
+  useEffect(() => {
+    return () => {
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('marketSearchTerm');
+      }
+    };
+  }, []);
 
   const marketParams: UseMarketItemsParams = {
     server: 'brothor',
@@ -67,11 +86,30 @@ export default function MercadoPage() {
 
   if (!items || items.length === 0) {
     return (
-      <Box height="100vh" display="flex" alignItems="center" justifyContent="center">
-        <Alert status="info">
-          <AlertIcon />
-          Nenhum item encontrado
-        </Alert>
+      <Box height="100vh" display="flex" flexDirection="column">
+        <Container maxW="container.xl" py={4}>
+          <Box mb={4}>
+            <InputGroup>
+              <InputLeftElement pointerEvents="none">
+                <SearchIcon color="gray.400" />
+              </InputLeftElement>
+              <Input
+                placeholder="Pesquisar itens..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                size="md"
+                variant="filled"
+                bg="white"
+                _hover={{ bg: 'gray.50' }}
+                _focus={{ bg: 'white', borderColor: 'blue.500' }}
+              />
+            </InputGroup>
+          </Box>
+          <Alert status="info" mt={4}>
+            <AlertIcon />
+            Nenhum item encontrado
+          </Alert>
+        </Container>
       </Box>
     );
   }
