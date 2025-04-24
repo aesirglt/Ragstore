@@ -25,6 +25,62 @@ const mockItems = [
     image: '',
     category: 'card',
   },
+  {
+    id: 4,
+    itemName: 'Carta MvP',
+    price: 50000000,
+    quantity: 1,
+    image: '',
+    category: 'card',
+  },
+  {
+    id: 5,
+    itemName: 'Carta MvP',
+    price: 50000000,
+    quantity: 1,
+    image: '',
+    category: 'card',
+  },
+  {
+    id: 6,
+    itemName: 'Carta MvP',
+    price: 50000000,
+    quantity: 1,
+    image: '',
+    category: 'card',
+  },
+  {
+    id: 7,
+    itemName: 'Carta MvP',
+    price: 50000000,
+    quantity: 1,
+    image: '',
+    category: 'card',
+  },
+  {
+    id: 8,
+    itemName: 'Carta MvP',
+    price: 50000000,
+    quantity: 1,
+    image: '',
+    category: 'card',
+  },
+  {
+    id: 9,
+    itemName: 'Carta MvP',
+    price: 50000000,
+    quantity: 1,
+    image: '',
+    category: 'card',
+  },
+  {
+    id: 10,
+    itemName: 'Carta MvP',
+    price: 50000000,
+    quantity: 1,
+    image: '',
+    category: 'card',
+  }
 ];
 
 export async function GET(req: NextRequest) {
