@@ -4,6 +4,7 @@ export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const target = searchParams.get('target') || 'http://localhost:60378';
   const path = request.nextUrl.pathname.replace('/api', '');
+  console.log('aleff:');
 
   try {
     const url = new URL(path, target);

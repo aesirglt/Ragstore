@@ -15,7 +15,6 @@ export interface StoreDetailViewModel {
 }
 
 export interface StoreItemViewModel {
-  id: number;
   itemId: number;
   price: number;
   quantity: number;

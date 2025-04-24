@@ -13,7 +13,7 @@ import {
 } from '../types/api'
 
 const api = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_API_URL
+    baseURL: 'http://localhost:60378/'//process.env.NEXT_PUBLIC_API_URL
 });
 
 export const apiService = {
@@ -48,6 +48,9 @@ export const apiService = {
         $top: pageSize,
         $count: true,
         $orderby: 'ItemName'
+      },
+      headers: {
+        'Accept': 'application/json;odata.metadata=minimal;odata.streaming=true'
       }
     })
     return response.data

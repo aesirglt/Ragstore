@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { Container, Heading, SimpleGrid, Box, Text, Spinner, Alert, AlertIcon, Image, Flex, Button } from '@chakra-ui/react';
 import { ItemViewModel, ItemResponse } from '@/types/api';
 import apiService from '@/services/api';
+import { useMarketItems } from '@/hooks/useMarketItems';
 
 const ITEMS_PER_PAGE = 12;
 
@@ -13,16 +14,18 @@ export default function MercadoPage() {
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const { data: useMarkets, isLoading: isLoadingMarkets } = useMarketItems('brothor');
 
   useEffect(() => {
     const fetchItems = async () => {
       try {
         setLoading(true);
         setError(null);
-        const response = await apiService.getItems({ 
-          page: currentPage, 
-          pageSize: ITEMS_PER_PAGE 
-        }) as ItemResponse;
+        const response = useMarkets;
+        //const response = await getItems({ 
+        //  page: currentPage, 
+        //  pageSize: ITEMS_PER_PAGE 
+        //}) as ItemResponse;
         
         if (response && response.value) {
           setItems(response.value);
