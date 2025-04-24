@@ -8,103 +8,58 @@ import {
   Box,
   Card,
   CardBody,
-  SimpleGrid,
   Button,
   Grid,
   GridItem,
   Flex,
+  Spinner,
 } from '@chakra-ui/react';
 import { LastSearchedItems } from './components/LastSearchedItems';
 import { PromotionBanner } from './components/PromotionBanner';
 import { TopItemsSlider } from './components/TopItemsSlider';
+import { UserMerchants } from './components/UserMerchants';
+import { useTopItems } from '../hooks/useTopItems';
+import { useLastSearchedItems } from '../hooks/useLastSearchedItems';
+import { useUserMerchants, UserMerchant } from '../hooks/useUserMerchants';
 
-// Dados de exemplo para o slider
-const topItems = [
+// Dados zerados para quando houver erro
+const emptyTopItems = [
   {
     id: "1",
-    name: "DKM / ZNY",
-    lastPrice: 120000000,
-    lowPrice: 110000000,
-    highPrice: 130000000,
-    volume: 20922000000,
-    percentageChange: 0.8,
-    imageUrl: "/items/1.png"
-  },
-  {
-    id: "2",
-    name: "CIN / ZNY",
-    lastPrice: 1650000,
-    lowPrice: 1599999,
-    highPrice: 1800000,
-    volume: 8215999500,
-    percentageChange: -4.1,
-    imageUrl: "/items/2.png"
-  },
-  {
-    id: "3",
-    name: "IST / ZNY",
-    lastPrice: 850000,
-    lowPrice: 850000,
-    highPrice: 1500000,
-    volume: 21290401478,
-    percentageChange: -15.0,
-    imageUrl: "/items/3.png"
-  },
-  {
-    id: "4",
-    name: "BSH / ZNY",
-    lastPrice: 289999,
-    lowPrice: 250000,
-    highPrice: 290000,
-    volume: 762617650,
-    percentageChange: 16.0,
-    imageUrl: "/items/4.png"
-  },
-  {
-    id: "5",
-    name: "RHA / ZNY",
-    lastPrice: 300000,
-    lowPrice: 280000,
-    highPrice: 320000,
-    volume: 543210987,
-    percentageChange: 5.5,
-    imageUrl: "/items/5.png"
+    name: "---",
+    lastPrice: 0,
+    lowPrice: 0,
+    highPrice: 0,
+    volume: 0,
+    percentageChange: 0,
+    imageUrl: "/items/default.png"
   }
 ];
 
-// Dados de exemplo para os últimos itens pesquisados
-const mockLastSearchedItems = [
+// Dados zerados para quando houver erro nos últimos pesquisados
+const emptyLastSearchedItems = [
   {
-    itemId: 1,
-    itemName: "Diário de Aventuras [HARDCORE]",
-    totalQuantity: 527,
-    averagePrice: 250000000,
-    image: "/items/1.png"
-  },
-  {
-    itemId: 2,
-    itemName: "Fragmentos de Ametista",
-    totalQuantity: 670,
-    averagePrice: 300000,
-    image: "/items/2.png"
-  },
-  {
-    itemId: 3,
-    itemName: "Instance Stone",
-    totalQuantity: 150,
-    averagePrice: 850000,
-    image: "/items/3.png"
-  },
-  {
-    itemId: 4,
-    itemName: "Red Herb Activator",
-    totalQuantity: 30,
-    averagePrice: 300000,
-    image: "/items/4.png"
+    itemId: 0,
+    itemName: "---",
+    totalQuantity: 0,
+    averagePrice: 0,
+    image: "/items/default.png"
   }
 ];
+
+// Dados zerados para quando houver erro nos marcadores
+const emptyUserMerchants: UserMerchant[] = [];
 
 export default function HomePage() {
+  // TODO: Pegar o servidor selecionado do contexto ou estado global
+  const selectedServer = "broTHOR";
+  // TODO: Pegar o userId do contexto de autenticação
+  const userId: string | undefined = undefined; // Temporariamente undefined para simular usuário deslogado
+
+  const { data: topItems, isLoading: isLoadingTopItems } = useTopItems(selectedServer);
+  const { data: lastSearchedItems, isLoading: isLoadingLastSearched } = useLastSearchedItems(selectedServer);
+  const { data: userMerchants, isLoading: isLoadingMerchants } = useUserMerchants(userId ?? '');
+
   return (
     <Container maxW="container.xl" py={8}>
       <Grid
@@ -132,9 +87,19 @@ export default function HomePage() {
           </Card>
         </GridItem>
         <GridItem>
-          <Flex justify="center">
-            <Box maxW="300px" w="100%">
-              <TopItemsSlider items={topItems} />
+          <Flex justify="flex-end" pr={2}>
+            <Box w="280px">
+              {isLoadingTopItems ? (
+                <Card>
+                  <CardBody>
+                    <Flex justify="center" align="center" h="200px">
+                      <Spinner />
+                    </Flex>
+                  </CardBody>
+                </Card>
+              ) : (
+                <TopItemsSlider items={topItems || emptyTopItems} />
+              )}
             </Box>
           </Flex>
         </GridItem>
@@ -148,22 +113,30 @@ export default function HomePage() {
         <GridItem>
           <Card>
             <CardBody>
-              <LastSearchedItems items={mockLastSearchedItems} />
+              {isLoadingLastSearched ? (
+                <Flex justify="center" align="center" h="200px">
+                  <Spinner />
+                </Flex>
+              ) : (
+                <LastSearchedItems items={lastSearchedItems || emptyLastSearchedItems} />
+              )}
             </CardBody>
           </Card>
         </GridItem>
         <GridItem>
           <Card>
             <CardBody>
-              <VStack spacing={4} align="start">
-                <Heading size="md">Meus Marcadores</Heading>
-                <Box p={8} w="100%" textAlign="center">
-                  <Text color="gray.500">Nenhum item marcado</Text>
-                </Box>
-                <Button colorScheme="blue" size="sm" alignSelf="center">
-                  + Marcador
-                </Button>
-              </VStack>
+              {isLoadingMerchants ? (
+                <Flex justify="center" align="center" h="200px">
+                  <Spinner />
+                </Flex>
+              ) : (
+                <UserMerchants 
+                  items={userMerchants || emptyUserMerchants}
+                  isLoading={isLoadingMerchants}
+                  userId={userId}
+                />
+              )}
             </CardBody>
           </Card>
         </GridItem>
