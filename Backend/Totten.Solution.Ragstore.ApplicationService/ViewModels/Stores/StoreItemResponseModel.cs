@@ -2,7 +2,6 @@
 public record StoreItemResponseModel
 {
     public int ItemId { get; set; }
-    public int StoreId { get; set; }
     public string ItemName { get; set; } = string.Empty;
     public double Price { get; set; }
     public long Quantity { get; set; }
@@ -17,7 +16,6 @@ public record StoreItemResponseModel
     public StoreItemResponseModel(StoreItemResponseModel storeItemResponseModel)
     {
         ItemId = storeItemResponseModel.ItemId;
-        StoreId = storeItemResponseModel.StoreId;
         ItemName = storeItemResponseModel.ItemName;
         Price = storeItemResponseModel.Price;
         Quantity = storeItemResponseModel.Quantity;

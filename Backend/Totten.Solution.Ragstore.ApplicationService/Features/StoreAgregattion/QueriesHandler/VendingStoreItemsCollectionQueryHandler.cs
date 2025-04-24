@@ -21,7 +21,6 @@ public class VendingStoreItemsCollectionQueryHandler(IVendingStoreItemRepository
             .GroupBy(item => new
             {
                 item.ItemId,
-                item.StoreId,
                 item.Name,
                 item.Type,
                 item.Price
@@ -29,7 +28,6 @@ public class VendingStoreItemsCollectionQueryHandler(IVendingStoreItemRepository
             .Select(group => new StoreItemResponseModel
             {
                 ItemId = group.Key.ItemId,
-                StoreId = group.Key.StoreId,
                 ItemName = group.Key.Name,
                 Price = group.Key.Price,
                 Category = group.Key.Type.ToString(),

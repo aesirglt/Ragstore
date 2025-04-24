@@ -2,9 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
-  const target = searchParams.get('target') || 'http://localhost:60378';
+  const target = 'http://localhost:53766';
   const path = request.nextUrl.pathname.replace('/api', '');
-  console.log('aleff:');
+  console.log(path);
 
   try {
     const url = new URL(path, target);

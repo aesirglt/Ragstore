@@ -20,7 +20,6 @@ public class BuyingStoreItemsCollectionQueryHandler(IBuyingStoreItemRepository s
             .Select(item => new StoreItemResponseModel
             {
                 ItemId = item.ItemId,
-                StoreId = item.StoreId,
                 ItemName = item.Name,
                 Price = item.Price,
                 Quantity = item.Quantity,
