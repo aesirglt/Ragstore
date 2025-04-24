@@ -1,13 +1,24 @@
+'use client';
+
 import {
   Box,
   Container,
   Flex,
   Link,
   Stack,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  Button,
+  Icon,
   useColorModeValue,
+  Switch,
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import { usePathname } from 'next/navigation';
+import { FaUser } from 'react-icons/fa';
+import { MdDarkMode } from 'react-icons/md';
 
 export function Navbar() {
   const pathname = usePathname();
@@ -43,6 +54,28 @@ export function Navbar() {
               </Link>
             ))}
           </Stack>
+
+          <Menu>
+            <MenuButton
+              as={Button}
+              variant="ghost"
+              rightIcon={<Icon as={FaUser} />}
+              _hover={{ bg: 'blue.100' }}
+            >
+              Minha Conta
+            </MenuButton>
+            <MenuList>
+              <MenuItem as={NextLink} href="/perfil">
+                Minha Conta
+              </MenuItem>
+              <MenuItem>
+                <Flex justify="space-between" align="center" width="100%">
+                  Modo Escuro
+                  <Switch colorScheme="blue" ml={2} />
+                </Flex>
+              </MenuItem>
+            </MenuList>
+          </Menu>
         </Flex>
       </Container>
     </Box>
