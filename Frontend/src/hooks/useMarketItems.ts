@@ -1,43 +1,59 @@
-import { ItemResponse } from '@/types/api/responses/ItemResponse';
-import { GetMarketItemsRequest } from '@/types/api/requests/GetMarketItemsRequest';
 import { useQuery } from '@tanstack/react-query';
 
-export function useMarketItems({ server, page, pageSize, itemName }: GetMarketItemsRequest) {
-    return useQuery<ItemResponse>({
-        queryKey: ['useMarketItems', server, page, pageSize, itemName],
+interface MarketItem {
+    id: number;
+    name: string;
+    price: number;
+    quantity: number;
+    seller: string;
+}
+
+interface UseMarketItemsParams {
+    server: string;
+    page: number;
+    pageSize: number;
+    itemName?: string;
+}
+
+export const useMarketItems = ({ server, page, pageSize, itemName }: UseMarketItemsParams) => {
+    console.log('useMarketItems called with:', { server, page, pageSize, itemName });
+
+    const queryKey = ['marketItems', server, page, pageSize, itemName];
+    console.log('Query key:', queryKey);
+
+    return useQuery<MarketItem[], Error>({
+        queryKey,
         queryFn: async () => {
             try {
-                const skip = (page - 1) * pageSize;
-                const top = pageSize;
-                const filter = itemName ? `&$filter=contains(itemName,'${itemName}')` : '';
-                const url = `http://localhost:53766/${server}/stores-vending/items?$skip=${skip}&$top=${top}${filter}`;
-                
-                console.log('Fetching items from:', url);
-                
-                const response = await fetch(url, {
-                    method: 'GET',
-                    headers: {
-                        'accept': 'application/json;odata.metadata=minimal;odata.streaming=true',
-                        'Content-Type': 'application/json'
-                    }
-                });
-                
-                console.log('Response status:', response.status);
-                
+                const url = new URL(`/api/${server}/stores-vending/items`, window.location.origin);
+                url.searchParams.append('$skip', String((page - 1) * pageSize));
+                url.searchParams.append('$top', String(pageSize));
+                if (itemName) {
+                    url.searchParams.append('$filter', `contains(name, '${itemName}')`);
+                }
+
+                console.log('Fetching from URL:', url.toString());
+                const response = await fetch(url.toString());
+
                 if (!response.ok) {
                     const errorText = await response.text();
-                    console.error('Error response:', errorText);
-                    throw new Error(`Erro ao buscar itens do mercado: ${response.status} ${errorText}`);
+                    console.error('API Error:', {
+                        status: response.status,
+                        statusText: response.statusText,
+                        body: errorText
+                    });
+                    throw new Error(`Erro na API: ${response.status} ${response.statusText}`);
                 }
-                
+
                 const data = await response.json();
-                console.log('Response data:', data);
-                return data;
+                console.log('API Response:', data);
+                return data.value || [];
             } catch (error) {
                 console.error('Error in useMarketItems:', error);
                 throw error;
             }
         },
-        enabled: !!server,
+        retry: 1,
+        staleTime: 1000 * 60 * 5, // 5 minutes
     });
-}
+};

@@ -19,16 +19,28 @@ export default function MarketPage() {
         itemName: searchTerm
     });
 
+    console.log('Market page render:', { data, isLoading, error });
+
     const handleSearch = (term: string) => {
+        console.log('Search term changed:', term);
         setSearchTerm(term);
         setCurrentPage(1);
     };
 
-    if (isLoading) return <div>Carregando...</div>;
-    if (error) return <div>Erro ao carregar itens: {error.message}</div>;
+    if (isLoading) {
+        console.log('Loading items...');
+        return <div>Carregando...</div>;
+    }
+    if (error) {
+        console.error('Error loading items:', error);
+        return <div>Erro ao carregar itens: {error.message}</div>;
+    }
 
-    const items = data?.value || [];
-    const totalCount = data?.['@odata.count'] || 0;
+    // Ajuste para lidar com a resposta do OData
+    const items = Array.isArray(data) ? data : data?.value || [];
+    const totalCount = data?.['@odata.count'] || items.length;
+
+    console.log('Page state:', { items, totalCount, currentPage, searchTerm });
 
     return (
         <div className="container mx-auto px-4 py-8">
@@ -47,19 +59,19 @@ export default function MarketPage() {
                     Nenhum item encontrado
                 </div>
             ) : (
-                <>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                        {items.map((item) => (
-                            <ItemCard key={item.id} item={item} />
-                        ))}
-                    </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                    {items.map((item) => (
+                        <ItemCard key={item.id} item={item} />
+                    ))}
+                </div>
+            )}
 
-                    <Pagination
-                        currentPage={currentPage}
-                        totalPages={Math.ceil(totalCount / pageSize)}
-                        onPageChange={setCurrentPage}
-                    />
-                </>
+            {totalCount > 0 && (
+                <Pagination
+                    currentPage={currentPage}
+                    totalPages={Math.ceil(totalCount / pageSize)}
+                    onPageChange={setCurrentPage}
+                />
             )}
         </div>
     );
