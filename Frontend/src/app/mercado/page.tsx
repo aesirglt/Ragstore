@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Container, Heading, SimpleGrid, Box, Text, Spinner, Alert, AlertIcon, Image, Flex, Button, Input, InputGroup, InputLeftElement } from '@chakra-ui/react';
 import { useMarketItems, UseMarketItemsParams } from '@/hooks/useMarketItems';
 import { SearchIcon } from '@chakra-ui/icons';
@@ -8,6 +8,7 @@ import { SearchIcon } from '@chakra-ui/icons';
 const ITEMS_PER_PAGE = 12;
 
 export default function MercadoPage() {
+  const searchInputRef = useRef<HTMLInputElement>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [searchTerm, setSearchTerm] = useState(() => {
@@ -27,10 +28,21 @@ export default function MercadoPage() {
       if (typeof window !== 'undefined') {
         localStorage.setItem('marketSearchTerm', searchTerm);
       }
-    }, 500);
+      // Foca no input após a pesquisa
+      if (searchInputRef.current) {
+        searchInputRef.current.focus();
+      }
+    }, 1000);
 
     return () => clearTimeout(timer);
   }, [searchTerm]);
+
+  // Efeito para focar no input quando o componente é montado
+  useEffect(() => {
+    if (searchInputRef.current) {
+      searchInputRef.current.focus();
+    }
+  }, []);
 
   // Efeito para limpar o localStorage quando o componente é desmontado
   useEffect(() => {
@@ -94,6 +106,7 @@ export default function MercadoPage() {
                 <SearchIcon color="gray.400" />
               </InputLeftElement>
               <Input
+                ref={searchInputRef}
                 placeholder="Pesquisar itens..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -102,6 +115,7 @@ export default function MercadoPage() {
                 bg="white"
                 _hover={{ bg: 'gray.50' }}
                 _focus={{ bg: 'white', borderColor: 'blue.500' }}
+                autoFocus
               />
             </InputGroup>
           </Box>
@@ -129,6 +143,7 @@ export default function MercadoPage() {
               <SearchIcon color="gray.400" />
             </InputLeftElement>
             <Input
+              ref={searchInputRef}
               placeholder="Pesquisar itens..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
