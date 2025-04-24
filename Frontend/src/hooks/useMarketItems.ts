@@ -1,20 +1,15 @@
 import { useQuery } from '@tanstack/react-query';
 import { MarketItemViewModel } from '@/types/api/viewmodels/MarketItemViewModel';
 
-interface UseMarketItemsParams {
+export interface UseMarketItemsParams {
     server: string;
     page: number;
     pageSize: number;
     itemName?: string;
 }
 
-export const useMarketItems = (params: UseMarketItemsParams | string) => {
-    // Se o parâmetro for uma string, assume que é o server
-    const normalizedParams = typeof params === 'string' 
-        ? { server: params, page: 1, pageSize: 20, itemName: '' }
-        : params;
-
-    const { server, page, pageSize, itemName } = normalizedParams;
+export const useMarketItems = (params: UseMarketItemsParams) => {
+    const { server, page, pageSize, itemName } = params;
     const queryKey = ['marketItems', server, page, pageSize, itemName];
 
     const query = useQuery<MarketItemViewModel[], Error>({

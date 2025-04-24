@@ -1,132 +1,200 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Container, Heading, SimpleGrid, Box, Text, Spinner, Alert, AlertIcon, Image, Flex, Button } from '@chakra-ui/react';
-import { ItemViewModel, ItemResponse } from '@/types/api';
-import apiService from '@/services/api';
-import { useMarketItems } from '@/hooks/useMarketItems';
+import { Container, Heading, SimpleGrid, Box, Text, Spinner, Alert, AlertIcon, Image, Flex, Button, Input, InputGroup, InputLeftElement } from '@chakra-ui/react';
+import { useMarketItems, UseMarketItemsParams } from '@/hooks/useMarketItems';
+import { SearchIcon } from '@chakra-ui/icons';
 
 const ITEMS_PER_PAGE = 12;
 
 export default function MercadoPage() {
-  const [items, setItems] = useState<ItemViewModel[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const { data: useMarkets, isLoading: isLoadingMarkets } = useMarketItems('brothor');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
+
+  // Efeito para debounce da pesquisa
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [searchTerm]);
+
+  const marketParams: UseMarketItemsParams = {
+    server: 'brothor',
+    page: currentPage,
+    pageSize: ITEMS_PER_PAGE,
+    itemName: debouncedSearchTerm
+  };
+
+  const { data: items = [], isLoading, error } = useMarketItems(marketParams);
 
   useEffect(() => {
-    const fetchItems = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        const response = useMarkets;
-        //const response = await getItems({ 
-        //  page: currentPage, 
-        //  pageSize: ITEMS_PER_PAGE 
-        //}) as ItemResponse;
-        
-        if (response && response.value) {
-          setItems(response.value);
-          setTotalPages(Math.ceil((response['@odata.count'] || 0) / ITEMS_PER_PAGE));
-        } else {
-          setError('Nenhum item encontrado');
-        }
-      } catch (error: any) {
-        console.error('Erro ao buscar itens:', error);
-        setError(error.response?.data?.error || 'Erro ao carregar os itens');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchItems();
-  }, [currentPage]);
+    if (items && items.length > 0) {
+      setTotalPages(Math.ceil(items.length / ITEMS_PER_PAGE));
+    }
+  }, [items]);
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
 
-  if (loading) {
+  const handleSearch = (term: string) => {
+    setSearchTerm(term);
+    setCurrentPage(1); // Reset para primeira página ao buscar
+  };
+
+  if (isLoading) {
     return (
-      <Container maxW="container.xl" py={8} centerContent>
+      <Box height="100vh" display="flex" alignItems="center" justifyContent="center">
         <Spinner size="xl" />
-      </Container>
+      </Box>
     );
   }
 
   if (error) {
     return (
-      <Container maxW="container.xl" py={8}>
+      <Box height="100vh" display="flex" alignItems="center" justifyContent="center">
         <Alert status="error">
           <AlertIcon />
-          {error}
+          {error.message}
         </Alert>
-      </Container>
+      </Box>
     );
   }
 
-  if (items.length === 0) {
+  if (!items || items.length === 0) {
     return (
-      <Container maxW="container.xl" py={8}>
+      <Box height="100vh" display="flex" alignItems="center" justifyContent="center">
         <Alert status="info">
           <AlertIcon />
           Nenhum item encontrado
         </Alert>
-      </Container>
+      </Box>
     );
   }
 
   return (
-    <Container maxW="container.xl" py={8}>
-      <Heading as="h1" mb={6}>Mercado</Heading>
-      
-      <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6}>
-        {items.map((item) => (
-          <Box
-            key={item.itemId}
-            p={5}
-            shadow="md"
-            borderWidth="1px"
-            borderRadius="lg"
-          >
-            <Image 
-              src={item.image} 
-              alt={item.itemName}
-              fallbackSrc="https://via.placeholder.com/150"
-              borderRadius="md"
-              mb={4}
+    <Box 
+      height="100vh" 
+      display="flex" 
+      flexDirection="column" 
+      position="relative"
+      overflow="hidden"
+    >
+      <Container maxW="container.xl" py={4} height="full">
+        <Box mb={4}>
+          <InputGroup>
+            <InputLeftElement pointerEvents="none">
+              <SearchIcon color="gray.400" />
+            </InputLeftElement>
+            <Input
+              placeholder="Pesquisar itens..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              size="md"
+              variant="filled"
+              bg="white"
+              _hover={{ bg: 'gray.50' }}
+              _focus={{ bg: 'white', borderColor: 'blue.500' }}
             />
-            
-            <Heading size="md">{item.itemName}</Heading>
-            <Text mt={2}>Categoria: {item.category}</Text>
-            
-            <Box mt={4}>
-              <Text>Preço: {item.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</Text>
-              <Text>Quantidade: {item.quantity}</Text>
-            </Box>
-          </Box>
-        ))}
-      </SimpleGrid>
+          </InputGroup>
+        </Box>
+        
+        <Box 
+          flex="1" 
+          overflow="auto" 
+          position="relative"
+          mx={-4}
+          px={4}
+          pb={16}
+        >
+          <SimpleGrid 
+            columns={{ base: 1, sm: 2, md: 3, lg: 5 }} 
+            spacing={3}
+          >
+            {items.map((item) => (
+              <Box
+                key={item.itemId}
+                bg="white"
+                p={2}
+                borderRadius="md"
+                boxShadow="sm"
+                borderWidth="1px"
+                borderColor="gray.200"
+                _hover={{ boxShadow: 'md' }}
+                transition="all 0.2s"
+                maxW="200px"
+                fontSize="sm"
+              >
+                <Image 
+                  src={item.image} 
+                  alt={item.itemName}
+                  fallbackSrc="https://via.placeholder.com/100"
+                  borderRadius="md"
+                  mb={2}
+                  width="full"
+                  height="auto"
+                  maxH="100px"
+                  objectFit="contain"
+                />
+                
+                <Heading size="sm" mb={1}>{item.itemName}</Heading>
+                <Text color="gray.600" fontSize="xs" mb={1}>
+                  Categoria: {item.category}
+                </Text>
+                
+                <Text fontWeight="semibold" fontSize="sm">
+                  Preço: {item.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                </Text>
+                <Text color="gray.600" fontSize="xs">
+                  Quantidade: {item.quantity}
+                </Text>
+              </Box>
+            ))}
+          </SimpleGrid>
+        </Box>
+      </Container>
 
-      <Flex justify="center" mt={8} gap={2}>
-        <Button
-          onClick={() => handlePageChange(currentPage - 1)}
-          isDisabled={currentPage === 1}
-        >
-          Anterior
-        </Button>
-        <Text>
-          Página {currentPage} de {totalPages}
-        </Text>
-        <Button
-          onClick={() => handlePageChange(currentPage + 1)}
-          isDisabled={currentPage === totalPages}
-        >
-          Próxima
-        </Button>
-      </Flex>
-    </Container>
+      <Box 
+        position="fixed"
+        bottom="48px"
+        left="0"
+        right="0"
+        bg="white" 
+        py={3}
+        borderTop="1px" 
+        borderColor="gray.200"
+        boxShadow="0 -2px 10px rgba(0,0,0,0.05)"
+      >
+        <Container maxW="container.xl">
+          <Flex justify="center" gap={4} align="center">
+            <Button
+              size="sm"
+              colorScheme="blue"
+              variant="outline"
+              onClick={() => handlePageChange(currentPage - 1)}
+              isDisabled={currentPage === 1}
+            >
+              Anterior
+            </Button>
+            <Text fontSize="sm">
+              Página {currentPage} de {totalPages}
+            </Text>
+            <Button
+              size="sm"
+              colorScheme="blue"
+              variant="outline"
+              onClick={() => handlePageChange(currentPage + 1)}
+              isDisabled={currentPage === totalPages}
+            >
+              Próxima
+            </Button>
+          </Flex>
+        </Container>
+      </Box>
+    </Box>
   );
 } 
