@@ -9,10 +9,52 @@ import {
   Card,
   CardBody,
   SimpleGrid,
-  Flex,
   Button,
 } from '@chakra-ui/react';
-import { LastTransactions } from './components/LastTransactions';
+import { LastSearchedItems } from './components/LastSearchedItems';
+import { PromotionBanner } from './components/PromotionBanner';
+import { ItemValueSummary } from './components/ItemValueSummary';
+
+// Dados de exemplo - serão substituídos pelos dados da API
+const mockSummaryData = {
+  minValue: 1599999,
+  currentMinValue: 1650000,
+  currentMaxValue: 1800000,
+  average: 8215999500,
+  storeNumbers: 7
+};
+
+// Dados de exemplo para os últimos itens pesquisados
+const mockLastSearchedItems = [
+  {
+    itemId: 1,
+    itemName: "Diário de Aventuras [HARDCORE]",
+    totalQuantity: 527,
+    averagePrice: 250000000,
+    image: "/items/1.png"
+  },
+  {
+    itemId: 2,
+    itemName: "Fragmentos de Ametista",
+    totalQuantity: 670,
+    averagePrice: 300000,
+    image: "/items/2.png"
+  },
+  {
+    itemId: 3,
+    itemName: "Instance Stone",
+    totalQuantity: 150,
+    averagePrice: 850000,
+    image: "/items/3.png"
+  },
+  {
+    itemId: 4,
+    itemName: "Red Herb Activator",
+    totalQuantity: 30,
+    averagePrice: 300000,
+    image: "/items/4.png"
+  }
+];
 
 export default function HomePage() {
   return (
@@ -25,7 +67,7 @@ export default function HomePage() {
               <VStack spacing={4} align="start">
                 <Box>
                   <Text fontSize="sm" color="gray.500">Seja bem-vindo,</Text>
-                  <Heading size="lg">Lindinho</Heading>
+                  <Heading size="lg">Meu amor</Heading>
                 </Box>
                 <Text color="gray.600">
                   Entre em sua conta e desfrute da experiência completa de nossa DB.
@@ -37,39 +79,18 @@ export default function HomePage() {
             </CardBody>
           </Card>
 
+          <PromotionBanner />
+
           <Card>
             <CardBody>
-              <LastTransactions />
+              <LastSearchedItems items={mockLastSearchedItems} />
             </CardBody>
           </Card>
         </VStack>
 
         {/* Coluna da direita */}
         <VStack align="stretch" spacing={6}>
-          <Card>
-            <CardBody>
-              <VStack spacing={4} align="start">
-                <Flex justify="space-between" w="100%" align="center">
-                  <Box>
-                    <Text fontSize="sm" color="gray.500">IST / ZEN</Text>
-                    <Text fontSize="lg" fontWeight="bold">Last 500.000z</Text>
-                  </Box>
-                  <Box textAlign="right">
-                    <Text fontSize="sm" color="gray.500">24h</Text>
-                    <Text fontSize="lg" fontWeight="bold" color="green.500">+1.500.000z</Text>
-                  </Box>
-                </Flex>
-                <Box w="100%">
-                  <Text fontSize="sm" color="gray.500">Vol</Text>
-                  <Text fontSize="lg">22.255.901.824z</Text>
-                </Box>
-                <Box w="100%">
-                  <Text fontSize="sm" color="red.500">-15.0% ▼</Text>
-                  <Text fontSize="sm" color="gray.500">Ver Mais</Text>
-                </Box>
-              </VStack>
-            </CardBody>
-          </Card>
+          <ItemValueSummary data={mockSummaryData} />
 
           <Card>
             <CardBody>
