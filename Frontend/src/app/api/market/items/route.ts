@@ -84,15 +84,15 @@ const mockItems = [
 ];
 
 export async function GET(req: NextRequest) {
-  const searchParams = req.nextUrl.searchParams;
-  const server = searchParams.get('server') || 'thor';
-  const queryString = searchParams.toString();
-
-  const search = searchParams.get('search')?.toLowerCase() || '';
+  const { searchParams } = new URL(req.url);
+  const page = parseInt(searchParams.get('page') || '1');
+  const limit = parseInt(searchParams.get('limit') || '16');
+  const search = searchParams.get('search') || '';
   const category = searchParams.get('category') || '';
   const priceOrder = searchParams.get('priceOrder') || '';
+  const server = searchParams.get('server') || '';
 
-  const url = `https://localhost:62242/${server}/stores-buying/items?${queryString}`;
+  const url = `http://localhost:60378/${server}/stores-buying/items`;
 
   let items = [...mockItems];
 
@@ -112,7 +112,12 @@ export async function GET(req: NextRequest) {
 
   try {
     const res = await fetch(url);
+
+    console.error(url);
+    console.error(res);
+
     const data = await res.json();
+    
     return NextResponse.json(data);
   } catch (error) {
     console.error('Erro ao buscar dados:', error);

@@ -40,17 +40,15 @@ export default function MarketPage() {
 
       try {
         const res = await fetch(`/api/market/items?${query.toString()}`);
+        console.error(res);
+
         const data = await res.json();
         
-        // Supondo que a API retorne um objeto com 'items' e 'totalCount'
         if (data.items && Array.isArray(data.items)) {
           setItems(data.items);
-          // Calculando o total de páginas
           setTotalPages(Math.ceil(data.totalCount / itemsPerPage));
         } else {
-          // Caso a API retorne diretamente um array de itens
           setItems(data);
-          // Neste caso, precisamos estimar o total de páginas
           setTotalPages(data.length < itemsPerPage ? 1 : currentPage + 1);
         }
       } catch (error) {
