@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import Head from 'next/head';
 
 interface Item {
-  id: number;
+  itemId: number;
   storeId: number;
   itemName: string;
   price: number;
@@ -17,8 +17,8 @@ export default function MarketPage() {
   const [filters, setFilters] = useState({
     search: '',
     category: '',
-    priceOrder: '',
-    server: '',
+    marketType: '',
+    server: 'brothor',
   });
   
   // Adicionar estados para paginação
@@ -33,14 +33,13 @@ export default function MarketPage() {
       const query = new URLSearchParams();
       if (filters.search) query.append('search', filters.search);
       if (filters.category) query.append('category', filters.category);
-      if (filters.priceOrder) query.append('priceOrder', filters.priceOrder);
+      if (filters.marketType) query.append('marketType', filters.marketType);
       if (filters.server) query.append('server', filters.server);
       query.append('page', currentPage.toString());
       query.append('limit', itemsPerPage.toString());
 
       try {
         const res = await fetch(`/api/market/items?${query.toString()}`);
-        console.error(res);
 
         const data = await res.json();
         
@@ -167,6 +166,20 @@ export default function MarketPage() {
             </select>
           </div>
           <div className="flex flex-col gap-1">
+            <label htmlFor="type-market">Tipo</label>
+            <select
+              id="type-market"
+              className="p-2 border border-gray-300 rounded"
+              onChange={e => {
+                setCurrentPage(1); // Resetar para a primeira página ao mudar filtro
+                setFilters({ ...filters, marketType: e.target.value });
+              }}
+            >
+              <option value="buy">Compra</option>
+              <option value="sell">Venda</option>
+            </select>
+          </div>
+          <div className="flex flex-col gap-1">
             <label htmlFor="server">Servidor</label>
             <select
               id="server"
@@ -176,7 +189,7 @@ export default function MarketPage() {
                 setFilters({ ...filters, server: e.target.value });
               }}
             >
-              <option value="thor">Latam</option>
+              <option value="brothor">brothor</option>
             </select>
           </div>
         </div>
@@ -194,13 +207,13 @@ export default function MarketPage() {
             <p className="col-span-full text-center py-10">Nenhum item encontrado.</p>
           ) : (
             items.map(item => (
-              <div key={item.id} className="bg-white rounded-lg shadow hover:shadow-lg hover:-translate-y-1 transition p-1">
+              <div key={item.itemId} className="bg-white rounded-lg shadow hover:shadow-lg hover:-translate-y-1 transition p-1">
                 <div className="w-full h-24 bg-gray-200 flex items-center justify-center">
                   <img src="/api/placeholder/100/90" alt={item.itemName} width={50} height={50} />
                 </div>
                 <div className="p-2">
                   <h3 className="font-bold text-sm mb-1 truncate">{item.itemName}</h3>
-                  <p className="text-red-500 font-semibold text-xs mb-1">{formatPrice(item.price)} zeny</p>
+                  <p className="text-red-500 font-semibold text-xs mb-1">media: {formatPrice(item.price)}z</p>
                   <p className="text-xs text-gray-500">Qtd: {item.quantity}</p>
                 </div>
               </div>

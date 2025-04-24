@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 const mockItems = [
   {
-    id: 1,
+    itemId: 1,
     itemName: 'Espada Sagrada',
     price: 500000,
     quantity: 2,
@@ -10,7 +10,7 @@ const mockItems = [
     category: 'weapon',
   },
   {
-    id: 2,
+    itemId: 2,
     itemName: 'Armadura do Herói',
     price: 1200000,
     quantity: 1,
@@ -18,7 +18,7 @@ const mockItems = [
     category: 'armor',
   },
   {
-    id: 3,
+    itemId: 3,
     itemName: 'Carta MvP',
     price: 50000000,
     quantity: 1,
@@ -26,7 +26,7 @@ const mockItems = [
     category: 'card',
   },
   {
-    id: 4,
+    itemId: 4,
     itemName: 'Carta MvP',
     price: 50000000,
     quantity: 1,
@@ -34,7 +34,7 @@ const mockItems = [
     category: 'card',
   },
   {
-    id: 5,
+    itemId: 5,
     itemName: 'Carta MvP',
     price: 50000000,
     quantity: 1,
@@ -42,7 +42,7 @@ const mockItems = [
     category: 'card',
   },
   {
-    id: 6,
+    itemId: 6,
     itemName: 'Carta MvP',
     price: 50000000,
     quantity: 1,
@@ -50,7 +50,7 @@ const mockItems = [
     category: 'card',
   },
   {
-    id: 7,
+    itemId: 7,
     itemName: 'Carta MvP',
     price: 50000000,
     quantity: 1,
@@ -58,7 +58,7 @@ const mockItems = [
     category: 'card',
   },
   {
-    id: 8,
+    itemId: 8,
     itemName: 'Carta MvP',
     price: 50000000,
     quantity: 1,
@@ -66,7 +66,7 @@ const mockItems = [
     category: 'card',
   },
   {
-    id: 9,
+    itemId: 9,
     itemName: 'Carta MvP',
     price: 50000000,
     quantity: 1,
@@ -74,7 +74,7 @@ const mockItems = [
     category: 'card',
   },
   {
-    id: 10,
+    itemId: 10,
     itemName: 'Carta MvP',
     price: 50000000,
     quantity: 1,
@@ -92,35 +92,22 @@ export async function GET(req: NextRequest) {
   const priceOrder = searchParams.get('priceOrder') || '';
   const server = searchParams.get('server') || '';
 
-  const url = `http://localhost:60378/${server}/stores-buying/items`;
-
+  const url = `http://localhost:60378/${server}/stores-vending/items`;
+  console.log(url)
   let items = [...mockItems];
 
-  if (search) {
-    items = items.filter(item => item.itemName.toLowerCase().includes(search));
-  }
-
-  if (category) {
-    items = items.filter(item => item.category === category);
-  }
-
-  if (priceOrder === 'asc') {
-    items.sort((a, b) => a.price - b.price);
-  } else if (priceOrder === 'desc') {
-    items.sort((a, b) => b.price - a.price);
-  }
-
   try {
-    const res = await fetch(url);
-
-    console.error(url);
-    console.error(res);
-
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json;odata.metadata=minimal;odata.streaming=true',
+      },
+    });
     const data = await res.json();
-    
+    console.log(data)
+
     return NextResponse.json(data);
   } catch (error) {
-    console.error('Erro ao buscar dados:', error);
-    return NextResponse.json(items, { status: 500 });
+    return NextResponse.json(items);
   }
 }
