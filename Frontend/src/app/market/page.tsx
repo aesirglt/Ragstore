@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useMarketItems } from '@/hooks/useMarketItems';
 import { Pagination } from '@/components/ui/Pagination';
 import { ItemCard } from '@/components/ui/ItemCard';
@@ -12,14 +12,34 @@ export default function MarketPage() {
     const pageSize = 20;
     const server = 'brothor';
 
-    const { data, isLoading, error } = useMarketItems({
+    useEffect(() => {
+        console.log('MarketPage - useEffect - valores:', {
+            server,
+            currentPage,
+            pageSize,
+            searchTerm
+        });
+    }, [server, currentPage, pageSize, searchTerm]);
+
+    const marketItemsParams = {
         server,
         page: currentPage,
         pageSize,
         itemName: searchTerm
-    });
+    };
 
-    console.log('Market page render:', { data, isLoading, error });
+    console.log('MarketPage - antes de chamar useMarketItems:', marketItemsParams);
+
+    const { data: items, isLoading, error } = useMarketItems(marketItemsParams);
+
+    console.log('Market page render:', { 
+        items, 
+        isLoading, 
+        error,
+        itemsType: typeof items,
+        isItemsArray: Array.isArray(items),
+        itemsLength: items?.length
+    });
 
     const handleSearch = (term: string) => {
         console.log('Search term changed:', term);
@@ -27,20 +47,22 @@ export default function MarketPage() {
         setCurrentPage(1);
     };
 
+    console.log('MarketPage - antes das condições:', { isLoading, error });
+
     if (isLoading) {
         console.log('Loading items...');
         return <div>Carregando...</div>;
     }
+
+    console.log('MarketPage - após verificação de loading');
+
     if (error) {
         console.error('Error loading items:', error);
         return <div>Erro ao carregar itens: {error.message}</div>;
     }
 
-    // Ajuste para lidar com a resposta do OData
-    const items = Array.isArray(data) ? data : data?.value || [];
-    const totalCount = data?.['@odata.count'] || items.length;
-
-    console.log('Page state:', { items, totalCount, currentPage, searchTerm });
+    console.log('MarketPage - após verificação de erro');
+    console.log('Page state:', { items, currentPage, searchTerm });
 
     return (
         <div className="container mx-auto px-4 py-8">
@@ -54,25 +76,17 @@ export default function MarketPage() {
                 />
             </div>
 
-            {items.length === 0 ? (
-                <div className="text-center text-gray-500 py-8">
-                    Nenhum item encontrado
-                </div>
-            ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                    {items.map((item) => (
-                        <ItemCard key={item.id} item={item} />
-                    ))}
-                </div>
-            )}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                {items.map((item) => (
+                    <ItemCard key={item.itemId} item={item} />
+                ))}
+            </div>
 
-            {totalCount > 0 && (
-                <Pagination
-                    currentPage={currentPage}
-                    totalPages={Math.ceil(totalCount / pageSize)}
-                    onPageChange={setCurrentPage}
-                />
-            )}
+            <Pagination
+                currentPage={currentPage}
+                totalPages={Math.ceil(items.length / pageSize)}
+                onPageChange={setCurrentPage}
+            />
         </div>
     );
 } 

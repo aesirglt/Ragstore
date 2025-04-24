@@ -1,12 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-
-interface MarketItem {
-    id: number;
-    name: string;
-    price: number;
-    quantity: number;
-    seller: string;
-}
+import { MarketItemViewModel } from '@/types/api/viewmodels/MarketItemViewModel';
 
 interface UseMarketItemsParams {
     server: string;
@@ -15,13 +8,16 @@ interface UseMarketItemsParams {
     itemName?: string;
 }
 
-export const useMarketItems = ({ server, page, pageSize, itemName }: UseMarketItemsParams) => {
-    console.log('useMarketItems called with:', { server, page, pageSize, itemName });
+export const useMarketItems = (params: UseMarketItemsParams | string) => {
+    // Se o parâmetro for uma string, assume que é o server
+    const normalizedParams = typeof params === 'string' 
+        ? { server: params, page: 1, pageSize: 20, itemName: '' }
+        : params;
 
+    const { server, page, pageSize, itemName } = normalizedParams;
     const queryKey = ['marketItems', server, page, pageSize, itemName];
-    console.log('Query key:', queryKey);
 
-    return useQuery<MarketItem[], Error>({
+    const query = useQuery<MarketItemViewModel[], Error>({
         queryKey,
         queryFn: async () => {
             try {
@@ -29,7 +25,7 @@ export const useMarketItems = ({ server, page, pageSize, itemName }: UseMarketIt
                 url.searchParams.append('$skip', String((page - 1) * pageSize));
                 url.searchParams.append('$top', String(pageSize));
                 if (itemName) {
-                    url.searchParams.append('$filter', `contains(name, '${itemName}')`);
+                    url.searchParams.append('$filter', `contains(itemName, '${itemName}')`);
                 }
 
                 console.log('Fetching from URL:', url.toString());
@@ -47,7 +43,7 @@ export const useMarketItems = ({ server, page, pageSize, itemName }: UseMarketIt
 
                 const data = await response.json();
                 console.log('API Response:', data);
-                return data.value || [];
+                return data;
             } catch (error) {
                 console.error('Error in useMarketItems:', error);
                 throw error;
@@ -55,5 +51,14 @@ export const useMarketItems = ({ server, page, pageSize, itemName }: UseMarketIt
         },
         retry: 1,
         staleTime: 1000 * 60 * 5, // 5 minutes
+        refetchOnWindowFocus: true,
+        refetchOnMount: true,
+        refetchOnReconnect: true
     });
+
+    return {
+        data: query.data || [],
+        isLoading: query.isLoading,
+        error: query.error
+    };
 };

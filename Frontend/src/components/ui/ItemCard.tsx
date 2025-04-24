@@ -1,7 +1,7 @@
-import { ItemViewModel } from '@/types/api/viewmodels/ItemViewModel';
+import { MarketItemViewModel } from '@/types/api/viewmodels/MarketItemViewModel';
 
 interface ItemCardProps {
-    item: ItemViewModel;
+    item: MarketItemViewModel;
 }
 
 export function ItemCard({ item }: ItemCardProps) {
