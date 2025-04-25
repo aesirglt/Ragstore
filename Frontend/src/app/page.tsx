@@ -20,17 +20,19 @@ import { TopItemsSlider } from './components/TopItemsSlider';
 import { UserMerchants } from './components/UserMerchants';
 import { useTopItems } from '../hooks/useTopItems';
 import { useLastSearchedItems } from '../hooks/useLastSearchedItems';
-import { useUserMerchants, UserMerchant } from '../hooks/useUserMerchants';
+import { useUserMerchants } from '../hooks/useUserMerchants';
+import { useEffect, useState } from 'react';
+import { TopItemViewModel } from '@/types/api/viewmodels/TopItemViewModel';
 
 // Dados zerados para quando houver erro
-const emptyTopItems = [
+const emptyTopItems: TopItemViewModel[] = [
   {
-    id: "1",
-    name: "---",
-    lastPrice: 0,
-    lowPrice: 0,
-    highPrice: 0,
-    volume: 0,
+    itemId: "1",
+    itemName: "---",
+    average: 0,
+    currentMinValue: 0,
+    currentMaxValue: 0,
+    storeNumbers: 0,
     percentageChange: 0,
     imageUrl: "/items/default.png"
   }
@@ -41,14 +43,11 @@ const emptyLastSearchedItems = [
   {
     itemId: 0,
     itemName: "---",
-    totalQuantity: 0,
-    averagePrice: 0,
+    quantity: 0,
+    average: 0,
     image: "/items/default.png"
   }
 ];
-
-// Dados zerados para quando houver erro nos marcadores
-const emptyUserMerchants: UserMerchant[] = [];
 
 export default function HomePage() {
   // TODO: Pegar o servidor selecionado do contexto ou estado global
@@ -57,8 +56,15 @@ export default function HomePage() {
   const userId: string | undefined = undefined; // Temporariamente undefined para simular usuário deslogado
 
   const { data: lastSearchedItems, isLoading: isLoadingLastSearched } = useLastSearchedItems(selectedServer);
-  const { data: topItems, isLoading: isLoadingTopItems } = useTopItems(selectedServer);
+  const [lastSearchedItemIds, setLastSearchedItemIds] = useState<number[]>([]);
+  const { data: topItems, isLoading: isLoadingTopItems } = useTopItems(selectedServer, lastSearchedItemIds);
   const { data: userMerchants, isLoading: isLoadingMerchants } = useUserMerchants(userId ?? '');
+
+  useEffect(() => {
+    if (lastSearchedItems && lastSearchedItems.length > 0) {
+      setLastSearchedItemIds(lastSearchedItems.map(item => item.itemId));
+    }
+  }, [lastSearchedItems]);
 
   return (
     <Container maxW="container.xl" py={8}>
@@ -118,7 +124,7 @@ export default function HomePage() {
                   <Spinner />
                 </Flex>
               ) : (
-                <LastSearchedItems items={lastSearchedItems || emptyLastSearchedItems} />
+                <LastSearchedItems items={lastSearchedItems || []} />
               )}
             </CardBody>
           </Card>
@@ -132,7 +138,7 @@ export default function HomePage() {
                 </Flex>
               ) : (
                 <UserMerchants 
-                  items={userMerchants || emptyUserMerchants}
+                  items={userMerchants || []}
                   isLoading={isLoadingMerchants}
                   userId={userId}
                 />

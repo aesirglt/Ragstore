@@ -34,7 +34,7 @@ public class StoreItemValueSumaryQueryHandler(
                : await ExecuteCmd(request.ItemId, _buyingRepositore);
     }
 
-    private static async Task<Result<StoreItemValueSumaryResponseModel>> ExecuteCmd<TStoreItem>(int itemId, IStoreRepository<TStoreItem> repository)
+    private static async Task<Result<StoreItemValueSumaryResponseModel>> ExecuteCmd<TStoreItem>(int[] itemIds, IStoreRepository<TStoreItem> repository)
         where TStoreItem : StoreItem<TStoreItem>
     {
         var initMonthDate =
@@ -45,7 +45,7 @@ public class StoreItemValueSumaryQueryHandler(
         var currentDate = DateTime.UtcNow.Date;
 
         var allItemsById =
-            repository.GetAll(x => x.ItemId == itemId)
+            repository.GetAll(x => itemIds.Any(id => x.ItemId == id))
             .Select(s => new
             {
                 s.Price,

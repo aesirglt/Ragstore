@@ -24,33 +24,18 @@ public class StoreItemController(ILifetimeScope lifetimeScope) : BaseApiControll
     /// </summary>
     /// <param name="server"></param>
     /// <param name="itemId"></param>
+    /// <param name="storeType"></param>
     /// <returns></returns>
-    [HttpGet($"{{server}}/vending-{API_ENDPOINT}/{{itemId}}")]
+    [HttpGet($"{{server}}/{API_ENDPOINT}")]
     [ProducesResponseType<StoreItemValueSumaryResponseModel>(statusCode: 200)]
     public async Task<IActionResult> GetVending(
         [FromRoute] string server,
-        [FromRoute] int itemId)
+        [FromQuery] string? storeType,
+        [FromQuery] int[] itemId)
         => await HandleQuery(new StoreItemValueSumaryQuery
         {
             ItemId = itemId,
-            StoreType = StoreItemValueSumaryQuery.EStoreItemStoreType.Vending
-        }, server);
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="server"></param>
-    /// <param name="itemId"></param>
-    /// <returns></returns>
-    [HttpGet($"{{server}}/buying-{API_ENDPOINT}/{{itemId}}")]
-    [ProducesResponseType<StoreItemValueSumaryResponseModel>(statusCode: 200)]
-    public async Task<IActionResult> GetBuying(
-        [FromRoute] string server,
-        [FromRoute] int itemId)
-        => await HandleQuery(new StoreItemValueSumaryQuery
-        {
-            ItemId = itemId,
-            StoreType = StoreItemValueSumaryQuery.EStoreItemStoreType.Buying
+            StoreType = storeType == "buying" ? StoreItemValueSumaryQuery.EStoreItemStoreType.Buying : StoreItemValueSumaryQuery.EStoreItemStoreType.Vending
         }, server);
 
     /// <summary>

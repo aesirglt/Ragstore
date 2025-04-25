@@ -7,4 +7,6 @@ public class StoreItemValueSumaryResponseModel
     public double CurrentMaxValue { get; set; }
     public double Average { get; set; }
     public long StoreNumbers { get; set; }
+    public string ItemName { get; set; } = string.Empty;
+    public string ImageUrl { get; set; } = string.Empty;
 }

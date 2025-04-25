@@ -1,10 +1,10 @@
 export interface TopItemViewModel {
-  id: string;
-  name: string;
-  lastPrice: number;
-  lowPrice: number;
-  highPrice: number;
-  volume: number;
+  itemId: string;
+  itemName: string;
+  average: number;
+  currentMinValue: number;
+  currentMaxValue: number;
+  storeNumbers: number;
   percentageChange: number;
   imageUrl: string;
 } 

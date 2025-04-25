@@ -1,5 +1,6 @@
 'use client';
 
+import { LastSearchedItemViewModel } from '@/types/api/viewmodels/LastSearchedItemViewModel';
 import {
   Box,
   Table,
@@ -15,16 +16,8 @@ import {
   Heading,
 } from '@chakra-ui/react';
 
-interface SearchedItem {
-  itemId: number;
-  itemName: string;
-  quantity: number;
-  average: number;
-  image: string;
-}
-
 interface LastSearchedItemsProps {
-  items: SearchedItem[];
+  items: LastSearchedItemViewModel[];
 }
 
 export function LastSearchedItems({ items = [] }: LastSearchedItemsProps) {
@@ -50,7 +43,7 @@ export function LastSearchedItems({ items = [] }: LastSearchedItemsProps) {
                 <Text>{item.itemName}</Text>
               </Td>
               <Td isNumeric>{item.quantity}x</Td>
-              <Td isNumeric>{item.average.toLocaleString()}z</Td>
+              <Td isNumeric>{item.average}z</Td>
             </Tr>
           ))}
         </Tbody>

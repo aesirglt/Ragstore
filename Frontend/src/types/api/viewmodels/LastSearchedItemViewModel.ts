@@ -1,7 +1,7 @@
 export interface LastSearchedItemViewModel {
   itemId: number;
   itemName: string;
-  totalQuantity: number;
-  averagePrice: number;
+  quantity: number;
+  average: number;
   image: string;
 } 

@@ -13,20 +13,10 @@ import {
 } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { useState } from 'react';
-
-interface ItemData {
-  id: string;
-  name: string;
-  lastPrice: number;
-  lowPrice: number;
-  highPrice: number;
-  volume: number;
-  percentageChange: number;
-  imageUrl: string;
-}
+import { TopItemViewModel } from '@/types/api/viewmodels/TopItemViewModel';
 
 interface TopItemsSliderProps {
-  items: ItemData[];
+  items: TopItemViewModel[];
 }
 
 export function TopItemsSlider({ items }: TopItemsSliderProps) {
@@ -59,24 +49,24 @@ export function TopItemsSlider({ items }: TopItemsSliderProps) {
             {/* Cabeçalho com nome do item e imagem */}
             <HStack spacing={1}>
               <Image
-                src={currentItem.imageUrl}
-                alt={currentItem.name}
+                src={currentItem?.imageUrl ?? "/items/default.png"}
+                alt={currentItem?.itemName ?? "Item padrão"}
                 boxSize="16px"
                 objectFit="contain"
               />
-              <Text fontSize="xs" fontWeight="bold">{currentItem.name}</Text>
+              <Text fontSize="xs" fontWeight="bold">{currentItem?.itemName?? "Item padrão"}</Text>
             </HStack>
 
             {/* Preço mais recente e Variação */}
             <HStack justify="space-between" fontSize="xs">
               <Text color="green.500" fontWeight="semibold">
-                Last {currentItem.lastPrice.toLocaleString()}z
+                Last {currentItem?.average ?? "0"}z
               </Text>
               <Text
-                color={currentItem.percentageChange >= 0 ? "green.500" : "red.500"}
+                color={currentItem?.percentageChange >= 0 ? "green.500" : "red.500"}
                 fontWeight="semibold"
               >
-                {currentItem.percentageChange >= 0 ? "+" : ""}{currentItem.percentageChange.toFixed(1)}%
+                {currentItem?.percentageChange >= 0 ? "+" : ""}{currentItem?.percentageChange?.toFixed(1)}%
               </Text>
             </HStack>
 
@@ -90,11 +80,11 @@ export function TopItemsSlider({ items }: TopItemsSliderProps) {
             <HStack justify="space-between" fontSize="xs">
               <Box>
                 <Text color="gray.500" fontSize="2xs">Low</Text>
-                <Text color="red.500">{currentItem.lowPrice.toLocaleString()}z</Text>
+                <Text color="red.500">{currentItem?.currentMinValue?.toLocaleString()}z</Text>
               </Box>
               <Box>
                 <Text color="gray.500" fontSize="2xs">High</Text>
-                <Text color="green.500">{currentItem.highPrice.toLocaleString()}z</Text>
+                <Text color="green.500">{currentItem?.currentMaxValue?.toLocaleString()}z</Text>
               </Box>
             </HStack>
 
@@ -102,7 +92,7 @@ export function TopItemsSlider({ items }: TopItemsSliderProps) {
             <HStack justify="space-between" fontSize="xs">
               <Box>
                 <Text color="gray.500" fontSize="2xs">Vol</Text>
-                <Text>{currentItem.volume.toLocaleString()}z</Text>
+                <Text>{currentItem?.storeNumbers?.toLocaleString()}z</Text>
               </Box>
               <Text color="blue.500" cursor="pointer" fontSize="2xs">Ver Mais</Text>
             </HStack>
