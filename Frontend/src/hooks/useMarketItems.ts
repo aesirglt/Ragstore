@@ -18,12 +18,11 @@ export const useMarketItems = (params: UseMarketItemsParams) => {
         queryKey,
         queryFn: async () => {
             try {
-                const endpoint = storeType === 'buy' ? 'stores-buying' : 'stores-vending';
-                
-                const url = new URL(`/api/${server}/${endpoint}/items`, window.location.origin);
+                const url = new URL(`/api/${server}/store-items`, window.location.origin);
                 
                 url.searchParams.append('$skip', String((page - 1) * pageSize));
                 url.searchParams.append('$top', String(pageSize));
+                url.searchParams.append('storeType', `${storeType}`);
                 
                 if (itemName) {
                     url.searchParams.append('$filter', `contains(itemName, '${itemName}')`);

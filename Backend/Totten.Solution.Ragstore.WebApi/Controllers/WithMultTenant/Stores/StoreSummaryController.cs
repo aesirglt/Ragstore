@@ -2,9 +2,7 @@
 
 using Autofac;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.OData.Query;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Queries;
-using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Queries.Vendings;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.ResponseModels;
 using Totten.Solution.Ragstore.ApplicationService.ViewModels.Stores;
 using Totten.Solution.Ragstore.WebApi.Bases;
@@ -17,28 +15,37 @@ using Totten.Solution.Ragstore.WebApi.Bases;
 /// </remarks>
 /// <param name="lifetimeScope"></param>
 [ApiController]
-public class StoreItemController(ILifetimeScope lifetimeScope) : BaseApiController(lifetimeScope)
+public class StoreSummaryController(ILifetimeScope lifetimeScope) : BaseApiController(lifetimeScope)
 {
-    const string API_ENDPOINT = "store-items";
+    const string API_ENDPOINT = "store-summary";
 
     /// <summary>
     /// 
     /// </summary>
     /// <param name="server"></param>
+    /// <param name="itemId"></param>
     /// <param name="storeType"></param>
-    /// <param name="queryOptions"></param>
     /// <returns></returns>
-    [HttpGet($"{{server}}/{API_ENDPOINT}")]
-    [ProducesResponseType<StoreItemResponseModel>(statusCode: 200)]
-    public async Task<IActionResult> GetAllItems(
+    [HttpGet($"{{server}}/{API_ENDPOINT}/{{itemId}}")]
+    [ProducesResponseType<StoreItemValueSumaryResponseModel>(statusCode: 200)]
+    public async Task<IActionResult> GetVending(
         [FromRoute] string server,
         [FromQuery] string? storeType,
-        ODataQueryOptions<StoreItemResponseModel> queryOptions)
-    {
-        return await HandleQueryable(new StoreItemsCollectionQuery
+        [FromRoute] int itemId)
+        => await HandleQuery(new StoreItemValueSumaryQuery
         {
+            ItemId = itemId,
             StoreType = storeType == "buying" ? StoreItemValueSumaryQuery.EStoreItemStoreType.Buying : StoreItemValueSumaryQuery.EStoreItemStoreType.Vending
-        }, server, queryOptions);
-    }
+        }, server);
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="server"></param>
+    /// <returns></returns>
+    [HttpGet($"{{server}}/{API_ENDPOINT}/searched-items")]
+    [ProducesResponseType<SearchedItemViewModel>(statusCode: 200)]
+    public async Task<IActionResult> GetSearched(
+        [FromRoute] string server)
+        => await HandleQuery(new SearchedItemSumaryQuery(), server);
 }

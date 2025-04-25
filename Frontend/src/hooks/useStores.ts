@@ -22,7 +22,7 @@ export function useStores({ server, itemId, page, pageSize }: UseStoresParams) {
     queryKey: ['stores', server, itemId, page],
     queryFn: async () => {
       const response = await fetch(
-        `/api/${server}/stores-vending/item/${itemId}?$top=${pageSize}&$skip=${(page - 1) * pageSize}`
+        `/api/${server}/stores?itemId=${itemId}$top=${pageSize}&$skip=${(page - 1) * pageSize}`
       );
       if (!response.ok) {
         throw new Error('Erro ao buscar lojinhas');

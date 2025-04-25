@@ -9,7 +9,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Queries;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.ResponseModels;
-using Totten.Solution.Ragstore.Domain.Features.Servers;
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Bases;
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Buyings;
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Vendings;
@@ -17,11 +16,10 @@ using Totten.Solution.Ragstore.Infra.Cross.Statics;
 using static Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Queries.StoreItemValueSumaryQuery;
 
 public class StoreItemValueSumaryQueryHandler(
-    IServerRepository serverRepository, IVendingStoreItemRepository vendingStore,
+    IVendingStoreItemRepository vendingStore,
     IBuyingStoreItemRepository buyingStore)
     : IRequestHandler<StoreItemValueSumaryQuery, Result<StoreItemValueSumaryResponseModel>>
 {
-    private readonly IServerRepository _serverRepository = serverRepository;
     private readonly IVendingStoreItemRepository _vendingRepositore = vendingStore;
     private readonly IBuyingStoreItemRepository _buyingRepositore = buyingStore;
 
