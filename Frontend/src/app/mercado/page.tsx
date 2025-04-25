@@ -21,7 +21,7 @@ export default function MercadoPage() {
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedServer, setSelectedServer] = useState('');
-  const [priceOrder, setPriceOrder] = useState('');
+  const [storeType, setStoreType] = useState('');
 
   // Efeito para debounce da pesquisa
   useEffect(() => {
@@ -50,7 +50,7 @@ export default function MercadoPage() {
     pageSize: ITEMS_PER_PAGE,
     itemName: debouncedSearchTerm,
     category: selectedCategory,
-    priceOrder: priceOrder
+    storeType: storeType
   };
 
   const { data: items = [], isLoading, error } = useMarketItems(marketParams);
@@ -72,8 +72,29 @@ export default function MercadoPage() {
 
   if (isLoading) {
     return (
-      <Box height="100vh" display="flex" alignItems="center" justifyContent="center">
-        <Spinner size="xl" />
+      <Box height="100vh" display="flex" flexDirection="column">
+        <Container maxW="container.xl" py={4}>
+          <VStack spacing={4} align="stretch">
+            <SearchBar value={searchTerm} onChange={handleSearch} />
+            <MarketFilters
+              selectedCategory={selectedCategory}
+              selectedServer={selectedServer}
+              storeType={storeType}
+              onCategoryChange={setSelectedCategory}
+              onServerChange={setSelectedServer}
+              onStoreTypeChange={setStoreType}
+            />
+            <Box 
+              flex="1" 
+              display="flex" 
+              alignItems="center" 
+              justifyContent="center"
+              minH="400px"
+            >
+              <Spinner size="xl" />
+            </Box>
+          </VStack>
+        </Container>
       </Box>
     );
   }
@@ -87,10 +108,10 @@ export default function MercadoPage() {
             <MarketFilters
               selectedCategory={selectedCategory}
               selectedServer={selectedServer}
-              priceOrder={priceOrder}
+              storeType={storeType}
               onCategoryChange={setSelectedCategory}
               onServerChange={setSelectedServer}
-              onPriceOrderChange={setPriceOrder}
+              onStoreTypeChange={setStoreType}
             />
             <Alert status="error" mt={4}>
               <AlertIcon />
@@ -111,10 +132,10 @@ export default function MercadoPage() {
             <MarketFilters
               selectedCategory={selectedCategory}
               selectedServer={selectedServer}
-              priceOrder={priceOrder}
+              storeType={storeType}
               onCategoryChange={setSelectedCategory}
               onServerChange={setSelectedServer}
-              onPriceOrderChange={setPriceOrder}
+              onStoreTypeChange={setStoreType}
             />
             <Alert status="info" mt={4}>
               <AlertIcon />
@@ -140,10 +161,10 @@ export default function MercadoPage() {
           <MarketFilters
             selectedCategory={selectedCategory}
             selectedServer={selectedServer}
-            priceOrder={priceOrder}
+            storeType={storeType}
             onCategoryChange={setSelectedCategory}
             onServerChange={setSelectedServer}
-            onPriceOrderChange={setPriceOrder}
+            onStoreTypeChange={setStoreType}
           />
 
           <Box 

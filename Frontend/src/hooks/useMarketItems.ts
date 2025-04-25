@@ -7,18 +7,21 @@ export interface UseMarketItemsParams {
     pageSize: number;
     itemName?: string;
     category?: string;
-    priceOrder?: string;
+    storeType?: string;
 }
 
 export const useMarketItems = (params: UseMarketItemsParams) => {
-    const { server, page, pageSize, itemName, category, priceOrder } = params;
-    const queryKey = ['marketItems', server, page, pageSize, itemName, category, priceOrder];
+    const { server, page, pageSize, itemName, category, storeType } = params;
+    const queryKey = ['marketItems', server, page, pageSize, itemName, category, storeType];
 
     const query = useQuery<MarketItemViewModel[], Error>({
         queryKey,
         queryFn: async () => {
             try {
-                const url = new URL(`/api/${server}/stores-vending/items`, window.location.origin);
+                const endpoint = storeType === 'buy' ? 'stores-buying' : 'stores-vending';
+                
+                const url = new URL(`/api/${server}/${endpoint}/items`, window.location.origin);
+                
                 url.searchParams.append('$skip', String((page - 1) * pageSize));
                 url.searchParams.append('$top', String(pageSize));
                 
@@ -28,10 +31,6 @@ export const useMarketItems = (params: UseMarketItemsParams) => {
                 
                 if (category) {
                     url.searchParams.append('$filter', `category eq '${category}'`);
-                }
-                
-                if (priceOrder) {
-                    url.searchParams.append('$orderby', `price ${priceOrder}`);
                 }
 
                 console.log('Fetching from URL:', url.toString());

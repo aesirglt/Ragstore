@@ -3,22 +3,32 @@ import { Box, HStack, Select } from '@chakra-ui/react';
 interface MarketFiltersProps {
   selectedCategory: string;
   selectedServer: string;
-  priceOrder: string;
+  storeType: string;
   onCategoryChange: (value: string) => void;
   onServerChange: (value: string) => void;
-  onPriceOrderChange: (value: string) => void;
+  onStoreTypeChange: (value: string) => void;
 }
 
 export const MarketFilters = ({
   selectedCategory,
   selectedServer,
-  priceOrder,
+  storeType,
   onCategoryChange,
   onServerChange,
-  onPriceOrderChange,
+  onStoreTypeChange,
 }: MarketFiltersProps) => {
   return (
     <HStack spacing={1} wrap="wrap">
+      <Box flex="1" minW="200px">
+        <Select
+          placeholder="Servidor"
+          value={selectedServer}
+          onChange={(e) => onServerChange(e.target.value)}
+          bg="white"
+        >
+          <option value="brothor">Thor</option>
+        </Select>
+      </Box>
       <Box flex="1" minW="200px">
         <Select
           placeholder="Categoria"
@@ -37,25 +47,13 @@ export const MarketFilters = ({
 
       <Box flex="1" minW="200px">
         <Select
-          placeholder="Servidor"
-          value={selectedServer}
-          onChange={(e) => onServerChange(e.target.value)}
+          placeholder="Tipo de loja"
+          value={storeType}
+          onChange={(e) => onStoreTypeChange(e.target.value)}
           bg="white"
         >
-          <option value="brothor">Thor</option>
-        </Select>
-      </Box>
-
-      <Box flex="1" minW="200px">
-        <Select
-          placeholder="Ordenar por preço"
-          value={priceOrder}
-          onChange={(e) => onPriceOrderChange(e.target.value)}
-          bg="white"
-        >
-          <option value="">Padrão</option>
-          <option value="asc">Menor Preço</option>
-          <option value="desc">Maior Preço</option>
+          <option value="buy">Compra</option>
+          <option value="sell">Venda</option>
         </Select>
       </Box>
     </HStack>
