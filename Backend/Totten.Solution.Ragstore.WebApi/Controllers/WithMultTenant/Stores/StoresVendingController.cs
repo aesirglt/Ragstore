@@ -1,17 +1,17 @@
 ﻿namespace Totten.Solution.Ragstore.WebApi.Controllers.WithMultTenant.Stores;
 
 using Autofac;
+using FunctionalConcepts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Commands;
-using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Queries;
+using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Queries.Vendings;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.ResponseModels;
-using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Vendings;
-using Totten.Solution.Ragstore.WebApi.Bases;
 using Totten.Solution.Ragstore.ApplicationService.ViewModels.Stores;
-using FunctionalConcepts;
-using Totten.Solution.Ragstore.WebApi.Dtos.Stores;
+using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Vendings;
 using Totten.Solution.Ragstore.Infra.Cross.Statics;
+using Totten.Solution.Ragstore.WebApi.Bases;
+using Totten.Solution.Ragstore.WebApi.Dtos.Stores;
 
 /// <summary>
 /// 
@@ -37,6 +37,24 @@ public class StoresVendingController(ILifetimeScope lifetimeScope) : BaseApiCont
         [FromRoute] string server,
         ODataQueryOptions<StoreResumeViewModel> queryOptions)
             => await HandleQueryable(new VendingStoreCollectionQuery(), server, queryOptions);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="server"></param>
+    /// <param name="itemId"></param>
+    /// <param name="queryOptions"></param>
+    /// <returns></returns>
+    [HttpGet($"{{server}}/{API_ENDPOINT}/item/{{itemId}}")]
+    [ProducesResponseType<IQueryable<StoreResumeViewModel>>(statusCode: 200)]
+    public async Task<IActionResult> GetAllByItem(
+        [FromRoute] string server,
+        [FromRoute] int itemId,
+        ODataQueryOptions<StoreResumeViewModel> queryOptions)
+            => await HandleQueryable(new VendingStoreCollectionQuery
+            {
+                ItemId = itemId
+            }, server, queryOptions);
     /// <summary>
     /// 
     /// </summary>
@@ -87,20 +105,15 @@ public class StoresVendingController(ILifetimeScope lifetimeScope) : BaseApiCont
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="itemName"></param>
     /// <param name="server"></param>
     /// <param name="queryOptions"></param>
     /// <returns></returns>
     [HttpGet($"{{server}}/{API_ENDPOINT}/items")]
     [ProducesResponseType<StoreItemResponseModel>(statusCode: 200)]
-    public async Task<IActionResult> GetByName(
+    public async Task<IActionResult> GetAllItems(
         [FromRoute] string server,
-        [FromQuery] string? itemName,
         ODataQueryOptions<StoreItemResponseModel> queryOptions)
     {
-        return await HandleQueryable(new VendingStoreItemsCollectionQuery
-        {
-            ItemName = itemName ?? string.Empty
-        }, server, queryOptions);
+        return await HandleQueryable(new VendingStoreItemsCollectionQuery(), server, queryOptions);
     }
 }

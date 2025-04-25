@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
-  const target = 'http://localhost:53766';
+  const target = 'http://localhost:61132';
   const path = request.nextUrl.pathname.replace('/api', '');
   
   console.log('Proxy request:', {

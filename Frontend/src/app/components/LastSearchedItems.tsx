@@ -18,8 +18,8 @@ import {
 interface SearchedItem {
   itemId: number;
   itemName: string;
-  totalQuantity: number;
-  averagePrice: number;
+  quantity: number;
+  average: number;
   image: string;
 }
 
@@ -31,7 +31,7 @@ export function LastSearchedItems({ items = [] }: LastSearchedItemsProps) {
   return (
     <Box w="100%" overflowX="auto">
       <Flex justify="space-between" align="center" mb={4}>
-        <Heading size="md">Últimos Itens Pesquisados</Heading>
+        <Heading size="md">Últimos itens visualizados</Heading>
         <Link color="orange.400" href="/mercado">Ver mais</Link>
       </Flex>
 
@@ -47,18 +47,10 @@ export function LastSearchedItems({ items = [] }: LastSearchedItemsProps) {
           {items.map((item) => (
             <Tr key={item.itemId}>
               <Td>
-                <Flex align="center" gap={2}>
-                  <Image
-                    src={item.image}
-                    alt={item.itemName}
-                    boxSize="32px"
-                    objectFit="contain"
-                  />
-                  <Text>{item.itemName}</Text>
-                </Flex>
+                <Text>{item.itemName}</Text>
               </Td>
-              <Td isNumeric>{item.totalQuantity}x</Td>
-              <Td isNumeric>{item.averagePrice.toLocaleString()}z</Td>
+              <Td isNumeric>{item.quantity}x</Td>
+              <Td isNumeric>{item.average.toLocaleString()}z</Td>
             </Tr>
           ))}
         </Tbody>

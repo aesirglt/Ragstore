@@ -52,12 +52,12 @@ const emptyUserMerchants: UserMerchant[] = [];
 
 export default function HomePage() {
   // TODO: Pegar o servidor selecionado do contexto ou estado global
-  const selectedServer = "broTHOR";
+  const selectedServer = "brothor";
   // TODO: Pegar o userId do contexto de autenticação
   const userId: string | undefined = undefined; // Temporariamente undefined para simular usuário deslogado
 
-  const { data: topItems, isLoading: isLoadingTopItems } = useTopItems(selectedServer);
   const { data: lastSearchedItems, isLoading: isLoadingLastSearched } = useLastSearchedItems(selectedServer);
+  const { data: topItems, isLoading: isLoadingTopItems } = useTopItems(selectedServer);
   const { data: userMerchants, isLoading: isLoadingMerchants } = useUserMerchants(userId ?? '');
 
   return (
@@ -74,10 +74,10 @@ export default function HomePage() {
               <VStack spacing={4} align="start">
                 <Box>
                   <Text fontSize="sm" color="gray.500">Seja bem-vindo,</Text>
-                  <Heading size="lg">Meu amor</Heading>
+                  <Heading size="lg">Meu bem</Heading>
                 </Box>
                 <Text color="gray.600">
-                  Entre em sua conta e desfrute da experiência completa de nossa DB.
+                  Entre em sua conta e desfrute da experiência completa.
                 </Text>
                 <Button colorScheme="orange" size="sm">
                   Login →

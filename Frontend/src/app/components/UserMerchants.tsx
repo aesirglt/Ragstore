@@ -21,9 +21,9 @@ export function UserMerchants({ items, isLoading, userId }: UserMerchantsProps) 
   if (!userId) {
     return (
       <VStack spacing={4} align="start">
-        <Heading size="md">Meus Marcadores</Heading>
+        <Heading size="md">Meus Mercadores</Heading>
         <Box p={8} w="100%" textAlign="center">
-          <Text color="gray.500">Faça login para ver seus marcadores</Text>
+          <Text color="gray.500">Faça login para ver seus Mercadores</Text>
         </Box>
       </VStack>
     );
@@ -32,7 +32,7 @@ export function UserMerchants({ items, isLoading, userId }: UserMerchantsProps) 
   if (items.length === 0) {
     return (
       <VStack spacing={4} align="start">
-        <Heading size="md">Meus Marcadores</Heading>
+        <Heading size="md">Meus Mercadores</Heading>
         <Box p={8} w="100%" textAlign="center">
           <Text color="gray.500">Nenhum item marcado</Text>
         </Box>
@@ -45,7 +45,7 @@ export function UserMerchants({ items, isLoading, userId }: UserMerchantsProps) 
 
   return (
     <VStack spacing={4} align="start" w="100%">
-      <Heading size="md">Meus Marcadores</Heading>
+      <Heading size="md">Meus Mercadores</Heading>
       <List spacing={3} w="100%">
         {items.map((merchant) => (
           <ListItem key={merchant.accountId}>

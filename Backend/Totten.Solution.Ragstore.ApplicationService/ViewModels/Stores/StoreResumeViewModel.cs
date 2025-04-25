@@ -1,9 +1,4 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.ViewModels.Stores;
-
-using Totten.Solution.Ragstore.Domain.Features.Accounts;
-
-using Totten.Solution.Ragstore.Domain.Features.Characters;
-
 /// <summary>
 /// 
 /// </summary>

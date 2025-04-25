@@ -1,9 +1,10 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.QueriesHandler;
 
-using FunctionalConcepts.Errors;
 using FunctionalConcepts.Results;
 using MediatR;
 using System;
+using System.Globalization;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Queries;
@@ -28,42 +29,45 @@ public class StoreItemValueSumaryQueryHandler(
         StoreItemValueSumaryQuery request,
         CancellationToken cancellationToken)
     {
-        var maybeServer = _serverRepository.GetByName(request.Server);
-        return await maybeServer.MatchAsync(async server =>
-        {
-            var action = Choice(server);
-            return await action();
-        }, () => (NotFoundError)"Server not found");
-
-        Func<Task<Result<StoreItemValueSumaryResponseModel>>> Choice(Server server)
-            => request.StoreType == EStoreItemStoreType.Vending
-                        ? () => ExecuteCmd(server, request.ItemId, _vendingRepositore)
-                        : () => ExecuteCmd(server, request.ItemId, _buyingRepositore);
+        return request.StoreType == EStoreItemStoreType.Vending
+               ? await ExecuteCmd(request.ItemId, _vendingRepositore)
+               : await ExecuteCmd(request.ItemId, _buyingRepositore);
     }
 
-    private static async Task<Result<StoreItemValueSumaryResponseModel>> ExecuteCmd<TStoreItem>(
-        Server server, int itemId, IStoreRepository<TStoreItem> repository)
+    private static async Task<Result<StoreItemValueSumaryResponseModel>> ExecuteCmd<TStoreItem>(int itemId, IStoreRepository<TStoreItem> repository)
         where TStoreItem : StoreItem<TStoreItem>
     {
-        var itemsOnStores = repository.GetAll(x => x.UpdatedAt >= server.UpdatedAt && x.ItemId == itemId)
-                                     .Select(s => s.Price)
-                                     .ToArray();
+        var initMonthDate =
+            DateTime.Parse(DateTime.UtcNow.ToString("yyyy-MM-01T00:00:00Z"),
+                           CultureInfo.InvariantCulture,
+                           DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal);
 
-        var itemsOnThisMonth = repository.GetAll(x => x.ItemId == itemId)
-                                        .AsEnumerable()
-                                        .Where(x => x.UpdatedAt.Month == DateTime.UtcNow.Month && x.UpdatedAt.Year == DateTime.UtcNow.Year)
+        var currentDate = DateTime.UtcNow.Date;
+
+        var allItemsById =
+            repository.GetAll(x => x.ItemId == itemId)
+            .Select(s => new
+            {
+                s.Price,
+                s.UpdatedAt
+            });
+
+        var currentStores = allItemsById.Where(x => x.UpdatedAt >= currentDate)
+                                     .Select(s => s.Price);
+
+        var itemsOnThisMonth = allItemsById
+                                        .Where(x => x.UpdatedAt >= initMonthDate && x.UpdatedAt <= DateTime.UtcNow)
                                         .Select(s => s.Price)
-                                        .OrderBy(price => price)
-                                        .ToArray();
+                                        .OrderBy(price => price);
 
         return await Result.Of(new StoreItemValueSumaryResponseModel
         {
-            CurrentMinValue = itemsOnStores.MinBy(p => p),
-            CurrentMaxValue = itemsOnStores.MaxBy(p => p),
-            MinValue = itemsOnThisMonth.MinBy(s => s),
+            CurrentMinValue = currentStores.OrderBy(p => p).FirstOrDefault(),
+            CurrentMaxValue = currentStores.OrderByDescending(p => p).FirstOrDefault(),
+            MinValue = itemsOnThisMonth.OrderBy(p => p).FirstOrDefault(),
+            MaxValue = itemsOnThisMonth.OrderByDescending(p => p).FirstOrDefault(),
             Average = itemsOnThisMonth.Average(),
-            StoreNumbers = itemsOnStores.Length
+            StoreNumbers = currentStores.LongCount()
         }).AsTask();
     }
-
 }

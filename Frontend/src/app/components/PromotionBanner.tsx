@@ -26,14 +26,14 @@ export function PromotionBanner() {
       <HStack spacing={2}>
         <Icon as={FaGift} color="orange.400" />
         <Text>
-          Você sabia que estamos com promoções de donate ativas?{' '}
+          Você sabia que pode nos ajudar a manter o site online?{' '}
           <Link
             color="blue.500"
             href="#"
             display="inline-flex"
             alignItems="center"
           >
-            Consulte a tabela de bônus aqui...
+            Clique aqui para saber mais...
             <Icon as={FaGift} ml={1} fontSize="sm" />
           </Link>
         </Text>

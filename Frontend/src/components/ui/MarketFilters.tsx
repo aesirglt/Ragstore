@@ -52,8 +52,8 @@ export const MarketFilters = ({
           onChange={(e) => onStoreTypeChange(e.target.value)}
           bg="white"
         >
-          <option value="buy">Compra</option>
           <option value="sell">Venda</option>
+          <option value="buy">Compra</option>
         </Select>
       </Box>
     </HStack>

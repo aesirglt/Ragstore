@@ -1,0 +1,8 @@
+﻿namespace Totten.Solution.Ragstore.ApplicationService.ViewModels.Stores;
+public class SearchedItemViewModel
+{
+    public int ItemId { get; set; }
+    public string ItemName { get; set; } = string.Empty;
+    public long Quantity { get; set; }
+    public long Average { get; set; }
+}

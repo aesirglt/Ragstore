@@ -4,6 +4,7 @@ using Autofac;
 using Microsoft.AspNetCore.Mvc;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Queries;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.ResponseModels;
+using Totten.Solution.Ragstore.ApplicationService.ViewModels.Stores;
 using Totten.Solution.Ragstore.WebApi.Bases;
 
 /// <summary>
@@ -32,7 +33,6 @@ public class StoreItemController(ILifetimeScope lifetimeScope) : BaseApiControll
         => await HandleQuery(new StoreItemValueSumaryQuery
         {
             ItemId = itemId,
-            Server = server,
             StoreType = StoreItemValueSumaryQuery.EStoreItemStoreType.Vending
         }, server);
 
@@ -50,8 +50,18 @@ public class StoreItemController(ILifetimeScope lifetimeScope) : BaseApiControll
         => await HandleQuery(new StoreItemValueSumaryQuery
         {
             ItemId = itemId,
-            Server = server,
             StoreType = StoreItemValueSumaryQuery.EStoreItemStoreType.Buying
         }, server);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="server"></param>
+    /// <returns></returns>
+    [HttpGet($"{{server}}/{API_ENDPOINT}/searched-items")]
+    [ProducesResponseType<SearchedItemViewModel>(statusCode: 200)]
+    public async Task<IActionResult> GetSearched(
+        [FromRoute] string server)
+        => await HandleQuery(new SearchedItemSumaryQuery(), server);
 
 }

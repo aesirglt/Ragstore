@@ -7,7 +7,7 @@ export function useTopItems(server: string) {
     queryKey: ['topItems', server],
     queryFn: async () => {
       const request: GetTopItemsRequest = { server };
-      const response = await fetch(`/${request.server}/items-top`);
+      const response = await fetch(`/api/${request.server}/items-top`);
       if (!response.ok) {
         throw new Error('Erro ao buscar top items');
       }

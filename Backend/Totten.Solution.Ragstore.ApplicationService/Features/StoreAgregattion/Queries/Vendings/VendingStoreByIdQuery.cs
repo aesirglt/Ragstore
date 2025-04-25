@@ -1,0 +1,10 @@
+﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Queries.Vendings;
+
+using FunctionalConcepts.Results;
+using MediatR;
+using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Vendings;
+
+public class VendingStoreByIdQuery : IRequest<Result<VendingStore>>
+{
+    public int Id { get; set; }
+}

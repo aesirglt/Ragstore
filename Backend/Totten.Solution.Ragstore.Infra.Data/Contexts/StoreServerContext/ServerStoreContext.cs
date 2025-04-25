@@ -11,6 +11,7 @@ using Totten.Solution.Ragstore.Infra.Data.Features.Characters.EntityConfiguratio
 using Totten.Solution.Ragstore.Infra.Data.Features.Chats.EntityConfigurations;
 using Totten.Solution.Ragstore.Infra.Data.Features.ItemsAggregation.EntityConfigurations;
 using Totten.Solution.Ragstore.Infra.Data.Features.StoreAggregation.BuyingStores.EntityConfigurations;
+using Totten.Solution.Ragstore.Infra.Data.Features.StoreAggregation.SearchedItems;
 using Totten.Solution.Ragstore.Infra.Data.Features.StoreAggregation.StoreItemConfigurations;
 using Totten.Solution.Ragstore.Infra.Data.Features.StoreAggregation.VendingStores.EntityConfigurations;
 
@@ -24,6 +25,7 @@ public class ServerStoreContext : DbContext
     public virtual DbSet<BuyingStoreItem> BuyingStoreItems { get; set; }
     public virtual DbSet<Chat> Chats { get; set; }
     public virtual DbSet<Character> Characters { get; set; }
+    public virtual DbSet<SearchedItem> SearchedItems { get; set; }
 
     public ServerStoreContext(DbContextOptions<ServerStoreContext> options) : base(options)
     {
@@ -45,6 +47,7 @@ public class ServerStoreContext : DbContext
         modelBuilder.ApplyConfiguration(new VendingStoreItemEntityConfiguration());
         modelBuilder.ApplyConfiguration(new BuyingStoreEntityConfiguration());
         modelBuilder.ApplyConfiguration(new BuyingStoreItemEntityConfiguration());
+        modelBuilder.ApplyConfiguration(new SearchedItemsEntityConfiguration());
 
         base.OnModelCreating(modelBuilder);
     }

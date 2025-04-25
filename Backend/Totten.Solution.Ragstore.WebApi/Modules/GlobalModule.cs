@@ -22,6 +22,7 @@ using Totten.Solution.Ragstore.Infra.Data.Features.ItemAggregation;
 using Totten.Solution.Ragstore.Infra.Data.Features.ItemsAggregation;
 using Totten.Solution.Ragstore.Infra.Data.Features.Servers;
 using Totten.Solution.Ragstore.Infra.Data.Features.StoreAggregation.BuyingStores;
+using Totten.Solution.Ragstore.Infra.Data.Features.StoreAggregation.SearchedItems;
 using Totten.Solution.Ragstore.Infra.Data.Features.StoreAggregation.VendingStores;
 using Totten.Solution.Ragstore.WebApi.SystemConstants;
 
@@ -73,6 +74,10 @@ public class GlobalModule<TProgram> : Autofac.Module
 
         builder.RegisterType<ItemRepository>()
                .As<IItemRepository>()
+               .InstancePerLifetimeScope();
+
+        builder.RegisterType<SearchedItemRepository>()
+               .As<ISearchedItemRepository>()
                .InstancePerLifetimeScope();
 
         builder.RegisterType<CallbackRepository>()
