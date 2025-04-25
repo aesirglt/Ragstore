@@ -22,7 +22,6 @@ export const useMarketItems = (params: UseMarketItemsParams) => {
                 
                 url.searchParams.append('$skip', String((page - 1) * pageSize));
                 url.searchParams.append('$top', String(pageSize));
-                url.searchParams.append('storeType', `${storeType}`);
                 
                 if (itemName) {
                     url.searchParams.append('$filter', `contains(itemName, '${itemName}')`);

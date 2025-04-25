@@ -40,5 +40,4 @@ public class StoreItemController(ILifetimeScope lifetimeScope) : BaseApiControll
             StoreType = storeType == "buying" ? StoreItemValueSumaryQuery.EStoreItemStoreType.Buying : StoreItemValueSumaryQuery.EStoreItemStoreType.Vending
         }, server, queryOptions);
     }
-
 }
