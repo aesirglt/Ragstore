@@ -24,7 +24,8 @@ public class SearchedItemSumaryQueryHandler(
                 ItemId = s.ItemId,
                 ItemName = s.Name,
                 Average = s.Average,
-                Quantity = s.Quantity
+                Quantity = s.Quantity,
+                Image = "https://static.divine-pride.net/images/items/item/" + s.ItemId + ".png"
             }).First())
             .Take(10);
 

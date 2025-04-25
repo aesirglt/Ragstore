@@ -40,7 +40,15 @@ export function LastSearchedItems({ items = [] }: LastSearchedItemsProps) {
           {items.map((item) => (
             <Tr key={item.itemId}>
               <Td>
-                <Text>{item.itemName}</Text>
+                <Flex align="center" gap={2}>
+                  <Image
+                    src={item.image}
+                    alt={item.itemName}
+                    boxSize="32px"
+                    objectFit="contain"
+                  />
+                  <Text>{item.itemName}</Text>
+                </Flex>
               </Td>
               <Td isNumeric>{item.quantity}x</Td>
               <Td isNumeric>{item.average}z</Td>
