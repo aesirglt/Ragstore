@@ -1,0 +1,63 @@
+import { Box, HStack, Select } from '@chakra-ui/react';
+
+interface MarketFiltersProps {
+  selectedCategory: string;
+  selectedServer: string;
+  priceOrder: string;
+  onCategoryChange: (value: string) => void;
+  onServerChange: (value: string) => void;
+  onPriceOrderChange: (value: string) => void;
+}
+
+export const MarketFilters = ({
+  selectedCategory,
+  selectedServer,
+  priceOrder,
+  onCategoryChange,
+  onServerChange,
+  onPriceOrderChange,
+}: MarketFiltersProps) => {
+  return (
+    <HStack spacing={1} wrap="wrap">
+      <Box flex="1" minW="200px">
+        <Select
+          placeholder="Categoria"
+          value={selectedCategory}
+          onChange={(e) => onCategoryChange(e.target.value)}
+          bg="white"
+        >
+          <option value="">Todas</option>
+          <option value="weapon">Armas</option>
+          <option value="armor">Armaduras</option>
+          <option value="card">Cartas</option>
+          <option value="potion">Poções</option>
+          <option value="material">Materiais</option>
+        </Select>
+      </Box>
+
+      <Box flex="1" minW="200px">
+        <Select
+          placeholder="Servidor"
+          value={selectedServer}
+          onChange={(e) => onServerChange(e.target.value)}
+          bg="white"
+        >
+          <option value="brothor">Thor</option>
+        </Select>
+      </Box>
+
+      <Box flex="1" minW="200px">
+        <Select
+          placeholder="Ordenar por preço"
+          value={priceOrder}
+          onChange={(e) => onPriceOrderChange(e.target.value)}
+          bg="white"
+        >
+          <option value="">Padrão</option>
+          <option value="asc">Menor Preço</option>
+          <option value="desc">Maior Preço</option>
+        </Select>
+      </Box>
+    </HStack>
+  );
+}; 

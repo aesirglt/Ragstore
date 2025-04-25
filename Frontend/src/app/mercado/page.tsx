@@ -1,18 +1,18 @@
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
-import { Container, Heading, SimpleGrid, Box, Text, Spinner, Alert, AlertIcon, Image, Flex, Button, Input, InputGroup, InputLeftElement, Select, VStack, HStack } from '@chakra-ui/react';
+import { Container, Box, Text, Spinner, Alert, AlertIcon, Image, Flex, Button, VStack, SimpleGrid } from '@chakra-ui/react';
 import { useMarketItems, UseMarketItemsParams } from '@/hooks/useMarketItems';
-import { SearchIcon } from '@chakra-ui/icons';
+import { SearchBar } from '@/components/ui/SearchBar';
+import { MarketFilters } from '@/components/ui/MarketFilters';
+import { MarketPagination } from '@/components/ui/MarketPagination';
 
 const ITEMS_PER_PAGE = 12;
 
 export default function MercadoPage() {
-  const searchInputRef = useRef<HTMLInputElement>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [searchTerm, setSearchTerm] = useState(() => {
-    // Recupera o termo de busca do localStorage ao inicializar
     if (typeof window !== 'undefined') {
       return localStorage.getItem('marketSearchTerm') || '';
     }
@@ -27,25 +27,13 @@ export default function MercadoPage() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedSearchTerm(searchTerm);
-      // Salva o termo de busca no localStorage
       if (typeof window !== 'undefined') {
         localStorage.setItem('marketSearchTerm', searchTerm);
-      }
-      // Foca no input após a pesquisa
-      if (searchInputRef.current) {
-        searchInputRef.current.focus();
       }
     }, 1000);
 
     return () => clearTimeout(timer);
   }, [searchTerm]);
-
-  // Efeito para focar no input quando o componente é montado
-  useEffect(() => {
-    if (searchInputRef.current) {
-      searchInputRef.current.focus();
-    }
-  }, []);
 
   // Efeito para limpar o localStorage quando o componente é desmontado
   useEffect(() => {
@@ -79,7 +67,7 @@ export default function MercadoPage() {
 
   const handleSearch = (term: string) => {
     setSearchTerm(term);
-    setCurrentPage(1); // Reset para primeira página ao buscar
+    setCurrentPage(1);
   };
 
   if (isLoading) {
@@ -95,72 +83,15 @@ export default function MercadoPage() {
       <Box height="100vh" display="flex" flexDirection="column">
         <Container maxW="container.xl" py={4}>
           <VStack spacing={4} align="stretch">
-            <Box>
-              <InputGroup>
-                <InputLeftElement pointerEvents="none">
-                  <SearchIcon color="gray.400" />
-                </InputLeftElement>
-                <Input
-                  ref={searchInputRef}
-                  placeholder="Pesquisar itens..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  size="md"
-                  variant="filled"
-                  bg="white"
-                  _hover={{ bg: 'gray.50' }}
-                  _focus={{ bg: 'white', borderColor: 'blue.500' }}
-                  autoFocus
-                />
-              </InputGroup>
-            </Box>
-
-            <HStack spacing={1} wrap="wrap">
-              <Box flex="1" minW="200px">
-                <Select
-                  placeholder="Categoria"
-                  value={selectedCategory}
-                  onChange={(e) => setSelectedCategory(e.target.value)}
-                  bg="white"
-                >
-                  <option value="">Todas</option>
-                  <option value="weapon">Armas</option>
-                  <option value="armor">Armaduras</option>
-                  <option value="card">Cartas</option>
-                  <option value="potion">Poções</option>
-                  <option value="material">Materiais</option>
-                </Select>
-              </Box>
-
-              <Box flex="1" minW="200px">
-                <Select
-                  placeholder="Servidor"
-                  value={selectedServer}
-                  onChange={(e) => setSelectedServer(e.target.value)}
-                  bg="white"
-                >
-                  <option value="">Todos</option>
-                  <option value="thor">Thor</option>
-                  <option value="odin">Odin</option>
-                  <option value="loki">Loki</option>
-                  <option value="freya">Freya</option>
-                </Select>
-              </Box>
-
-              <Box flex="1" minW="200px">
-                <Select
-                  placeholder="Ordenar por preço"
-                  value={priceOrder}
-                  onChange={(e) => setPriceOrder(e.target.value)}
-                  bg="white"
-                >
-                  <option value="">Padrão</option>
-                  <option value="asc">Menor Preço</option>
-                  <option value="desc">Maior Preço</option>
-                </Select>
-              </Box>
-            </HStack>
-
+            <SearchBar value={searchTerm} onChange={handleSearch} />
+            <MarketFilters
+              selectedCategory={selectedCategory}
+              selectedServer={selectedServer}
+              priceOrder={priceOrder}
+              onCategoryChange={setSelectedCategory}
+              onServerChange={setSelectedServer}
+              onPriceOrderChange={setPriceOrder}
+            />
             <Alert status="error" mt={4}>
               <AlertIcon />
               {error.message}
@@ -176,72 +107,15 @@ export default function MercadoPage() {
       <Box height="100vh" display="flex" flexDirection="column">
         <Container maxW="container.xl" py={4}>
           <VStack spacing={4} align="stretch">
-            <Box>
-              <InputGroup>
-                <InputLeftElement pointerEvents="none">
-                  <SearchIcon color="gray.400" />
-                </InputLeftElement>
-                <Input
-                  ref={searchInputRef}
-                  placeholder="Pesquisar itens..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  size="md"
-                  variant="filled"
-                  bg="white"
-                  _hover={{ bg: 'gray.50' }}
-                  _focus={{ bg: 'white', borderColor: 'blue.500' }}
-                  autoFocus
-                />
-              </InputGroup>
-            </Box>
-
-            <HStack spacing={1} wrap="wrap">
-              <Box flex="1" minW="200px">
-                <Select
-                  placeholder="Categoria"
-                  value={selectedCategory}
-                  onChange={(e) => setSelectedCategory(e.target.value)}
-                  bg="white"
-                >
-                  <option value="">Todas</option>
-                  <option value="weapon">Armas</option>
-                  <option value="armor">Armaduras</option>
-                  <option value="card">Cartas</option>
-                  <option value="potion">Poções</option>
-                  <option value="material">Materiais</option>
-                </Select>
-              </Box>
-
-              <Box flex="1" minW="200px">
-                <Select
-                  placeholder="Servidor"
-                  value={selectedServer}
-                  onChange={(e) => setSelectedServer(e.target.value)}
-                  bg="white"
-                >
-                  <option value="">Todos</option>
-                  <option value="thor">Thor</option>
-                  <option value="odin">Odin</option>
-                  <option value="loki">Loki</option>
-                  <option value="freya">Freya</option>
-                </Select>
-              </Box>
-
-              <Box flex="1" minW="200px">
-                <Select
-                  placeholder="Ordenar por preço"
-                  value={priceOrder}
-                  onChange={(e) => setPriceOrder(e.target.value)}
-                  bg="white"
-                >
-                  <option value="">Padrão</option>
-                  <option value="asc">Menor Preço</option>
-                  <option value="desc">Maior Preço</option>
-                </Select>
-              </Box>
-            </HStack>
-
+            <SearchBar value={searchTerm} onChange={handleSearch} />
+            <MarketFilters
+              selectedCategory={selectedCategory}
+              selectedServer={selectedServer}
+              priceOrder={priceOrder}
+              onCategoryChange={setSelectedCategory}
+              onServerChange={setSelectedServer}
+              onPriceOrderChange={setPriceOrder}
+            />
             <Alert status="info" mt={4}>
               <AlertIcon />
               Nenhum item encontrado
@@ -262,71 +136,15 @@ export default function MercadoPage() {
     >
       <Container maxW="container.xl" py={4} height="full">
         <VStack spacing={4} align="stretch">
-          <Box>
-            <InputGroup>
-              <InputLeftElement pointerEvents="none">
-                <SearchIcon color="gray.400" />
-              </InputLeftElement>
-              <Input
-                ref={searchInputRef}
-                placeholder="Pesquisar itens..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                size="md"
-                variant="filled"
-                bg="white"
-                _hover={{ bg: 'gray.50' }}
-                _focus={{ bg: 'white', borderColor: 'blue.500' }}
-                autoFocus
-              />
-            </InputGroup>
-          </Box>
-
-          <HStack spacing={1} wrap="wrap">
-            <Box flex="1" minW="200px">
-              <Select
-                placeholder="Categoria"
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
-                bg="white"
-              >
-                <option value="">Todas</option>
-                <option value="weapon">Armas</option>
-                <option value="armor">Armaduras</option>
-                <option value="card">Cartas</option>
-                <option value="potion">Poções</option>
-                <option value="material">Materiais</option>
-              </Select>
-            </Box>
-
-            <Box flex="1" minW="200px">
-              <Select
-                placeholder="Servidor"
-                value={selectedServer}
-                onChange={(e) => setSelectedServer(e.target.value)}
-                bg="white"
-              >
-                <option value="">Todos</option>
-                <option value="thor">Thor</option>
-                <option value="odin">Odin</option>
-                <option value="loki">Loki</option>
-                <option value="freya">Freya</option>
-              </Select>
-            </Box>
-
-            <Box flex="1" minW="200px">
-              <Select
-                placeholder="Ordenar por preço"
-                value={priceOrder}
-                onChange={(e) => setPriceOrder(e.target.value)}
-                bg="white"
-              >
-                <option value="">Padrão</option>
-                <option value="asc">Menor Preço</option>
-                <option value="desc">Maior Preço</option>
-              </Select>
-            </Box>
-          </HStack>
+          <SearchBar value={searchTerm} onChange={handleSearch} />
+          <MarketFilters
+            selectedCategory={selectedCategory}
+            selectedServer={selectedServer}
+            priceOrder={priceOrder}
+            onCategoryChange={setSelectedCategory}
+            onServerChange={setSelectedServer}
+            onPriceOrderChange={setPriceOrder}
+          />
 
           <Box 
             flex="1" 
@@ -390,43 +208,11 @@ export default function MercadoPage() {
         </VStack>
       </Container>
 
-      <Box 
-        position="fixed"
-        bottom="48px"
-        left="0"
-        right="0"
-        bg="white" 
-        py={3}
-        borderTop="1px" 
-        borderColor="gray.200"
-        boxShadow="0 -2px 10px rgba(0,0,0,0.05)"
-      >
-        <Container maxW="container.xl">
-          <Flex justify="center" gap={4} align="center">
-            <Button
-              size="sm"
-              colorScheme="blue"
-              variant="outline"
-              onClick={() => handlePageChange(currentPage - 1)}
-              isDisabled={currentPage === 1}
-            >
-              Anterior
-            </Button>
-            <Text fontSize="sm">
-              Página {currentPage} de {totalPages}
-            </Text>
-            <Button
-              size="sm"
-              colorScheme="blue"
-              variant="outline"
-              onClick={() => handlePageChange(currentPage + 1)}
-              isDisabled={currentPage === totalPages}
-            >
-              Próxima
-            </Button>
-          </Flex>
-        </Container>
-      </Box>
+      <MarketPagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
     </Box>
   );
 } 
