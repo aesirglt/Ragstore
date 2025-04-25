@@ -6,6 +6,7 @@ import { useMarketItems, UseMarketItemsParams } from '@/hooks/useMarketItems';
 import { SearchBar } from '@/components/ui/SearchBar';
 import { MarketFilters } from '@/components/ui/MarketFilters';
 import { MarketPagination } from '@/components/ui/MarketPagination';
+import { StoreListModal } from '../components/StoreListModal';
 
 const ITEMS_PER_PAGE = 12;
 
@@ -22,6 +23,8 @@ export default function MercadoPage() {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedServer, setSelectedServer] = useState('');
   const [storeType, setStoreType] = useState('');
+  const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
+  const [isStoreModalOpen, setIsStoreModalOpen] = useState(false);
 
   // Efeito para debounce da pesquisa
   useEffect(() => {
@@ -68,6 +71,11 @@ export default function MercadoPage() {
   const handleSearch = (term: string) => {
     setSearchTerm(term);
     setCurrentPage(1);
+  };
+
+  const handleItemClick = (itemId: number) => {
+    setSelectedItemId(itemId);
+    setIsStoreModalOpen(true);
   };
 
   if (isLoading) {
@@ -198,6 +206,7 @@ export default function MercadoPage() {
                   }}
                   cursor="pointer"
                   maxW="135px"
+                  onClick={() => handleItemClick(item.itemId)}
                 >
                   <Image 
                     src={item.image} 
@@ -233,6 +242,13 @@ export default function MercadoPage() {
         currentPage={currentPage}
         totalPages={totalPages}
         onPageChange={handlePageChange}
+      />
+
+      <StoreListModal
+        isOpen={isStoreModalOpen}
+        onClose={() => setIsStoreModalOpen(false)}
+        itemId={selectedItemId || 0}
+        server={selectedServer || 'brothor'}
       />
     </Box>
   );
