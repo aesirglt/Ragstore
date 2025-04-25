@@ -23,6 +23,7 @@ import { useLastSearchedItems } from '../hooks/useLastSearchedItems';
 import { useUserMerchants } from '../hooks/useUserMerchants';
 import { useEffect, useState } from 'react';
 import { TopItemViewModel } from '@/types/api/viewmodels/TopItemViewModel';
+import { LastSearchedItemViewModel } from '@/types/api/viewmodels/LastSearchedItemViewModel';
 
 // Dados zerados para quando houver erro
 const emptyTopItems: TopItemViewModel[] = [
@@ -39,7 +40,7 @@ const emptyTopItems: TopItemViewModel[] = [
 ];
 
 // Dados zerados para quando houver erro nos últimos pesquisados
-const emptyLastSearchedItems = [
+const emptyLastSearchedItems: LastSearchedItemViewModel[] = [
   {
     itemId: 0,
     itemName: "---",
@@ -57,9 +58,13 @@ export default function HomePage() {
 
   const { data: lastSearchedItems, isLoading: isLoadingLastSearched } = useLastSearchedItems(selectedServer);
   const [lastSearchedItemIds, setLastSearchedItemIds] = useState<number[]>([]);
-  const { data: topItems, isLoading: isLoadingTopItems } = useTopItems(selectedServer, lastSearchedItemIds);
+  const { data: topItems, isLoading: isLoadingTopItems } = useTopItems(
+    selectedServer, 
+    lastSearchedItemIds.length > 0 ? lastSearchedItemIds : []
+  );
   const { data: userMerchants, isLoading: isLoadingMerchants } = useUserMerchants(userId ?? '');
 
+  // Atualiza os IDs quando lastSearchedItems mudar
   useEffect(() => {
     if (lastSearchedItems && lastSearchedItems.length > 0) {
       setLastSearchedItemIds(lastSearchedItems.map(item => item.itemId));
@@ -124,7 +129,7 @@ export default function HomePage() {
                   <Spinner />
                 </Flex>
               ) : (
-                <LastSearchedItems items={lastSearchedItems || []} />
+                <LastSearchedItems items={lastSearchedItems || emptyLastSearchedItems} />
               )}
             </CardBody>
           </Card>

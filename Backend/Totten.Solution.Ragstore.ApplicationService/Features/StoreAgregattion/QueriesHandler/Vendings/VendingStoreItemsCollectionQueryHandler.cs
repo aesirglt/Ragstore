@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Queries.Vendings;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.ResponseModels;
+using Totten.Solution.Ragstore.Domain.Features.ItemsAggregation;
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Vendings;
 using Totten.Solution.Ragstore.Infra.Cross.Statics;
 
@@ -32,7 +33,7 @@ public class VendingStoreItemsCollectionQueryHandler(IVendingStoreItemRepository
                 Price = group.Key.Price,
                 Category = group.Key.Type.ToString(),
                 Quantity = group.Sum(i => i.Quantity),
-                Image = "url/" + group.Key.ItemId
+                Image = "https://static.divine-pride.net/images/items/item/" + group.Key.ItemId + ".png"
             });
 
         return Result.Of(await result.AsTask());

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Queries;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.ResponseModels;
 using Totten.Solution.Ragstore.ApplicationService.ViewModels.Stores;
+using Totten.Solution.Ragstore.Domain.Features.Servers;
 using Totten.Solution.Ragstore.WebApi.Bases;
 
 /// <summary>
@@ -26,12 +27,12 @@ public class StoreItemController(ILifetimeScope lifetimeScope) : BaseApiControll
     /// <param name="itemId"></param>
     /// <param name="storeType"></param>
     /// <returns></returns>
-    [HttpGet($"{{server}}/{API_ENDPOINT}")]
+    [HttpGet($"{{server}}/{API_ENDPOINT}/{{itemId}}")]
     [ProducesResponseType<StoreItemValueSumaryResponseModel>(statusCode: 200)]
     public async Task<IActionResult> GetVending(
         [FromRoute] string server,
         [FromQuery] string? storeType,
-        [FromQuery] int[] itemId)
+        [FromRoute] int itemId)
         => await HandleQuery(new StoreItemValueSumaryQuery
         {
             ItemId = itemId,

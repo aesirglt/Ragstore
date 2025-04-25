@@ -34,7 +34,7 @@ public class StoreItemValueSumaryQueryHandler(
                : await ExecuteCmd(request.ItemId, _buyingRepositore);
     }
 
-    private static async Task<Result<StoreItemValueSumaryResponseModel>> ExecuteCmd<TStoreItem>(int[] itemIds, IStoreRepository<TStoreItem> repository)
+    private static async Task<Result<StoreItemValueSumaryResponseModel>> ExecuteCmd<TStoreItem>(int itemId, IStoreRepository<TStoreItem> repository)
         where TStoreItem : StoreItem<TStoreItem>
     {
         var initMonthDate =
@@ -45,9 +45,10 @@ public class StoreItemValueSumaryQueryHandler(
         var currentDate = DateTime.UtcNow.Date;
 
         var allItemsById =
-            repository.GetAll(x => itemIds.Any(id => x.ItemId == id))
+            repository.GetAll(x => x.ItemId == itemId)
             .Select(s => new
             {
+                s.Name,
                 s.Price,
                 s.UpdatedAt
             });
@@ -62,6 +63,8 @@ public class StoreItemValueSumaryQueryHandler(
 
         return await Result.Of(new StoreItemValueSumaryResponseModel
         {
+            ItemName = allItemsById.First().Name,
+            ImageUrl = $"https://static.divine-pride.net/images/items/item/{itemId}.png",
             CurrentMinValue = currentStores.OrderBy(p => p).FirstOrDefault(),
             CurrentMaxValue = currentStores.OrderByDescending(p => p).FirstOrDefault(),
             MinValue = itemsOnThisMonth.OrderBy(p => p).FirstOrDefault(),
