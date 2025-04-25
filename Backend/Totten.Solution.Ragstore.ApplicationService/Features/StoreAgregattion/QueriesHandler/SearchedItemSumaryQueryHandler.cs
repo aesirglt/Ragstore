@@ -25,7 +25,7 @@ public class SearchedItemSumaryQueryHandler(
                 ItemName = s.Name,
                 Average = s.Average,
                 Quantity = s.Quantity
-            }).FirstOrDefault())
+            }).First())
             .Take(10);
 
         return await Result.Of(result).AsTask();
