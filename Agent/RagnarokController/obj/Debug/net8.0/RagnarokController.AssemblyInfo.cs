@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RagnarokController")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+44c66c3e54ef478f896536ba860edbcbcbaafdf9")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f5231b58769ca2ce221b5ad09e4c9d49655ec803")]
 [assembly: System.Reflection.AssemblyProductAttribute("RagnarokController")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RagnarokController")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

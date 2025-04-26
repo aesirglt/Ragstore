@@ -6,98 +6,112 @@ namespace RagnarokController
     public class PlayerStats
     {
         private readonly MemoryManager _memoryManager;
-        private readonly Dictionary<string, IntPtr> _offsets;
+        private readonly Dictionary<string, int> _offsets;
+        private IntPtr _baseAddress;
 
-        public PlayerStats(MemoryManager memoryManager, Dictionary<string, IntPtr> offsets)
+        public PlayerStats(MemoryManager memoryManager, Dictionary<string, int> offsets)
         {
-            _memoryManager = memoryManager;
-            _offsets = offsets;
+            _memoryManager = memoryManager ?? throw new ArgumentNullException(nameof(memoryManager));
+            _offsets = offsets ?? throw new ArgumentNullException(nameof(offsets));
             
-            if (_offsets == null || _offsets.Count == 0)
+            // Encontra o endereço base do personagem
+            var process = memoryManager.GetProcess();
+            if (process?.MainModule == null)
             {
-                throw new ArgumentException("Nenhum offset fornecido para PlayerStats");
+                throw new InvalidOperationException("Processo ou módulo principal não encontrado.");
             }
-
-            Console.WriteLine($"PlayerStats inicializado com {_offsets.Count} offsets:");
-            foreach (var offset in _offsets)
-            {
-                Console.WriteLine($"- {offset.Key}: 0x{offset.Value.ToString("X")}");
-            }
+            _baseAddress = process.MainModule.BaseAddress;
         }
 
-        private int ReadStat(string statName)
+        public int GetHP()
         {
-            if (!_offsets.TryGetValue(statName, out IntPtr offset))
-            {
-                Console.WriteLine($"Aviso: Offset para {statName} não encontrado");
-                return 0;
-            }
-
-            try
-            {
-                int value = _memoryManager.ReadMemory<int>(offset);
-                Console.WriteLine($"Leitura de {statName}: {value} (Offset: 0x{offset.ToString("X")})");
-                return value;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Erro ao ler {statName}: {ex.Message}");
-                return 0;
-            }
+            if (!_offsets.ContainsKey("HP")) return 0;
+            return _memoryManager.ReadMemory<int>(_baseAddress + _offsets["HP"]);
         }
 
-        public int GetHP() => ReadStat("HP");
-        public int GetMaxHP() => ReadStat("MaxHP");
-        public int GetSP() => ReadStat("SP");
-        public int GetMaxSP() => ReadStat("MaxSP");
-        public int GetBaseLevel() => ReadStat("BaseLevel");
-        public int GetJobLevel() => ReadStat("JobLevel");
-        public int GetWeight() => ReadStat("Weight");
-        public int GetMaxWeight() => ReadStat("MaxWeight");
-        public int GetZeny() => ReadStat("Zeny");
-        public int GetBaseExp() => ReadStat("BaseExp");
-        public int GetJobExp() => ReadStat("JobExp");
-        public int GetStatusPoint() => ReadStat("StatusPoint");
-        public int GetSkillPoint() => ReadStat("SkillPoint");
+        public int GetSP()
+        {
+            if (!_offsets.ContainsKey("SP")) return 0;
+            return _memoryManager.ReadMemory<int>(_baseAddress + _offsets["SP"]);
+        }
+
+        public int GetBaseLevel()
+        {
+            if (!_offsets.ContainsKey("BaseLevel")) return 0;
+            return _memoryManager.ReadMemory<int>(_baseAddress + _offsets["BaseLevel"]);
+        }
+
+        public int GetJobLevel()
+        {
+            if (!_offsets.ContainsKey("JobLevel")) return 0;
+            return _memoryManager.ReadMemory<int>(_baseAddress + _offsets["JobLevel"]);
+        }
+
+        public int GetZeny()
+        {
+            if (!_offsets.ContainsKey("Zeny")) return 0;
+            return _memoryManager.ReadMemory<int>(_baseAddress + _offsets["Zeny"]);
+        }
+
+        public int GetStatusPoint()
+        {
+            if (!_offsets.ContainsKey("StatusPoint")) return 0;
+            return _memoryManager.ReadMemory<int>(_baseAddress + _offsets["StatusPoint"]);
+        }
+
+        public int GetSkillPoint()
+        {
+            if (!_offsets.ContainsKey("SkillPoint")) return 0;
+            return _memoryManager.ReadMemory<int>(_baseAddress + _offsets["SkillPoint"]);
+        }
 
         public void ShowAllStats()
         {
             Console.WriteLine("\n=== Estatísticas do Personagem ===");
             
-            var stats = new Dictionary<string, (string Name, Func<int> Getter)>
+            if (_offsets.ContainsKey("HP"))
             {
-                { "HP", ("HP", GetHP) },
-                { "MaxHP", ("HP Máximo", GetMaxHP) },
-                { "SP", ("SP", GetSP) },
-                { "MaxSP", ("SP Máximo", GetMaxSP) },
-                { "BaseLevel", ("Nível Base", GetBaseLevel) },
-                { "JobLevel", ("Nível de Classe", GetJobLevel) },
-                { "Weight", ("Peso", GetWeight) },
-                { "MaxWeight", ("Peso Máximo", GetMaxWeight) },
-                { "Zeny", ("Zeny", GetZeny) },
-                { "BaseExp", ("Experiência Base", GetBaseExp) },
-                { "JobExp", ("Experiência de Classe", GetJobExp) },
-                { "StatusPoint", ("Pontos de Status", GetStatusPoint) },
-                { "SkillPoint", ("Pontos de Habilidade", GetSkillPoint) }
-            };
-
-            foreach (var stat in stats)
-            {
-                if (_offsets.ContainsKey(stat.Key))
-                {
-                    try
-                    {
-                        int value = stat.Value.Getter();
-                        Console.WriteLine($"{stat.Value.Name}: {value}");
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine($"{stat.Value.Name}: Erro ao ler ({ex.Message})");
-                    }
-                }
+                int hp = GetHP();
+                Console.WriteLine($"HP: {hp} (Offset: 0x{_offsets["HP"]:X})");
             }
-
-            Console.WriteLine("=================================\n");
+            
+            if (_offsets.ContainsKey("SP"))
+            {
+                int sp = GetSP();
+                Console.WriteLine($"SP: {sp} (Offset: 0x{_offsets["SP"]:X})");
+            }
+            
+            if (_offsets.ContainsKey("BaseLevel"))
+            {
+                int baseLevel = GetBaseLevel();
+                Console.WriteLine($"Nível Base: {baseLevel} (Offset: 0x{_offsets["BaseLevel"]:X})");
+            }
+            
+            if (_offsets.ContainsKey("JobLevel"))
+            {
+                int jobLevel = GetJobLevel();
+                Console.WriteLine($"Nível de Classe: {jobLevel} (Offset: 0x{_offsets["JobLevel"]:X})");
+            }
+            
+            if (_offsets.ContainsKey("Zeny"))
+            {
+                int zeny = GetZeny();
+                Console.WriteLine($"Zeny: {zeny} (Offset: 0x{_offsets["Zeny"]:X})");
+            }
+            
+            if (_offsets.ContainsKey("StatusPoint"))
+            {
+                int statusPoint = GetStatusPoint();
+                Console.WriteLine($"Pontos de Status: {statusPoint} (Offset: 0x{_offsets["StatusPoint"]:X})");
+            }
+            
+            if (_offsets.ContainsKey("SkillPoint"))
+            {
+                int skillPoint = GetSkillPoint();
+                Console.WriteLine($"Pontos de Habilidade: {skillPoint} (Offset: 0x{_offsets["SkillPoint"]:X})");
+            }
+            
+            Console.WriteLine("=================================");
         }
     }
 } 
