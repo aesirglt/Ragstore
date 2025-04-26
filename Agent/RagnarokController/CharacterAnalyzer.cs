@@ -10,10 +10,13 @@ namespace RagnarokController
     {
         private readonly MemoryManager _memoryManager;
         private const string PDB_FILE = "HighPriest.pdb";
-        
+
         // Offsets conhecidos
         private static readonly Dictionary<string, int> KNOWN_OFFSETS = new Dictionary<string, int>
         {
+            // Ponteiro base do jogador (encontrado através da análise de escrita na posição)
+            { "PlayerBase", 0xC5F7D0 }, // Ponteiro lido antes de escrever a posição
+
             // Níveis
             { "BaseLevel", 0xEEBA38 },
             { "JobLevel", 0xEEBA40 },
@@ -41,16 +44,10 @@ namespace RagnarokController
             // Nome do personagem (string)
             { "CharacterName", 0xEF1C90 },
 
-            // Posição (mantendo os anteriores por enquanto)
+            // Posições (atualizadas com os novos offsets)
             { "PosX", 0xED832C },
-            { "PosY", 0xED8330 }
-        };
-
-        // Tipos de dados para cada offset
-        private static readonly Dictionary<string, Type> OFFSET_TYPES = new Dictionary<string, Type>
-        {
-            { "CharacterName", typeof(string) },
-            // Todos os outros são int por padrão
+            { "PosY", 0xED8330 },
+            { "AltPosX", 0xED71D8 }
         };
 
         public CharacterAnalyzer(MemoryManager memoryManager)
@@ -61,23 +58,29 @@ namespace RagnarokController
         public Dictionary<string, int> AnalyzeCharacterStructure()
         {
             var offsets = new Dictionary<string, int>();
+            var process = _memoryManager.GetProcess();
             
-            // Primeiro, tenta encontrar os offsets usando o PDB
-            if (File.Exists(PDB_FILE))
+            if (process?.MainModule == null)
             {
-                Console.WriteLine("Analisando arquivo PDB...");
-                AnalyzePDB(offsets);
+                Console.WriteLine("Processo não encontrado.");
+                return offsets;
             }
 
-            // Se não encontrou todos os offsets no PDB, usa os offsets conhecidos
-            if (offsets.Count < KNOWN_OFFSETS.Count)
+            // Adiciona todos os offsets conhecidos
+            foreach (var kvp in KNOWN_OFFSETS)
             {
-                Console.WriteLine("Usando offsets conhecidos...");
-                foreach (var kvp in KNOWN_OFFSETS)
-                {
-                    offsets[kvp.Key] = kvp.Value;
-                    Console.WriteLine($"Offset de {kvp.Key} definido como: 0x{kvp.Value:X}");
-                }
+                offsets[kvp.Key] = kvp.Value;
+            }
+
+            // Verifica o ponteiro base do jogador
+            var baseAddress = process.MainModule.BaseAddress;
+            var playerPtr = _memoryManager.ReadMemory<IntPtr>(IntPtr.Add(baseAddress, offsets["PlayerBase"]));
+            Console.WriteLine($"Ponteiro base do jogador: 0x{playerPtr.ToInt64():X}");
+
+            Console.WriteLine("\nOffsets encontrados:");
+            foreach (var offset in offsets)
+            {
+                Console.WriteLine($"{offset.Key}: 0x{offset.Value:X}");
             }
 
             // Verifica os valores
@@ -98,13 +101,19 @@ namespace RagnarokController
             {
                 try
                 {
-                    if (OFFSET_TYPES.TryGetValue(kvp.Key, out Type? type) && type == typeof(string))
+                    if (kvp.Key == "CharacterName")
                     {
                         // Lê string (nome do personagem)
                         byte[] buffer = new byte[24]; // Tamanho máximo do nome
                         _memoryManager.ReadProcessMemory(baseAddress + kvp.Value, buffer, buffer.Length, out int _);
                         string value = Encoding.ASCII.GetString(buffer).TrimEnd('\0');
                         Console.WriteLine($"{kvp.Key}: {value} (Offset: 0x{kvp.Value:X})");
+                    }
+                    else if (kvp.Key == "PlayerBase")
+                    {
+                        // Lê o ponteiro base
+                        IntPtr value = _memoryManager.ReadMemory<IntPtr>(baseAddress + kvp.Value);
+                        Console.WriteLine($"{kvp.Key}: 0x{value.ToInt64():X} (Offset: 0x{kvp.Value:X})");
                     }
                     else
                     {
