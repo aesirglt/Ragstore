@@ -1,0 +1,926 @@
+ACTSTRUCT class: 0xe185e0,1 
+C3DCooRendering class: 0xdc2228,14 CRenderObject, CGameObject
+C3dActor class: 0xddbbe0,11 
+C3dActorV1 class: 0xddbc10,11 C3dActor
+C3dActorV2 class: 0xddbc40,11 C3dActor
+C3dAnimModelRes class: 0xdbaa3c,8 CRes
+C3dAttr class: 0xdba6bc,8 CRes
+C3dGrannyGameActor class: 0xe17434,58 CGameActor, CAbleToMakeEffect, CRenderObject, CGameObject
+C3dGrannyModelRes class: 0xdbaa64,8 CRes
+C3dGround class: 0xddbca4,20 
+C3dGround15 class: 0xddbcf8,20 C3dGround
+C3dModelRes class: 0xdbaaa0,8 CRes
+C3dModelResV1 class: 0xdba9f4,8 C3dModelRes, CRes
+C3dModelResV2 class: 0xdbaa18,8 C3dModelRes, CRes
+C3dNode class: 0xddbba4,4 
+C3dNodeRes class: 0xdbaa88,1 
+C3dNodeResV1 class: 0xdbaa90,1 C3dNodeRes
+C3dNodeResV2 class: 0xdbaa98,1 C3dNodeRes
+C3dNodeV1 class: 0xddbbb8,4 C3dNode
+C3dNodeV2 class: 0xddbbcc,4 C3dNode
+C3dWorldRes class: 0xdbaedc,9 CRes
+CAES class: 0xe03624,1 
+CAbleToMakeEffect class: 0xe16ad0,14 CRenderObject, CGameObject
+CAchievementMgr class: 0xdb646c,1 
+CActRes class: 0xdba4c0,8 CRes
+CActorNameCard class: 0xdafcb0,1 
+CActorNameCardHolder class: 0xdafcb8,1 
+CActorPickNode class: 0xddc784,1 
+CAdvenPartyInfo class: 0xdae384,1 
+CAdventurerAgencyMgr class: 0xdb0e04,1 
+CAnimatedEmitterEffect class: 0xdb7810,31 CEmitterEffect, CEffect
+CArrowEffect class: 0xe21844,14 CRenderObject, CGameObject
+CAsyncWorkMgr class: 0xdae38c,2 NAsyncWorkMgr
+CAsyncWorkRecycleObjectPoolMgr class: 0xdae3a8,1 NRecycleObjectPoolMgr
+CAxeBoomerang class: 0xdb76c8,29 CEffect
+CBarterMarketItemMgr class: 0xdb1228,1 
+CBash class: 0xe05b54,29 CEffect
+CBindTrapEffect class: 0xdb79f4,29 CEffect
+CBitmapRes class: 0xdba768,9 CRes
+CBlowEffect class: 0xe1a2bc,14 CRenderObject, CGameObject
+CBlurPC class: 0xe1a334,58 CPc, CGameActor, CAbleToMakeEffect, CRenderObject, CGameObject
+CBmpObjWnd class: 0xdc2098,49 UIWindow, UIRPData
+CCURLMgr class: 0xdb123c,1 
+CCURLPostHander class: 0xdb1320,1 
+CCartCannon class: 0xdb7944,29 CEffect
+CCellRangeEffect class: 0xe05be4,29 CEffect
+CChampionMonsterMgr class: 0xddc8a4,1 
+CChampionMonsterMgr::lcData class: 0xddc89c,1 
+CChangePartyMasterAsyncWork class: 0xdb0f08,4 NAsyncWork, NRecycleObject
+CCharacterNpc class: 0xdafad0,58 CNpc, CGameActor, CAbleToMakeEffect, CRenderObject, CGameObject
+CCharacterRender class: 0xdc1e80,1 
+CCheckAttendanceMgr class: 0xdb681c,1 
+CCheckAttendanceMgr::lcReward class: 0xdb6814,1 
+CCheckGDISchedule class: 0xe10524,2 CSchedule
+CCherryBlossomEffect class: 0xe05ce4,29 CEffect
+CCloud class: 0xdb7a88,29 CEffect
+CCloudKillEffect class: 0xdb7b14,29 CEffect
+CCmdTargetEx class: 0xddb910,5 IOleCommandTarget, IUnknown
+CCommonFloorEffect class: 0xdb7bd4,29 CEffect
+CCommonObject class: 0xddbfe8,1 
+CConfigMgr class: 0xdbb0c0,1 
+CConnection class: 0xe16568,1 
+CCorpse class: 0xe1a2f8,14 CRenderObject, CGameObject
+CCreateLineInfo class: 0xdc4094,1 
+CDC class: 0xdacf7c,17 
+CDCBitmap class: 0xdacfc4,17 CDC
+CDCSurface class: 0xdad054,17 CDC
+CDummyEffectLauncher class: 0xe17714,14 CAbleToMakeEffect, CRenderObject, CGameObject
+CEZ2STREffect class: 0xe066cc,30 CEffect
+CEZ2STRParticle class: 0xe05b10,1 CParticle
+CEZeffectRes class: 0xdba8e8,8 CRes
+CEasyAntiCheatMgr class: 0xdbafac,1 
+CEffect class: 0xe06408,29 
+CEffectMaker class: 0xe21628,14 CAbleToMakeEffect, CRenderObject, CGameObject
+CEffectMemoryMgr class: 0xe0f9b0,1 
+CEffectMgr class: 0xe05660,1 
+CEffectPrim class: 0xe10780,15 CRenderObject, CGameObject
+CElectricEffect class: 0xe06494,29 CEffect
+CEmbedFont class: 0xddc7e4,1 
+CEmblemDataDownloadAsyncWork class: 0xdb138c,4 NAsyncWork, NRecycleObject
+CEmblemDataMgr class: 0xdb1414,1 
+CEmblemDataUploadAsyncWork class: 0xdb1458,4 NAsyncWork, NRecycleObject
+CEmblemRes class: 0xdba8a4,8 CRes
+CEmitterEffect class: 0xe0653c,31 CEffect
+CEnergyOrbEffect class: 0xe065d4,29 CEffect
+CEntryQueueMgr class: 0xe0ffe0,1 
+CEvilLandEffect class: 0xdb7c64,29 CEffect
+CEvilsPawEffect class: 0xdb7d34,29 CEffect
+CExpandedBarterMarketItemMgr class: 0xdb1230,1 
+CFallenAngelEffect class: 0xdb8890,29 CEffect
+CFile class: 0xdaa38c,1 
+CFlowerCastingEffect class: 0xe0dba4,29 CEffect
+CFlyingShipRouteInfo class: 0xdd3588,1 
+CFortuneKiss class: 0xdb7dc0,29 CEffect
+CFriggSongEffect class: 0xdb7e60,29 CEffect
+CGPak class: 0xddf1f4,1 
+CGameActor class: 0xe16b0c,58 CAbleToMakeEffect, CRenderObject, CGameObject
+CGameMode class: 0xe176f0,8 CMode
+CGameObject class: 0xe16a7c,5 
+CGifRes class: 0xdba790,9 CBitmapRes, CRes
+CGitRevisionOutput class: 0xdb63a0,1 
+CGlassWall class: 0xe05d78,29 CEffect
+CGndRes class: 0xdba974,8 CRes
+CGndRiser class: 0xe1a158,14 CAbleToMakeEffect, CRenderObject, CGameObject
+CGraffiSkill class: 0xe21750,60 CSkill, CGameActor, CAbleToMakeEffect, CRenderObject, CGameObject
+CGrannyCorpse3d class: 0xe17520,5 CGameObject
+CGrannyPc class: 0xe1abb4,58 CGameActor, CAbleToMakeEffect, CRenderObject, CGameObject
+CGravityControlEffect class: 0xdb892c,29 CEffect
+CGroundScope class: 0xe215ec,14 CAbleToMakeEffect, CRenderObject, CGameObject
+CGuild class: 0xdb63d4,1 
+CGuildEmblemReqBundle class: 0xdb63dc,1 
+CGuildMgr class: 0xdb6424,1 
+CHalluNPC class: 0xe1a5f8,58 CNpc, CGameActor, CAbleToMakeEffect, CRenderObject, CGameObject
+CHalluPC class: 0xe1a420,58 CPc, CGameActor, CAbleToMakeEffect, CRenderObject, CGameObject
+CHalluPC2 class: 0xe1a50c,58 CPc, CGameActor, CAbleToMakeEffect, CRenderObject, CGameObject
+CHalluPlant class: 0xe1a75c,58 CNpc, CGameActor, CAbleToMakeEffect, CRenderObject, CGameObject
+CHealEffect class: 0xe0dc34,29 CEffect
+CHealSp class: 0xe05df4,29 CEffect
+CHitLineEffect class: 0xdb7f10,29 CEffect
+CIDispatchEx class: 0xddb8f0,7 IDispatch, IUnknown
+CIDocHostUIHandlerEx class: 0xddb8a4,18 IDocHostUIHandler, IUnknown
+CIOleInPlaceFrameEx class: 0xddb824,15 IOleInPlaceFrame, IOleInPlaceUIWindow, IOleWindow, IUnknown
+CIOleInPlaceSiteEx class: 0xddb864,15 IOleInPlaceSite, IOleWindow, IUnknown
+CIcon class: 0xdc2058,15 CRenderObject, CGameObject
+CImfRes class: 0xdba99c,8 CRes
+CInputMode class: 0xddf848,3 
+CInstantVar class: 0xe16a74,1 
+CItem class: 0xe19bfc,14 CAbleToMakeEffect, CRenderObject, CGameObject
+CItemDropEffect class: 0xdb89d8,29 CEffect
+CItemInfoMgr class: 0xddc900,1 
+CItemInfoMgr::lcData class: 0xddc8f8,1 
+CJupitelThunderHit class: 0xdb8e74,29 CEffect
+CKafraMoveMapServiceInfo class: 0xdd3580,1 
+CLanguage class: 0xddbe58,10 
+CLanguageARB class: 0xddbedc,10 CLanguage
+CLanguageTC class: 0xddbe84,10 CLanguage
+CLanguageTH class: 0xddbeb0,10 CLanguage
+CLevel150Effect class: 0xe05e6c,29 CEffect
+CLevel150SubEffect class: 0xe05f38,29 CEffect
+CLevel99Effect class: 0xe0dcf4,29 CEffect
+CLevel99Orb1Effect class: 0xe0e0ac,29 CEffect
+CLevel99Orb2Effect class: 0xe0e13c,29 CEffect
+CLightSphereEffect class: 0xe0e1d0,29 CEffect
+CLoadMyPartyAsyncWork class: 0xdb0fe4,4 NAsyncWork, NRecycleObject
+CLoadPartyListAsyncWork class: 0xdb1070,4 NAsyncWork, NRecycleObject
+CLoginMode class: 0xe19c40,8 CMode
+CLuaInstance class: 0xdaa394,1 
+CMagicFloorEffect class: 0xe06054,29 CEffect
+CMagnumBreak class: 0xe06138,29 CEffect
+CMandraAttackEffect class: 0xe21880,14 CRenderObject, CGameObject
+CMapChainEffect class: 0xe061c4,29 CEffect
+CMapInfoMgr class: 0xdb6f88,1 
+CMapMagicZoneEffect class: 0xe0e24c,29 CEffect
+CMapProperty class: 0xe16a5c,1 
+CMapPropertyMgr class: 0xe16a64,1 
+CMapSkyMgr class: 0xdafbd0,1 Singleton<CMapSkyMgr>
+CMappillarEffect class: 0xe06250,29 CEffect
+CMasterChaser class: 0xe1a6e4,14 CRenderObject, CGameObject
+CMemMapPakFile class: 0xddf1e4,3 CPakFile
+CMercenaryAI class: 0xe1a094,1 
+CMergeItemWnd class: 0xdbf36c,49 UIFrameWnd, UIWindow, UIRPData
+CMeteorEffect class: 0xe05668,29 CEffect
+CMode class: 0xddc628,8 
+CMouse class: 0xdb6238,1 
+CMousePointer class: 0xe16bf8,14 CRenderObject, CGameObject
+CMsgEffect class: 0xe218bc,14 CAbleToMakeEffect, CRenderObject, CGameObject
+CMultiTexParticle class: 0xdb8068,1 CParticle
+CNavi_Link class: 0xe0fb50,19 CNavi_Object
+CNavi_Object class: 0xe0fb00,19 
+CNewCloudKillEffect class: 0xdb9008,29 CEffect
+CNpc class: 0xe1a1d0,58 CGameActor, CAbleToMakeEffect, CRenderObject, CGameObject
+CNumEffect class: 0xe1a720,14 CRenderObject, CGameObject
+CNyanggrassEffect class: 0xdb8074,29 CEffect
+COleClientSiteEx class: 0xddb928,9 IOleClientSite, IUnknown
+CPakFile class: 0xddf1d4,3 
+CPaletteRes class: 0xdbad3c,8 CRes
+CPartialShutDownSchedule class: 0xe10548,2 CSchedule
+CParticle class: 0xe05b40,1 
+CPc class: 0xe1aac8,58 CGameActor, CAbleToMakeEffect, CRenderObject, CGameObject
+CPetEvolutionMgr class: 0xdb6a5c,1 
+CPlayer class: 0xe1af08,58 CPc, CGameActor, CAbleToMakeEffect, CRenderObject, CGameObject
+CPlayerNameDictionary class: 0xdb2048,1 
+CPlayerSkillBundle class: 0xdbb04c,1 
+CPlayerSkillBundle::lcEXCInfo class: 0xdbb044,1 
+CPokJukEffect class: 0xe0e2ec,29 CEffect
+CPowderingEffect class: 0xdb810c,29 CEffect
+CPrivateAirplaneMgr class: 0xdb70dc,1 
+CRagConnection class: 0xe16570,1 CConnection
+CRagEffect class: 0xe10924,19 CRenderObject, CGameObject
+CRainbowEffect class: 0xe0e37c,29 CEffect
+CRandomOptEffect class: 0xdb9118,29 CEffect
+CReassemblySerialOutput class: 0xdb2050,1 
+CRectUpEffect class: 0xdb81e0,31 CEffect
+CRedLineEffect class: 0xe0e40c,29 CEffect
+CRegisterPartyAsyncWork class: 0xdb110c,4 NAsyncWork, NRecycleObject
+CRenderObject class: 0xe16a94,14 CGameObject
+CRenderSystemBase class: 0xdae038,19 
+CRenderSystemDX7 class: 0xdae088,19 CRenderSystemBase
+CRenderSystemDX9 class: 0xdae124,19 CRenderSystemBase
+CRenderer class: 0xdadf34,21 
+CRendererDX7 class: 0xdadda0,21 CRenderer
+CRendererDX9 class: 0xdadf8c,21 CRenderer
+CRenewQuestMgr class: 0xdb6bf0,1 
+CRes class: 0xdba570,8 
+CRichManKim class: 0xdb8298,29 CEffect
+CRichsCoinEffect class: 0xdb91b4,29 CEffect
+CRijndael class: 0xdb6090,1 
+CRmaRes class: 0xdba4e4,8 CRes
+CRollingCutterRagEffect class: 0xdb2080,19 CRagEffect, CRenderObject, CGameObject
+CRootTwistEffect class: 0xdb8334,29 CEffect
+CRotateBgEffect class: 0xe0e498,29 CEffect
+CRotateItemEffect class: 0xe0e524,29 CEffect
+CRotateLineEffect class: 0xe0e5c4,29 CEffect
+CSaintCastingEffect class: 0xe0e63c,29 CEffect
+CScatterEffect class: 0xe0e6d0,29 CEffect
+CSchedule class: 0xdb62d4,2 
+CSchedulerIDAlocator class: 0xe10554,1 
+CSecondPwdRandom class: 0xdd26bc,1 
+CSequenceRandomGenerator class: 0xe1667c,1 
+CSevereRainStorm class: 0xdb92a0,29 CEffect
+CShutDownSchedule class: 0xe1055c,2 CSchedule
+CSignBoardWnd class: 0xdc2160,49 UIWindow, UIRPData
+CSkill class: 0xe21664,58 CGameActor, CAbleToMakeEffect, CRenderObject, CGameObject
+CSkillInfo class: 0xdbb03c,1 
+CSkinMgr class: 0xdbf518,1 
+CSmokeEffect class: 0xe0e774,29 CEffect
+CSnapMgr class: 0xdbf58c,1 
+CSoulCollectEffect class: 0xdb935c,29 CEffect
+CSoulUnityEffect class: 0xdb93fc,29 CEffect
+CSoundMaker class: 0xe1a194,14 CRenderObject, CGameObject
+CSoundMgr class: 0xdb6240,1 
+CSphereWind2Effect class: 0xe0e814,29 CEffect
+CSphereWindEffect class: 0xe0e8b8,29 CEffect
+CSprRes class: 0xdbae38,9 CRes
+CSpriteDataInfoMgr class: 0xddcb08,1 
+CSpriteEffect class: 0xe0e944,29 CEffect
+CSpriteMableEffect class: 0xdb841c,29 CEffect
+CSpriteParticle class: 0xe05b48,1 CParticle
+CSpriteResPair class: 0xdb62ec,1 
+CSquareRangeEffect class: 0xe062cc,29 CEffect
+CStarEffect class: 0xe0f4d8,29 CEffect
+CStarEmperorEffect class: 0xdb94a0,29 CEffect
+CSteal class: 0xe0635c,29 CEffect
+CStemSpearEffect class: 0xdb85b8,29 CEffect
+CStopRecruitingAsyncWork class: 0xdb119c,4 NAsyncWork, NRecycleObject
+CStormGustEffect class: 0xe0f578,29 CEffect
+CStormKickEffect class: 0xe0f600,29 CEffect
+CSunStanceEffect class: 0xdb95b4,29 CEffect
+CSurface class: 0xdace34,12 
+CSurfaceDX7 class: 0xdace68,12 CSurface
+CSurfaceDX9 class: 0xdae290,12 CSurface
+CSurfaceWallpaperDX7 class: 0xdace9c,12 CSurfaceDX7, CSurface
+CSvgSpiritEffect class: 0xdb8680,29 CEffect
+CSyncObject class: 0xddf450,1 
+CTableMng class: 0xe16990,1 
+CTetraBallEffect class: 0xdb9698,29 CEffect
+CTexture class: 0xdae2e4,16 CSurface
+CTextureDX7 class: 0xdaced0,16 CTexture, CSurface
+CTextureDX9 class: 0xdae328,16 CTexture, CSurface
+CThrowItemEffect class: 0xe0f6b0,29 CEffect
+CTimeScheduler class: 0xe10568,1 
+CTipBoxMgr class: 0xdbb0c8,1 
+CTownInfoMgr class: 0xdde9c0,1 
+CTriangleShotArrow class: 0xdb97e0,29 CEffect
+CTunaPartyEffect class: 0xdb8728,29 CEffect
+CUICollectionSystemWnd class: 0xdd3c98,49 UIFrameWnd, UIWindow, UIRPData
+CUIResourceMgr class: 0xe10570,1 
+CUpdateWindowScheduler class: 0xdb62e0,2 CSchedule
+CView class: 0xddc78c,5 
+CVolcanoEffect class: 0xe0f8f0,29 CEffect
+CWarningPlaneEffect class: 0xdb8804,29 CEffect
+CWave class: 0xdbae9c,8 CRes
+CWebEventReceiver class: 0xddba54,7 IDispatch, IUnknown
+CWindEffect class: 0xdb98a4,29 CEffect
+CWorld class: 0xddbd88,1 
+FuncDrawWNDChar class: 0xdbe4a0,1 
+FuncRenderBodyLayer class: 0xe1accc,1 
+ITEM_DESC class: 0xdb71e4,1 
+Json::DefaultValueAllocator class: 0xdb74e4,5 Json::ValueAllocator
+Json::FastWriter class: 0xdb7680,2 Json::Writer
+Json::StyledWriter class: 0xdb74d8,2 Json::Writer
+Json::ValueAllocator class: 0xdb74c0,5 
+Json::Writer class: 0xdb7674,2 
+JsonCppLoader class: 0xda6d0c,1 
+LineCutter::UIText class: 0xdc3e3c,49 UIWindow, UIRPData
+NAsyncWork class: 0xdb0ef4,4 NRecycleObject
+NAsyncWorkMgr class: 0xdb9930,2 
+NAsyncWorkPtr class: 0xdb993c,1 
+NAsyncWorkRequestQueue class: 0xdb9944,1 
+NAsyncWorkResponseQueue class: 0xdb994c,1 
+NAsyncWorkThread class (attr=1): 0xdb9960,1 NObject, NInter (8, -1, 0), NThread (12, -1, 0)
+NAsyncWorkThread class (vtblOffset=12,attr=1): 0xdb9974,3 NObject, NInter (8, -1, 0), NThread (12, -1, 0)
+NAsyncWorkThread class (vtblOffset=8,attr=1): 0xdb9968,2 NObject, NInter (8, -1, 0), NThread (12, -1, 0)
+NFileLog class: 0xdb9994,1 
+NIPAddr class: 0xdb9a38,1 
+NInter class: 0xdb9954,2 
+NLuaState class: 0xe16a34,1 
+NLuaThread class: 0xe16a3c,1 
+NMessageMgr class: 0xdb9a94,1 
+NMessageQueue class: 0xdb9a9c,1 
+NObject class: 0xdb9aa4,1 
+NRecycleObject class: 0xdb0ee8,2 
+NRecycleObjectPool<CChangePartyMasterAsyncWork> class: 0xdae410,3 NRecycleObjectPoolInter
+NRecycleObjectPool<CEmblemDataDownloadAsyncWork> class: 0xdae3c0,3 NRecycleObjectPoolInter
+NRecycleObjectPool<CEmblemDataUploadAsyncWork> class: 0xdae3b0,3 NRecycleObjectPoolInter
+NRecycleObjectPool<CLoadMyPartyAsyncWork> class: 0xdae3e0,3 NRecycleObjectPoolInter
+NRecycleObjectPool<CLoadPartyListAsyncWork> class: 0xdae3d0,3 NRecycleObjectPoolInter
+NRecycleObjectPool<CRegisterPartyAsyncWork> class: 0xdae3f0,3 NRecycleObjectPoolInter
+NRecycleObjectPool<CStopRecruitingAsyncWork> class: 0xdae400,3 NRecycleObjectPoolInter
+NRecycleObjectPoolInter class: 0xdae398,3 
+NRecycleObjectPoolMgr class: 0xdb9aac,1 
+NSyncObject class: 0xdb9ab4,1 
+NThread class: 0xdb9abc,3 
+RDamageVar class: 0xdba4b8,1 
+Singleton<CMapSkyMgr> class: 0xdafbc8,1 
+SnapObject class: 0xdbf584,1 
+TELEXInputMode class: 0xddf858,3 CInputMode
+TableBox class: 0xdc93d4,49 UIWindow, UIRPData
+TagTextViewer::UIScroll class: 0xdc4188,49 UIWindow, UIRPData
+UI2ndCostumeCheckBox class: 0xdc25f8,49 UICheckBox, UIWindow, UIRPData
+UI2ndCostumeWnd class: 0xdc2aac,49 UIStylingshopTabParentWnd, UIWindow, UIRPData
+UIAccBitmapButton class: 0xdc252c,50 UIBitmapButton, UIButton, UIWindow, UIRPData
+UIAccessoryCusWnd class: 0xdc2918,49 UIStylingshopTabParentWnd, UIWindow, UIRPData
+UIAccessoryShowCase class: 0xdc29e0,50 UIScrollWnd, UIWindow, UIRPData
+UIAccountLimitedToolWnd class: 0xdd53bc,49 UIFrameWnd, UIWindow, UIRPData
+UIAchBalloonText class: 0xdc5b98,49 UITransBalloonText, UIBalloonText, UIWindow, UIRPData
+UIAchListWnd class: 0xdbb834,49 UIWindow, UIRPData
+UIAchScrollBar class: 0xdbb2a8,50 UIScrollBar, UIWindow, UIRPData
+UIAchSummaryWnd class: 0xdbb8fc,49 UIWindow, UIRPData
+UIAchTV class: 0xdbb374,53 UITextViewer, UIListBox, UIWindow, UIRPData
+UIAchTab class: 0xdbb44c,49 UIWindow, UIRPData
+UIAchTracingWnd class: 0xdbc1d4,49 UIFrameWnd, UIWindow, UIRPData
+UIAchUpperWnd class: 0xdbb5dc,49 UIWindow, UIRPData
+UIAchViewWnd class: 0xdbb76c,49 UIWindow, UIRPData
+UIAchievementWnd class: 0xdbb9c4,49 UIFrameWnd, UIWindow, UIRPData
+UIAdvenPartyBoardWnd class: 0xdbc5d8,49 UIFrameWnd, UIWindow, UIRPData
+UIAgitMessageBox class: 0xdd57f4,49 UIFrameWnd, UIWindow, UIRPData
+UIAllyGuildAcceptWnd class: 0xdcc5f8,49 UIExchangeAcceptWnd, UIChooseSellBuyWnd, UIFrameWnd, UIWindow, UIRPData
+UIApplyForPartyWnd class: 0xdbc378,49 UIFrameWnd, UIWindow, UIRPData
+UIAutoMessageWnd class: 0xdd0f4c,49 UIFrameWnd, UIWindow, UIRPData
+UIBabyAcceptWnd class: 0xdcf7d8,49 UIExchangeAcceptWnd, UIChooseSellBuyWnd, UIFrameWnd, UIWindow, UIRPData
+UIBabyAcceptWnd2 class: 0xdcf8a0,49 UIExchangeAcceptWnd, UIChooseSellBuyWnd, UIFrameWnd, UIWindow, UIRPData
+UIBalloonText class: 0xdc5934,49 UIWindow, UIRPData
+UIBarGraph class: 0xdc7b9c,49 UIWindow, UIRPData
+UIBarGraph2 class: 0xdc7c64,49 UIBarGraph, UIWindow, UIRPData
+UIBarGraph3 class: 0xdc7d2c,49 UIWindow, UIRPData
+UIBarGraph4 class: 0xdcbe28,49 UIBarGraph3, UIWindow, UIRPData
+UIBarGraphHomun class: 0xdc7ad4,49 UIWindow, UIRPData
+UIBarGraphPlayer class: 0xdc7a0c,49 UIWindow, UIRPData
+UIBarterItemPurchaseWnd class: 0xdc44b8,49 UIItemPurchaseWnd, UIItemBaseWnd, UIFrameWnd, UIWindow, UIRPData
+UIBartermarketWnd class: 0xdc4324,49 UIItemShopWnd, UIItemBaseWnd, UIFrameWnd, UIWindow, UIRPData
+UIBasicButton class: 0xdc5f90,50 UIButton, UIWindow, UIRPData
+UIBasicInfoWnd class: 0xdd84b4,49 UIFrameWnd, UIWindow, UIRPData
+UIBasicItemCtrl class: 0xdca0f8,49 UIWindow, UIRPData
+UIBasicSkillCtrl class: 0xdca1c0,49 UIWindow, UIRPData
+UIBasicStylingWnd class: 0xdc2850,49 UIStylingshopTabParentWnd, UIWindow, UIRPData
+UIBattleMsgOptionWnd class: 0xdd325c,50 UIFrameWnd, UIWindow, UIRPData
+UIBitmapButton class: 0xdc5ec4,50 UIButton, UIWindow, UIRPData
+UIBitmapButton2 class: 0xdc8434,50 UIBitmapButton, UIButton, UIWindow, UIRPData
+UIBitmapEditCtrl class: 0xdafcc8,52 UIEditCtrl, UIWindow, UIRPData
+UIBitmapTab class: 0xdc69d4,49 UIWindow, UIRPData
+UIBmpRadioBtn class: 0xdca7ac,49 UIWindow, UIRPData
+UIBmpTextButton class: 0xdc605c,50 UIBitmapButton, UIButton, UIWindow, UIRPData
+UIBmpTextButton2 class: 0xdc6128,50 UIBitmapButton, UIButton, UIWindow, UIRPData
+UIBookWnd class: 0xdd0b60,49 UIFrameWnd, UIWindow, UIRPData
+UIButton class: 0xdc5c60,50 UIWindow, UIRPData
+UICandidateWnd class: 0xdd6a9c,49 UIFrameWnd, UIWindow, UIRPData
+UICaptchaImage class: 0xdcaa1c,49 UIWindow, UIRPData
+UICardItemIllustWnd class: 0xdcec20,49 UIFrameWnd, UIWindow, UIRPData
+UICashShopWnd class: 0xdbd484,49 UIFrameWnd, UIWindow, UIRPData
+UICashShopWnd_Banner class: 0xdbd164,49 UIWindow, UIRPData
+UICashShopWnd_Cart class: 0xdbd2f4,49 UIWindow, UIRPData
+UICashShopWnd_CartItem class: 0xdbd22c,49 UIWindow, UIRPData
+UICashShopWnd_Item class: 0xdbd3bc,49 UIWindow, UIRPData
+UIChangeNameWnd class: 0xdd3004,49 UIFrameWnd, UIWindow, UIRPData
+UIChatEditCtrl class: 0xdc5528,52 UIEditCtrl, UIWindow, UIRPData
+UIChatHisBox class: 0xdc9564,55 UIListBox, UIWindow, UIRPData
+UIChatHisBox2 class: 0xdc9644,55 UIChatHisBox, UIListBox, UIWindow, UIRPData
+UIChatHisBox3 class: 0xdc9724,56 UIChatHisBox2, UIChatHisBox, UIListBox, UIWindow, UIRPData
+UIChatRoomChangeWnd class: 0xdcfbc0,49 UIChatRoomMakeWnd, UIFrameWnd, UIWindow, UIRPData
+UIChatRoomMakeWnd class: 0xdcfaf8,49 UIFrameWnd, UIWindow, UIRPData
+UIChatRoomTitle class: 0xdc6a9c,49 UIWindow, UIRPData
+UIChatRoomWnd class: 0xdcc6c0,49 UIFrameWnd, UIWindow, UIRPData
+UICheckAttendanceWnd class: 0xdbf02c,49 UIFrameWnd, UIWindow, UIRPData
+UICheckAttendanceWnd_Banner class: 0xdbef64,49 UIWindow, UIRPData
+UICheckBox class: 0xdc6524,49 UIWindow, UIRPData
+UIChooseSellBuyWnd class: 0xdcf260,49 UIFrameWnd, UIWindow, UIRPData
+UIChooseWarpWnd class: 0xdcef40,49 UIFrameWnd, UIWindow, UIRPData
+UIChooseWnd class: 0xdcee78,49 UIFrameWnd, UIWindow, UIRPData
+UIClanInfoManageWnd class: 0xdc4f50,50 UIClanWnd, UIFrameWnd, UIWindow, UIRPData
+UIClanWnd class: 0xdc4e84,50 UIFrameWnd, UIWindow, UIRPData
+UICntWnd class: 0xdcc530,49 UIFrameWnd, UIWindow, UIRPData
+UIColorButton class: 0xdc5df8,50 UIButton, UIWindow, UIRPData
+UIColorTransBalloonText class: 0xdc836c,49 UITransBalloonText, UIBalloonText, UIWindow, UIRPData
+UICombinedCardItemCollectionWnd class: 0xdce900,49 UIItemCollectionWnd, UIFrameWnd, UIWindow, UIRPData
+UICombinedCardItemCollection_ComparisonWnd class: 0xdcea90,49 UIItemCollectionWnd, UIFrameWnd, UIWindow, UIRPData
+UIComboBox class: 0xdc8e3c,53 UIListBox, UIWindow, UIRPData
+UIComboBoxDef2Wnd class: 0xdc90b4,49 UIComboBoxDefWnd, UIWindow, UIRPData
+UIComboBoxDefWnd class: 0xdc8fec,49 UIWindow, UIRPData
+UIComboBoxEx class: 0xdc8bb4,53 UIListBoxEx, UIWindow, UIRPData
+UIComboBoxEx2 class: 0xdc8c8c,53 UIComboBoxEx, UIListBoxEx, UIWindow, UIRPData
+UIComboBoxID class: 0xdc8f14,53 UIListBoxID, UIWindow, UIRPData
+UIComboBoxIDWnd class: 0xdd06b0,49 UIFrameWnd, UIWindow, UIRPData
+UIComboBoxV2Wnd class: 0xdc930c,49 UIWindow, UIRPData
+UIComboBoxWnd class: 0xdd05e8,49 UIFrameWnd, UIWindow, UIRPData
+UIComboBox_BmpWnd class: 0xdc9244,49 UIComboBoxDefWnd, UIWindow, UIRPData
+UICommandListWnd class: 0xdd0cf0,50 UIFrameWnd, UIWindow, UIRPData
+UICompositionWnd class: 0xdd69d4,49 UIFrameWnd, UIWindow, UIRPData
+UICoupleAcceptWnd class: 0xdcf4b8,49 UIExchangeAcceptWnd, UIChooseSellBuyWnd, UIFrameWnd, UIWindow, UIRPData
+UICreateGuildWnd class: 0xdd63ec,49 UIGuildHelperWnd, UIFrameWnd, UIWindow, UIRPData
+UICustomGageBar class: 0xdbb514,49 UIWindow, UIRPData
+UIDescriptRace class: 0xdcae0c,50 UIBitmapButton, UIButton, UIWindow, UIRPData
+UIDisplayCharacter class: 0xdc2398,49 UIWindow, UIRPData
+UIDragMiniPartyWnd class: 0xdb9acc,49 UIFrameWnd, UIWindow, UIRPData
+UIEditCtrl class: 0xdc5100,52 UIWindow, UIRPData
+UIEditCtrl2 class: 0xdc51d4,52 UIEditCtrl, UIWindow, UIRPData
+UIEditCtrl3 class: 0xdc5450,53 UIEditCtrl2, UIEditCtrl, UIWindow, UIRPData
+UIEditCtrl4 class: 0xdc52a8,52 UIEditCtrl, UIWindow, UIRPData
+UIEditCtrl5 class: 0xdc537c,52 UIEditCtrl4, UIEditCtrl, UIWindow, UIRPData
+UIEditCtrlVarId class: 0xdc7938,52 UIEditCtrl, UIWindow, UIRPData
+UIEditCtrlWheel class: 0xdd6b64,52 UIEditCtrl, UIWindow, UIRPData
+UIEditCtrl_Currency class: 0xdca948,52 UIEditCtrl_Custom, UIEditCtrl2, UIEditCtrl, UIWindow, UIRPData
+UIEditCtrl_Custom class: 0xdca874,52 UIEditCtrl2, UIEditCtrl, UIWindow, UIRPData
+UIEditCtrl_OldList class: 0xdc56d0,52 UIEditCtrl, UIWindow, UIRPData
+UIEditctrlWnd class: 0xdd8828,49 UIFrameWnd, UIWindow, UIRPData
+UIEmailAddressWnd class: 0xdce388,49 UIFrameWnd, UIWindow, UIRPData
+UIEmblemWnd class: 0xdc6c2c,49 UIWindow, UIRPData
+UIEmotion class: 0xdc3f04,49 UIWindow, UIRPData
+UIEmotionListWnd class: 0xdcbcc8,49 UIFrameWnd, UIWindow, UIRPData
+UIEmotionWnd class: 0xdd9c48,49 UIFrameWnd, UIWindow, UIRPData
+UIEntryQueueHelpWnd class: 0xe10038,49 UIFrameWnd, UIWindow, UIRPData
+UIEntryQueueListBox class: 0xe10100,55 UIListBox, UIWindow, UIRPData
+UIEntryQueueRequestWnd class: 0xe101e0,49 UIFrameWnd, UIWindow, UIRPData
+UIEntryQueueStandByWnd class: 0xe102a8,49 UIFrameWnd, UIWindow, UIRPData
+UIEntryQueueWnd class: 0xe103a8,49 UIFrameWnd, UIWindow, UIRPData
+UIEquipWnd class: 0xdce068,49 UIFrameWnd, UIWindow, UIRPData
+UIEscOptionWnd class: 0xdd38b0,49 UIFrameWnd, UIWindow, UIRPData
+UIExchangeAcceptWnd class: 0xdcf328,49 UIChooseSellBuyWnd, UIFrameWnd, UIWindow, UIRPData
+UIExchangeWnd class: 0xdcdd48,49 UIFrameWnd, UIWindow, UIRPData
+UIExpandedBarterItemPurchaseWnd class: 0xdc47c4,50 UIFrameWnd, UIWindow, UIRPData
+UIExpandedBarterPurchaseButton class: 0xdc46f8,50 UIBitmapButton, UIButton, UIWindow, UIRPData
+UIExpandedBartermarketWnd class: 0xdc4630,49 UIFrameWnd, UIWindow, UIRPData
+UIFrameWnd class: 0xdcbef0,49 UIWindow, UIRPData
+UIFriendOptionWnd class: 0xdb9c50,49 UIFrameWnd, UIWindow, UIRPData
+UIGage class: 0xdc7f84,49 UIWindow, UIRPData
+UIGraffiStrboxWnd class: 0xdd09d0,49 UIFrameWnd, UIWindow, UIRPData
+UIGraphicSettingWnd class: 0xdbf5e4,49 UIFrameWnd, UIWindow, UIRPData
+UIGuildBanReasonDescWnd class: 0xdd6194,49 UIGuildLeaveReasonDescWnd, UIFrameWnd, UIWindow, UIRPData
+UIGuildBanishedMemberWnd class: 0xdd5e68,50 UIGuildWnd, UIFrameWnd, UIWindow, UIRPData
+UIGuildHelperWnd class: 0xdd625c,49 UIFrameWnd, UIWindow, UIRPData
+UIGuildInfoManageWnd class: 0xdd5b38,50 UIGuildWnd, UIFrameWnd, UIWindow, UIRPData
+UIGuildLeaveReasonDescWnd class: 0xdd60cc,49 UIFrameWnd, UIWindow, UIRPData
+UIGuildMemberManageWnd class: 0xdd5c04,50 UIGuildWnd, UIFrameWnd, UIWindow, UIRPData
+UIGuildNoticeWnd class: 0xdd5f34,50 UIGuildWnd, UIFrameWnd, UIWindow, UIRPData
+UIGuildPositionManageWnd class: 0xdd5cd0,50 UIGuildWnd, UIFrameWnd, UIWindow, UIRPData
+UIGuildSkillWnd class: 0xdd5d9c,50 UIGuildWnd, UIFrameWnd, UIWindow, UIRPData
+UIGuildTipWnd class: 0xdd6324,49 UIFrameWnd, UIWindow, UIRPData
+UIGuildTotalInfoWnd class: 0xdd6000,50 UIGuildWnd, UIFrameWnd, UIWindow, UIRPData
+UIGuildWnd class: 0xdd5a6c,50 UIFrameWnd, UIWindow, UIRPData
+UIGuild_Storage_Log class: 0xdd4d74,49 UIFrameWnd, UIWindow, UIRPData
+UIHairBitmap class: 0xdbe4e4,50 UIBitmapButton, UIButton, UIWindow, UIRPData
+UIHairStyleButton class: 0xdbe5b0,50 UIBitmapButton, UIButton, UIWindow, UIRPData
+UIHeadsprButton class: 0xdc638c,50 UISpriteButton, UIButton, UIWindow, UIRPData
+UIHomunInfoWnd class: 0xdcc9e0,49 UIFrameWnd, UIWindow, UIRPData
+UIHotKeyWnd class: 0xdd37e8,49 UIFrameWnd, UIWindow, UIRPData
+UIINT64BarGraph class: 0xdc7df4,49 UIWindow, UIRPData
+UIIllustWnd class: 0xdd6814,49 UIFrameWnd, UIWindow, UIRPData
+UIImgMenu class: 0xdc9c3c,49 UIWindow, UIRPData
+UIIngredientInfoWnd class: 0xdb15a4,49 UIFrameWnd, UIWindow, UIRPData
+UIItemBaseWnd class: 0xdd6c38,49 UIFrameWnd, UIWindow, UIRPData
+UIItemCollectionWnd class: 0xdce838,49 UIFrameWnd, UIWindow, UIRPData
+UIItemCollection_ComparisonWnd class: 0xdce9c8,49 UIItemCollectionWnd, UIFrameWnd, UIWindow, UIRPData
+UIItemCompositionWnd class: 0xdd0138,49 UIItemIdentifyWnd, UIFrameWnd, UIWindow, UIRPData
+UIItemDropCntWnd class: 0xdd7980,49 UIFrameWnd, UIWindow, UIRPData
+UIItemIdentifyWnd class: 0xdcfee0,49 UIFrameWnd, UIWindow, UIRPData
+UIItemImage class: 0xdc3fcc,49 UIWindow, UIRPData
+UIItemParamChangeDisplayWnd class: 0xdce1f8,49 UIFrameWnd, UIWindow, UIRPData
+UIItemPurchaseWnd class: 0xdd71b0,49 UIItemBaseWnd, UIFrameWnd, UIWindow, UIRPData
+UIItemRepairWnd class: 0xdd8bcc,49 UIFrameWnd, UIWindow, UIRPData
+UIItemSellWnd class: 0xdd7278,49 UIItemBaseWnd, UIFrameWnd, UIWindow, UIRPData
+UIItemSellWnd2 class: 0xdd7340,49 UIItemBaseWnd, UIFrameWnd, UIWindow, UIRPData
+UIItemShopWnd class: 0xdd7020,49 UIItemBaseWnd, UIFrameWnd, UIWindow, UIRPData
+UIItemShopWnd2 class: 0xdd70e8,49 UIItemBaseWnd, UIFrameWnd, UIWindow, UIRPData
+UIItemStoreComboBox class: 0xdc8d64,53 UIComboBoxEx, UIListBoxEx, UIWindow, UIRPData
+UIItemStoreComboBoxWnd class: 0xdc917c,49 UIComboBoxDefWnd, UIWindow, UIRPData
+UIItemStoreFindWnd class: 0xdd6dc8,49 UIItemBaseWnd, UIFrameWnd, UIWindow, UIRPData
+UIItemStoreSubWnd class: 0xdd6d00,49 UIItemBaseWnd, UIFrameWnd, UIWindow, UIRPData
+UIItemStoreWnd class: 0xdd6e90,49 UIItemBaseWnd, UIFrameWnd, UIWindow, UIRPData
+UIItemTagButton class: 0xdca6e0,50 UITextButton, UIButton, UIWindow, UIRPData
+UIItemTagCtrl class: 0xdca350,56 UIEditCtrl, UIWindow, UIRPData
+UIItemTagOnChat class: 0xdca434,56 UIItemTagCtrl, UIEditCtrl, UIWindow, UIRPData
+UIItemTagOnMail class: 0xdca5fc,56 UIItemTagCtrl, UIEditCtrl, UIWindow, UIRPData
+UIItemTagOnMegaPhone class: 0xdca518,56 UIItemTagCtrl, UIEditCtrl, UIWindow, UIRPData
+UIItemWnd class: 0xdd7728,49 UIItemBaseWnd, UIFrameWnd, UIWindow, UIRPData
+UIJobIconButton class: 0xdb9d20,50 UIBitmapButton, UIButton, UIWindow, UIRPData
+UIJobListWnd class: 0xdd2dac,49 UIFrameWnd, UIWindow, UIRPData
+UIJobSlotButton class: 0xdbc50c,50 UIBitmapButton, UIButton, UIWindow, UIRPData
+UIJoinFriendAcceptWnd class: 0xdd0c28,49 UIExchangeAcceptWnd, UIChooseSellBuyWnd, UIFrameWnd, UIWindow, UIRPData
+UIJoinGuildAcceptWnd class: 0xdcf968,49 UIExchangeAcceptWnd, UIChooseSellBuyWnd, UIFrameWnd, UIWindow, UIRPData
+UIJoinPartyAcceptWnd class: 0xdcf3f0,49 UIExchangeAcceptWnd, UIChooseSellBuyWnd, UIFrameWnd, UIWindow, UIRPData
+UIKeyStrokeWnd class: 0xdd690c,49 UIFrameWnd, UIWindow, UIRPData
+UILapineBoxWnd class: 0xdb1738,49 UIFrameWnd, UIWindow, UIRPData
+UILapineBox_IngredientListWnd class: 0xdb166c,50 UIScrollWnd, UIWindow, UIRPData
+UILapineScrollBar class: 0xdb14d8,50 UIScrollBar, UIWindow, UIRPData
+UILapineUpgradeBoxWnd class: 0xdb1f24,49 UIFrameWnd, UIWindow, UIRPData
+UILapineUpgradeBox_IngredientInfoWnd class: 0xdb1d90,49 UIFrameWnd, UIWindow, UIRPData
+UILapineUpgradeBox_IngredientListWnd class: 0xdb1e58,50 UIScrollWnd, UIWindow, UIRPData
+UILicenseWnd class: 0xdd99e8,49 UIFrameWnd, UIWindow, UIRPData
+UIListBox class: 0xdc85cc,53 UIWindow, UIRPData
+UIListBox2 class: 0xdc877c,53 UIListBox, UIWindow, UIRPData
+UIListBoxAgit class: 0xdd5994,53 UIListBox, UIWindow, UIRPData
+UIListBoxAgitMenu class: 0xdd58bc,53 UIListBox, UIWindow, UIRPData
+UIListBoxEx class: 0xdc8a04,53 UIWindow, UIRPData
+UIListBoxID class: 0xdc8854,53 UIWindow, UIRPData
+UIListBoxNavi class: 0xdc892c,53 UIListBox, UIWindow, UIRPData
+UIListBoxTitle class: 0xdc8adc,53 UIListBoxID, UIWindow, UIRPData
+UIListBox_NaviSearch class: 0xdafd9c,53 UIListBox, UIWindow, UIRPData
+UILoadingWnd class: 0xdcded8,49 UIFrameWnd, UIWindow, UIRPData
+UILoginOTPWnd class: 0xdcc2d8,49 UIFrameWnd, UIWindow, UIRPData
+UILoginWnd class: 0xdcc210,49 UIFrameWnd, UIWindow, UIRPData
+UIMakeCharWnd class: 0xdcc468,49 UIFrameWnd, UIWindow, UIRPData
+UIMakeTargetListWnd class: 0xdd8b04,49 UIFrameWnd, UIWindow, UIRPData
+UIMakeTargetProcessWnd class: 0xdd8d5c,49 UIFrameWnd, UIWindow, UIRPData
+UIMakeTargetResultWnd class: 0xdd8e24,49 UIFrameWnd, UIWindow, UIRPData
+UIMakingArrowListWnd class: 0xdd0070,49 UIItemIdentifyWnd, UIFrameWnd, UIWindow, UIRPData
+UIMemberListBox class: 0xdc9808,55 UIChatHisBox2, UIChatHisBox, UIListBox, UIWindow, UIRPData
+UIMemorialDunWnd class: 0xdd34b8,49 UIFrameWnd, UIWindow, UIRPData
+UIMenuIcon class: 0xdc48fc,50 UIBitmapButton, UIButton, UIWindow, UIRPData
+UIMenuIconWnd class: 0xdc49c8,49 UIFrameWnd, UIWindow, UIRPData
+UIMenuWnd class: 0xdd0520,49 UIFrameWnd, UIWindow, UIRPData
+UIMerInfoWnd class: 0xdccaa8,49 UIFrameWnd, UIWindow, UIRPData
+UIMerchantItemLogWnd class: 0xdd8a14,49 UIItemBaseWnd, UIFrameWnd, UIWindow, UIRPData
+UIMerchantItemLogWnd::lcData class: 0xdd8a0c,1 
+UIMerchantItemMyShopWnd class: 0xdd74d0,49 UIItemBaseWnd, UIFrameWnd, UIWindow, UIRPData
+UIMerchantItemPurchaseWnd class: 0xdd7598,49 UIItemBaseWnd, UIFrameWnd, UIWindow, UIRPData
+UIMerchantItemShopWnd class: 0xdd7408,49 UIItemBaseWnd, UIFrameWnd, UIWindow, UIRPData
+UIMerchantItemWnd class: 0xdd77f0,49 UIItemBaseWnd, UIFrameWnd, UIWindow, UIRPData
+UIMerchantMirrorItemWnd class: 0xdd78b8,49 UIItemBaseWnd, UIFrameWnd, UIWindow, UIRPData
+UIMerchantShopMakeWnd class: 0xdd7a48,49 UIFrameWnd, UIWindow, UIRPData
+UIMerchantShopTitle class: 0xdc6b64,49 UIWindow, UIRPData
+UIMessageBox class: 0xdcbfb8,49 UIFrameWnd, UIWindow, UIRPData
+UIMessageBoxAutoreturn class: 0xdcc080,49 UIFrameWnd, UIWindow, UIRPData
+UIMessengerGroupWnd class: 0xdb9dec,49 UIFrameWnd, UIWindow, UIRPData
+UIMiniBtnWnd class: 0xdd3658,49 UIFrameWnd, UIWindow, UIRPData
+UIMiniMapWnd class: 0xdd8760,49 UIFrameWnd, UIWindow, UIRPData
+UIMiniPartyInfoWnd class: 0xdba264,49 UIFrameWnd, UIWindow, UIRPData
+UIMiniPartyWnd class: 0xdba344,49 UIFrameWnd, UIWindow, UIRPData
+UIMinimapZoomWnd class: 0xdd0200,49 UIFrameWnd, UIWindow, UIRPData
+UIMixAcceptWnd class: 0xdcf648,49 UIExchangeAcceptWnd, UIChooseSellBuyWnd, UIFrameWnd, UIWindow, UIRPData
+UIMonsterDisplayWnd class: 0xdcece8,49 UIFrameWnd, UIWindow, UIRPData
+UIMonsterGage class: 0xdc82a4,49 UIPcGage, UIGage, UIWindow, UIRPData
+UIMonsterInfoWnd class: 0xdcc788,49 UIFrameWnd, UIWindow, UIRPData
+UIMyStyleWnd class: 0xdc2d04,49 UIStylingshopTabParentWnd, UIWindow, UIRPData
+UINameBalloonText class: 0xdc59fc,52 UIBalloonText, UIWindow, UIRPData
+UINaviLinkButton class: 0xdcac74,50 UITextButton, UIButton, UIWindow, UIRPData
+UINavigationHelpWnd class: 0xdd3bd0,49 UIFrameWnd, UIWindow, UIRPData
+UINavigationRuideWnd class: 0xdaff3c,49 UIFrameWnd, UIWindow, UIRPData
+UINavigationV4Wnd class: 0xdb00cc,49 UIFrameWnd, UIWindow, UIRPData
+UINavigationWnd class: 0xdd3b08,49 UIFrameWnd, UIWindow, UIRPData
+UINavigationroadiconWnd class: 0xdafe74,49 UIFrameWnd, UIWindow, UIRPData
+UINewChatWnd class: 0xdd33f0,49 UIFrameWnd, UIWindow, UIRPData
+UINewComboBoxCtrl class: 0xdca288,49 UIWindow, UIRPData
+UINewMakeCharWnd class: 0xdbe67c,49 UIFrameWnd, UIWindow, UIRPData
+UINewSelectCharWnd class: 0xdbddc4,49 UIFrameWnd, UIWindow, UIRPData
+UINewSkillListWnd class: 0xdd9408,49 UIFrameWnd, UIWindow, UIRPData
+UINoneVisibleButton class: 0xdc5d2c,50 UIButton, UIWindow, UIRPData
+UINormalMB class: 0xdd4be4,49 UIFrameWnd, UIWindow, UIRPData
+UINoteWnd class: 0xdd52f4,49 UIFrameWnd, UIWindow, UIRPData
+UINoteWnd_Scroll class: 0xdd5228,50 UIScrollWnd, UIWindow, UIRPData
+UINoticeConfirmWnd class: 0xdcf198,49 UIFrameWnd, UIWindow, UIRPData
+UINoticeMessageBox_LockSellItem class: 0xdd7660,49 UIFrameWnd, UIWindow, UIRPData
+UINoticeWnd class: 0xdcc3a0,49 UIFrameWnd, UIWindow, UIRPData
+UINotifyItemObtainWnd class: 0xdce518,49 UIFrameWnd, UIWindow, UIRPData
+UINotifyJobLevelUpWnd class: 0xdd9ab0,49 UINotifyLevelUpWnd, UIFrameWnd, UIWindow, UIRPData
+UINotifyLevelUpWnd class: 0xdd02c8,49 UIFrameWnd, UIWindow, UIRPData
+UINotifyQuestWnd class: 0xdd0390,49 UIFrameWnd, UIWindow, UIRPData
+UINpcEditDialogWnd class: 0xdce5e0,49 UIFrameWnd, UIWindow, UIRPData
+UINpcSprWnd class: 0xdc0394,49 UIWindow, UIRPData
+UINpcTextEditDialogWnd class: 0xdce6a8,49 UINpcEditDialogWnd, UIFrameWnd, UIWindow, UIRPData
+UIOngoingQuestScrollWnd class: 0xdc046c,50 UIScrollWnd, UIWindow, UIRPData
+UIOpenMailBoxWnd class: 0xdd4e3c,50 UIFrameWnd, UIWindow, UIRPData
+UIPackageBoxNameList class: 0xdc86a4,53 UIListBox, UIWindow, UIRPData
+UIParaItemPurchaseWnd class: 0xdd903c,49 UIItemPurchaseWnd, UIItemBaseWnd, UIFrameWnd, UIWindow, UIRPData
+UIParaItemShopWnd class: 0xdd8f74,49 UIItemShopWnd, UIItemBaseWnd, UIFrameWnd, UIWindow, UIRPData
+UIParaResultWnd class: 0xdd9104,50 UIItemBaseWnd, UIFrameWnd, UIWindow, UIRPData
+UIPartyBookingHelpWnd class: 0xdd2c1c,49 UIFrameWnd, UIWindow, UIRPData
+UIPartyInfoWnd class: 0xdbc440,50 UIBitmapButton, UIButton, UIWindow, UIRPData
+UIPartyInvitationToWnd class: 0xdcfd50,49 UIPartySettingWnd, UIFrameWnd, UIWindow, UIRPData
+UIPartySettingWnd class: 0xdcfc88,49 UIFrameWnd, UIWindow, UIRPData
+UIPasswordWnd class: 0xdce2c0,49 UIItemDropCntWnd, UIFrameWnd, UIWindow, UIRPData
+UIPcGage class: 0xdc8114,49 UIGage, UIWindow, UIRPData
+UIPetEggListWnd class: 0xdcffa8,49 UIItemIdentifyWnd, UIFrameWnd, UIWindow, UIRPData
+UIPetEvolutionWnd class: 0xdd9220,49 UIFrameWnd, UIWindow, UIRPData
+UIPetInfoBarGraph class: 0xdc7ebc,49 UIWindow, UIRPData
+UIPetInfoWnd class: 0xdcc918,49 UIFrameWnd, UIWindow, UIRPData
+UIPetTamingDeceiveWnd class: 0xdd0778,49 UIFrameWnd, UIWindow, UIRPData
+UIPlayerGage class: 0xdc81dc,49 UIGage, UIWindow, UIRPData
+UIPreviewEquipWnd class: 0xdbf8b0,49 UIFrameWnd, UIWindow, UIRPData
+UIPrivateAirplaneWnd class: 0xdb0004,49 UIFrameWnd, UIWindow, UIRPData
+UIProhibitListWnd class: 0xdd0a98,49 UIFrameWnd, UIWindow, UIRPData
+UIPurchaseButton class: 0xdc43ec,50 UIBitmapButton, UIButton, UIWindow, UIRPData
+UIQuestDisplay class: 0xdd4cac,49 UIWindow, UIRPData
+UIQuickSlotWnd class: 0xdd3978,49 UIFrameWnd, UIWindow, UIRPData
+UIQuitWnd class: 0xdcf0d0,49 UIFrameWnd, UIWindow, UIRPData
+UIRPData class: 0xdc1ff0,1 
+UIRPImageWnd class: 0xdcaed8,49 UIWindow, UIRPData
+UIRadioBtn class: 0xdc677c,49 UIWindow, UIRPData
+UIRebirthWnd class: 0xdd30cc,49 UIFrameWnd, UIWindow, UIRPData
+UIRechargeGage class: 0xdc804c,49 UIGage, UIWindow, UIRPData
+UIRecommededQuestScrollWnd class: 0xdc063c,50 UIScrollWnd, UIWindow, UIRPData
+UIRefiningWnd class: 0xdbfe34,49 UIFrameWnd, UIWindow, UIRPData
+UIRefining_BtnAgain class: 0xdbfca0,50 UIBitmapButton, UIButton, UIWindow, UIRPData
+UIRefining_BtnRefining class: 0xdbfb08,50 UIBitmapButton, UIButton, UIWindow, UIRPData
+UIRefining_BtnReturn class: 0xdbfbd4,50 UIBitmapButton, UIButton, UIWindow, UIRPData
+UIRefining_Notice class: 0xdbfd6c,49 UIStaticText, UIWindow, UIRPData
+UIRegisterPartyWnd class: 0xdbc2b0,49 UIFrameWnd, UIWindow, UIRPData
+UIRenderTargetWnd class: 0xdc1f28,49 UIFrameWnd, UIWindow, UIRPData
+UIRenewDetailQuestInfoWnd class: 0xdc0708,49 UIFrameWnd, UIWindow, UIRPData
+UIRenewQuestScrollBar class: 0xdc08e4,50 UIScrollBar, UIWindow, UIRPData
+UIRenewQuestWnd class: 0xdc09b0,49 UIFrameWnd, UIWindow, UIRPData
+UIReplayButton class: 0xdccb70,50 UIBitmapButton, UIButton, UIWindow, UIRPData
+UIReplayControlWnd class: 0xdccc3c,49 UIFrameWnd, UIWindow, UIRPData
+UIReplayListBox class: 0xdccd04,53 UIListBox, UIWindow, UIRPData
+UIReplayRECControlWnd class: 0xdccea4,49 UIFrameWnd, UIWindow, UIRPData
+UIRequestJoinPartyMgr class: 0xdbc768,1 
+UIRequestJoinPartyWnd class: 0xdbc6a0,49 UIFrameWnd, UIWindow, UIRPData
+UIResizer class: 0xdc6844,49 UIWindow, UIRPData
+UIRestartWnd class: 0xdcf008,49 UIFrameWnd, UIWindow, UIRPData
+UIRoMapWnd class: 0xdd3590,49 UIFrameWnd, UIWindow, UIRPData
+UIRodexComposeWnd class: 0xdc0f1c,49 UIFrameWnd, UIWindow, UIRPData
+UIRodexContentsWnd class: 0xdc138c,49 UIFrameWnd, UIWindow, UIRPData
+UIRodexEditCtrl3 class: 0xdc0e44,53 UIEditCtrl3, UIEditCtrl2, UIEditCtrl, UIWindow, UIRPData
+UIRodexInboxWnd class: 0xdc1538,49 UIItemWnd, UIItemBaseWnd, UIFrameWnd, UIWindow, UIRPData
+UIRodexScrollBar class: 0xdc0d78,50 UIScrollBar, UIWindow, UIRPData
+UISayDialogWnd class: 0xdcedb0,49 UIFrameWnd, UIWindow, UIRPData
+UIScrollBar class: 0xdc7470,50 UIWindow, UIRPData
+UIScrollBar2 class: 0xdc753c,50 UIScrollBar, UIWindow, UIRPData
+UIScrollBar3 class: 0xdc7608,50 UIScrollBar, UIWindow, UIRPData
+UIScrollBar4 class: 0xdc76d4,50 UIScrollBar, UIWindow, UIRPData
+UIScrollBar_Custom class: 0xdc77a0,50 UIScrollBar, UIWindow, UIRPData
+UIScrollBar_Navi class: 0xdcafa0,50 UIScrollBar, UIWindow, UIRPData
+UIScrollWnd class: 0xdd933c,50 UIWindow, UIRPData
+UISecondCostumeWnd class: 0xdd4f08,49 UIFrameWnd, UIWindow, UIRPData
+UISecondPasswordEditWnd class: 0xdd9b78,49 UISecondPasswordInputWnd, UIStorePasswordInputWnd, UIFrameWnd, UIWindow, UIRPData
+UISecondPasswordInputWnd class: 0xdd0e84,49 UIStorePasswordInputWnd, UIFrameWnd, UIWindow, UIRPData
+UISeekPartyListWnd class: 0xdd2f3c,49 UIFrameWnd, UIWindow, UIRPData
+UISeekPartyMBWnd class: 0xdd2e74,49 UIFrameWnd, UIWindow, UIRPData
+UISeekPartyWnd class: 0xdd2ce4,49 UIFrameWnd, UIWindow, UIRPData
+UISelectCartWnd class: 0xdd0840,49 UIFrameWnd, UIWindow, UIRPData
+UISelectReplayDataWnd class: 0xdccddc,49 UIFrameWnd, UIWindow, UIRPData
+UISelectServerWnd class: 0xdcc148,49 UIFrameWnd, UIWindow, UIRPData
+UISerachStoreInfoWnd class: 0xdd3a40,49 UIFrameWnd, UIWindow, UIRPData
+UIServerListBox class: 0xdc9b64,53 UIListBox, UIWindow, UIRPData
+UIShortCutWnd class: 0xdd2b54,49 UIFrameWnd, UIWindow, UIRPData
+UIShowAndEditTimeCtrl class: 0xdca030,49 UIWindow, UIRPData
+UIShowInfoWnd class: 0xdc26c0,49 UIWindow, UIRPData
+UIShowWarpWnd class: 0xdd5098,49 UIFrameWnd, UIWindow, UIRPData
+UISkillDescribeWnd class: 0xdceb58,49 UIFrameWnd, UIWindow, UIRPData
+UISkillListWnd class: 0xdd6f58,49 UIFrameWnd, UIWindow, UIRPData
+UISkillNameChangeWnd class: 0xdce450,49 UIFrameWnd, UIWindow, UIRPData
+UISlotBitmap class: 0xdc66b4,49 UIStaticBitmap, UIWindow, UIRPData
+UISlotBmpButton class: 0xdcad40,50 UIBitmapButton, UIButton, UIWindow, UIRPData
+UISlotForSelectWnd class: 0xdc2c3c,49 UIWindow, UIRPData
+UISlotOfMyStyleWnd class: 0xdc2b74,49 UIStylingshopTabParentWnd, UIWindow, UIRPData
+UISpellListWnd class: 0xdd0908,49 UIItemIdentifyWnd, UIFrameWnd, UIWindow, UIRPData
+UISpriteButton class: 0xdc62c0,50 UIButton, UIWindow, UIRPData
+UISpriteButton2 class: 0xdc6458,50 UISpriteButton, UIButton, UIWindow, UIRPData
+UIStarPlaceAcceptWnd class: 0xdcf580,49 UIExchangeAcceptWnd, UIChooseSellBuyWnd, UIFrameWnd, UIWindow, UIRPData
+UIStaticBitmap class: 0xdc65ec,49 UIWindow, UIRPData
+UIStaticItem class: 0xdcaae4,49 UIWindow, UIRPData
+UIStaticItem_Illust class: 0xdcabac,49 UIStaticItem, UIWindow, UIRPData
+UIStaticText class: 0xdc57a4,49 UIWindow, UIRPData
+UIStaticText3 class: 0xdc586c,49 UIStaticText, UIWindow, UIRPData
+UIStaticText_LF class: 0xdd5160,49 UIWindow, UIRPData
+UIStatusWnd class: 0xdce770,49 UIFrameWnd, UIWindow, UIRPData
+UIStorePasswordInputWnd class: 0xdd0dbc,49 UIFrameWnd, UIWindow, UIRPData
+UIString class: 0xdc99c0,50 UIWindow, UIRPData
+UIStylingShopButton class: 0xdc2460,50 UIBitmapButton, UIButton, UIWindow, UIRPData
+UIStylingShopWnd class: 0xdc2dcc,49 UIFrameWnd, UIWindow, UIRPData
+UIStylingshopTabParentWnd class: 0xdc2788,49 UIWindow, UIRPData
+UISubChatHisWnd class: 0xdd3328,49 UIFrameWnd, UIWindow, UIRPData
+UISubChatMiniWnd class: 0xdd3194,49 UIFrameWnd, UIWindow, UIRPData
+UISwapBitmapButton class: 0xdc3ae4,50 UIBitmapButton, UIButton, UIWindow, UIRPData
+UISwapEquipmentWnd class: 0xdc3bb0,49 UIFrameWnd, UIWindow, UIRPData
+UITVBitmapButton class: 0xdc9dd0,50 UIBitmapButton, UIButton, UIWindow, UIRPData
+UITVTextButton class: 0xdc9d04,50 UIButton, UIWindow, UIRPData
+UITab class: 0xdc690c,49 UIWindow, UIRPData
+UITabControl class: 0xdc9f68,49 UIWindow, UIRPData
+UITableBox class: 0xdc949c,49 UIWindow, UIRPData
+UITagButton class: 0xdd9710,50 UITextButton, UIButton, UIWindow, UIRPData
+UITagListBox class: 0xdd97ec,53 UIListBox, UIWindow, UIRPData
+UITagListBox::STagInfoV2 class: 0xdd97e4,1 
+UITagTextViewer class: 0xdc4250,50 TagTextViewer::UIScroll, UIWindow, UIRPData
+UITalkboxTrapInputWnd class: 0xdcc850,49 UIFrameWnd, UIWindow, UIRPData
+UITextButton class: 0xdc8500,50 UIButton, UIWindow, UIRPData
+UITextViewEX class: 0xdc9a8c,53 UITextViewer, UIListBox, UIWindow, UIRPData
+UITextViewer class: 0xdc98e8,53 UIListBox, UIWindow, UIRPData
+UITextureButton class: 0xdc61f4,50 UIButton, UIWindow, UIRPData
+UITipOfTheDayWnd class: 0xdcfa30,49 UIFrameWnd, UIWindow, UIRPData
+UITipboxWnd class: 0xdd1014,49 UIFrameWnd, UIWindow, UIRPData
+UIToolTipBitmapWnd class: 0xdbb6a4,49 UIWindow, UIRPData
+UIToolTipWnd class: 0xdcdfa0,49 UIFrameWnd, UIWindow, UIRPData
+UITransBalloonText class: 0xdc5ad0,49 UIBalloonText, UIWindow, UIRPData
+UITransMenuWnd class: 0xdd4fd0,49 UIFrameWnd, UIWindow, UIRPData
+UITreeView class: 0xdc9e9c,50 UIWindow, UIRPData
+UIVerticalNameBalloonText class: 0xe1761c,52 UINameBalloonText, UIBalloonText, UIWindow, UIRPData
+UIWaitDBSaveWnd class: 0xddbab4,49 UIWindow, UIRPData
+UIWaitWnd class: 0xdcde10,49 UIFrameWnd, UIWindow, UIRPData
+UIWeaponRefineWnd class: 0xdd8c94,49 UIFrameWnd, UIWindow, UIRPData
+UIWhisperEditCtrl class: 0xdc55fc,52 UIEditCtrl, UIWindow, UIRPData
+UIWhisperWnd class: 0xdcfe18,49 UIFrameWnd, UIWindow, UIRPData
+UIWindow class: 0xdd98cc,49 UIRPData
+UIWindowCallBtnWnd class: 0xdd3720,49 UIFrameWnd, UIWindow, UIRPData
+UIWindowMgr class: 0xdd9c40,1 
+UIWordDisplayWnd class: 0xdc6cf4,49 UIFrameWnd, UIWindow, UIRPData
+UIYourItemWnd class: 0xdcf710,49 UIExchangeAcceptWnd, UIChooseSellBuyWnd, UIFrameWnd, UIWindow, UIRPData
+UIZeroQuestScrollBar class: 0xdc786c,50 UIScrollBar, UIWindow, UIRPData
+UInCashWnd class: 0xdce130,49 UIItemBaseWnd, UIFrameWnd, UIWindow, UIRPData
+UInCash_CallWnd class: 0xdd0458,49 UIFrameWnd, UIWindow, UIRPData
+VNIInputMode class: 0xddf868,3 CInputMode
+YExcel::BOF struct: 0xe166bc,5 YExcel::Record
+YExcel::Record class: 0xe166a4,5 
+YExcel::Workbook::BoundSheet struct: 0xe1674c,5 YExcel::Record
+YExcel::Workbook::ExtSST struct: 0xe1677c,5 YExcel::Record
+YExcel::Workbook::Font struct: 0xe16704,5 YExcel::Record
+YExcel::Workbook::SharedStringTable struct: 0xe16764,5 YExcel::Record
+YExcel::Workbook::Style struct: 0xe16734,5 YExcel::Record
+YExcel::Workbook::Window1 struct: 0xe166ec,5 YExcel::Record
+YExcel::Workbook::XF struct: 0xe1671c,5 YExcel::Record
+YExcel::Worksheet::CellTable::RowBlock::CellBlock::Blank struct: 0xe167dc,5 YExcel::Record
+YExcel::Worksheet::CellTable::RowBlock::CellBlock::BoolErr struct: 0xe167f4,5 YExcel::Record
+YExcel::Worksheet::CellTable::RowBlock::CellBlock::Formula struct: 0xe168fc,5 YExcel::Record
+YExcel::Worksheet::CellTable::RowBlock::CellBlock::Formula::Array struct: 0xe16884,5 YExcel::Record
+YExcel::Worksheet::CellTable::RowBlock::CellBlock::Formula::ShrFmla struct: 0xe1689c,5 YExcel::Record
+YExcel::Worksheet::CellTable::RowBlock::CellBlock::Formula::ShrFmla1 struct: 0xe168b4,5 YExcel::Record
+YExcel::Worksheet::CellTable::RowBlock::CellBlock::Formula::String struct: 0xe168e4,5 YExcel::Record
+YExcel::Worksheet::CellTable::RowBlock::CellBlock::Formula::Table struct: 0xe168cc,5 YExcel::Record
+YExcel::Worksheet::CellTable::RowBlock::CellBlock::LabelSST struct: 0xe1680c,5 YExcel::Record
+YExcel::Worksheet::CellTable::RowBlock::CellBlock::MulBlank struct: 0xe16824,5 YExcel::Record
+YExcel::Worksheet::CellTable::RowBlock::CellBlock::MulRK struct: 0xe1683c,5 YExcel::Record
+YExcel::Worksheet::CellTable::RowBlock::CellBlock::Number struct: 0xe16854,5 YExcel::Record
+YExcel::Worksheet::CellTable::RowBlock::CellBlock::RK struct: 0xe1686c,5 YExcel::Record
+YExcel::Worksheet::CellTable::RowBlock::DBCell struct: 0xe16914,5 YExcel::Record
+YExcel::Worksheet::CellTable::RowBlock::Row struct: 0xe167c4,5 YExcel::Record
+YExcel::Worksheet::Dimensions struct: 0xe167ac,5 YExcel::Record
+YExcel::Worksheet::Index struct: 0xe16794,5 YExcel::Record
+YExcel::Worksheet::Window2 struct: 0xe1692c,10 YExcel::Record
+YExcel::YEOF struct: 0xe166d4,5 YExcel::Record
+anonymous::CAllocator struct: 0xe056e0,2 
+anonymous::CEffectAllocator<CAnimatedEmitterEffect> struct: 0xe0580c,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CAxeBoomerang> struct: 0xe05974,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CBindTrapEffect> struct: 0xe05800,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CCartCannon> struct: 0xe0595c,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CCellRangeEffect> struct: 0xe057b8,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CCherryBlossomEffect> struct: 0xe057c4,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CCloud> struct: 0xe058c0,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CCloudKillEffect> struct: 0xe05818,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CCommonFloorEffect> struct: 0xe057e8,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CEZ2STREffect> struct: 0xe05758,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CEmitterEffect> struct: 0xe0571c,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CEnergyOrbEffect> struct: 0xe05788,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CEvilLandEffect> struct: 0xe05968,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CEvilsPawEffect> struct: 0xe057dc,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CFallenAngelEffect> struct: 0xe058a8,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CFriggSongEffect> struct: 0xe057f4,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CGravityControlEffect> struct: 0xe058fc,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CHealEffect> struct: 0xe05878,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CItemDropEffect> struct: 0xe05980,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CJupitelThunderHit> struct: 0xe058f0,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CLevel150Effect> struct: 0xe05728,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CLevel150SubEffect> struct: 0xe05734,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CLevel99Effect> struct: 0xe056ec,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CLevel99Orb1Effect> struct: 0xe056f8,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CLevel99Orb2Effect> struct: 0xe05704,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CLightSphereEffect> struct: 0xe058e4,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CMagicFloorEffect> struct: 0xe0574c,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CMapChainEffect> struct: 0xe05740,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CMeteorEffect> struct: 0xe05848,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CNewCloudKillEffect> struct: 0xe058d8,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CNyanggrassEffect> struct: 0xe05890,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CPowderingEffect> struct: 0xe05860,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CRandomOptEffect> struct: 0xe058cc,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CRectUpEffect> struct: 0xe05824,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CRichsCoinEffect> struct: 0xe058b4,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CRootTwistEffect> struct: 0xe0586c,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CRotateItemEffect> struct: 0xe05770,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CRotateLineEffect> struct: 0xe0577c,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CScatterEffect> struct: 0xe057ac,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CSevereRainStorm> struct: 0xe05944,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CSmokeEffect> struct: 0xe05710,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CSoulCollectEffect> struct: 0xe0592c,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CSoulUnityEffect> struct: 0xe05920,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CSpriteEffect> struct: 0xe05794,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CSpriteMableEffect> struct: 0xe05830,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CSquareRangeEffect> struct: 0xe057a0,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CStarEmperorEffect> struct: 0xe05908,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CStemSpearEffect> struct: 0xe05854,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CStormKickEffect> struct: 0xe057d0,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CSunStanceEffect> struct: 0xe05914,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CSvgSpiritEffect> struct: 0xe0589c,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CTetraBallEffect> struct: 0xe05938,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CThrowItemEffect> struct: 0xe05764,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CTriangleShotArrow> struct: 0xe05950,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CTunaPartyEffect> struct: 0xe0583c,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CWarningPlaneEffect> struct: 0xe05884,2 anonymous::CAllocator
+anonymous::CEffectAllocator<CWindEffect> struct: 0xe0598c,2 anonymous::CAllocator
+anonymous::CEffectMemoryPool<CEZ2STRParticle> class: 0xe0f9e8,3 anonymous::IEffectMemoryPool
+anonymous::CEffectMemoryPool<CMultiTexParticle> class: 0xe0f9f8,3 anonymous::IEffectMemoryPool
+anonymous::CEffectMemoryPool<CParticle> class: 0xe0f9c8,3 anonymous::IEffectMemoryPool
+anonymous::CEffectMemoryPool<CSpriteParticle> class: 0xe0f9d8,3 anonymous::IEffectMemoryPool
+anonymous::CGameObjectIDGenerator class: 0xe16a6c,1 
+anonymous::CTagPrototype class: 0xdd97dc,1 
+anonymous::IEffectMemoryPool struct: 0xe0f9b8,3 
+anonymous::STagString class: 0xdd98c4,1 
+anonymous::ThreadSafeBuffer class: 0xdb9a24,1 
+anonymous::lcSurfaceaAapter class: 0xdc1ff8,1 
+anonymous::membuf struct: 0xdba85c,15 
+anonymous::myResouceGetErrorMessageOutput class: 0xddf424,1 
+fmt::v9::detail::buffer<> class: 0xdae478,1 
+fmt::v9::detail::buffer<> class: 0xdaeb84,1 
+fmt::v9::detail::buffer<> class: 0xdaebb0,1 
+fmt::v9::detail::buffer<W> class: 0xdae76c,1 
+fmt::v9::detail::utf8_system_category class: 0xdaf65c,6 std::error_category
+fmt::v9::format_error class: 0xdae4a4,2 std::runtime_error, std::exception
+fmt::v9::std::D::V?$allocator::basic_memory_buffer<$0BPE> class: 0xdaeb94,1 fmt::v9::detail::buffer<>
+fmt::v9::std::H::V?$allocator::basic_memory_buffer<$0BPE> class: 0xdaeb8c,1 fmt::v9::detail::buffer<>
+fmt::v9::std::I::V?$allocator::basic_memory_buffer<$0CA> class: 0xdaebb8,1 fmt::v9::detail::buffer<>
+fmt::v9::std::_W::V?$allocator::basic_memory_buffer<W$0BPE> class: 0xdae774,1 fmt::v9::detail::buffer<W>
+jsoncons::X::std::json_runtime_error<domain_error> class (attr=3): 0xda7090,2 std::domain_error, std::logic_error, std::exception, jsoncons::json_exception (0, 12, 4)
+jsoncons::X::std::json_runtime_error<domain_error> class (vtblOffset=20,constructorOffset=4,attr=3): 0xda709c,2 std::domain_error, std::logic_error, std::exception, jsoncons::json_exception (0, 12, 4)
+jsoncons::X::std::json_runtime_error<invalid_argument> class (attr=3): 0xda7264,2 std::invalid_argument, std::logic_error, std::exception, jsoncons::json_exception (0, 12, 4)
+jsoncons::X::std::json_runtime_error<invalid_argument> class (vtblOffset=20,constructorOffset=4,attr=3): 0xda7270,2 std::invalid_argument, std::logic_error, std::exception, jsoncons::json_exception (0, 12, 4)
+jsoncons::X::std::json_runtime_error<out_of_range> class (attr=3): 0xda9fcc,2 std::out_of_range, std::logic_error, std::exception, jsoncons::json_exception (0, 12, 4)
+jsoncons::X::std::json_runtime_error<out_of_range> class (vtblOffset=20,constructorOffset=4,attr=3): 0xda9fd8,2 std::out_of_range, std::logic_error, std::exception, jsoncons::json_exception (0, 12, 4)
+jsoncons::X::std::json_runtime_error<runtime_error> class (attr=3): 0xdaa108,2 std::runtime_error, std::exception, jsoncons::json_exception (0, 12, 4)
+jsoncons::X::std::json_runtime_error<runtime_error> class (vtblOffset=20,constructorOffset=4,attr=3): 0xdaa114,2 std::runtime_error, std::exception, jsoncons::json_exception (0, 12, 4)
+jsoncons::assertion_error class: 0xda5e84,2 std::runtime_error, std::exception
+jsoncons::basic_default_json_visitor<> class: 0xda67a8,31 jsoncons::basic_json_visitor<>
+jsoncons::basic_json_decode_options<> class (vtblOffset=8): 0xda6798,1 jsoncons::basic_json_options_common<> (0, 0, 4)
+jsoncons::basic_json_encode_options<> class (vtblOffset=44): 0xdaa078,1 jsoncons::basic_json_options_common<> (0, 0, 4)
+jsoncons::basic_json_options_common<> class: 0xda6790,1 
+jsoncons::basic_json_visitor<> class: 0xda6710,31 
+jsoncons::basic_null_istream<> class (vtblOffset=80,constructorOffset=4): 0xda6ce4,1 std::ios_base (0, 0, 4), std::_Iosb<> (8, 0, 4)
+jsoncons::basic_null_istream<>::null_buffer class: 0xda6ca4,15 
+jsoncons::bson::bson_decode_options class (vtblOffset=4): 0xda6a04,1 jsoncons::bson::bson_options_common (0, 0, 4)
+jsoncons::bson::bson_error_category_impl class: 0xda6828,6 std::error_category
+jsoncons::bson::bson_options_common class: 0xda69fc,1 
+jsoncons::detail::conv_error_category_impl class: 0xda5f7c,6 std::error_category
+jsoncons::detail::to_integer_error_category_impl class: 0xda9930,6 std::error_category
+jsoncons::json_error_category_impl class: 0xda62e8,6 std::error_category
+jsoncons::json_exception class: 0xda5edc,2 
+jsoncons::key_not_found class (attr=3): 0xda5ee8,2 std::out_of_range, std::logic_error, std::exception, jsoncons::json_exception (0, 12, 4)
+jsoncons::key_not_found class (vtblOffset=68,constructorOffset=4,attr=3): 0xda5ef4,2 std::out_of_range, std::logic_error, std::exception, jsoncons::json_exception (0, 12, 4)
+jsoncons::not_an_object class (attr=3): 0xda5f10,2 std::runtime_error, std::exception, jsoncons::json_exception (0, 12, 4)
+jsoncons::not_an_object class (vtblOffset=68,constructorOffset=4,attr=3): 0xda5f1c,2 std::runtime_error, std::exception, jsoncons::json_exception (0, 12, 4)
+jsoncons::ser_context class: 0xda66f8,5 
+jsoncons::ser_error class (attr=3): 0xda5f30,2 std::system_error, std::_System_error, std::runtime_error, std::exception, jsoncons::json_exception (0, 20, 4)
+jsoncons::ser_error class (vtblOffset=60,constructorOffset=4,attr=3): 0xda5f3c,2 std::system_error, std::_System_error, std::runtime_error, std::exception, jsoncons::json_exception (0, 20, 4)
+jsoncons::std::D::basic_json_parser<V?$allocator> class: 0xda70c0,5 jsoncons::ser_context
+std::2::ABVser_context::2::_NW4json_errc::jsoncons::_Func_impl_no_alloc<default_json_parsing> class: 0xda74f4,6 std::2::ABVser_context::jsoncons::_Func_base<NW4json_errc>
+std::_Generic_error_category class: 0xda5ca0,6 std::error_category
+std::_J$$V::Z::UAEHHHHHH::CGameMode::??SendMsg::?FE::_Func_impl_no_alloc<<lambda_1>> class: 0xe18570,6 std::_Func_base<J$$V>
+std::_J$$V::Z::UAEHHHHHH::CGameMode::??SendMsg::?FE::_Func_impl_no_alloc<<lambda_2>> class: 0xe1858c,6 std::_Func_base<J$$V>
+std::_J$$V::Z::UAEHHHHHH::CGameMode::??SendMsg::?FE::_Func_impl_no_alloc<<lambda_3>> class: 0xe185a8,6 std::_Func_base<J$$V>
+std::_J$$V::Z::UAEHHHHHH::CGameMode::??SendMsg::?FE::_Func_impl_no_alloc<<lambda_4>> class: 0xe185c4,6 std::_Func_base<J$$V>
+std::_J$$V::Z::UAEXHH::UIBasicInfoWnd::?3??OnCreate::_Func_impl_no_alloc<<lambda_1>> class: 0xdd86d0,6 std::_Func_base<J$$V>
+std::_J$$V::Z::UAEXHH::UIBasicInfoWnd::?3??OnCreate::_Func_impl_no_alloc<<lambda_2>> class: 0xdd86ec,6 std::_Func_base<J$$V>
+std::_J$$V::Z::UAEXHH::UIBasicInfoWnd::?4??OnCreate::_Func_impl_no_alloc<<lambda_3>> class: 0xdd8708,6 std::_Func_base<J$$V>
+std::_J$$V::Z::UAEXHH::UIBasicInfoWnd::?4??OnCreate::_Func_impl_no_alloc<<lambda_4>> class: 0xdd8724,6 std::_Func_base<J$$V>
+std::_J$$V::Z::UAEXHH::UIHomunInfoWnd::??OnCreate::?BG::_Func_impl_no_alloc<<lambda_1>> class: 0xdcdafc,6 std::_Func_base<J$$V>
+std::_J$$V::Z::UAEXHH::UIHomunInfoWnd::??OnCreate::?BG::_Func_impl_no_alloc<<lambda_2>> class: 0xdcdb18,6 std::_Func_base<J$$V>
+std::_J$$V::Z::UAEXHH::UIHomunInfoWnd::??OnCreate::?BH::_Func_impl_no_alloc<<lambda_3>> class: 0xdcdb34,6 std::_Func_base<J$$V>
+std::_J$$V::Z::UAEXHH::UIHomunInfoWnd::??OnCreate::?BH::_Func_impl_no_alloc<<lambda_4>> class: 0xdcdb50,6 std::_Func_base<J$$V>
+std::_J$$V::Z::UAEXHH::UIMerInfoWnd::?4??OnCreate::_Func_impl_no_alloc<<lambda_1>> class: 0xdcdb6c,6 std::_Func_base<J$$V>
+std::_J$$V::Z::UAEXHH::UIMerInfoWnd::?4??OnCreate::_Func_impl_no_alloc<<lambda_2>> class: 0xdcdb88,6 std::_Func_base<J$$V>
+std::_J$$V::Z::UAEXHH::UIMerInfoWnd::?5??OnCreate::_Func_impl_no_alloc<<lambda_3>> class: 0xdcdba4,6 std::_Func_base<J$$V>
+std::_J$$V::Z::UAEXHH::UIMerInfoWnd::?5??OnCreate::_Func_impl_no_alloc<<lambda_4>> class: 0xdcdbc0,6 std::_Func_base<J$$V>
+std::_J$$V::Z::_J11111::UAEXPAVCGameObject::CNpc::??SendMsg::?CA::_Func_impl_no_alloc<<lambda_1>> class: 0xe1a900,6 std::_Func_base<J$$V>
+std::_J$$V::Z::_J11111::UAEXPAVCGameObject::CNpc::??SendMsg::?CA::_Func_impl_no_alloc<<lambda_2>> class: 0xe1a91c,6 std::_Func_base<J$$V>
+std::_J$$V::Z::_J11111::UAEXPAVCGameObject::CNpc::??SendMsg::?CA::_Func_impl_no_alloc<<lambda_3>> class: 0xe1a938,6 std::_Func_base<J$$V>
+std::_J$$V::Z::_J11111::UAEXPAVCGameObject::CNpc::??SendMsg::?CA::_Func_impl_no_alloc<<lambda_4>> class: 0xe1a954,6 std::_Func_base<J$$V>
+std::_J$$V::Z::_J11111::UAEXPAVCGameObject::CNpc::??SendMsg::?CA::_Func_impl_no_alloc<<lambda_5>> class: 0xe1a970,6 std::_Func_base<J$$V>
+std::_J$$V::Z::_J11111::UAEXPAVCGameObject::CNpc::??SendMsg::?CA::_Func_impl_no_alloc<<lambda_6>> class: 0xe1a98c,6 std::_Func_base<J$$V>
+std::_J$$V::Z::_J11111::UAEXPAVCGameObject::CNpc::??SendMsg::?CB::_Func_impl_no_alloc<<lambda_7>> class: 0xe1a9a8,6 std::_Func_base<J$$V>
+std::_J$$V::Z::_J11111::UAEXPAVCGameObject::CNpc::??SendMsg::?CB::_Func_impl_no_alloc<<lambda_8>> class: 0xe1a9c4,6 std::_Func_base<J$$V>
+std::_J$$V::Z::_J11111::UAEXPAVCGameObject::CNpc::??SendMsg::?CC::_Func_impl_no_alloc<<lambda_10>> class: 0xe1a9fc,6 std::_Func_base<J$$V>
+std::_J$$V::Z::_J11111::UAEXPAVCGameObject::CNpc::??SendMsg::?CC::_Func_impl_no_alloc<<lambda_11>> class: 0xe1aa18,6 std::_Func_base<J$$V>
+std::_J$$V::Z::_J11111::UAEXPAVCGameObject::CNpc::??SendMsg::?CC::_Func_impl_no_alloc<<lambda_12>> class: 0xe1aa34,6 std::_Func_base<J$$V>
+std::_J$$V::Z::_J11111::UAEXPAVCGameObject::CNpc::??SendMsg::?CC::_Func_impl_no_alloc<<lambda_9>> class: 0xe1a9e0,6 std::_Func_base<J$$V>
+std::_J$$V::Z::_J11111::UAEXPAVCGameObject::CNpc::??SendMsg::?CD::_Func_impl_no_alloc<<lambda_13>> class: 0xe1aa50,6 std::_Func_base<J$$V>
+std::_J$$V::Z::_J11111::UAEXPAVCGameObject::CNpc::??SendMsg::?CD::_Func_impl_no_alloc<<lambda_14>> class: 0xe1aa6c,6 std::_Func_base<J$$V>
+std::_J$$V::Z::_J11111::UAEXPAVCGameObject::CNpc::??SendMsg::?CD::_Func_impl_no_alloc<<lambda_15>> class: 0xe1aa88,6 std::_Func_base<J$$V>
+std::_J$$V::Z::_J11111::UAEXPAVCGameObject::CNpc::??SendMsg::?CD::_Func_impl_no_alloc<<lambda_16>> class: 0xe1aaa4,6 std::_Func_base<J$$V>
+std::_Node_assert class: 0xda5e4c,1 std::_Node_base
+std::_Node_back class: 0xda5e5c,1 std::_Node_base
+std::_Node_base class: 0xda5e34,1 
+std::_Node_capture class: 0xda5e54,1 std::_Node_base
+std::_Node_end_group class: 0xda5e44,1 std::_Node_base
+std::_Node_end_rep class: 0xda5e74,1 std::_Node_base
+std::_Node_endif class: 0xda5e64,1 std::_Node_base
+std::_Node_if class: 0xda5e6c,1 std::_Node_base
+std::_Node_rep class: 0xda5e7c,1 std::_Node_base
+std::_Node_str<> class: 0xda7540,1 std::_Node_base
+std::_Ref_count<CSurface> class: 0xdad09c,4 std::_Ref_count_base
+std::_Ref_count_obj2<CSurfaceDX7> class: 0xdae110,4 std::_Ref_count_base
+std::_Ref_count_obj2<CSurfaceDX9> class: 0xdae174,4 std::_Ref_count_base
+std::_Root_node class: 0xda5e3c,1 std::_Node_base
+std::_System_error class: 0xda5c80,2 std::runtime_error, std::exception
+std::_System_error_category class: 0xda5cc4,6 std::error_category
+std::bad_alloc class: 0xda5c04,2 std::exception
+std::bad_array_new_length class: 0xda5c10,2 std::bad_alloc, std::exception
+std::bad_cast class: 0xda5cf8,2 std::exception
+std::collate<> class (attr=1): 0xda5d14,6 std::locale::facet, std::_Facet_base, std::_Crt_new_delete (4, -1, 0)
+std::domain_error class: 0xda5c50,2 std::logic_error, std::exception
+std::exception class: 0xda5be4,2 
+std::invalid_argument class: 0xda5c5c,2 std::logic_error, std::exception
+std::istrstream class (vtblOffset=104,constructorOffset=4): 0xdba560,1 std::ios_base (0, 0, 4), std::_Iosb<> (8, 0, 4)
+std::logic_error class: 0xda5c44,2 std::exception
+std::numpunct<> class (attr=1): 0xdae430,8 std::locale::facet, std::_Facet_base, std::_Crt_new_delete (4, -1, 0)
+std::numpunct<W> class (attr=1): 0xdae454,8 std::locale::facet, std::_Facet_base, std::_Crt_new_delete (4, -1, 0)
+std::out_of_range class: 0xda5c68,2 std::logic_error, std::exception
+std::runtime_error class: 0xda5c74,2 std::exception
+std::std::D::_Node_class<V?$regex_traits> class: 0xda7548,1 std::_Node_base
+std::strstreambuf class: 0xdba520,15 
+std::system_error class: 0xda5c90,2 std::_System_error, std::runtime_error, std::exception
+type_info class: 0xe2a02c,1 
