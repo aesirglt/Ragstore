@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace RagnarokController
 {
@@ -7,14 +8,13 @@ namespace RagnarokController
     {
         private readonly MemoryManager _memoryManager;
         private readonly Dictionary<string, int> _offsets;
-        private IntPtr _baseAddress;
+        private readonly IntPtr _baseAddress;
 
         public PlayerStats(MemoryManager memoryManager, Dictionary<string, int> offsets)
         {
             _memoryManager = memoryManager ?? throw new ArgumentNullException(nameof(memoryManager));
             _offsets = offsets ?? throw new ArgumentNullException(nameof(offsets));
             
-            // Encontra o endereço base do personagem
             var process = memoryManager.GetProcess();
             if (process?.MainModule == null)
             {
@@ -23,93 +23,73 @@ namespace RagnarokController
             _baseAddress = process.MainModule.BaseAddress;
         }
 
-        public int GetHP()
+        private int GetValue(string key)
         {
-            if (!_offsets.ContainsKey("HP")) return 0;
-            return _memoryManager.ReadMemory<int>(_baseAddress + _offsets["HP"]);
+            if (!_offsets.ContainsKey(key)) return 0;
+            return _memoryManager.ReadMemory<int>(_baseAddress + _offsets[key]);
         }
 
-        public int GetSP()
+        private string GetString(string key, int maxLength = 24)
         {
-            if (!_offsets.ContainsKey("SP")) return 0;
-            return _memoryManager.ReadMemory<int>(_baseAddress + _offsets["SP"]);
+            if (!_offsets.ContainsKey(key)) return string.Empty;
+            
+            byte[] buffer = new byte[maxLength];
+            _memoryManager.ReadProcessMemory(_baseAddress + _offsets[key], buffer, buffer.Length, out int _);
+            return Encoding.ASCII.GetString(buffer).TrimEnd('\0');
         }
 
-        public int GetBaseLevel()
-        {
-            if (!_offsets.ContainsKey("BaseLevel")) return 0;
-            return _memoryManager.ReadMemory<int>(_baseAddress + _offsets["BaseLevel"]);
-        }
-
-        public int GetJobLevel()
-        {
-            if (!_offsets.ContainsKey("JobLevel")) return 0;
-            return _memoryManager.ReadMemory<int>(_baseAddress + _offsets["JobLevel"]);
-        }
-
-        public int GetZeny()
-        {
-            if (!_offsets.ContainsKey("Zeny")) return 0;
-            return _memoryManager.ReadMemory<int>(_baseAddress + _offsets["Zeny"]);
-        }
-
-        public int GetStatusPoint()
-        {
-            if (!_offsets.ContainsKey("StatusPoint")) return 0;
-            return _memoryManager.ReadMemory<int>(_baseAddress + _offsets["StatusPoint"]);
-        }
-
-        public int GetSkillPoint()
-        {
-            if (!_offsets.ContainsKey("SkillPoint")) return 0;
-            return _memoryManager.ReadMemory<int>(_baseAddress + _offsets["SkillPoint"]);
-        }
+        public string GetCharacterName() => GetString("CharacterName");
+        public int GetCurrentHP() => GetValue("CurrentHP");
+        public int GetMaxHP() => GetValue("MaxHP");
+        public int GetCurrentSP() => GetValue("CurrentSP");
+        public int GetMaxSP() => GetValue("MaxSP");
+        public int GetBaseLevel() => GetValue("BaseLevel");
+        public int GetJobLevel() => GetValue("JobLevel");
+        public int GetStrength() => GetValue("Strength");
+        public int GetVitality() => GetValue("Vitality");
+        public int GetLuck() => GetValue("Luck");
+        public int GetAttack() => GetValue("Attack");
+        public int GetCritical() => GetValue("Critical");
+        public int GetCurrentWeight() => GetValue("CurrentWeight");
+        public int GetMaxWeight() => GetValue("MaxWeight");
+        public int GetZeny() => GetValue("Zeny");
 
         public void ShowAllStats()
         {
             Console.WriteLine("\n=== Estatísticas do Personagem ===");
             
-            if (_offsets.ContainsKey("HP"))
-            {
-                int hp = GetHP();
-                Console.WriteLine($"HP: {hp} (Offset: 0x{_offsets["HP"]:X})");
-            }
+            // Nome do personagem
+            string name = GetCharacterName();
+            Console.WriteLine($"Nome: {name}");
             
-            if (_offsets.ContainsKey("SP"))
-            {
-                int sp = GetSP();
-                Console.WriteLine($"SP: {sp} (Offset: 0x{_offsets["SP"]:X})");
-            }
+            // Níveis
+            Console.WriteLine($"\nNível Base: {GetBaseLevel()}");
+            Console.WriteLine($"Nível de Classe: {GetJobLevel()}");
             
-            if (_offsets.ContainsKey("BaseLevel"))
-            {
-                int baseLevel = GetBaseLevel();
-                Console.WriteLine($"Nível Base: {baseLevel} (Offset: 0x{_offsets["BaseLevel"]:X})");
-            }
+            // HP/SP
+            int currentHP = GetCurrentHP();
+            int maxHP = GetMaxHP();
+            int currentSP = GetCurrentSP();
+            int maxSP = GetMaxSP();
+            Console.WriteLine($"\nHP: {currentHP}/{maxHP} ({(currentHP * 100.0 / maxHP):F1}%)");
+            Console.WriteLine($"SP: {currentSP}/{maxSP} ({(currentSP * 100.0 / maxSP):F1}%)");
             
-            if (_offsets.ContainsKey("JobLevel"))
-            {
-                int jobLevel = GetJobLevel();
-                Console.WriteLine($"Nível de Classe: {jobLevel} (Offset: 0x{_offsets["JobLevel"]:X})");
-            }
+            // Atributos Base
+            Console.WriteLine("\nAtributos Base:");
+            Console.WriteLine($"FOR: {GetStrength()}");
+            Console.WriteLine($"VIT: {GetVitality()}");
+            Console.WriteLine($"SOR: {GetLuck()}");
             
-            if (_offsets.ContainsKey("Zeny"))
-            {
-                int zeny = GetZeny();
-                Console.WriteLine($"Zeny: {zeny} (Offset: 0x{_offsets["Zeny"]:X})");
-            }
+            // Status
+            Console.WriteLine("\nStatus:");
+            Console.WriteLine($"Ataque: {GetAttack()}");
+            Console.WriteLine($"Crítico: {GetCritical()}");
             
-            if (_offsets.ContainsKey("StatusPoint"))
-            {
-                int statusPoint = GetStatusPoint();
-                Console.WriteLine($"Pontos de Status: {statusPoint} (Offset: 0x{_offsets["StatusPoint"]:X})");
-            }
-            
-            if (_offsets.ContainsKey("SkillPoint"))
-            {
-                int skillPoint = GetSkillPoint();
-                Console.WriteLine($"Pontos de Habilidade: {skillPoint} (Offset: 0x{_offsets["SkillPoint"]:X})");
-            }
+            // Peso e Dinheiro
+            int currentWeight = GetCurrentWeight();
+            int maxWeight = GetMaxWeight();
+            Console.WriteLine($"\nPeso: {currentWeight}/{maxWeight} ({(currentWeight * 100.0 / maxWeight):F1}%)");
+            Console.WriteLine($"Zeny: {GetZeny():N0}");
             
             Console.WriteLine("=================================");
         }

@@ -104,6 +104,7 @@ namespace RagnarokController
                             if (offsets != null && offsets.Count > 0)
                             {
                                 _playerStats = new PlayerStats(_memoryManager, offsets);
+                                _playerController.UpdateOffsets(offsets);
                                 Console.WriteLine("Análise de estrutura do personagem concluída!");
                             }
                             break;
