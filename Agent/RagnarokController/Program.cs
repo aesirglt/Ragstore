@@ -1,135 +1,151 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace RagnarokController
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             Console.WriteLine("Iniciando Controlador do Ragnarok Online...");
-            
-            var memoryManager = new MemoryManager();
 
+            var memoryManager = new MemoryManager();
             if (!memoryManager.AttachToProcess())
             {
-                Console.WriteLine("Erro: Não foi possível encontrar o processo do Ragnarok Online.");
-                Console.WriteLine("Certifique-se de que o jogo está rodando.");
+                Console.WriteLine("Não foi possível conectar ao processo do Ragnarok Online.");
+                Console.WriteLine("Certifique-se de que:");
+                Console.WriteLine("1. O jogo está em execução");
+                Console.WriteLine("2. Você está executando este programa como administrador");
+                Console.WriteLine("3. O nome do processo é 'Ragexe'");
                 return;
-            } 
-
-            var scanner = new MemoryScanner(memoryManager);
-            var addresses = new RagnarokAddresses(scanner);
-            var playerController = new PlayerController(memoryManager);
-            var shopManager = new ShopManager(memoryManager);
-            PlayerStats playerStats = null;
+            }
 
             Console.WriteLine("Conectado ao Ragnarok Online com sucesso!");
-            Console.WriteLine("Digite 'help' para ver os comandos disponíveis.");
+            
+            var scanner = new MemoryScanner(memoryManager);
+            var addresses = new RagnarokAddresses(scanner);
+            var analyzer = new CharacterAnalyzer(memoryManager);
+            PlayerStats? playerStats = null;
+
+            Console.WriteLine("\nDigite 'help' para ver os comandos disponíveis.");
 
             while (true)
             {
-                Console.Write("> ");
-                string command = Console.ReadLine().ToLower();
-
-                switch (command)
+                try
                 {
-                    case "help":
-                        ShowHelp();
-                        break;
+                    Console.Write("\n> ");
+                    string? input = Console.ReadLine();
+                    string command = input?.ToLower() ?? "help";
 
-                    case "scan":
-                        addresses.FindAddresses();
-                        // Tenta inicializar o PlayerStats se ainda não foi inicializado
-                        if (playerStats == null)
-                        {
-                            IntPtr playerBaseAddress = addresses.GetAddress("PlayerBase");
-                            if (playerBaseAddress != IntPtr.Zero)
+                    switch (command)
+                    {
+                        case "help":
+                            ShowHelp();
+                            break;
+
+                        case "scan":
+                            Console.WriteLine("\nIniciando busca por endereços...");
+                            addresses.FindAddresses();
+                            break;
+
+                        case "analyze":
+                            Console.WriteLine("\nIniciando análise da estrutura do personagem...");
+                            try
                             {
-                                playerStats = new PlayerStats(memoryManager, playerBaseAddress);
-                                Console.WriteLine("PlayerStats inicializado com sucesso!");
+                                var offsets = analyzer.AnalyzeCharacterStructure();
+                                if (offsets.Count > 0)
+                                {
+                                    playerStats = new PlayerStats(memoryManager, offsets);
+                                    Console.WriteLine("Análise concluída com sucesso!");
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Nenhum offset encontrado durante a análise.");
+                                }
                             }
-                        }
-                        break;
-
-                    case "save":
-                        Console.Write("Digite o caminho do arquivo para salvar: ");
-                        string savePath = Console.ReadLine();
-                        addresses.SaveAddresses(savePath);
-                        Console.WriteLine("Endereços salvos com sucesso!");
-                        break;
-
-                    case "load":
-                        Console.Write("Digite o caminho do arquivo para carregar: ");
-                        string loadPath = Console.ReadLine();
-                        addresses.LoadAddresses(loadPath);
-                        Console.WriteLine("Endereços carregados com sucesso!");
-                        break;
-
-                    case "pos":
-                        var (x, y) = playerController.GetCurrentPosition();
-                        Console.WriteLine($"Posição atual: X={x}, Y={y}");
-                        break;
-
-                    case "move":
-                        Console.Write("Digite a coordenada X: ");
-                        if (int.TryParse(Console.ReadLine(), out int newX))
-                        {
-                            Console.Write("Digite a coordenada Y: ");
-                            if (int.TryParse(Console.ReadLine(), out int newY))
+                            catch (Exception ex)
                             {
-                                playerController.MoveTo(newX, newY);
-                                Console.WriteLine($"Movendo para X={newX}, Y={newY}");
+                                Console.WriteLine($"Erro durante a análise: {ex.Message}");
                             }
-                        }
-                        break;
+                            break;
 
-                    case "shop":
-                        Console.Write("Digite o ID da loja: ");
-                        if (int.TryParse(Console.ReadLine(), out int shopId))
-                        {
-                            shopManager.OpenShop(shopId);
-                            var items = shopManager.GetShopItems(shopId);
-                            Console.WriteLine($"Itens disponíveis na loja {shopId}:");
-                            foreach (var item in items)
+                        case "save":
+                            Console.Write("Digite o caminho do arquivo para salvar: ");
+                            string? savePath = Console.ReadLine();
+                            if (string.IsNullOrWhiteSpace(savePath))
                             {
-                                Console.WriteLine($"- Item ID: {item}");
+                                Console.WriteLine("Caminho inválido.");
+                                break;
                             }
-                        }
-                        break;
+                            try
+                            {
+                                addresses.SaveAddresses(savePath);
+                                Console.WriteLine("Endereços salvos com sucesso!");
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine($"Erro ao salvar endereços: {ex.Message}");
+                            }
+                            break;
 
-                    case "stats":
-                        if (playerStats == null)
-                        {
-                            Console.WriteLine("PlayerStats não inicializado. Use o comando 'scan' primeiro.");
-                        }
-                        else
-                        {
-                            playerStats.ShowAllStats();
-                        }
-                        break;
+                        case "load":
+                            Console.Write("Digite o caminho do arquivo para carregar: ");
+                            string? loadPath = Console.ReadLine();
+                            if (string.IsNullOrWhiteSpace(loadPath))
+                            {
+                                Console.WriteLine("Caminho inválido.");
+                                break;
+                            }
+                            try
+                            {
+                                addresses.LoadAddresses(loadPath);
+                                Console.WriteLine("Endereços carregados com sucesso!");
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine($"Erro ao carregar endereços: {ex.Message}");
+                            }
+                            break;
 
-                    case "exit":
-                        memoryManager.Detach();
-                        return;
+                        case "stats":
+                            if (playerStats == null)
+                            {
+                                Console.WriteLine("PlayerStats não inicializado. Use o comando 'analyze' primeiro.");
+                            }
+                            else
+                            {
+                                playerStats.ShowAllStats();
+                            }
+                            break;
 
-                    default:
-                        Console.WriteLine("Comando desconhecido. Digite 'help' para ver os comandos disponíveis.");
-                        break;
+                        case "exit":
+                            Console.WriteLine("Desconectando do Ragnarok Online...");
+                            memoryManager.Detach();
+                            return;
+
+                        default:
+                            Console.WriteLine("Comando desconhecido. Digite 'help' para ver os comandos disponíveis.");
+                            break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"\nErro inesperado: {ex.Message}");
+                    Console.WriteLine("O programa continuará executando. Digite 'exit' para sair.");
                 }
             }
         }
 
         static void ShowHelp()
         {
-            Console.WriteLine("Comandos disponíveis:");
-            Console.WriteLine("scan - Procura por endereços de memória importantes");
-            Console.WriteLine("save - Salva os endereços encontrados em um arquivo");
-            Console.WriteLine("load - Carrega endereços de um arquivo");
-            Console.WriteLine("pos - Mostra a posição atual do personagem");
-            Console.WriteLine("move - Move o personagem para uma nova posição");
-            Console.WriteLine("shop - Abre uma loja específica");
-            Console.WriteLine("stats - Mostra as estatísticas do personagem (requer scan)");
-            Console.WriteLine("exit - Sai do programa");
+            Console.WriteLine("\nComandos disponíveis:");
+            Console.WriteLine("help     - Mostra esta lista de comandos");
+            Console.WriteLine("scan     - Procura por endereços de memória importantes");
+            Console.WriteLine("analyze  - Analisa a estrutura do personagem");
+            Console.WriteLine("save     - Salva os endereços encontrados em um arquivo");
+            Console.WriteLine("load     - Carrega endereços de um arquivo");
+            Console.WriteLine("stats    - Mostra as estatísticas do personagem (requer analyze)");
+            Console.WriteLine("exit     - Sai do programa");
         }
     }
 }

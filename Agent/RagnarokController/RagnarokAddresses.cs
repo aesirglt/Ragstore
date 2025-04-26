@@ -1,107 +1,124 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace RagnarokController
 {
     public class RagnarokAddresses
     {
         private readonly MemoryScanner _scanner;
-        private Dictionary<string, IntPtr> _addresses;
+        private readonly Dictionary<string, IntPtr> _addresses;
 
         public RagnarokAddresses(MemoryScanner scanner)
         {
-            _scanner = scanner;
+            _scanner = scanner ?? throw new ArgumentNullException(nameof(scanner));
             _addresses = new Dictionary<string, IntPtr>();
         }
 
         public void FindAddresses()
         {
-            Console.WriteLine("Procurando endereços do Ragnarok Online...");
-
-            // Procura o endereço base do jogador
-            // Este é um exemplo de como encontrar o endereço base
-            // Você precisará ajustar os padrões de acordo com sua versão do jogo
-            byte[] playerBasePattern = new byte[] { 0x8B, 0x0D, 0x00, 0x00, 0x00, 0x00, 0x8B, 0x91 };
-            string playerBaseMask = "xx????xx";
-            IntPtr playerBase = _scanner.FindPattern(playerBasePattern, playerBaseMask);
+            Console.WriteLine("Iniciando busca por endereços...");
             
+            // Procura pelo endereço base do personagem
+            var playerBase = _scanner.FindPattern(new byte[] { 0x55, 0x8B, 0xEC, 0x83, 0xEC, 0x10 }, "xxxxxx");
             if (playerBase != IntPtr.Zero)
             {
                 _addresses["PlayerBase"] = playerBase;
-                Console.WriteLine($"Endereço base do jogador encontrado: 0x{playerBase.ToInt64():X}");
+                Console.WriteLine($"Endereço base do personagem encontrado: 0x{playerBase.ToString("X")}");
             }
-
-            // Procura o endereço da posição X
-            byte[] xPosPattern = new byte[] { 0x89, 0x86, 0x00, 0x00, 0x00, 0x00 };
-            string xPosMask = "xx????";
-            IntPtr xPos = _scanner.FindPattern(xPosPattern, xPosMask);
-            
-            if (xPos != IntPtr.Zero)
+            else
             {
-                _addresses["PlayerX"] = xPos;
-                Console.WriteLine($"Endereço da posição X encontrado: 0x{xPos.ToInt64():X}");
+                Console.WriteLine("Endereço base do personagem não encontrado.");
             }
 
-            // Procura o endereço da posição Y
-            byte[] yPosPattern = new byte[] { 0x89, 0x86, 0x04, 0x00, 0x00, 0x00 };
-            string yPosMask = "xx????";
-            IntPtr yPos = _scanner.FindPattern(yPosPattern, yPosMask);
-            
-            if (yPos != IntPtr.Zero)
+            // Procura pelo endereço base da loja
+            var shopBase = _scanner.FindPattern(new byte[] { 0x55, 0x8B, 0xEC, 0x83, 0xEC, 0x14 }, "xxxxxx");
+            if (shopBase != IntPtr.Zero)
             {
-                _addresses["PlayerY"] = yPos;
-                Console.WriteLine($"Endereço da posição Y encontrado: 0x{yPos.ToInt64():X}");
+                _addresses["ShopBase"] = shopBase;
+                Console.WriteLine($"Endereço base da loja encontrado: 0x{shopBase.ToString("X")}");
+            }
+            else
+            {
+                Console.WriteLine("Endereço base da loja não encontrado.");
             }
 
-            // Procura o endereço do diálogo de loja
-            byte[] shopDialogPattern = new byte[] { 0x6A, 0x00, 0x68, 0x00, 0x00, 0x00, 0x00, 0xE8 };
-            string shopDialogMask = "xxx????x";
-            IntPtr shopDialog = _scanner.FindPattern(shopDialogPattern, shopDialogMask);
-            
+            // Procura pelo endereço do diálogo da loja
+            var shopDialog = _scanner.FindPattern(new byte[] { 0x8B, 0x45, 0x08, 0x8B, 0x80, 0x00, 0x00, 0x00, 0x00, 0x89, 0x45, 0xFC }, "xxxx????xxxx");
             if (shopDialog != IntPtr.Zero)
             {
-                _addresses["ShopDialog"] = shopDialog;
-                Console.WriteLine($"Endereço do diálogo de loja encontrado: 0x{shopDialog.ToInt64():X}");
+                _addresses["ShopDialog"] = shopDialog + 5;
+                Console.WriteLine($"Endereço do diálogo da loja encontrado: 0x{(shopDialog + 5).ToString("X")}");
             }
+            else
+            {
+                Console.WriteLine("Endereço do diálogo da loja não encontrado.");
+            }
+
+            Console.WriteLine($"\nBusca concluída. {_addresses.Count} endereços encontrados.");
         }
 
         public IntPtr GetAddress(string name)
         {
-            if (_addresses.TryGetValue(name, out IntPtr address))
+            if (string.IsNullOrEmpty(name))
             {
-                return address;
+                throw new ArgumentException("Nome do endereço não pode ser nulo ou vazio.", nameof(name));
             }
-            return IntPtr.Zero;
+
+            return _addresses.TryGetValue(name, out IntPtr address) ? address : IntPtr.Zero;
         }
 
         public void SaveAddresses(string filePath)
         {
-            using (System.IO.StreamWriter writer = new System.IO.StreamWriter(filePath))
+            if (string.IsNullOrEmpty(filePath))
+            {
+                throw new ArgumentException("Caminho do arquivo não pode ser nulo ou vazio.", nameof(filePath));
+            }
+
+            using (StreamWriter writer = new StreamWriter(filePath))
             {
                 foreach (var pair in _addresses)
                 {
-                    writer.WriteLine($"{pair.Key}=0x{pair.Value.ToInt64():X}");
+                    writer.WriteLine($"{pair.Key}={pair.Value.ToInt64():X}");
                 }
             }
         }
 
         public void LoadAddresses(string filePath)
         {
-            _addresses.Clear();
-            using (System.IO.StreamReader reader = new System.IO.StreamReader(filePath))
+            if (string.IsNullOrEmpty(filePath))
             {
-                string line;
+                throw new ArgumentException("Caminho do arquivo não pode ser nulo ou vazio.", nameof(filePath));
+            }
+
+            if (!File.Exists(filePath))
+            {
+                throw new FileNotFoundException("Arquivo não encontrado.", filePath);
+            }
+
+            _addresses.Clear();
+            using (StreamReader reader = new StreamReader(filePath))
+            {
+                string? line;
                 while ((line = reader.ReadLine()) != null)
                 {
+                    if (string.IsNullOrWhiteSpace(line)) continue;
+
                     string[] parts = line.Split('=');
-                    if (parts.Length == 2)
+                    if (parts.Length == 2 && 
+                        !string.IsNullOrWhiteSpace(parts[0]) && 
+                        long.TryParse(parts[1], System.Globalization.NumberStyles.HexNumber, null, out long address))
                     {
-                        string name = parts[0];
-                        IntPtr address = new IntPtr(Convert.ToInt64(parts[1], 16));
-                        _addresses[name] = address;
+                        _addresses[parts[0]] = new IntPtr(address);
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Aviso: Linha inválida ignorada: {line}");
                     }
                 }
             }
+
+            Console.WriteLine($"Carregados {_addresses.Count} endereços do arquivo.");
         }
     }
 } 
