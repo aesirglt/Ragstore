@@ -40,7 +40,7 @@ public class StoreItemValueSumaryQueryHandler(
                            CultureInfo.InvariantCulture,
                            DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal);
 
-        var currentDate = DateTime.UtcNow.Date;
+        //var currentDate = DateTime.UtcNow.Date;
 
         var allItemsById =
             repository.GetAll(x => x.ItemId == itemId)
@@ -51,7 +51,7 @@ public class StoreItemValueSumaryQueryHandler(
                 s.UpdatedAt
             });
 
-        var currentStores = allItemsById.Where(x => x.UpdatedAt >= currentDate)
+        var currentStores = allItemsById/*.Where(x => x.UpdatedAt >= currentDate)*/
                                      .Select(s => s.Price);
 
         var itemsOnThisMonth = allItemsById
@@ -61,13 +61,13 @@ public class StoreItemValueSumaryQueryHandler(
 
         return await Result.Of(new StoreItemValueSumaryResponseModel
         {
-            ItemName = allItemsById.First().Name,
+            ItemName = allItemsById.FirstOrDefault()?.Name ?? "Desconhecido",
             ImageUrl = $"https://static.divine-pride.net/images/items/item/{itemId}.png",
             CurrentMinValue = currentStores.OrderBy(p => p).FirstOrDefault(),
             CurrentMaxValue = currentStores.OrderByDescending(p => p).FirstOrDefault(),
-            MinValue = itemsOnThisMonth.OrderBy(p => p).FirstOrDefault(),
-            MaxValue = itemsOnThisMonth.OrderByDescending(p => p).FirstOrDefault(),
-            Average = itemsOnThisMonth.Average(),
+            MinValue = itemsOnThisMonth.FirstOrDefault(),
+            MaxValue = itemsOnThisMonth.Reverse().FirstOrDefault(),
+            Average = itemsOnThisMonth.Any() ? itemsOnThisMonth.Average() : 0,
             StoreNumbers = currentStores.LongCount()
         }).AsTask();
     }
