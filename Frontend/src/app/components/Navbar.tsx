@@ -20,11 +20,13 @@ import { usePathname } from 'next/navigation';
 import { FaUser } from 'react-icons/fa';
 import { MdDarkMode } from 'react-icons/md';
 import { ServerSelector } from '@/components/ServerSelector';
+import { useAuth } from '@/contexts/AuthContext';
 
 export function Navbar() {
   const pathname = usePathname();
   const bgColor = useColorModeValue('blue.50', 'blue.900');
   const borderColor = useColorModeValue('blue.100', 'blue.700');
+  const { isAuthenticated } = useAuth();
 
   const isActive = (path: string) => pathname === path;
 
@@ -56,27 +58,29 @@ export function Navbar() {
             ))}
           </Stack>
           <ServerSelector />
-          <Menu>
-            <MenuButton
-              as={Button}
-              variant="ghost"
-              rightIcon={<Icon as={FaUser} />}
-              _hover={{ bg: 'blue.100' }}
-            >
-              Minha Conta
-            </MenuButton>
-            <MenuList>
-              <MenuItem as={NextLink} href="/perfil">
+          {isAuthenticated && (
+            <Menu>
+              <MenuButton
+                as={Button}
+                variant="ghost"
+                rightIcon={<Icon as={FaUser} />}
+                _hover={{ bg: 'blue.100' }}
+              >
                 Minha Conta
-              </MenuItem>
-              <MenuItem>
-                <Flex justify="space-between" align="center" width="100%">
-                  Modo Escuro
-                  <Switch colorScheme="blue" ml={2} />
-                </Flex>
-              </MenuItem>
-            </MenuList>
-          </Menu>
+              </MenuButton>
+              <MenuList>
+                <MenuItem as={NextLink} href="/perfil">
+                  Minha Conta
+                </MenuItem>
+                <MenuItem>
+                  <Flex justify="space-between" align="center" width="100%">
+                    Modo Escuro
+                    <Switch colorScheme="blue" ml={2} />
+                  </Flex>
+                </MenuItem>
+              </MenuList>
+            </Menu>
+          )}
         </Flex>
       </Container>
     </Box>
