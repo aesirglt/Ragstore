@@ -8,7 +8,7 @@ using Totten.Solution.Ragstore.WebApi.ServicesExtension;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.ConfigureAppSettingsClass(builder.Configuration);
-builder.Services.ConfigureIdentity();
+builder.Services.ConfigureIdentity(builder.Configuration);
 builder.Services.AddAntiforgery();
 builder.Services.AddProblemDetails().AddExceptionHandler<GlobalExceptionHandler>();
 

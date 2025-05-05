@@ -1,85 +1,60 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { User, AuthResponse } from '@/types/auth';
-import { authService } from '@/services/authService';
+import { config } from '@/config/env';
+
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  picture?: string;
+}
 
 interface AuthContextType {
   user: User | null;
-  token: string | null;
-  isAuthenticated: boolean;
-  isLoading: boolean;
-  login: (email: string, password: string) => Promise<void>;
-  register: (email: string, password: string, confirmPassword: string) => Promise<void>;
-  logout: () => void;
-  externalLogin: (provider: 'google' | 'discord', token: string) => Promise<void>;
-  getGoogleAuthUrl: () => Promise<string>;
-  getDiscordAuthUrl: () => Promise<string>;
+  loading: boolean;
+  signOut: () => void;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
-  const [token, setToken] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const storedToken = localStorage.getItem('token');
-    const storedUser = localStorage.getItem('user');
-
-    if (storedToken && storedUser) {
-      setToken(storedToken);
-      setUser(JSON.parse(storedUser));
+    async function loadUser() {
+      try {
+        const response = await fetch(`${config.backendUrl}/api/auth/me`, {
+          credentials: 'include',
+        });
+        
+        if (response.ok) {
+          const userData = await response.json();
+          setUser(userData);
+        }
+      } catch (error) {
+        console.error('Erro ao carregar usuário:', error);
+      } finally {
+        setLoading(false);
+      }
     }
-    setIsLoading(false);
+
+    loadUser();
   }, []);
 
-  const handleAuthResponse = (response: AuthResponse) => {
-    setToken(response.token);
-    setUser(response.user);
-    localStorage.setItem('token', response.token);
-    localStorage.setItem('user', JSON.stringify(response.user));
+  const signOut = async () => {
+    try {
+      await fetch(`${config.backendUrl}/api/auth/signout`, {
+        method: 'POST',
+        credentials: 'include',
+      });
+      setUser(null);
+    } catch (error) {
+      console.error('Erro ao fazer logout:', error);
+    }
   };
-
-  const login = async (email: string, password: string) => {
-    const response = await authService.login({ email, password });
-    handleAuthResponse(response);
-  };
-
-  const register = async (email: string, password: string, confirmPassword: string) => {
-    const response = await authService.register({ email, password, confirmPassword });
-    handleAuthResponse(response);
-  };
-
-  const logout = () => {
-    setToken(null);
-    setUser(null);
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-  };
-
-  const externalLogin = async (provider: 'google' | 'discord', token: string) => {
-    const response = await authService.externalLogin({ provider, token });
-    handleAuthResponse(response);
-  };
-
-  const getGoogleAuthUrl = () => authService.getGoogleAuthUrl();
-  const getDiscordAuthUrl = () => authService.getDiscordAuthUrl();
 
   return (
-    <AuthContext.Provider
-      value={{
-        user,
-        token,
-        isAuthenticated: !!token,
-        isLoading,
-        login,
-        register,
-        logout,
-        externalLogin,
-        getGoogleAuthUrl,
-        getDiscordAuthUrl,
-      }}
-    >
+    <AuthContext.Provider value={{ user, loading, signOut }}>
       {children}
     </AuthContext.Provider>
   );
@@ -87,8 +62,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
 export function useAuth() {
   const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+  if (!context) {
+    throw new Error('useAuth deve ser usado dentro de um AuthProvider');
   }
   return context;
 } 
