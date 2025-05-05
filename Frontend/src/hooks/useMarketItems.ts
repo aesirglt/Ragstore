@@ -23,12 +23,26 @@ export const useMarketItems = (params: UseMarketItemsParams) => {
                 url.searchParams.append('$skip', String((page - 1) * pageSize));
                 url.searchParams.append('$top', String(pageSize));
                 
+                const filters = [];
+
                 if (itemName) {
-                    url.searchParams.append('$filter', `contains(itemName, '${itemName}')`);
+                    filters.push(`contains(itemName, '${itemName}')`);
                 }
                 
                 if (category) {
-                    url.searchParams.append('$filter', `category eq '${category}'`);
+                    const categories = category.split(',');
+                    if (categories.length > 0) {
+                        const categoryFilter = categories.map(cat => `category eq '${cat}'`).join(' or ');
+                        filters.push(categoryFilter);
+                    }
+                }
+
+                if (storeType) {
+                    filters.push(`storeType eq '${storeType}'`);
+                }
+
+                if (filters.length > 0) {
+                    url.searchParams.append('$filter', filters.join(' and '));
                 }
 
                 console.log('Fetching from URL:', url.toString());

@@ -23,11 +23,13 @@ public class StoreItemsCollectionQueryHandler(
     public async Task<Result<IQueryable<StoreItemResponseModel>>> Handle(StoreItemsCollectionQuery request, CancellationToken cancellationToken)
     {
         return request.StoreType == EStoreItemStoreType.Vending
-               ? await ExecuteCmd(_vendingRepositore)
-               : await ExecuteCmd(_buyingRepositore);
+               ? await ExecuteCmd(nameof(EStoreItemStoreType.Vending), _vendingRepositore)
+               : await ExecuteCmd(nameof(EStoreItemStoreType.Buying), _buyingRepositore);
     }
 
-    public async Task<Result<IQueryable<StoreItemResponseModel>>> ExecuteCmd<TStoreItem>(IStoreRepository<TStoreItem> repository)
+    public async Task<Result<IQueryable<StoreItemResponseModel>>> ExecuteCmd<TStoreItem>(
+        string storeType,
+        IStoreRepository<TStoreItem> repository)
         where TStoreItem : StoreItem<TStoreItem>
     {
         var result = repository
@@ -46,7 +48,8 @@ public class StoreItemsCollectionQueryHandler(
                 Price = group.Key.Price,
                 Category = group.Key.Type.ToString(),
                 Quantity = group.Sum(i => i.Quantity),
-                Image = "https://static.divine-pride.net/images/items/item/" + group.Key.ItemId + ".png"
+                Image = "https://static.divine-pride.net/images/items/item/" + group.Key.ItemId + ".png",
+                StoreType = storeType,
             });
 
         return Result.Of(await result.AsTask());

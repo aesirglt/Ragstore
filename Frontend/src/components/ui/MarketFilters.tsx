@@ -28,22 +28,7 @@ export const MarketFilters: React.FC<MarketFiltersProps> = ({
   };
 
   return (
-    <Flex direction="column" gap={2} width="100%">
-      <Wrap spacing={2} mb={2}>
-        {selectedCategory.map((category) => (
-          <Tag
-            key={category}
-            size="md"
-            borderRadius="full"
-            variant="solid"
-            colorScheme="blue"
-          >
-            <TagLabel>{category}</TagLabel>
-            <TagCloseButton onClick={() => removeCategory(category)} />
-          </Tag>
-        ))}
-      </Wrap>
-
+    <Flex direction="column" gap={4} width="100%">
       <Flex gap={4} wrap="wrap">
         <Box flex="1" minW="200px">
           <Select
@@ -75,11 +60,28 @@ export const MarketFilters: React.FC<MarketFiltersProps> = ({
             onChange={(e) => onStoreTypeChange(e.target.value)}
             size="md"
           >
-            <option value="vending">Venda</option>
-            <option value="buying">Compra</option>
+            <option value="Vending">Venda</option>
+            <option value="Buying">Compra</option>
           </Select>
         </Box>
       </Flex>
+
+      {selectedCategory.length > 0 && (
+        <Wrap spacing={2}>
+          {selectedCategory.map((category) => (
+            <Tag
+              key={category}
+              size="md"
+              borderRadius="full"
+              variant="solid"
+              colorScheme="blue"
+            >
+              <TagLabel>{category}</TagLabel>
+              <TagCloseButton onClick={() => removeCategory(category)} />
+            </Tag>
+          ))}
+        </Wrap>
+      )}
     </Flex>
   );
 }; 

@@ -7,6 +7,7 @@ public record StoreItemResponseModel
     public long Quantity { get; set; }
     public string Image { get; set; } = string.Empty;
     public string Category { get; set; } = string.Empty;
+    public string StoreType { get; set; } = string.Empty;
 
     public StoreItemResponseModel()
     {
@@ -21,5 +22,6 @@ public record StoreItemResponseModel
         Quantity = storeItemResponseModel.Quantity;
         Image = storeItemResponseModel.Image;
         Category = storeItemResponseModel.Category;
+        StoreType = storeItemResponseModel.StoreType;
     }
 }

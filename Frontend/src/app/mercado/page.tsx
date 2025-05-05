@@ -18,7 +18,7 @@ export default function MercadoPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [storeType, setStoreType] = useState('');
+  const [storeType, setStoreType] = useState('Vending');
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isStoreModalOpen, setIsStoreModalOpen] = useState(false);
   const [selectedSort, setSelectedSort] = useState<string>('price_asc');
@@ -44,6 +44,11 @@ export default function MercadoPage() {
       }
     };
   }, []);
+
+  // Efeito para resetar a página quando os filtros mudarem
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedCategories, storeType]);
 
   const marketParams: UseMarketItemsParams = {
     server: currentServer,
