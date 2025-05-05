@@ -25,6 +25,7 @@ import { useEffect, useState } from 'react';
 import { TopItemViewModel } from '@/types/api/viewmodels/TopItemViewModel';
 import { LastSearchedItemViewModel } from '@/types/api/viewmodels/LastSearchedItemViewModel';
 import { useServer } from '@/contexts/ServerContext';
+import { useRouter } from 'next/navigation';
 
 // Dados zerados para quando houver erro
 const emptyTopItems: TopItemViewModel[] = [
@@ -65,6 +66,8 @@ export default function HomePage() {
   );
   const { data: userMerchants, isLoading: isLoadingMerchants } = useUserMerchants(userId ?? '');
 
+  const router = useRouter();
+
   // Atualiza os IDs quando lastSearchedItems mudar
   useEffect(() => {
     if (lastSearchedItems && lastSearchedItems.length > 0) {
@@ -91,7 +94,7 @@ export default function HomePage() {
                 <Text color="gray.600">
                   Entre em sua conta e desfrute da experiência completa.
                 </Text>
-                <Button colorScheme="orange" size="sm">
+                <Button colorScheme="orange" size="sm" onClick={() => router.push('/auth')}>
                   Login →
                 </Button>
               </VStack>

@@ -28,47 +28,102 @@ import {
   NumberInput,
   NumberInputField,
   ModalFooter,
+  useToast,
+  Text,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-
-interface Callback {
-  id: string;
-  itemId: string;
-  itemName: string;
-  targetPrice: number;
-  isActive: boolean;
-}
+import { useAuth } from '@/contexts/AuthContext';
+import { useServer } from '@/contexts/ServerContext';
+import { CallbackResumeViewModel } from '@/types/auth';
 
 export function UserCallbacks() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [callbacks, setCallbacks] = useState<Callback[]>([]);
+  const [callbacks, setCallbacks] = useState<CallbackResumeViewModel[]>([]);
   const [loading, setLoading] = useState(true);
+  const { token, isAuthenticated } = useAuth();
+  const { currentServer } = useServer();
+  const toast = useToast();
 
   useEffect(() => {
-    // TODO: Implementar chamada à API
-    setCallbacks([
-      {
-        id: '1',
-        itemId: '123',
-        itemName: 'Diário de Aventuras [HARDCORE]',
-        targetPrice: 250000000,
-        isActive: true,
-      },
-      {
-        id: '2',
-        itemId: '456',
-        itemName: 'Instance Stone',
-        targetPrice: 800000,
-        isActive: true,
-      }
-    ]);
-    setLoading(false);
-  }, []);
+    if (isAuthenticated && token) {
+      fetchCallbacks();
+    }
+  }, [isAuthenticated, token, currentServer]);
 
-  const handleAddCallback = (data: any) => {
-    // TODO: Implementar chamada à API para criar novo callback
-    onClose();
+  const fetchCallbacks = async () => {
+    try {
+      const response = await fetch(`/api/${currentServer}/callbacks`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Falha ao buscar callbacks');
+      }
+
+      const data = await response.json();
+      setCallbacks(data);
+    } catch (error) {
+      toast({
+        title: 'Erro',
+        description: 'Falha ao carregar notificações',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
+    } finally {
+      setLoading(false);
+    }
   };
+
+  const handleAddCallback = async (data: any) => {
+    try {
+      const response = await fetch(`/api/${currentServer}/callbacks`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        throw new Error('Falha ao adicionar callback');
+      }
+
+      await fetchCallbacks();
+      toast({
+        title: 'Sucesso',
+        description: 'Notificação adicionada com sucesso',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      });
+      onClose();
+    } catch (error) {
+      toast({
+        title: 'Erro',
+        description: 'Falha ao adicionar notificação',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
+    }
+  };
+
+  if (!isAuthenticated) {
+    return (
+      <Card>
+        <CardBody>
+          <VStack spacing={4} align="stretch">
+            <Heading size="md">Notificações de Preço</Heading>
+            <Text>Faça login para gerenciar suas notificações de preço</Text>
+          </VStack>
+        </CardBody>
+      </Card>
+    );
+  }
 
   return (
     <Card>
@@ -86,18 +141,18 @@ export function UserCallbacks() {
               <Tr>
                 <Th>Item</Th>
                 <Th isNumeric>Preço Alvo</Th>
-                <Th>Status</Th>
+                <Th>Tipo</Th>
                 <Th>Ações</Th>
               </Tr>
             </Thead>
             <Tbody>
               {callbacks.map((callback) => (
-                <Tr key={callback.id}>
-                  <Td>{callback.itemName}</Td>
-                  <Td isNumeric>{callback.targetPrice.toLocaleString()}z</Td>
+                <Tr key={`${callback.itemId}-${callback.server}`}>
+                  <Td>{callback.itemId}</Td>
+                  <Td isNumeric>{callback.itemPrice.toLocaleString()}z</Td>
                   <Td>
-                    <Badge colorScheme={callback.isActive ? "green" : "red"}>
-                      {callback.isActive ? "Ativo" : "Inativo"}
+                    <Badge colorScheme={callback.storeType === 'vending' ? 'green' : 'blue'}>
+                      {callback.storeType === 'vending' ? 'Venda' : 'Compra'}
                     </Badge>
                   </Td>
                   <Td>
@@ -105,6 +160,37 @@ export function UserCallbacks() {
                       size="sm"
                       colorScheme="red"
                       variant="ghost"
+                      onClick={async () => {
+                        try {
+                          const response = await fetch(`/api/${currentServer}/callbacks/${callback.itemId}`, {
+                            method: 'DELETE',
+                            headers: {
+                              'Authorization': `Bearer ${token}`,
+                            },
+                          });
+
+                          if (!response.ok) {
+                            throw new Error('Falha ao remover callback');
+                          }
+
+                          await fetchCallbacks();
+                          toast({
+                            title: 'Sucesso',
+                            description: 'Notificação removida com sucesso',
+                            status: 'success',
+                            duration: 3000,
+                            isClosable: true,
+                          });
+                        } catch (error) {
+                          toast({
+                            title: 'Erro',
+                            description: 'Falha ao remover notificação',
+                            status: 'error',
+                            duration: 3000,
+                            isClosable: true,
+                          });
+                        }
+                      }}
                     >
                       Remover
                     </Button>
@@ -115,7 +201,6 @@ export function UserCallbacks() {
           </Table>
         </VStack>
 
-        {/* Modal para adicionar novo callback */}
         <Modal isOpen={isOpen} onClose={onClose}>
           <ModalOverlay />
           <ModalContent>
@@ -124,8 +209,10 @@ export function UserCallbacks() {
             <ModalBody>
               <VStack spacing={4}>
                 <FormControl>
-                  <FormLabel>Item</FormLabel>
-                  <Input placeholder="Pesquisar item..." />
+                  <FormLabel>Item ID</FormLabel>
+                  <NumberInput min={0}>
+                    <NumberInputField placeholder="Digite o ID do item..." />
+                  </NumberInput>
                 </FormControl>
                 <FormControl>
                   <FormLabel>Preço Alvo</FormLabel>

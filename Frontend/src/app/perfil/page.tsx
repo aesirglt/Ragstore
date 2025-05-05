@@ -100,7 +100,6 @@ export default function ProfilePage() {
             </Card>
           </VStack>
         </SimpleGrid>
-
         <UserCallbacks />
       </VStack>
     </Container>
