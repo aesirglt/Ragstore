@@ -6,6 +6,7 @@ import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactNode } from 'react';
+import { ServerProvider } from '../contexts/ServerContext';
 
 const queryClient = new QueryClient();
 
@@ -15,15 +16,17 @@ interface ProvidersProps {
 
 export function Providers({ children }: ProvidersProps) {
   return (
-    <ChakraProvider>
-      <Navbar />
-      <Box pb={16}>
-        <QueryClientProvider client={queryClient}>
-          {children}
-        </QueryClientProvider>
-      </Box>
-      <Footer />
-      <Toaster position="top-right" />
-    </ChakraProvider>
+    <QueryClientProvider client={queryClient}>
+      <ChakraProvider>
+        <ServerProvider>
+          <Navbar />
+          <Box pb={16}>
+            {children}
+          </Box>
+          <Footer />
+          <Toaster position="top-right" />
+        </ServerProvider>
+      </ChakraProvider>
+    </QueryClientProvider>
   );
 } 

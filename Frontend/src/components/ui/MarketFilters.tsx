@@ -1,61 +1,85 @@
-import { Box, HStack, Select } from '@chakra-ui/react';
+import { Box, Select, Flex, Tag, TagLabel, TagCloseButton, Wrap } from '@chakra-ui/react';
+import { useState } from 'react';
 
 interface MarketFiltersProps {
-  selectedCategory: string;
-  selectedServer: string;
+  selectedCategory: string[];
   storeType: string;
-  onCategoryChange: (value: string) => void;
-  onServerChange: (value: string) => void;
+  onCategoryChange: (value: string[]) => void;
   onStoreTypeChange: (value: string) => void;
 }
 
-export const MarketFilters = ({
+export const MarketFilters: React.FC<MarketFiltersProps> = ({
   selectedCategory,
-  selectedServer,
   storeType,
   onCategoryChange,
-  onServerChange,
   onStoreTypeChange,
-}: MarketFiltersProps) => {
-  return (
-    <HStack spacing={1} wrap="wrap">
-      <Box flex="1" minW="200px">
-        <Select
-          placeholder="Servidor"
-          value={selectedServer}
-          onChange={(e) => onServerChange(e.target.value)}
-          bg="white"
-        >
-          <option value="brothor">Thor</option>
-        </Select>
-      </Box>
-      <Box flex="1" minW="200px">
-        <Select
-          placeholder="Categoria"
-          value={selectedCategory}
-          onChange={(e) => onCategoryChange(e.target.value)}
-          bg="white"
-        >
-          <option value="">Todas</option>
-          <option value="weapon">Armas</option>
-          <option value="armor">Armaduras</option>
-          <option value="card">Cartas</option>
-          <option value="potion">Poções</option>
-          <option value="material">Materiais</option>
-        </Select>
-      </Box>
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
 
-      <Box flex="1" minW="200px">
-        <Select
-          placeholder="Tipo de loja"
-          value={storeType}
-          onChange={(e) => onStoreTypeChange(e.target.value)}
-          bg="white"
-        >
-          <option value="vending">Venda</option>
-          <option value="buying">Compra</option>
-        </Select>
-      </Box>
-    </HStack>
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value;
+    if (value && !selectedCategory.includes(value)) {
+      onCategoryChange([...selectedCategory, value]);
+    }
+  };
+
+  const removeCategory = (categoryToRemove: string) => {
+    onCategoryChange(selectedCategory.filter(cat => cat !== categoryToRemove));
+  };
+
+  return (
+    <Flex direction="column" gap={2} width="100%">
+      <Wrap spacing={2} mb={2}>
+        {selectedCategory.map((category) => (
+          <Tag
+            key={category}
+            size="md"
+            borderRadius="full"
+            variant="solid"
+            colorScheme="blue"
+          >
+            <TagLabel>{category}</TagLabel>
+            <TagCloseButton onClick={() => removeCategory(category)} />
+          </Tag>
+        ))}
+      </Wrap>
+
+      <Flex gap={4} wrap="wrap">
+        <Box flex="1" minW="200px">
+          <Select
+            placeholder="Selecione as categorias"
+            value=""
+            onChange={handleCategoryChange}
+            size="md"
+          >
+            <option value="Armas">Armas</option>
+            <option value="Armaduras">Armaduras</option>
+            <option value="Consumíveis">Consumíveis</option>
+            <option value="Acessórios">Acessórios</option>
+            <option value="Blueprints">Blueprints</option>
+            <option value="Encantamentos">Encantamentos</option>
+            <option value="Gemas">Gemas</option>
+            <option value="Pets">Pets</option>
+            <option value="Quest">Quest</option>
+            <option value="Scrolls">Scrolls</option>
+            <option value="Shadow">Shadow</option>
+            <option value="Especial">Especial</option>
+            <option value="Diversos">Diversos</option>
+          </Select>
+        </Box>
+
+        <Box flex="1" minW="200px">
+          <Select
+            placeholder="Tipo de loja"
+            value={storeType}
+            onChange={(e) => onStoreTypeChange(e.target.value)}
+            size="md"
+          >
+            <option value="vending">Venda</option>
+            <option value="buying">Compra</option>
+          </Select>
+        </Box>
+      </Flex>
+    </Flex>
   );
 }; 

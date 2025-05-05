@@ -19,6 +19,7 @@ import NextLink from 'next/link';
 import { usePathname } from 'next/navigation';
 import { FaUser } from 'react-icons/fa';
 import { MdDarkMode } from 'react-icons/md';
+import { ServerSelector } from '@/components/ServerSelector';
 
 export function Navbar() {
   const pathname = usePathname();
@@ -54,7 +55,7 @@ export function Navbar() {
               </Link>
             ))}
           </Stack>
-
+          <ServerSelector />
           <Menu>
             <MenuButton
               as={Button}

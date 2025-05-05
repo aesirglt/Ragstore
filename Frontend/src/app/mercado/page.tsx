@@ -1,30 +1,28 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
-import { Container, Box, Text, Spinner, Alert, AlertIcon, Image, Flex, Button, VStack, SimpleGrid } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
+import { Container, Box, Text, Spinner, Alert, AlertIcon, Image, VStack, SimpleGrid } from '@chakra-ui/react';
 import { useMarketItems, UseMarketItemsParams } from '@/hooks/useMarketItems';
 import { SearchBar } from '@/components/ui/SearchBar';
 import { MarketFilters } from '@/components/ui/MarketFilters';
 import { MarketPagination } from '@/components/ui/MarketPagination';
 import { StoreListModal } from '../components/StoreListModal';
+import { useServer } from '../../contexts/ServerContext';
 
 const ITEMS_PER_PAGE = 12;
 
 export default function MercadoPage() {
+  const { currentServer } = useServer();
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [searchTerm, setSearchTerm] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('marketSearchTerm') || '';
-    }
-    return '';
-  });
+  const [searchTerm, setSearchTerm] = useState('');
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('');
-  const [selectedServer, setSelectedServer] = useState('');
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [storeType, setStoreType] = useState('');
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isStoreModalOpen, setIsStoreModalOpen] = useState(false);
+  const [selectedSort, setSelectedSort] = useState<string>('price_asc');
+  const [itemsPerPage] = useState(20);
 
   // Efeito para debounce da pesquisa
   useEffect(() => {
@@ -48,11 +46,11 @@ export default function MercadoPage() {
   }, []);
 
   const marketParams: UseMarketItemsParams = {
-    server: selectedServer || 'brothor',
+    server: currentServer,
     page: currentPage,
     pageSize: ITEMS_PER_PAGE,
     itemName: debouncedSearchTerm,
-    category: selectedCategory,
+    category: selectedCategories.join(','),
     storeType: storeType
   };
 
@@ -85,11 +83,9 @@ export default function MercadoPage() {
           <VStack spacing={4} align="stretch">
             <SearchBar value={searchTerm} onChange={handleSearch} />
             <MarketFilters
-              selectedCategory={selectedCategory}
-              selectedServer={selectedServer}
+              selectedCategory={selectedCategories}
               storeType={storeType}
-              onCategoryChange={setSelectedCategory}
-              onServerChange={setSelectedServer}
+              onCategoryChange={setSelectedCategories}
               onStoreTypeChange={setStoreType}
             />
             <Box 
@@ -114,11 +110,9 @@ export default function MercadoPage() {
           <VStack spacing={4} align="stretch">
             <SearchBar value={searchTerm} onChange={handleSearch} />
             <MarketFilters
-              selectedCategory={selectedCategory}
-              selectedServer={selectedServer}
+              selectedCategory={selectedCategories}
               storeType={storeType}
-              onCategoryChange={setSelectedCategory}
-              onServerChange={setSelectedServer}
+              onCategoryChange={setSelectedCategories}
               onStoreTypeChange={setStoreType}
             />
             <Alert status="error" mt={4}>
@@ -138,11 +132,9 @@ export default function MercadoPage() {
           <VStack spacing={4} align="stretch">
             <SearchBar value={searchTerm} onChange={handleSearch} />
             <MarketFilters
-              selectedCategory={selectedCategory}
-              selectedServer={selectedServer}
+              selectedCategory={selectedCategories}
               storeType={storeType}
-              onCategoryChange={setSelectedCategory}
-              onServerChange={setSelectedServer}
+              onCategoryChange={setSelectedCategories}
               onStoreTypeChange={setStoreType}
             />
             <Alert status="info" mt={4}>
@@ -165,13 +157,14 @@ export default function MercadoPage() {
     >
       <Container maxW="container.xl" py={4} height="full">
         <VStack spacing={4} align="stretch">
-          <SearchBar value={searchTerm} onChange={handleSearch} />
+          <Box>
+            <SearchBar value={searchTerm} onChange={handleSearch} />
+          </Box>
+          
           <MarketFilters
-            selectedCategory={selectedCategory}
-            selectedServer={selectedServer}
+            selectedCategory={selectedCategories}
             storeType={storeType}
-            onCategoryChange={setSelectedCategory}
-            onServerChange={setSelectedServer}
+            onCategoryChange={setSelectedCategories}
             onStoreTypeChange={setStoreType}
           />
 
@@ -248,7 +241,7 @@ export default function MercadoPage() {
         isOpen={isStoreModalOpen}
         onClose={() => setIsStoreModalOpen(false)}
         itemId={selectedItemId || 0}
-        server={selectedServer || 'brothor'}
+        server={currentServer}
       />
     </Box>
   );

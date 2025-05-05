@@ -33,5 +33,14 @@ services:
             POSTGRES_PASSWORD: "Sup3rS3cr3t"
             POSTGRES_DB: "ragstoredb"
             POSTGRES_HOST: "postgresql"
+            ASPNETCORE_ENVIRONMENT: Development
+            ASPNETCORE_HTTP_PORTS: 80
+            ASPNETCORE_HTTPS_PORTS: 443
+        ports:
+          - "5000:80"
+          - "5001:443"
+        volumes:
+          - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+          - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
 volumes:
     pgdata:

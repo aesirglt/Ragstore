@@ -24,6 +24,7 @@ import { useUserMerchants } from '../hooks/useUserMerchants';
 import { useEffect, useState } from 'react';
 import { TopItemViewModel } from '@/types/api/viewmodels/TopItemViewModel';
 import { LastSearchedItemViewModel } from '@/types/api/viewmodels/LastSearchedItemViewModel';
+import { useServer } from '@/contexts/ServerContext';
 
 // Dados zerados para quando houver erro
 const emptyTopItems: TopItemViewModel[] = [
@@ -52,14 +53,14 @@ const emptyLastSearchedItems: LastSearchedItemViewModel[] = [
 
 export default function HomePage() {
   // TODO: Pegar o servidor selecionado do contexto ou estado global
-  const selectedServer = "brothor";
+  const { currentServer } = useServer();
   // TODO: Pegar o userId do contexto de autenticação
   const userId: string | undefined = undefined; // Temporariamente undefined para simular usuário deslogado
 
-  const { data: lastSearchedItems, isLoading: isLoadingLastSearched } = useLastSearchedItems(selectedServer);
+  const { data: lastSearchedItems, isLoading: isLoadingLastSearched } = useLastSearchedItems(currentServer);
   const [lastSearchedItemIds, setLastSearchedItemIds] = useState<number[]>([]);
   const { data: topItems, isLoading: isLoadingTopItems } = useTopItems(
-    selectedServer, 
+    currentServer, 
     lastSearchedItemIds.length > 0 ? lastSearchedItemIds : []
   );
   const { data: userMerchants, isLoading: isLoadingMerchants } = useUserMerchants(userId ?? '');
