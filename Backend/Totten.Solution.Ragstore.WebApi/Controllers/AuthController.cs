@@ -27,10 +27,10 @@ public class AuthController : Controller
     /// 
     /// </summary>
     /// <returns></returns>
-    [HttpGet("login-google")]
+    [HttpGet("google")]
     public IActionResult LoginWithGoogle()
     {
-        var redirectUrl = Url.Action("GoogleResponse");
+        var redirectUrl = Url.Action(nameof(ResponseLogin));
         return Challenge(new AuthenticationProperties
         {
             RedirectUri = redirectUrl
@@ -41,8 +41,22 @@ public class AuthController : Controller
     /// 
     /// </summary>
     /// <returns></returns>
-    [HttpGet("google-response")]
-    public async Task<IActionResult> GoogleResponse()
+    [HttpGet("discord")]
+    public IActionResult LoginWithDiscord()
+    {
+        var redirectUrl = Url.Action(nameof(ResponseLogin));
+        return Challenge(new AuthenticationProperties
+        {
+            RedirectUri = redirectUrl
+        }, "Discord");
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet("response")]
+    public async Task<IActionResult> ResponseLogin()
     {
         // Autentica o usuário e obtém os claims
         var authenticateResult = await HttpContext.AuthenticateAsync();
