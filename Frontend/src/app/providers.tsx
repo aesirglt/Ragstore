@@ -21,11 +21,13 @@ export function Providers({ children }: ProvidersProps) {
       <ChakraProvider>
         <AuthProvider>
           <ServerProvider>
-            <Navbar />
-            <Box pb={16}>
-              {children}
+            <Box height="100vh" display="flex" flexDirection="column" overflow="hidden">
+              <Navbar />
+              <Box flex="1" height="100%" overflow="hidden">
+                {children}
+              </Box>
+              <Footer />
             </Box>
-            <Footer />
             <Toaster position="top-right" />
           </ServerProvider>
         </AuthProvider>
