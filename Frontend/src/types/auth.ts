@@ -17,9 +17,20 @@ export interface AuthResponse {
 
 export interface User {
   id: string;
-  email: string;
   name: string;
-  avatar?: string;
+  email: string;
+  avatarUrl?: string;
+  memberSince: string;
+  isActive: boolean;
+  callbacksCount: number;
+  searchCount: number;
+  receivePriceAlerts: boolean;
+  callbacks: Array<{
+    id: string;
+    itemName: string;
+    currentPrice: number;
+    targetPrice: number;
+  }>;
 }
 
 export interface ExternalLoginRequest {
@@ -32,4 +43,14 @@ export interface CallbackResumeViewModel {
   itemId: number;
   itemPrice: number;
   storeType: string;
+}
+
+export interface AuthContextType {
+  user: User | null;
+  isAuthenticated: boolean;
+  loading: boolean;
+  login: (email: string, password: string) => Promise<void>;
+  logout: () => Promise<void>;
+  updateUser: (user: User) => Promise<void>;
+  signOut: () => void;
 } 

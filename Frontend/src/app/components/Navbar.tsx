@@ -14,6 +14,7 @@ import {
   Icon,
   useColorModeValue,
   Switch,
+  useColorMode,
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -27,6 +28,7 @@ export function Navbar() {
   const bgColor = useColorModeValue('blue.50', 'blue.900');
   const borderColor = useColorModeValue('blue.100', 'blue.700');
   const { isAuthenticated } = useAuth();
+  const { colorMode, toggleColorMode } = useColorMode();
 
   const isActive = (path: string) => pathname === path;
 
@@ -75,7 +77,12 @@ export function Navbar() {
                 <MenuItem>
                   <Flex justify="space-between" align="center" width="100%">
                     Modo Escuro
-                    <Switch colorScheme="blue" ml={2} />
+                    <Switch 
+                      colorScheme="blue" 
+                      ml={2} 
+                      isChecked={colorMode === 'dark'}
+                      onChange={toggleColorMode}
+                    />
                   </Flex>
                 </MenuItem>
               </MenuList>

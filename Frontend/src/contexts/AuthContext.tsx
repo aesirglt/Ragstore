@@ -1,19 +1,6 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { config } from '@/config/env';
-
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  picture?: string;
-}
-
-interface AuthContextType {
-  user: User | null;
-  loading: boolean;
-  signOut: () => void;
-  isAuthenticated: boolean;
-}
+import { User, AuthContextType } from '@/types/auth';
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
@@ -49,7 +36,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     loadUser();
   }, []);
 
-  const signOut = async () => {
+  const logout = async () => {
     try {
       console.log('[Auth] Fazendo logout...');
       await fetch(`${config.backendUrl}/api/auth/signout`, {
@@ -63,8 +50,62 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const login = async (email: string, password: string) => {
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        throw new Error('Falha no login');
+      }
+
+      const userData = await response.json();
+      setUser(userData);
+    } catch (error) {
+      console.error('[Auth] Erro no login:', error);
+      throw error;
+    }
+  };
+
+  const updateUser = async (updatedUser: User) => {
+    try {
+      const response = await fetch('/api/auth/update', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedUser),
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        throw new Error('Falha ao atualizar usuário');
+      }
+
+      const userData = await response.json();
+      setUser(userData);
+    } catch (error) {
+      console.error('[Auth] Erro ao atualizar usuário:', error);
+      throw error;
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, loading, signOut, isAuthenticated: !!user }}>
+    <AuthContext.Provider value={{ 
+      user, 
+      loading, 
+      isAuthenticated: !!user,
+      login,
+      logout,
+      updateUser,
+      signOut: logout
+    }}>
       {children}
     </AuthContext.Provider>
   );

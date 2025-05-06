@@ -15,11 +15,57 @@ import {
   Divider,
   Stack,
   Badge,
+  Checkbox,
+  IconButton,
+  useColorMode,
+  Input,
+  useToast,
+  Switch,
 } from '@chakra-ui/react';
 import { UserCallbacks } from '../components/UserCallbacks';
 import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
+import { useAuth } from '@/contexts/AuthContext';
+import { DeleteIcon } from '@chakra-ui/icons';
+import { useState } from 'react';
 
 export default function ProfilePage() {
+  const { user, updateUser } = useAuth();
+  const { colorMode, toggleColorMode } = useColorMode();
+  const [isEditingAvatar, setIsEditingAvatar] = useState(false);
+  const toast = useToast();
+
+  const handleAvatarChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      // TODO: Implementar upload do avatar
+      toast({
+        title: 'Avatar atualizado',
+        status: 'success',
+        duration: 3000,
+      });
+    }
+  };
+
+  const handleNotificationToggle = async () => {
+    if (user) {
+      await updateUser({
+        ...user,
+        receivePriceAlerts: !user.receivePriceAlerts
+      });
+    }
+  };
+
+  const handleRemoveCallback = async (callbackId: string) => {
+    // TODO: Implementar remoção do callback
+    toast({
+      title: 'Callback removido',
+      status: 'success',
+      duration: 3000,
+    });
+  };
+
+  if (!user) return null;
+
   return (
     <ProtectedRoute>
       <Container maxW="container.xl" py={8}>
@@ -31,10 +77,24 @@ export default function ProfilePage() {
                 <CardBody>
                   <VStack spacing={6} align="start">
                     <Flex gap={4} align="center">
-                      <Avatar size="xl" name="Meu amor" />
+                      <Box position="relative">
+                        <Avatar size="xl" name={user.name} src={user.avatarUrl} />
+                        <Input
+                          type="file"
+                          accept="image/*"
+                          position="absolute"
+                          top="0"
+                          left="0"
+                          width="100%"
+                          height="100%"
+                          opacity="0"
+                          cursor="pointer"
+                          onChange={handleAvatarChange}
+                        />
+                      </Box>
                       <Box>
-                        <Heading size="lg">Meu amor</Heading>
-                        <Text color="gray.500">Membro desde Abril 2024</Text>
+                        <Heading size="lg">{user.name}</Heading>
+                        <Text color="gray.500">Membro desde {user.memberSince}</Text>
                       </Box>
                     </Flex>
                     
@@ -43,12 +103,14 @@ export default function ProfilePage() {
                     <Stack spacing={4} width="100%">
                       <Box>
                         <Text fontWeight="bold" mb={2}>Email</Text>
-                        <Text color="gray.600">usuario@email.com</Text>
+                        <Text color="gray.600">{user.email}</Text>
                       </Box>
 
                       <Box>
                         <Text fontWeight="bold" mb={2}>Status da Conta</Text>
-                        <Badge colorScheme="green">Ativo</Badge>
+                        <Badge colorScheme={user.isActive ? "green" : "red"}>
+                          {user.isActive ? "Ativo" : "Inativo"}
+                        </Badge>
                       </Box>
                     </Stack>
 
@@ -69,12 +131,12 @@ export default function ProfilePage() {
                     
                     <SimpleGrid columns={2} spacing={4} width="100%">
                       <Box>
-                        <Text color="gray.500">Itens Marcados</Text>
-                        <Text fontSize="2xl">0</Text>
+                        <Text color="gray.500">Callbacks</Text>
+                        <Text fontSize="2xl">{user.callbacksCount}</Text>
                       </Box>
                       <Box>
                         <Text color="gray.500">Pesquisas</Text>
-                        <Text fontSize="2xl">12</Text>
+                        <Text fontSize="2xl">{user.searchCount}</Text>
                       </Box>
                     </SimpleGrid>
                   </VStack>
@@ -89,12 +151,22 @@ export default function ProfilePage() {
                     <Stack spacing={4} width="100%">
                       <Box>
                         <Text fontWeight="bold" mb={2}>Notificações</Text>
-                        <Text color="gray.600">Receber alertas de preço</Text>
+                        <Checkbox
+                          isChecked={user.receivePriceAlerts}
+                          onChange={handleNotificationToggle}
+                        >
+                          Receber alertas de preço
+                        </Checkbox>
                       </Box>
 
                       <Box>
                         <Text fontWeight="bold" mb={2}>Tema</Text>
-                        <Text color="gray.600">Claro</Text>
+                        <Button
+                          size="sm"
+                          onClick={toggleColorMode}
+                        >
+                          {colorMode === 'light' ? '🌙 Modo Escuro' : '☀️ Modo Claro'}
+                        </Button>
                       </Box>
                     </Stack>
                   </VStack>
@@ -102,7 +174,17 @@ export default function ProfilePage() {
               </Card>
             </VStack>
           </SimpleGrid>
-          <UserCallbacks />
+
+          <Card>
+            <CardBody>
+              <VStack spacing={4} align="start">
+                <Heading size="md">Notificações de Preço</Heading>
+                <Box maxH="400px" overflowY="auto" width="100%">
+                  <UserCallbacks onRemoveCallback={handleRemoveCallback} />
+                </Box>
+              </VStack>
+            </CardBody>
+          </Card>
         </VStack>
       </Container>
     </ProtectedRoute>

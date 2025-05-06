@@ -1,4 +1,9 @@
-import { Box, Flex, Button, Text, Container } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  useColorModeValue,
+} from '@chakra-ui/react';
 
 interface MarketPaginationProps {
   currentPage: number;
@@ -6,44 +11,44 @@ interface MarketPaginationProps {
   onPageChange: (page: number) => void;
 }
 
-export const MarketPagination = ({ currentPage, totalPages, onPageChange }: MarketPaginationProps) => {
+export function MarketPagination({
+  currentPage,
+  totalPages,
+  onPageChange,
+}: MarketPaginationProps) {
+  const bgColor = useColorModeValue('white', 'gray.800');
+  const borderColor = useColorModeValue('gray.200', 'gray.700');
+  const activeBg = useColorModeValue('blue.50', 'blue.900');
+  const activeColor = useColorModeValue('blue.600', 'blue.200');
+
   return (
-    <Box 
+    <Box
       position="fixed"
-      bottom="48px"
-      left="0"
-      right="0"
-      bg="white" 
-      py={3}
-      borderTop="1px" 
-      borderColor="gray.200"
-      boxShadow="0 -2px 10px rgba(0,0,0,0.05)"
+      bottom={0}
+      left={0}
+      right={0}
+      bg={bgColor}
+      borderTop="1px"
+      borderColor={borderColor}
+      p={4}
+      zIndex={10}
     >
-      <Container maxW="container.xl">
-        <Flex justify="center" gap={4} align="center">
-          <Button
-            size="sm"
-            colorScheme="blue"
-            variant="outline"
-            onClick={() => onPageChange(currentPage - 1)}
-            isDisabled={currentPage === 1}
-          >
-            Anterior
-          </Button>
-          <Text fontSize="sm">
-            Página {currentPage} de {totalPages}
-          </Text>
-          <Button
-            size="sm"
-            colorScheme="blue"
-            variant="outline"
-            onClick={() => onPageChange(currentPage + 1)}
-            isDisabled={currentPage === totalPages}
-          >
-            Próxima
-          </Button>
-        </Flex>
-      </Container>
+      <ButtonGroup spacing={2} justifyContent="center" width="100%">
+        <Button
+          onClick={() => onPageChange(currentPage - 1)}
+          isDisabled={currentPage === 1}
+          size="sm"
+        >
+          Anterior
+        </Button>
+        <Button
+          onClick={() => onPageChange(currentPage + 1)}
+          isDisabled={currentPage === totalPages}
+          size="sm"
+        >
+          Próxima
+        </Button>
+      </ButtonGroup>
     </Box>
   );
-}; 
+} 

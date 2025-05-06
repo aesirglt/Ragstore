@@ -30,14 +30,21 @@ import {
   ModalFooter,
   useToast,
   Text,
+  HStack,
+  IconButton,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useServer } from '@/contexts/ServerContext';
 import { CallbackResumeViewModel } from '@/types/auth';
 import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
+import { DeleteIcon } from '@chakra-ui/icons';
 
-export function UserCallbacks() {
+interface UserCallbacksProps {
+  onRemoveCallback: (callbackId: string) => Promise<void>;
+}
+
+export function UserCallbacks({ onRemoveCallback }: UserCallbacksProps) {
   const { isAuthenticated, user } = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [callbacks, setCallbacks] = useState<CallbackResumeViewModel[]>([]);

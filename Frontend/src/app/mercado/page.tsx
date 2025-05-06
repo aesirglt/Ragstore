@@ -1,12 +1,23 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Container, Box, Text, Spinner, Alert, AlertIcon, Image, VStack, SimpleGrid } from '@chakra-ui/react';
+import { 
+  Container, 
+  Box, 
+  Text, 
+  Spinner, 
+  Alert, 
+  AlertIcon, 
+  VStack, 
+  SimpleGrid,
+  useColorModeValue,
+} from '@chakra-ui/react';
 import { useMarketItems, UseMarketItemsParams } from '@/hooks/useMarketItems';
 import { SearchBar } from '@/components/ui/SearchBar';
 import { MarketFilters } from '@/components/ui/MarketFilters';
 import { MarketPagination } from '@/components/ui/MarketPagination';
 import { StoreListModal } from '../components/StoreListModal';
+import { MarketItem } from '../components/MarketItem';
 import { useServer } from '../../contexts/ServerContext';
 
 const ITEMS_PER_PAGE = 12;
@@ -23,6 +34,9 @@ export default function MercadoPage() {
   const [isStoreModalOpen, setIsStoreModalOpen] = useState(false);
   const [selectedSort, setSelectedSort] = useState<string>('price_asc');
   const [itemsPerPage] = useState(20);
+
+  const bgColor = useColorModeValue('white', 'gray.900');
+  const containerBg = useColorModeValue('gray.50', 'gray.800');
 
   // Efeito para debounce da pesquisa
   useEffect(() => {
@@ -83,7 +97,7 @@ export default function MercadoPage() {
 
   if (isLoading) {
     return (
-      <Box height="100vh" display="flex" flexDirection="column">
+      <Box height="100vh" display="flex" flexDirection="column" bg={containerBg}>
         <Container maxW="container.xl" py={4}>
           <VStack spacing={4} align="stretch">
             <SearchBar value={searchTerm} onChange={handleSearch} />
@@ -110,7 +124,7 @@ export default function MercadoPage() {
 
   if (error) {
     return (
-      <Box height="100vh" display="flex" flexDirection="column">
+      <Box height="100vh" display="flex" flexDirection="column" bg={containerBg}>
         <Container maxW="container.xl" py={4}>
           <VStack spacing={4} align="stretch">
             <SearchBar value={searchTerm} onChange={handleSearch} />
@@ -132,7 +146,7 @@ export default function MercadoPage() {
 
   if (!items || items.length === 0) {
     return (
-      <Box height="100vh" display="flex" flexDirection="column">
+      <Box height="100vh" display="flex" flexDirection="column" bg={containerBg}>
         <Container maxW="container.xl" py={4}>
           <VStack spacing={4} align="stretch">
             <SearchBar value={searchTerm} onChange={handleSearch} />
@@ -159,6 +173,7 @@ export default function MercadoPage() {
       flexDirection="column" 
       position="relative"
       overflow="hidden"
+      bg={containerBg}
     >
       <Container maxW="container.xl" py={4} height="full">
         <VStack spacing={4} align="stretch">
@@ -185,51 +200,16 @@ export default function MercadoPage() {
               spacing={3}
             >
               {items.map((item) => (
-                <Box
+                <MarketItem
                   key={item.itemId}
-                  bg="white"
-                  p={2}
-                  borderRadius="md"
-                  boxShadow="sm"
-                  borderWidth="1px"
-                  borderColor="gray.200"
-                  transition="all 0.3s ease"
-                  position="relative"
-                  zIndex={1}
-                  _hover={{ 
-                    transform: 'translateY(-5px)',
-                    boxShadow: 'lg',
-                    borderColor: 'blue.200',
-                    zIndex: 2
-                  }}
-                  cursor="pointer"
-                  maxW="135px"
-                  onClick={() => handleItemClick(item.itemId)}
-                >
-                  <Image 
-                    src={item.image} 
-                    alt={item.itemName}
-                    fallbackSrc="https://via.placeholder.com/100"
-                    borderRadius="md"
-                    mb={1}
-                    width="full"
-                    height="85px"
-                    objectFit="contain"
-                    bg="gray.50"
-                  />
-                  
-                  <Text fontSize="2xs" fontWeight="bold" mb={0.5} noOfLines={1}>{item.itemName}</Text>
-                  <Text color="gray.600" fontSize="2xs" mb={0.5}>
-                    Categoria: {item.category}
-                  </Text>
-                  
-                  <Text fontWeight="semibold" fontSize="xs" color="red.500" mb={0.5}>
-                    {item.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-                  </Text>
-                  <Text color="gray.600" fontSize="2xs">
-                    Quantidade: {item.quantity}
-                  </Text>
-                </Box>
+                  itemId={item.itemId}
+                  itemName={item.itemName}
+                  image={item.image}
+                  category={item.category}
+                  price={item.price}
+                  quantity={item.quantity}
+                  onClick={handleItemClick}
+                />
               ))}
             </SimpleGrid>
           </Box>
