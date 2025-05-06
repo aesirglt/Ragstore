@@ -61,32 +61,15 @@ export function Navbar() {
           </Stack>
           <ServerSelector />
           {isAuthenticated && (
-            <Menu>
-              <MenuButton
-                as={Button}
-                variant="ghost"
-                rightIcon={<Icon as={FaUser} />}
-                _hover={{ bg: 'blue.100' }}
-              >
-                Minha Conta
-              </MenuButton>
-              <MenuList>
-                <MenuItem as={NextLink} href="/perfil">
-                  Minha Conta
-                </MenuItem>
-                <MenuItem>
-                  <Flex justify="space-between" align="center" width="100%">
-                    Modo Escuro
-                    <Switch 
-                      colorScheme="blue" 
-                      ml={2} 
-                      isChecked={colorMode === 'dark'}
-                      onChange={toggleColorMode}
-                    />
-                  </Flex>
-                </MenuItem>
-              </MenuList>
-            </Menu>
+            <Button
+              as={NextLink}
+              href="/perfil"
+              leftIcon={<Icon as={FaUser} />}
+              colorScheme="blue"
+              variant="ghost"
+            >
+              Minha Conta
+            </Button>
           )}
         </Flex>
       </Container>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { 
   Container, 
   Box, 
@@ -21,8 +21,6 @@ import { MarketItem } from '../components/MarketItem';
 import { useServer } from '../../contexts/ServerContext';
 import { Footer } from '../components/Footer';
 
-const ITEMS_PER_PAGE = 12;
-
 export default function MercadoPage() {
   const { currentServer } = useServer();
   const [currentPage, setCurrentPage] = useState(1);
@@ -34,7 +32,10 @@ export default function MercadoPage() {
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isStoreModalOpen, setIsStoreModalOpen] = useState(false);
   const [selectedSort, setSelectedSort] = useState<string>('price_asc');
-  const [itemsPerPage] = useState(20);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Dinamicamente calcula colunas e linhas
+  const [gridConfig, setGridConfig] = useState({ columns: 1, rows: 1, itemsPerPage: 1 });
 
   const bgColor = useColorModeValue('white', 'gray.900');
   const containerBg = useColorModeValue('gray.50', 'gray.800');
@@ -65,6 +66,24 @@ export default function MercadoPage() {
     setCurrentPage(1);
   }, [selectedCategories, storeType]);
 
+  useEffect(() => {
+    function updateGridConfig() {
+      if (!containerRef.current) return;
+      const width = containerRef.current.offsetWidth;
+      const height = window.innerHeight - containerRef.current.getBoundingClientRect().top - 160; // 160px para filtros, paginação e rodapé
+      const itemWidth = 180; // largura estimada do card
+      const itemHeight = 140; // altura estimada do card
+      const columns = Math.max(1, Math.floor(width / itemWidth));
+      const rows = Math.max(1, Math.floor(height / itemHeight));
+      setGridConfig({ columns, rows, itemsPerPage: columns * rows });
+    }
+    updateGridConfig();
+    window.addEventListener('resize', updateGridConfig);
+    return () => window.removeEventListener('resize', updateGridConfig);
+  }, []);
+
+  const ITEMS_PER_PAGE = gridConfig.itemsPerPage;
+
   const marketParams: UseMarketItemsParams = {
     server: currentServer,
     page: currentPage,
@@ -80,7 +99,7 @@ export default function MercadoPage() {
     if (items && items.length > 0) {
       setTotalPages(Math.ceil(items.length / ITEMS_PER_PAGE));
     }
-  }, [items]);
+  }, [items, ITEMS_PER_PAGE]);
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
@@ -174,7 +193,7 @@ export default function MercadoPage() {
       flexDirection="column" 
       bg={containerBg}
     >
-      <Container maxW="container.xl" py={4} flexShrink={0}>
+      <Container maxW="container.xl" py={4} flexShrink={0} ref={containerRef}>
         <VStack spacing={4} align="stretch">
           <Box>
             <SearchBar value={searchTerm} onChange={handleSearch} />
@@ -189,14 +208,13 @@ export default function MercadoPage() {
 
           <Box 
             flex="1" 
-            overflow="auto" 
             position="relative"
           >
             <SimpleGrid 
-              columns={{ base: 1, sm: 2, md: 3, lg: 4, xl: 5 }} 
+              columns={gridConfig.columns}
               spacing={3}
             >
-              {items.map((item) => (
+              {items.slice(0, ITEMS_PER_PAGE).map((item) => (
                 <MarketItem
                   key={item.itemId}
                   itemId={item.itemId}
@@ -217,7 +235,7 @@ export default function MercadoPage() {
         totalPages={totalPages}
         onPageChange={handlePageChange}
       />
-      <Footer mt="auto" />
+      <Footer />
       <StoreListModal
         isOpen={isStoreModalOpen}
         onClose={() => setIsStoreModalOpen(false)}
