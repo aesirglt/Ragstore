@@ -1,6 +1,5 @@
 'use client';
 
-import { LastSearchedItemViewModel } from '@/types/api/viewmodels/LastSearchedItemViewModel';
 import {
   Box,
   Table,
@@ -14,26 +13,31 @@ import {
   Text,
   Link,
   Heading,
+  useColorModeValue,
 } from '@chakra-ui/react';
+import { LastSearchedItemViewModel } from '@/types/api/viewmodels/LastSearchedItemViewModel';
 
 interface LastSearchedItemsProps {
   items: LastSearchedItemViewModel[];
 }
 
 export function LastSearchedItems({ items = [] }: LastSearchedItemsProps) {
+  const textColor = useColorModeValue('gray.700', 'gray.300');
+  const linkColor = useColorModeValue('orange.400', 'orange.300');
+
   return (
     <Box w="100%" overflowX="auto">
       <Flex justify="space-between" align="center" mb={4}>
-        <Heading size="md">Últimos itens visualizados</Heading>
-        <Link color="orange.400" href="/mercado">Ver mais</Link>
+        <Heading size="md" color={textColor}>Últimos itens visualizados</Heading>
+        <Link color={linkColor} href="/mercado">Ver mais</Link>
       </Flex>
 
       <Table variant="simple">
         <Thead>
           <Tr>
-            <Th>Item</Th>
-            <Th isNumeric>Quantidade</Th>
-            <Th isNumeric>Média</Th>
+            <Th color={textColor}>Item</Th>
+            <Th isNumeric color={textColor}>Quantidade</Th>
+            <Th isNumeric color={textColor}>Média</Th>
           </Tr>
         </Thead>
         <Tbody>
@@ -47,11 +51,11 @@ export function LastSearchedItems({ items = [] }: LastSearchedItemsProps) {
                     boxSize="32px"
                     objectFit="contain"
                   />
-                  <Text>{item.itemName}</Text>
+                  <Text color={textColor}>{item.itemName}</Text>
                 </Flex>
               </Td>
-              <Td isNumeric>{item.quantity}x</Td>
-              <Td isNumeric>{item.average}z</Td>
+              <Td isNumeric color={textColor}>{item.quantity}x</Td>
+              <Td isNumeric color={textColor}>{item.average}z</Td>
             </Tr>
           ))}
         </Tbody>

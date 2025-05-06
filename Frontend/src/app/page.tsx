@@ -14,10 +14,9 @@ import {
   Flex,
   Spinner,
 } from '@chakra-ui/react';
-import { LastSearchedItems } from './components/LastSearchedItems';
+import { LastSearchedItems } from '@/components/LastSearchedItems';
 import { PromotionBanner } from './components/PromotionBanner';
 import { TopItemsSlider } from './components/TopItemsSlider';
-import { UserMerchants } from './components/UserMerchants';
 import { useTopItems } from '../hooks/useTopItems';
 import { useLastSearchedItems } from '../hooks/useLastSearchedItems';
 import { useUserMerchants } from '../hooks/useUserMerchants';
@@ -69,6 +68,9 @@ export default function HomePage() {
 
   const router = useRouter();
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
   // Atualiza os IDs quando lastSearchedItems mudar
   useEffect(() => {
     if (lastSearchedItems && lastSearchedItems.length > 0) {
@@ -79,7 +81,7 @@ export default function HomePage() {
   return (
     <Container maxW="container.xl" py={8}>
       <Grid
-        templateColumns="repeat(2, 1fr)"
+        templateColumns={{ base: "1fr", md: "1.5fr 1fr" }}
         templateRows="auto auto auto"
         gap={4}
       >
@@ -88,7 +90,35 @@ export default function HomePage() {
           <WelcomeComponent />
         </GridItem>
         <GridItem>
-          <Flex justify="flex-end" pr={2}>
+          <Box />
+        </GridItem>
+
+        {/* Segunda linha - Banner ocupando toda a largura */}
+        <GridItem colSpan={2}>
+          <PromotionBanner />
+        </GridItem>
+
+        {/* Terceira linha */}
+        <GridItem>
+          <Card>
+            <CardBody pr={2}>
+              {isLoadingLastSearched ? (
+                <Flex justify="center" align="center" h="200px">
+                  <Spinner />
+                </Flex>
+              ) : (
+                <LastSearchedItems 
+                  items={lastSearchedItems || emptyLastSearchedItems}
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={setCurrentPage}
+                />
+              )}
+            </CardBody>
+          </Card>
+        </GridItem>
+        <GridItem>
+          <Flex justify="flex-end">
             <Box w="280px">
               {isLoadingTopItems ? (
                 <Card>
@@ -103,43 +133,6 @@ export default function HomePage() {
               )}
             </Box>
           </Flex>
-        </GridItem>
-
-        {/* Segunda linha - Banner ocupando toda a largura */}
-        <GridItem colSpan={2}>
-          <PromotionBanner />
-        </GridItem>
-
-        {/* Terceira linha */}
-        <GridItem>
-          <Card>
-            <CardBody>
-              {isLoadingLastSearched ? (
-                <Flex justify="center" align="center" h="200px">
-                  <Spinner />
-                </Flex>
-              ) : (
-                <LastSearchedItems items={lastSearchedItems || emptyLastSearchedItems} />
-              )}
-            </CardBody>
-          </Card>
-        </GridItem>
-        <GridItem>
-          <Card>
-            <CardBody>
-              {isLoadingMerchants ? (
-                <Flex justify="center" align="center" h="200px">
-                  <Spinner />
-                </Flex>
-              ) : (
-                <UserMerchants 
-                  items={userMerchants || []}
-                  isLoading={isLoadingMerchants}
-                  userId={userId}
-                />
-              )}
-            </CardBody>
-          </Card>
         </GridItem>
       </Grid>
     </Container>

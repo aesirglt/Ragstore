@@ -9,6 +9,7 @@ import {
   TagCloseButton,
   Wrap,
   useColorModeValue,
+  Text,
 } from '@chakra-ui/react';
 import { useState } from 'react';
 
@@ -29,6 +30,8 @@ export function MarketFilters({
   const borderColor = useColorModeValue('gray.200', 'gray.700');
   const activeBg = useColorModeValue('blue.50', 'blue.900');
   const activeColor = useColorModeValue('blue.600', 'blue.200');
+  const selectBg = useColorModeValue('white', 'gray.700');
+  const selectBorderColor = useColorModeValue('gray.200', 'gray.600');
   const [isOpen, setIsOpen] = useState(false);
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -49,36 +52,28 @@ export function MarketFilters({
       borderRadius="md"
       borderWidth="1px"
       borderColor={borderColor}
+      boxShadow="sm"
     >
-      <ButtonGroup spacing={2} size="sm">
-        <Button
-          onClick={() => onStoreTypeChange('Vending')}
-          variant={storeType === 'Vending' ? 'solid' : 'outline'}
-          colorScheme="blue"
-          bg={storeType === 'Vending' ? activeBg : undefined}
-          color={storeType === 'Vending' ? activeColor : undefined}
-        >
-          Vendas
-        </Button>
-        <Button
-          onClick={() => onStoreTypeChange('Buying')}
-          variant={storeType === 'Buying' ? 'solid' : 'outline'}
-          colorScheme="blue"
-          bg={storeType === 'Buying' ? activeBg : undefined}
-          color={storeType === 'Buying' ? activeColor : undefined}
-        >
-          Compras
-        </Button>
-      </ButtonGroup>
-
       <Flex direction="column" gap={4} width="100%">
-        <Flex gap={4} wrap="wrap">
-          <Box flex="1" minW="200px">
+        <Flex gap={4} direction={{ base: 'column', md: 'row' }}>
+          <Box flex="2">
+            <Text fontSize="sm" fontWeight="medium" mb={2} color={useColorModeValue('gray.700', 'gray.300')}>
+              Categorias
+            </Text>
             <Select
               placeholder="Selecione as categorias"
               value=""
               onChange={handleCategoryChange}
               size="md"
+              bg={selectBg}
+              borderColor={selectBorderColor}
+              _hover={{
+                borderColor: 'blue.300',
+              }}
+              _focus={{
+                borderColor: 'blue.500',
+                boxShadow: '0 0 0 1px var(--chakra-colors-blue-500)',
+              }}
             >
               <option value="Armas">Armas</option>
               <option value="Armaduras">Armaduras</option>
@@ -95,23 +90,75 @@ export function MarketFilters({
               <option value="Diversos">Diversos</option>
             </Select>
           </Box>
+
+          <Box flex="1">
+            <Text fontSize="sm" fontWeight="medium" mb={2} color={useColorModeValue('gray.700', 'gray.300')}>
+              Tipo de Loja
+            </Text>
+            <ButtonGroup spacing={2} size="md">
+              <Button
+                onClick={() => onStoreTypeChange('Vending')}
+                variant={storeType === 'Vending' ? 'solid' : 'outline'}
+                colorScheme="blue"
+                bg={storeType === 'Vending' ? activeBg : undefined}
+                color={storeType === 'Vending' ? activeColor : undefined}
+                _hover={{
+                  bg: storeType === 'Vending' ? 'blue.100' : 'blue.50',
+                  color: 'blue.600',
+                }}
+                _active={{
+                  bg: storeType === 'Vending' ? 'blue.200' : 'blue.100',
+                }}
+              >
+                Vendas
+              </Button>
+              <Button
+                onClick={() => onStoreTypeChange('Buying')}
+                variant={storeType === 'Buying' ? 'solid' : 'outline'}
+                colorScheme="blue"
+                bg={storeType === 'Buying' ? activeBg : undefined}
+                color={storeType === 'Buying' ? activeColor : undefined}
+                _hover={{
+                  bg: storeType === 'Buying' ? 'blue.100' : 'blue.50',
+                  color: 'blue.600',
+                }}
+                _active={{
+                  bg: storeType === 'Buying' ? 'blue.200' : 'blue.100',
+                }}
+              >
+                Compras
+              </Button>
+            </ButtonGroup>
+          </Box>
         </Flex>
 
         {selectedCategory.length > 0 && (
-          <Wrap spacing={2}>
-            {selectedCategory.map((category) => (
-              <Tag
-                key={category}
-                size="md"
-                borderRadius="full"
-                variant="solid"
-                colorScheme="blue"
-              >
-                <TagLabel>{category}</TagLabel>
-                <TagCloseButton onClick={() => removeCategory(category)} />
-              </Tag>
-            ))}
-          </Wrap>
+          <Box>
+            <Text fontSize="sm" fontWeight="medium" mb={2} color={useColorModeValue('gray.700', 'gray.300')}>
+              Categorias Selecionadas
+            </Text>
+            <Wrap spacing={2}>
+              {selectedCategory.map((category) => (
+                <Tag
+                  key={category}
+                  size="md"
+                  borderRadius="full"
+                  variant="solid"
+                  colorScheme="blue"
+                  bg={useColorModeValue('blue.100', 'blue.900')}
+                  color={useColorModeValue('blue.700', 'blue.200')}
+                >
+                  <TagLabel>{category}</TagLabel>
+                  <TagCloseButton 
+                    onClick={() => removeCategory(category)}
+                    _hover={{
+                      bg: useColorModeValue('blue.200', 'blue.800'),
+                    }}
+                  />
+                </Tag>
+              ))}
+            </Wrap>
+          </Box>
         )}
       </Flex>
     </Box>

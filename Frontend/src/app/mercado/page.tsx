@@ -19,6 +19,7 @@ import { MarketPagination } from '@/components/ui/MarketPagination';
 import { StoreListModal } from '../components/StoreListModal';
 import { MarketItem } from '../components/MarketItem';
 import { useServer } from '../../contexts/ServerContext';
+import { Footer } from '../components/Footer';
 
 const ITEMS_PER_PAGE = 12;
 
@@ -168,14 +169,12 @@ export default function MercadoPage() {
 
   return (
     <Box 
-      height="100vh" 
+      minH="100vh" 
       display="flex" 
       flexDirection="column" 
-      position="relative"
-      overflow="hidden"
       bg={containerBg}
     >
-      <Container maxW="container.xl" py={4} height="full">
+      <Container maxW="container.xl" py={4} flexShrink={0}>
         <VStack spacing={4} align="stretch">
           <Box>
             <SearchBar value={searchTerm} onChange={handleSearch} />
@@ -192,8 +191,6 @@ export default function MercadoPage() {
             flex="1" 
             overflow="auto" 
             position="relative"
-            pb={16}
-            pt={4}
           >
             <SimpleGrid 
               columns={{ base: 1, sm: 2, md: 3, lg: 4, xl: 5 }} 
@@ -215,13 +212,12 @@ export default function MercadoPage() {
           </Box>
         </VStack>
       </Container>
-
       <MarketPagination
         currentPage={currentPage}
         totalPages={totalPages}
         onPageChange={handlePageChange}
       />
-
+      <Footer mt="auto" />
       <StoreListModal
         isOpen={isStoreModalOpen}
         onClose={() => setIsStoreModalOpen(false)}
