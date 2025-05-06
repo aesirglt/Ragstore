@@ -35,33 +35,28 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useServer } from '@/contexts/ServerContext';
 import { CallbackResumeViewModel } from '@/types/auth';
+import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
 
 export function UserCallbacks() {
+  const { isAuthenticated, user } = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [callbacks, setCallbacks] = useState<CallbackResumeViewModel[]>([]);
   const [loading, setLoading] = useState(true);
-  const { token, isAuthenticated } = useAuth();
   const { currentServer } = useServer();
   const toast = useToast();
 
   useEffect(() => {
-    if (isAuthenticated && token) {
+    if (isAuthenticated && user) {
       fetchCallbacks();
     }
-  }, [isAuthenticated, token, currentServer]);
+  }, [isAuthenticated, user, currentServer]);
 
   const fetchCallbacks = async () => {
     try {
-      const response = await fetch(`/api/${currentServer}/callbacks`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-
+      const response = await fetch(`/api/${currentServer}/callbacks-user`);
       if (!response.ok) {
         throw new Error('Falha ao buscar callbacks');
       }
-
       const data = await response.json();
       setCallbacks(data);
     } catch (error) {
@@ -82,7 +77,6 @@ export function UserCallbacks() {
       const response = await fetch(`/api/${currentServer}/callbacks`, {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
@@ -126,114 +120,113 @@ export function UserCallbacks() {
   }
 
   return (
-    <Card>
-      <CardBody>
-        <VStack spacing={4} align="stretch">
-          <Flex justify="space-between" align="center">
-            <Heading size="md">Notificações de Preço</Heading>
-            <Button colorScheme="blue" size="sm" onClick={onOpen}>
-              + Adicionar
-            </Button>
-          </Flex>
+    <ProtectedRoute>
+      <Card>
+        <CardBody>
+          <VStack spacing={4} align="stretch">
+            <Flex justify="space-between" align="center">
+              <Heading size="md">Notificações de Preço</Heading>
+              <Button colorScheme="blue" size="sm" onClick={onOpen}>
+                + Adicionar
+              </Button>
+            </Flex>
 
-          <Table variant="simple">
-            <Thead>
-              <Tr>
-                <Th>Item</Th>
-                <Th isNumeric>Preço Alvo</Th>
-                <Th>Tipo</Th>
-                <Th>Ações</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {callbacks.map((callback) => (
-                <Tr key={`${callback.itemId}-${callback.server}`}>
-                  <Td>{callback.itemId}</Td>
-                  <Td isNumeric>{callback.itemPrice.toLocaleString()}z</Td>
-                  <Td>
-                    <Badge colorScheme={callback.storeType === 'vending' ? 'green' : 'blue'}>
-                      {callback.storeType === 'vending' ? 'Venda' : 'Compra'}
-                    </Badge>
-                  </Td>
-                  <Td>
-                    <Button
-                      size="sm"
-                      colorScheme="red"
-                      variant="ghost"
-                      onClick={async () => {
-                        try {
-                          const response = await fetch(`/api/${currentServer}/callbacks/${callback.itemId}`, {
-                            method: 'DELETE',
-                            headers: {
-                              'Authorization': `Bearer ${token}`,
-                            },
-                          });
-
-                          if (!response.ok) {
-                            throw new Error('Falha ao remover callback');
-                          }
-
-                          await fetchCallbacks();
-                          toast({
-                            title: 'Sucesso',
-                            description: 'Notificação removida com sucesso',
-                            status: 'success',
-                            duration: 3000,
-                            isClosable: true,
-                          });
-                        } catch (error) {
-                          toast({
-                            title: 'Erro',
-                            description: 'Falha ao remover notificação',
-                            status: 'error',
-                            duration: 3000,
-                            isClosable: true,
-                          });
-                        }
-                      }}
-                    >
-                      Remover
-                    </Button>
-                  </Td>
+            <Table variant="simple">
+              <Thead>
+                <Tr>
+                  <Th>Item</Th>
+                  <Th isNumeric>Preço Alvo</Th>
+                  <Th>Tipo</Th>
+                  <Th>Ações</Th>
                 </Tr>
-              ))}
-            </Tbody>
-          </Table>
-        </VStack>
+              </Thead>
+              <Tbody>
+                {callbacks.map((callback) => (
+                  <Tr key={`${callback.itemId}-${callback.server}`}>
+                    <Td>{callback.itemId}</Td>
+                    <Td isNumeric>{callback.itemPrice.toLocaleString()}z</Td>
+                    <Td>
+                      <Badge colorScheme={callback.storeType === 'vending' ? 'green' : 'blue'}>
+                        {callback.storeType === 'vending' ? 'Venda' : 'Compra'}
+                      </Badge>
+                    </Td>
+                    <Td>
+                      <Button
+                        size="sm"
+                        colorScheme="red"
+                        variant="ghost"
+                        onClick={async () => {
+                          try {
+                            const response = await fetch(`/api/${currentServer}/callbacks/${callback.itemId}`, {
+                              method: 'DELETE',
+                            });
 
-        <Modal isOpen={isOpen} onClose={onClose}>
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>Adicionar Notificação</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              <VStack spacing={4}>
-                <FormControl>
-                  <FormLabel>Item ID</FormLabel>
-                  <NumberInput min={0}>
-                    <NumberInputField placeholder="Digite o ID do item..." />
-                  </NumberInput>
-                </FormControl>
-                <FormControl>
-                  <FormLabel>Preço Alvo</FormLabel>
-                  <NumberInput min={0}>
-                    <NumberInputField placeholder="Digite o preço alvo..." />
-                  </NumberInput>
-                </FormControl>
-              </VStack>
-            </ModalBody>
+                            if (!response.ok) {
+                              throw new Error('Falha ao remover callback');
+                            }
 
-            <ModalFooter>
-              <Button variant="ghost" mr={3} onClick={onClose}>
-                Cancelar
-              </Button>
-              <Button colorScheme="blue" onClick={() => handleAddCallback({})}>
-                Adicionar
-              </Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
-      </CardBody>
-    </Card>
+                            await fetchCallbacks();
+                            toast({
+                              title: 'Sucesso',
+                              description: 'Notificação removida com sucesso',
+                              status: 'success',
+                              duration: 3000,
+                              isClosable: true,
+                            });
+                          } catch (error) {
+                            toast({
+                              title: 'Erro',
+                              description: 'Falha ao remover notificação',
+                              status: 'error',
+                              duration: 3000,
+                              isClosable: true,
+                            });
+                          }
+                        }}
+                      >
+                        Remover
+                      </Button>
+                    </Td>
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>
+          </VStack>
+
+          <Modal isOpen={isOpen} onClose={onClose}>
+            <ModalOverlay />
+            <ModalContent>
+              <ModalHeader>Adicionar Notificação</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody>
+                <VStack spacing={4}>
+                  <FormControl>
+                    <FormLabel>Item ID</FormLabel>
+                    <NumberInput min={0}>
+                      <NumberInputField placeholder="Digite o ID do item..." />
+                    </NumberInput>
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel>Preço Alvo</FormLabel>
+                    <NumberInput min={0}>
+                      <NumberInputField placeholder="Digite o preço alvo..." />
+                    </NumberInput>
+                  </FormControl>
+                </VStack>
+              </ModalBody>
+
+              <ModalFooter>
+                <Button variant="ghost" mr={3} onClick={onClose}>
+                  Cancelar
+                </Button>
+                <Button colorScheme="blue" onClick={() => handleAddCallback({})}>
+                  Adicionar
+                </Button>
+              </ModalFooter>
+            </ModalContent>
+          </Modal>
+        </CardBody>
+      </Card>
+    </ProtectedRoute>
   );
 } 

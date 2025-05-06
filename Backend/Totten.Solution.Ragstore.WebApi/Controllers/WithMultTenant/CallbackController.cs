@@ -41,12 +41,15 @@ public class CallbackController(ILifetimeScope lifetimeScope) : BaseApiControlle
     /// <param name="queryOptions">Filtro Dinamico</param>
     /// <returns></returns>
     [HttpGet("{server}/callbacks-user")]
-    [ProducesResponseType<IQueryable<Callback>>(statusCode: 200)]
-    public async Task<IActionResult> GetCallbackByUser([FromRoute] string server, ODataQueryOptions<Callback> queryOptions)
-        => await HandleQueryable(new CallbackCollectionByUserIdQuery
+    [ProducesResponseType<IQueryable<CallbackResumeViewModel>>(statusCode: 200)]
+    public async Task<IActionResult> GetCallbackByUser([FromRoute] string server, ODataQueryOptions<CallbackResumeViewModel> queryOptions)
+    {
+        var userId = User.Claims.FirstOrDefault(c => c?.Type is "sub" or "id")?.Value ?? "d7aeb595-44a5-4f5d-822e-980f35ace12d";
+        return await HandleQueryable(new CallbackCollectionByUserIdQuery
         {
-            UserId = "d7aeb595-44a5-4f5d-822e-980f35ace12d"
+            UserId = userId
         }, server, queryOptions);
+    }
 
     /// <summary>
     /// Cria uma notificação no servidor especificado.
@@ -59,7 +62,7 @@ public class CallbackController(ILifetimeScope lifetimeScope) : BaseApiControlle
     public async Task<IActionResult> PostItems([FromRoute] string server, [FromBody] CallbackCreateDto createDto)
         => await HandleCommand(_mapper.Map<CallbackSaveCommand>((createDto, new UserData
         {
-            Id = $"d7aeb595-44a5-4f5d-822e-980f35ace12d",
+            Id = "d7aeb595-44a5-4f5d-822e-980f35ace12d",
             Email = "aleffmds@gmail.com",
             Cellphone = "+351929284645",
             Level = EUserLevel.SYSTEM

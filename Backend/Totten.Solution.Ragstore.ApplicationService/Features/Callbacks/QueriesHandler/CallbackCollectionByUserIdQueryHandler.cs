@@ -6,6 +6,7 @@ using System;
 using System.Threading.Tasks;
 using Totten.Solution.Ragstore.ApplicationService.Features.ItemsAggregation.Queries;
 using Totten.Solution.Ragstore.Domain.Features.CallbackAggregation;
+using Totten.Solution.Ragstore.Infra.Cross.Statics;
 
 public class CallbackCollectionByUserIdQueryHandler : IRequestHandler<CallbackCollectionByUserIdQuery, Result<IQueryable<Callback>>>
 {
@@ -18,6 +19,7 @@ public class CallbackCollectionByUserIdQueryHandler : IRequestHandler<CallbackCo
 
     public Task<Result<IQueryable<Callback>>> Handle(CallbackCollectionByUserIdQuery request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var callbacks = _repository.GetAll().Where(c => c.CallbackOwnerId == request.UserId);
+        return Result.Of(callbacks).AsTask();
     }
 }
