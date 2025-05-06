@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.OData;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Totten.Solution.Ragstore.Infra.Data.Contexts.EntityFrameworkIdentity;
@@ -14,10 +15,15 @@ builder.Services.AddProblemDetails().AddExceptionHandler<GlobalExceptionHandler>
 
 builder.Services.AddCors(opt =>
 {
-    opt.AddDefaultPolicy(op =>
-    {
-        op.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
-    });
+    opt.AddPolicy("AllowFrontend",
+        builder =>
+        {
+            builder
+                .WithOrigins("http://localhost:3000")
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials();
+        });
 });
 builder.Services
        .AddControllers(opt =>
@@ -43,7 +49,7 @@ builder.Host
        .ConfigureAutofac(builder.Configuration);
 
 var app = builder.Build();
-app.UseCors();
+app.UseCors("AllowFrontend");
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseAntiforgery();

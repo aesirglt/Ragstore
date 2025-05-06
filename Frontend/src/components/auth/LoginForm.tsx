@@ -6,23 +6,9 @@ export function LoginForm() {
   const { loading } = useAuth();
   const toast = useToast();
 
-  const handleGoogleLogin = async () => {
-    try {
-      const response = await fetch('/api/auth/google');
-      if (!response.ok) {
-        throw new Error('Falha ao iniciar login com Google');
-      }
-      const data = await response.json();
-      window.location.href = data.url;
-    } catch (error) {
-      toast({
-        title: 'Erro',
-        description: 'Falha ao iniciar login com Google',
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-      });
-    }
+  const handleGoogleLogin = () => {
+    const redirect = encodeURIComponent(window.location.href);
+    window.location.href = `/api/auth/google?redirect=${redirect}`;
   };
 
   const handleDiscordLogin = async () => {

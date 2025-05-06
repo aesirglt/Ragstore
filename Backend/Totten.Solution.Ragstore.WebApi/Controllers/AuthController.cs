@@ -28,9 +28,9 @@ public class AuthController : Controller
     /// </summary>
     /// <returns></returns>
     [HttpGet("google")]
-    public IActionResult LoginWithGoogle()
+    public IActionResult LoginWithGoogle([FromQuery] string redirect = "/")
     {
-        var redirectUrl = Url.Action(nameof(ResponseLogin));
+        var redirectUrl = Url.Action(nameof(ResponseLogin), new { redirect });
         return Challenge(new AuthenticationProperties
         {
             RedirectUri = redirectUrl
@@ -56,9 +56,9 @@ public class AuthController : Controller
     /// </summary>
     /// <returns></returns>
     [HttpGet("response")]
-    public async Task<IActionResult> ResponseLogin()
+    public async Task<IActionResult> ResponseLogin([FromQuery] string redirect = "/")
     {
-        // Autentica o usuário e obtém os claims
+        var allowedOrigin = "http://localhost:3000";
         var authenticateResult = await HttpContext.AuthenticateAsync();
 
         if (!authenticateResult.Succeeded || authenticateResult.Principal == null)
@@ -81,6 +81,9 @@ public class AuthController : Controller
 
         // Agora, você adiciona o cookie de autenticação (feito automaticamente pelo middleware)
         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(user));
-        return Redirect("/profile");
+
+        return !string.IsNullOrEmpty(redirect) && redirect.StartsWith(allowedOrigin)
+            ? Redirect(redirect)
+            : (IActionResult)Redirect(allowedOrigin);
     }
 }
