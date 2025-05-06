@@ -26,6 +26,7 @@ import { TopItemViewModel } from '@/types/api/viewmodels/TopItemViewModel';
 import { LastSearchedItemViewModel } from '@/types/api/viewmodels/LastSearchedItemViewModel';
 import { useServer } from '@/contexts/ServerContext';
 import { useRouter } from 'next/navigation';
+import { WelcomeComponent } from './components/WelcomeComponent';
 
 // Dados zerados para quando houver erro
 const emptyTopItems: TopItemViewModel[] = [
@@ -84,22 +85,7 @@ export default function HomePage() {
       >
         {/* Primeira linha */}
         <GridItem>
-          <Card>
-            <CardBody>
-              <VStack spacing={4} align="start">
-                <Box>
-                  <Text fontSize="sm" color="gray.500">Seja bem-vindo,</Text>
-                  <Heading size="lg">Meu bem</Heading>
-                </Box>
-                <Text color="gray.600">
-                  Entre em sua conta e desfrute da experiência completa.
-                </Text>
-                <Button colorScheme="orange" size="sm" onClick={() => router.push('/auth')}>
-                  Login →
-                </Button>
-              </VStack>
-            </CardBody>
-          </Card>
+          <WelcomeComponent />
         </GridItem>
         <GridItem>
           <Flex justify="flex-end" pr={2}>
