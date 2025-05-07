@@ -29,6 +29,6 @@ public class MigrateController : ControllerBase
         var opt = new DbContextOptionsBuilder<ServerStoreContext>().UseNpgsql(SysConstantDBConfig.DEFAULT_CONNECTION_STRING.Replace("{dbName}", server));
         var ctx = new ServerStoreContext(opt.Options);
         _ = Task.Run(ctx.Database.Migrate);
-        return await Task.Run(Ok);
+        return await Task.FromResult(Ok());
     }
 }
