@@ -20,12 +20,12 @@ export function WelcomeComponent() {
         <VStack spacing={4} align="start">
           <Box>
             <Text fontSize="sm" color="gray.500">Seja bem-vindo,</Text>
-            <Heading size="lg">{user ? user.name : 'Meu bem'}</Heading>
+            <Heading size="lg">{user ? user.name : 'Aventureiro'}</Heading>
           </Box>
           <Text color="gray.600">
             {user 
-              ? 'Veja aqui tudo sobre como ajudar o site e a experiência VIP'
-              : 'Entre em sua conta e desfrute da experiência completa.'}
+              ? 'Seja VIP e desfrute de toda a capacidade de criar alertas de preço para muitos items com um limite maior que o usuário comum.'
+              : 'Faça login para desfrutar da experiência completa, com acesso a todas as funcionalidades, possibilidade de receber alertas de preço e muito mais.'}
           </Text>
           <Button 
             colorScheme="orange" 

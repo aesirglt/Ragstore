@@ -1,6 +1,7 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Mappers;
 
 using AutoMapper;
+using Totten.Solution.Ragstore.ApplicationService.Features.Users.Commands;
 using Totten.Solution.Ragstore.ApplicationService.ViewModels.Users;
 using Totten.Solution.Ragstore.Domain.Features.Users;
 
@@ -16,5 +17,7 @@ public class UserMappingProfile : Profile
     {
         CreateMap<User, UserDetailViewModel>()
             .ForMember(ds => ds.MemberSince, m => m.MapFrom(src => src.CreatedAt));
+
+        CreateMap<UserCreateCommand, User>();
     }
 }

@@ -12,7 +12,7 @@ using ItemName = string;
 using StoreId = int;
 
 public class VendingStoreItemRepository(ServerStoreContext context)
-    : RepositoryBase<VendingStoreItem>(context), IVendingStoreItemRepository
+    : RepositoryBase<VendingStoreItem, StoreId>(context), IVendingStoreItemRepository
 {
     public async Task<Success> DeleteAll(StoreId id)
     {

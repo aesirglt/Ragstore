@@ -11,9 +11,10 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Totten.Solution.Ragstore.Domain.Bases;
 
-public abstract class RepositoryBase<TEntity>(DbContext context)
-    : IRepository<TEntity, int>
-    where TEntity : notnull, Entity<TEntity, int>
+public abstract class RepositoryBase<TEntity, TId>(DbContext context)
+    : IRepository<TEntity, TId>
+    where TEntity : notnull, Entity<TEntity, TId>
+    where TId : notnull
 {
     protected readonly DbContext _context = context;
 
@@ -38,13 +39,11 @@ public abstract class RepositoryBase<TEntity>(DbContext context)
         return entity is null ? NoneType.Value : entity;
     }
 
-    public async Task<Option<TEntity>> GetById(int id)
+    public async Task<Option<TEntity>> GetById(TId id)
     {
-        var query = _context
+        var entity = await _context
        .Set<TEntity>()
-       .AsNoTracking();
-
-        var entity = await query.FirstOrDefaultAsync(x => x.Id == id);
+       .FindAsync(id);
 
         return entity is null ? NoneType.Value : entity;
     }

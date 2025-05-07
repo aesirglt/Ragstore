@@ -11,7 +11,7 @@ using Item = string;
 using StoreId = int;
 
 public class BuyingStoreItemRepository(ServerStoreContext context)
-    : RepositoryBase<BuyingStoreItem>(context), IBuyingStoreItemRepository
+    : RepositoryBase<BuyingStoreItem, int>(context), IBuyingStoreItemRepository
 {
     public async Task<Success> DeleteAll(StoreId id)
     {

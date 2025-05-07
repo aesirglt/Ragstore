@@ -7,7 +7,7 @@ using Totten.Solution.Ragstore.Infra.Data.Bases;
 using Totten.Solution.Ragstore.Infra.Data.Contexts.StoreServerContext;
 
 public class VendingStoreRepository(ServerStoreContext context)
-    : RepositoryBase<VendingStore>(context), IVendingStoreRepository
+    : RepositoryBase<VendingStore, int>(context), IVendingStoreRepository
 {
     public new IQueryable<VendingStore> GetAll()
         => _context

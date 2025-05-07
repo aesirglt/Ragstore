@@ -4,4 +4,4 @@ using Totten.Solution.Ragstore.Infra.Data.Bases;
 using Totten.Solution.Ragstore.Infra.Data.Contexts.StoreServerContext;
 
 public class SearchedItemRepository(ServerStoreContext context)
-    : RepositoryBase<SearchedItem>(context), ISearchedItemRepository;
+    : RepositoryBase<SearchedItem, int>(context), ISearchedItemRepository;

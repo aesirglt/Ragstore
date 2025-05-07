@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.OData.Results;
 using Newtonsoft.Json;
 using System;
 using System.Net;
+using System.Security.Claims;
 using Totten.Solution.Ragstore.ApplicationService.Notifications.ODataFilters;
 using Totten.Solution.Ragstore.Domain.Features.Servers;
 using Totten.Solution.Ragstore.Infra.Cross.Errors;
@@ -58,12 +59,17 @@ public abstract class BaseApiController : ControllerBase
     /// <summary>
     /// 
     /// </summary>
-    public Guid UserId => Guid.Parse(User.Claims.FirstOrDefault(c => c?.Type is "sub" or "id")?.Value ?? "d7aeb595-44a5-4f5d-822e-980f35ace12d");
+    public Guid UserId => Guid.Parse(User.Claims.FirstOrDefault(c => c?.Type is "sub" or "id")!.Value);
 
     /// <summary>
     /// 
     /// </summary>
-    public string UserEmail => User.Claims.FirstOrDefault(c => c?.Type is "sub" or "id")?.Value ?? "d7aeb595-44a5-4f5d-822e-980f35ace12d";
+    public string UserEmail => User.Claims.FirstOrDefault(c => c?.Type is ClaimTypes.Email)!.Value;
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public string UserNormalizedEmail => User.Claims.FirstOrDefault(c => c?.Type is "NormalizedEmail")!.Value;
 
     /// <summary>
     /// 

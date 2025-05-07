@@ -1,17 +1,23 @@
 ﻿namespace Totten.Solution.Ragstore.WebApi.Controllers;
 
+using FunctionalConcepts.Results;
+using MediatR;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using Totten.Solution.Ragstore.ApplicationService.Features.Users.Commands;
+using Totten.Solution.Ragstore.ApplicationService.Features.Users.Queries;
+using Totten.Solution.Ragstore.Infra.Cross.Statics;
 
 /// <summary>
 /// 
 /// </summary>
 /// <returns></returns>
 [Route("auth")]
-public class AuthController : Controller
+public class AuthController(IMediator mediator) : Controller
 {
+    private readonly IMediator _mediator = mediator;
     /// <summary>
     /// 
     /// </summary>
@@ -65,22 +71,41 @@ public class AuthController : Controller
             return BadRequest("Erro ao autenticar com o Google.");
 
         var user = authenticateResult.Principal;
-        //var email = user.FindFirst(ClaimTypes.Email)?.Value;
-        //var name = user.FindFirst(ClaimTypes.Name)?.Value;
-        //var existingUser = await _userService.FindByEmailAsync(email);
-        //if (existingUser == null)
-        //{
-        //    var newUser = new ApplicationUser
-        //    {
-        //        Email = email,
-        //        UserName = email,
-        //        Name = name
-        //    };
-        //    await _userService.CreateAsync(newUser);
-        //}
+        var email = user.FindFirst(ClaimTypes.Email)!.Value;
+        var normalizedEmail = user.FindFirst(ClaimTypes.Email)!.Value.ToUpper();
 
-        // Agora, você adiciona o cookie de autenticação (feito automaticamente pelo middleware)
-        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(user));
+        var userResult = await _mediator.Send(new UserByEmailQuery
+        {
+            NormalizedEmail = normalizedEmail
+        }, CancellationToken.None);
+
+        Result<Guid> userId = await userResult.MatchAsync(
+            user => Result.Of(user.Id).AsTask(),
+            async notFound =>
+            {
+                return await _mediator.Send(new UserCreateCommand
+                {
+                    IsActive = true,
+                    Name = user.FindFirst(ClaimTypes.Name)!.Value,
+                    Email = email,
+                    NormalizedEmail = normalizedEmail,
+                }, CancellationToken.None);
+            }
+        );
+
+        var principal = new ClaimsPrincipal(user);
+        userId.Then(id =>
+        {
+            var identityWithUserId = new ClaimsIdentity([
+                new Claim("id", $"{id}"),
+                new Claim("sub", $"{id}"),
+                new Claim("NormalizedEmail", normalizedEmail),
+            ]);
+
+            principal.AddIdentity(identityWithUserId);
+        });
+
+        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
         return !string.IsNullOrEmpty(redirect) && redirect.StartsWith(allowedOrigin)
             ? Redirect(redirect)

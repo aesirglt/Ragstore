@@ -6,7 +6,7 @@ using Totten.Solution.Ragstore.Infra.Data.Bases;
 using Totten.Solution.Ragstore.Infra.Data.Contexts.StoreServerContext;
 
 public class ItemRepository(ServerStoreContext context)
-    : RepositoryBase<Item>(context), IItemRepository
+    : RepositoryBase<Item, int>(context), IItemRepository
 {
     public IQueryable<Item> GetAllByName(string name)
     {

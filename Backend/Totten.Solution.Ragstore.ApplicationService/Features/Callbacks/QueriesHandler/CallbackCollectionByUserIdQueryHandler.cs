@@ -1,6 +1,5 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.Callbacks.QueriesHandler;
 
-using AutoMapper;
 using FunctionalConcepts.Results;
 using MediatR;
 using System.Threading.Tasks;

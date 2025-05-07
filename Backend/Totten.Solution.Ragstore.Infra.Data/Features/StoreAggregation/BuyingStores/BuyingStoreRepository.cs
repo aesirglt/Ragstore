@@ -8,7 +8,7 @@ using Totten.Solution.Ragstore.Infra.Data.Bases;
 using Totten.Solution.Ragstore.Infra.Data.Contexts.StoreServerContext;
 
 public class BuyingStoreRepository(ServerStoreContext context)
-    : RepositoryBase<BuyingStore>(context), IBuyingStoreRepository
+    : RepositoryBase<BuyingStore, int>(context), IBuyingStoreRepository
 {
     public Option<BuyingStore> GetByCharacterId(int id)
     {

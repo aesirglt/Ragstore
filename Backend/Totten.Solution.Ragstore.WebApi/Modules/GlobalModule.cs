@@ -13,6 +13,7 @@ using Totten.Solution.Ragstore.Domain.Features.ItemsAggregation;
 using Totten.Solution.Ragstore.Domain.Features.Servers;
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Buyings;
 using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Vendings;
+using Totten.Solution.Ragstore.Domain.Features.Users;
 using Totten.Solution.Ragstore.Infra.Data.Bases;
 using Totten.Solution.Ragstore.Infra.Data.Contexts.RagnaStoreContexts;
 using Totten.Solution.Ragstore.Infra.Data.Contexts.StoreServerContext;
@@ -24,6 +25,7 @@ using Totten.Solution.Ragstore.Infra.Data.Features.Servers;
 using Totten.Solution.Ragstore.Infra.Data.Features.StoreAggregation.BuyingStores;
 using Totten.Solution.Ragstore.Infra.Data.Features.StoreAggregation.SearchedItems;
 using Totten.Solution.Ragstore.Infra.Data.Features.StoreAggregation.VendingStores;
+using Totten.Solution.Ragstore.Infra.Data.Features.Users;
 using Totten.Solution.Ragstore.WebApi.SystemConstants;
 
 /// <summary>
@@ -82,6 +84,10 @@ public class GlobalModule<TProgram> : Autofac.Module
 
         builder.RegisterType<CallbackRepository>()
                .As<ICallbackRepository>()
+               .InstancePerLifetimeScope();
+
+        builder.RegisterType<UserRepository>()
+               .As<IUserRepository>()
                .InstancePerLifetimeScope();
 
         builder.RegisterType<CallbackScheduleRepository>()

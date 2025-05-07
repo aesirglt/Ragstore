@@ -4,6 +4,6 @@ using Totten.Solution.Ragstore.Infra.Data.Bases;
 using Totten.Solution.Ragstore.Infra.Data.Contexts.RagnaStoreContexts;
 
 public class CallbackRepository(RagnaStoreContext context)
-    : RepositoryBase<Callback>(context), ICallbackRepository
+    : RepositoryBase<Callback, int>(context), ICallbackRepository
 {
 }

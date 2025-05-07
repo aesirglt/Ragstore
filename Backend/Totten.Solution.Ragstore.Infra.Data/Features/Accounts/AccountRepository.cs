@@ -4,6 +4,6 @@ using Totten.Solution.Ragstore.Infra.Data.Bases;
 using Totten.Solution.Ragstore.Infra.Data.Contexts.RagnaStoreContexts;
 
 public class AccountRepository(RagnaStoreContext context)
-    : RepositoryBase<Account>(context), IAccountRepository
+    : RepositoryBase<Account, int>(context), IAccountRepository
 {
 }

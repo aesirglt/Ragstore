@@ -4,6 +4,6 @@ using Totten.Solution.Ragstore.Infra.Data.Bases;
 using Totten.Solution.Ragstore.Infra.Data.Contexts.StoreServerContext;
 
 public class CharacterRepository(ServerStoreContext context)
-    : RepositoryBase<Character>(context), ICharacterRepository
+    : RepositoryBase<Character, int>(context), ICharacterRepository
 {
 }
