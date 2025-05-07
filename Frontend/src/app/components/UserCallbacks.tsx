@@ -184,8 +184,8 @@ export function UserCallbacks({ onRemoveCallback }: UserCallbacksProps) {
                         <Td>{callback.itemId}</Td>
                         <Td isNumeric>{callback.itemPrice.toLocaleString()}z</Td>
                         <Td>
-                          <Badge colorScheme={callback.storeType === 'vending' ? 'green' : 'blue'}>
-                            {callback.storeType === 'vending' ? 'Venda' : 'Compra'}
+                          <Badge colorScheme={callback.storeType === 'VendingStore' ? 'green' : 'blue'}>
+                            {callback.storeType === 'BuyingStore' ? 'Compra' : 'Venda'}
                           </Badge>
                         </Td>
                         <Td>
