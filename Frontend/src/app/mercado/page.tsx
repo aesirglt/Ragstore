@@ -235,7 +235,6 @@ export default function MercadoPage() {
         totalPages={totalPages}
         onPageChange={handlePageChange}
       />
-      <Footer />
       <StoreListModal
         isOpen={isStoreModalOpen}
         onClose={() => setIsStoreModalOpen(false)}

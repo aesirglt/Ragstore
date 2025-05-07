@@ -18,8 +18,6 @@ export function Footer() {
       borderTop="1px"
       borderColor={borderColor}
       py={4}
-      position="fixed"
-      bottom={0}
       width="100%"
       bg={useColorModeValue('white', 'gray.900')}
     >
