@@ -1,9 +1,9 @@
 ﻿namespace Common.Tests.ObjectMothers;
 using System;
-using Totten.Solution.Ragstore.Domain.Features.Characters;
-using Totten.Solution.Ragstore.Domain.Features.ItemsAggregation;
-using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Buyings;
-using Totten.Solution.Ragstore.Domain.Features.StoresAggregation.Vendings;
+using Totten.Solution.RagnaComercio.Domain.Features.Characters;
+using Totten.Solution.RagnaComercio.Domain.Features.ItemsAggregation;
+using Totten.Solution.RagnaComercio.Domain.Features.StoresAggregation.Buyings;
+using Totten.Solution.RagnaComercio.Domain.Features.StoresAggregation.Vendings;
 
 public static partial class ObjectMother
 {

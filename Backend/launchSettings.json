@@ -4,7 +4,7 @@
       "commandName": "DockerCompose",
       "commandVersion": "1.0",
       "serviceActions": {
-        "totten.solution.ragstore.webapi": "StartDebugging"
+        "totten.solution.RagnaComercio.webapi": "StartDebugging"
       }
     }
   }

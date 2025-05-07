@@ -1,6 +1,6 @@
 ﻿namespace Common.Tests.ObjectMothers;
 
-using Totten.Solution.Ragstore.Domain.Features.ItemsAggregation;
+using Totten.Solution.RagnaComercio.Domain.Features.ItemsAggregation;
 
 public static partial class ObjectMother
 {

@@ -1,46 +1,46 @@
 version: '3.4'
 
 services:
-    postgresql:
-        image: postgres:latest
-        container_name: postgres_container
-        environment:
-            POSTGRES_USER: "admin"
-            POSTGRES_PASSWORD: "Sup3rS3cr3t"
-            POSTGRES_DB: "ragstoredb"
-        ports:
-            - "5432:5432"
-        volumes:
-            - pgdata:/var/lib/postgresql/data
-    pgadmin:
-        image: dpage/pgadmin4:latest
-        container_name: pgadmin_container
-        restart: always
-        environment:
-          PGADMIN_DEFAULT_EMAIL: admin@example.com
-          PGADMIN_DEFAULT_PASSWORD: Sup3rS3cr3t
-        ports:
-          - "8080:80"
-        depends_on:
-          - postgresql
-    totten.solution.ragstore.webapi:
-        image: ${DOCKER_REGISTRY-}tottensolutionragstorewebapi
-        build:
-            context: .
-            dockerfile: Totten.Solution.Ragstore.WebApi/Dockerfile
-        environment:
-            POSTGRES_USER: "admin"
-            POSTGRES_PASSWORD: "Sup3rS3cr3t"
-            POSTGRES_DB: "ragstoredb"
-            POSTGRES_HOST: "postgresql"
-            ASPNETCORE_ENVIRONMENT: Development
-            ASPNETCORE_HTTP_PORTS: 80
-            ASPNETCORE_HTTPS_PORTS: 443
-        ports:
-          - "5000:80"
-          - "5001:443"
-        volumes:
-          - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
-          - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+  postgresql:
+    image: postgres:latest
+    container_name: postgres_container
+    environment:
+      POSTGRES_USER: "admin"
+      POSTGRES_PASSWORD: "Sup3rS3cr3t"
+      POSTGRES_DB: "ragnacomercio"
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin_container
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: Sup3rS3cr3t
+    ports:
+      - "8080:80"
+    depends_on:
+      - postgresql
+
+  totten.solution.ragnacomercio.webapi:
+    image: ${DOCKER_REGISTRY-}tottensolutionragnacomerciowebapi
+    build:
+      context: .
+      dockerfile: Totten.Solution.RagnaComercio.WebApi/Dockerfile
+    environment:
+      POSTGRES_USER: "admin"
+      POSTGRES_PASSWORD: "Sup3rS3cr3t"
+      POSTGRES_DB: "ragnacomercio"
+      POSTGRES_HOST: "postgresql"
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_HTTP_PORTS: 80
+      ASPNETCORE_HTTPS_PORTS: 443
+    ports:
+      - "5000:80"
+      - "5001:443"
+
 volumes:
-    pgdata:
+  pgdata:

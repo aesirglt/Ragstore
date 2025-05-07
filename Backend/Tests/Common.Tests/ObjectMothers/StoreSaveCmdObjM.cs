@@ -1,7 +1,7 @@
 namespace Common.Tests.ObjectMothers;
 
-using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Commands;
-using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Commons;
+using Totten.Solution.RagnaComercio.ApplicationService.Features.StoreAgregattion.Commands;
+using Totten.Solution.RagnaComercio.ApplicationService.Features.StoreAgregattion.Commons;
 
 public static partial class ObjectMother
 {

@@ -7,7 +7,7 @@
     <ProjectGuid>52cc114f-6f1b-4314-9162-73c7e67dccb7</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
-    <DockerServiceName>totten.solution.ragstore.webapi</DockerServiceName>
+    <DockerServiceName>totten.solution.RagnaComercio.webapi</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.yml" />

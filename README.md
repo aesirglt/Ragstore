@@ -25,11 +25,11 @@
 
 ## Contributing
 
-RagStore is developed by a [team](https://github.com/aleffmoura/Ragstore/graphs/contributors). Check out the documentation.
+RagnaComercio is developed by a [team](https://github.com/aleffmoura/RagnaComercio/graphs/contributors). Check out the documentation.
 
 ## Contacts
 
-* [Brazilian Community](https://github.com/aleffmoura/Ragstore)
+* [Brazilian Community](https://github.com/aleffmoura/RagnaComercio)
 
 ## **Warning**
 
@@ -37,5 +37,5 @@ Other communities or websites are not affiliated
 
 ## Other Links
 
-1. [History](https://github.com/aleffmoura/Ragstore)
+1. [History](https://github.com/aleffmoura/RagnaComercio)
 

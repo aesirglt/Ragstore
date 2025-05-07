@@ -1,9 +1,9 @@
 ﻿namespace Common.Tests;
 
 using Microsoft.EntityFrameworkCore;
-using Totten.Solution.Ragstore.Infra.Data.Contexts.EntityFrameworkIdentity;
-using Totten.Solution.Ragstore.Infra.Data.Contexts.RagnaStoreContexts;
-using Totten.Solution.Ragstore.Infra.Data.Contexts.StoreServerContext;
+using Totten.Solution.RagnaComercio.Infra.Data.Contexts.EntityFrameworkIdentity;
+using Totten.Solution.RagnaComercio.Infra.Data.Contexts.RagnaStoreContexts;
+using Totten.Solution.RagnaComercio.Infra.Data.Contexts.StoreServerContext;
 
 public static class ContextObjectMother
 {

@@ -13,9 +13,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Totten.Solution.Ragstore.ApplicationService\Totten.Solution.Ragstore.ApplicationService.csproj" />
-    <ProjectReference Include="..\..\Totten.Solution.Ragstore.Domain\Totten.Solution.Ragstore.Domain.csproj" />
-    <ProjectReference Include="..\..\Totten.Solution.Ragstore.Infra.Data\Totten.Solution.Ragstore.Infra.Data.csproj" />
+    <ProjectReference Include="..\..\Totten.Solution.RagnaComercio.ApplicationService\Totten.Solution.RagnaComercio.ApplicationService.csproj" />
+    <ProjectReference Include="..\..\Totten.Solution.RagnaComercio.Domain\Totten.Solution.RagnaComercio.Domain.csproj" />
+    <ProjectReference Include="..\..\Totten.Solution.RagnaComercio.Infra.Data\Totten.Solution.RagnaComercio.Infra.Data.csproj" />
   </ItemGroup>
 
 </Project>

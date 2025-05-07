@@ -1,6 +1,6 @@
 ﻿namespace Common.Tests.ObjectMothers;
 using System;
-using Totten.Solution.Ragstore.Domain.Features.Servers;
+using Totten.Solution.RagnaComercio.Domain.Features.Servers;
 
 public static partial class ObjectMother
 {

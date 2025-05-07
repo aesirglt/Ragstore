@@ -1,0 +1,78 @@
+﻿namespace Totten.Solution.RagnaComercio.WebApi.BackgroundServices;
+
+using Totten.Solution.RagnaComercio.ApplicationService.DTOs.Messages;
+using Totten.Solution.RagnaComercio.ApplicationService.Interfaces;
+using Totten.Solution.RagnaComercio.Domain.Features.CallbackAggregation;
+using Totten.Solution.RagnaComercio.Infra.Data.Contexts.StoreServerContext;
+
+/// <summary>
+/// 
+/// </summary>
+public class CallbacksWorker : BackgroundService
+{
+    private readonly ILogger<CallbacksWorker> _logger;
+    //private ICallbackScheduleRepository _repository;
+    //private ServerStoreContext _ctx;
+    private IMessageService<NotificationMessageDto> _service;
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="logger"></param>
+    /// <param name="repository"></param>
+    /// <param name="service"></param>
+    public CallbacksWorker(ILogger<CallbacksWorker> logger,
+        //ICallbackScheduleRepository repository,
+        //ServerStoreContext ctx,
+        IMessageService<NotificationMessageDto> service)
+    {
+        _logger = logger;
+        //_repository = repository;
+        //_ctx = ctx;
+        _service = service;
+    }
+    private async Task Invoke()
+    {
+        await Task.Delay(10000);
+        //var callbacks = _repository.GetAll(x => !x.Sended && DateTime.UtcNow >= x.SendIn).ToList();
+
+        //foreach (var cb in callbacks)
+        //{
+        //    var response = await _service.Send(new NotificationMessageDto
+        //    {
+        //        To = cb.Contact,
+        //        Content = cb.Body,
+        //        From = "RagnaStore - Seu mercado de ragnarok online"
+        //    });
+            
+        //    if (response.IsSuccess)
+        //    {
+        //        cb.Sended = true;
+        //        await _repository.Update(cb);
+        //    }
+        //}
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="stoppingToken"></param>
+    /// <returns></returns>
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    {
+        while (!stoppingToken.IsCancellationRequested)
+        {
+            try
+            {
+                _logger.LogInformation("Executando tarefa...");
+
+                await Invoke();
+
+                await Task.Delay(TimeSpan.FromMinutes(5), stoppingToken);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Exception while class:{className} message: {errorMessage}", nameof(CallbacksWorker), ex.Message);
+            }
+        }
+    }
+}

@@ -1,0 +1,94 @@
+﻿namespace Totten.Solution.RagnaComercio.WebApi.Controllers.WithMultTenant.Stores;
+
+using Autofac;
+using FunctionalConcepts;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
+using Totten.Solution.RagnaComercio.ApplicationService.Features.StoreAgregattion.Commands;
+using Totten.Solution.RagnaComercio.ApplicationService.Features.StoreAgregattion.Queries.Vendings;
+using Totten.Solution.RagnaComercio.ApplicationService.ViewModels.Stores;
+using Totten.Solution.RagnaComercio.Domain.Features.ItemsAggregation;
+using Totten.Solution.RagnaComercio.Domain.Features.StoresAggregation.Vendings;
+using Totten.Solution.RagnaComercio.Infra.Cross.Statics;
+using Totten.Solution.RagnaComercio.WebApi.Bases;
+using Totten.Solution.RagnaComercio.WebApi.Dtos.Stores;
+
+/// <summary>
+/// 
+/// </summary>
+/// <remarks>
+/// 
+/// </remarks>
+/// <param name="lifetimeScope"></param>
+[ApiController]
+public class StoresController(ILifetimeScope lifetimeScope) : BaseApiController(lifetimeScope)
+{
+    const string API_ENDPOINT = "stores";
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="server"></param>
+    /// <param name="itemId"></param>
+    /// <param name="queryOptions"></param>
+    /// <returns></returns>
+    [HttpGet($"{{server}}/{API_ENDPOINT}")]
+    [ProducesResponseType<IQueryable<StoreResumeViewModel>>(statusCode: 200)]
+    public async Task<IActionResult> GetAll(
+        [FromRoute] string server,
+        [FromQuery] int? itemId,
+        ODataQueryOptions<StoreResumeViewModel> queryOptions)
+            => await HandleQueryable(new VendingStoreCollectionQuery
+            {
+                ItemId = itemId
+            }, server, queryOptions);
+
+    ///// <summary>
+    ///// 
+    ///// </summary>
+    ///// <param name="server"></param>
+    ///// <param name="id"></param>
+    ///// <returns></returns>
+    //[HttpGet($"{{server}}/{API_ENDPOINT}/{{id}}")]
+    //[ProducesResponseType<StoreDetailViewModel>(statusCode: 200)]
+    //public async Task<IActionResult> GetStoreDetail(
+    //    [FromRoute] string server,
+    //    [FromRoute] int id)
+    //        => await HandleQuery<VendingStore, StoreDetailViewModel>(
+    //                    new VendingStoreByIdQuery { Id = id },
+    //                    server);
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="server"></param>
+    /// <param name="createCmdDto"></param>
+    /// <returns></returns>
+    //[HttpPost($"{{server}}/{API_ENDPOINT}")]
+    //[ProducesResponseType<Success>(statusCode: 201)]
+    //[Authorize]
+    //public async Task<IActionResult> Post(
+    //    [FromRoute] string server,
+    //    [FromBody] VendingStoreSaveDto createCmdDto)
+    //        => await HandleCommand(_mapper.Map<VendingStoreSaveCommand>(createCmdDto).Apply(cmd =>
+    //        {
+    //            cmd.Server = server;
+    //            return cmd;
+    //        }), server);
+    ///// <summary>
+    ///// 
+    ///// </summary>
+    ///// <param name="server"></param>
+    ///// <param name="createCmdDto"></param>
+    ///// <returns></returns>
+    //[HttpPost($"{{server}}/{API_ENDPOINT}-batch")]
+    //[ProducesResponseType<Success>(statusCode: 201)]
+    //[Authorize]
+    //public async Task<IActionResult> PostBatch(
+    //    [FromRoute] string server,
+    //    [FromBody] VendingStoreSaveDto[] createCmdDto)
+    //       => await HandleAccepted(server, [.. createCmdDto.Select(cmd =>  _mapper.Map<VendingStoreSaveCommand>(cmd).Apply(cmd =>
+    //       {
+    //           cmd.Server = server;
+    //           return cmd;
+    //       }))]);
+}
