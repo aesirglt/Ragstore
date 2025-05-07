@@ -3,6 +3,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Totten.Solution.RagnaComercio.Domain.Features.StoresAggregation.Vendings;
+using Totten.Solution.RagnaComercio.Infra.Data.Seeds;
 
 public class VendingStoreEntityConfiguration : IEntityTypeConfiguration<VendingStore>
 {
@@ -27,5 +28,7 @@ public class VendingStoreEntityConfiguration : IEntityTypeConfiguration<VendingS
                .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasIndex(e => e.CharacterId).IsUnique();
+
+        builder.HasData(MyVendingStoreSeed.Seed());
     }
 }

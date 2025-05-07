@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Totten.Solution.RagnaComercio.Domain.Features.StoresAggregation.Bases;
 using Totten.Solution.RagnaComercio.Domain.Features.StoresAggregation.Vendings;
+using Totten.Solution.RagnaComercio.Infra.Data.Seeds;
 
 public class VendingStoreItemEntityConfiguration : IEntityTypeConfiguration<VendingStoreItem>
 {
@@ -61,5 +62,7 @@ public class VendingStoreItemEntityConfiguration : IEntityTypeConfiguration<Vend
 
         builder.HasIndex(e => e.CharacterId);
         builder.HasIndex(e => e.Name);
+
+        builder.HasData(MyVendingItemsSeed.Seed());
     }
 }

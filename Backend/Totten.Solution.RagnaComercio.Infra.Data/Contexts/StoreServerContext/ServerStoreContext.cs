@@ -35,13 +35,13 @@ public class ServerStoreContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new ItemEntityConfiguration());
-        modelBuilder.ApplyConfiguration(new EquipmentItemEntityConfiguration());
         modelBuilder.ApplyConfiguration(new AccountEntityConfiguration());
         modelBuilder.ApplyConfiguration(new CharacterEntityConfiguration());
+        modelBuilder.ApplyConfiguration(new EquipmentItemEntityConfiguration());
         modelBuilder.ApplyConfiguration(new ChatEntityConfiguration());
         modelBuilder.ApplyConfiguration(new VendingStoreEntityConfiguration());
-        modelBuilder.ApplyConfiguration(new VendingStoreItemEntityConfiguration());
         modelBuilder.ApplyConfiguration(new BuyingStoreEntityConfiguration());
+        modelBuilder.ApplyConfiguration(new VendingStoreItemEntityConfiguration());
         modelBuilder.ApplyConfiguration(new BuyingStoreItemEntityConfiguration());
         modelBuilder.ApplyConfiguration(new SearchedItemsEntityConfiguration());
 

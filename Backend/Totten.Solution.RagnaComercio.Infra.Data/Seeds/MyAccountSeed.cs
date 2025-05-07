@@ -5,8 +5,7 @@ using Totten.Solution.RagnaComercio.Domain.Features.Accounts;
 public class MyAccountSeed
 {
     public static List<Account> Seed()
-        => new()
-        {
+        => [
             new ()
             {
                 Id = 1,
@@ -14,6 +13,14 @@ public class MyAccountSeed
                 IsReported = false,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow
-            }
-        };
+            },
+            new ()
+            {
+                Id = 2,
+                Name = "account2",
+                IsReported = false,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow
+            },
+        ];
 }

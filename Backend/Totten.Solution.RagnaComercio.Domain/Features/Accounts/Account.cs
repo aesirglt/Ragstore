@@ -11,7 +11,7 @@ using Totten.Solution.RagnaComercio.Domain.Features.Users;
 public record Account : Entity<Account, int>
 {
     public bool IsReported { get; set; }
-    public int? UserId { get; set; }
+    public Guid? UserId { get; set; }
     public virtual User? User { get; set; }
     public virtual List<Character> Characters { get; set; } = new();
     public virtual List<Chat> Chats { get; set; } = new();
