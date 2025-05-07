@@ -16,7 +16,7 @@ public class CallbackCollectionByUserIdQueryHandler(ICallbackRepository reposito
     public Task<Result<IQueryable<CallbackResumeViewModel>>> Handle(CallbackCollectionByUserIdQuery request, CancellationToken cancellationToken)
     {
         var selecteds =
-            _repository.GetAll(c => c.CallbackOwnerId == request.UserId)
+            _repository.GetAll(c => c.UserId == request.UserId)
             .Select(s => new CallbackResumeViewModel
             {
                 Id = s.Id,

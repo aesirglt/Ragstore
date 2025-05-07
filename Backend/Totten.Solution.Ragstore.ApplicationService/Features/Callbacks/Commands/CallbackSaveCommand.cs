@@ -7,9 +7,7 @@ using MediatR;
 public class CallbackSaveCommand : IRequest<Result<Success>>
 {
     public int ServerId { get; set; }
-    public string Name { get; set; } = string.Empty;
-    public string UserId { get; set; } = string.Empty;
-    public string UserCellphone { get; set; } = string.Empty;
+    public Guid UserId { get; set; }
     public int ItemId { get; set; }
     public double ItemPrice { get; set; }
 }

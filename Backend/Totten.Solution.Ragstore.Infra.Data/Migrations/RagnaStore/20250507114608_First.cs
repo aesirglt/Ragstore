@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
 {
     /// <inheritdoc />
-    public partial class RagnaStore : Migration
+    public partial class First : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -51,6 +51,27 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
                 });
 
             migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Email = table.Column<string>(type: "text", nullable: false),
+                    NormalizedEmail = table.Column<string>(type: "text", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "text", nullable: false),
+                    AvatarUrl = table.Column<string>(type: "text", nullable: false),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false),
+                    SearchCount = table.Column<long>(type: "bigint", nullable: false),
+                    ReceivePriceAlerts = table.Column<bool>(type: "boolean", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Agents",
                 columns: table => new
                 {
@@ -58,7 +79,6 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
                     ServerId = table.Column<int>(type: "integer", nullable: false),
-                    ServerId1 = table.Column<int>(type: "integer", nullable: true),
                     Name = table.Column<string>(type: "text", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
@@ -72,11 +92,6 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
                         principalTable: "Servers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Agents_Servers_ServerId1",
-                        column: x => x.ServerId1,
-                        principalTable: "Servers",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -86,13 +101,10 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     ServerId = table.Column<int>(type: "integer", nullable: false),
-                    CallbackOwnerId = table.Column<string>(type: "text", nullable: false),
-                    UserCellphone = table.Column<string>(type: "text", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
                     ItemId = table.Column<int>(type: "integer", nullable: false),
                     ItemPrice = table.Column<double>(type: "double precision", nullable: false),
-                    Level = table.Column<int>(type: "integer", nullable: false),
                     StoreType = table.Column<int>(type: "integer", nullable: false),
-                    ServerId1 = table.Column<int>(type: "integer", nullable: true),
                     Name = table.Column<string>(type: "text", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
@@ -107,10 +119,11 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Callbacks_Servers_ServerId1",
-                        column: x => x.ServerId1,
-                        principalTable: "Servers",
-                        principalColumn: "Id");
+                        name: "FK_Callbacks_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
@@ -118,14 +131,9 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
                 columns: new[] { "Id", "CreatedAt", "IsActive", "Name", "SiteUrl", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2025, 4, 12, 19, 31, 3, 792, DateTimeKind.Utc).AddTicks(6713), false, "broTHOR", "https://playragnarokonlinebr.com", new DateTime(2025, 4, 12, 19, 31, 3, 792, DateTimeKind.Utc).AddTicks(6715) },
-                    { 2, new DateTime(2025, 4, 12, 19, 31, 3, 792, DateTimeKind.Utc).AddTicks(6718), false, "broVALHALLA", "https://playragnarokonlinebr.com", new DateTime(2025, 4, 12, 19, 31, 3, 792, DateTimeKind.Utc).AddTicks(6718) }
+                    { 1, new DateTime(2025, 5, 7, 11, 46, 7, 980, DateTimeKind.Utc).AddTicks(7171), false, "broTHOR", "https://playragnarokonlinebr.com", new DateTime(2025, 5, 7, 11, 46, 7, 980, DateTimeKind.Utc).AddTicks(7173) },
+                    { 2, new DateTime(2025, 5, 7, 11, 46, 7, 980, DateTimeKind.Utc).AddTicks(7176), false, "broVALHALLA", "https://playragnarokonlinebr.com", new DateTime(2025, 5, 7, 11, 46, 7, 980, DateTimeKind.Utc).AddTicks(7176) }
                 });
-
-            migrationBuilder.InsertData(
-                table: "Callbacks",
-                columns: new[] { "Id", "CallbackOwnerId", "CreatedAt", "ItemId", "ItemPrice", "Level", "Name", "ServerId", "ServerId1", "StoreType", "UpdatedAt", "UserCellphone" },
-                values: new object[] { 1, "d7aeb595-44a5-4f5d-822e-980f35ace12d", new DateTime(2025, 4, 12, 19, 31, 3, 792, DateTimeKind.Utc).AddTicks(9411), 490037, 500000000.0, 4, "CallbackObscuro", 1, null, 2, new DateTime(2025, 4, 12, 19, 31, 3, 792, DateTimeKind.Utc).AddTicks(9412), "+5584988633251" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Agents_ServerId",
@@ -133,19 +141,14 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
                 column: "ServerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Agents_ServerId1",
-                table: "Agents",
-                column: "ServerId1");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Callbacks_ServerId",
                 table: "Callbacks",
                 column: "ServerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Callbacks_ServerId1",
+                name: "IX_Callbacks_UserId",
                 table: "Callbacks",
-                column: "ServerId1");
+                column: "UserId");
         }
 
         /// <inheritdoc />
@@ -162,6 +165,9 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
 
             migrationBuilder.DropTable(
                 name: "Servers");
+
+            migrationBuilder.DropTable(
+                name: "Users");
         }
     }
 }

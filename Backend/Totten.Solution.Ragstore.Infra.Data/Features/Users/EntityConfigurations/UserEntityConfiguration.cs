@@ -24,8 +24,10 @@ internal class UserEntityConfiguration : IEntityTypeConfiguration<User>
         builder.Property(e => e.ReceivePriceAlerts).IsRequired();
 
         builder.HasMany(e => e.Callbacks)
-            .WithOne()
-            .HasForeignKey(x => x.CallbackOwnerId);
+                .WithOne(c => c.User)
+                .HasForeignKey(c => c.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
 
         builder.HasData(new User
         {

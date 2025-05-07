@@ -64,9 +64,6 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<Guid>("CallbackOwnerId")
-                        .HasColumnType("uuid");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -89,7 +86,7 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid?>("UserId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
@@ -99,20 +96,6 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
                     b.HasIndex("UserId");
 
                     b.ToTable("Callbacks", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CallbackOwnerId = new Guid("d7aeb595-44a5-4f5d-822e-980f35ace12d"),
-                            CreatedAt = new DateTime(2025, 5, 7, 9, 1, 54, 433, DateTimeKind.Utc).AddTicks(3413),
-                            ItemId = 490037,
-                            ItemPrice = 500000000.0,
-                            Name = "CallbackObscuro",
-                            ServerId = 1,
-                            StoreType = 2,
-                            UpdatedAt = new DateTime(2025, 5, 7, 9, 1, 54, 433, DateTimeKind.Utc).AddTicks(3414)
-                        });
                 });
 
             modelBuilder.Entity("Totten.Solution.Ragstore.Domain.Features.CallbackAggregation.CallbackSchedule", b =>
@@ -185,20 +168,20 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2025, 5, 7, 9, 1, 54, 432, DateTimeKind.Utc).AddTicks(4777),
+                            CreatedAt = new DateTime(2025, 5, 7, 11, 46, 7, 980, DateTimeKind.Utc).AddTicks(7171),
                             IsActive = false,
                             Name = "broTHOR",
                             SiteUrl = "https://playragnarokonlinebr.com",
-                            UpdatedAt = new DateTime(2025, 5, 7, 9, 1, 54, 432, DateTimeKind.Utc).AddTicks(4779)
+                            UpdatedAt = new DateTime(2025, 5, 7, 11, 46, 7, 980, DateTimeKind.Utc).AddTicks(7173)
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2025, 5, 7, 9, 1, 54, 432, DateTimeKind.Utc).AddTicks(4782),
+                            CreatedAt = new DateTime(2025, 5, 7, 11, 46, 7, 980, DateTimeKind.Utc).AddTicks(7176),
                             IsActive = false,
                             Name = "broVALHALLA",
                             SiteUrl = "https://playragnarokonlinebr.com",
-                            UpdatedAt = new DateTime(2025, 5, 7, 9, 1, 54, 432, DateTimeKind.Utc).AddTicks(4782)
+                            UpdatedAt = new DateTime(2025, 5, 7, 11, 46, 7, 980, DateTimeKind.Utc).AddTicks(7176)
                         });
                 });
 
@@ -267,11 +250,15 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Totten.Solution.Ragstore.Domain.Features.Users.User", null)
+                    b.HasOne("Totten.Solution.Ragstore.Domain.Features.Users.User", "User")
                         .WithMany("Callbacks")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Server");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Totten.Solution.Ragstore.Domain.Features.Servers.Server", b =>

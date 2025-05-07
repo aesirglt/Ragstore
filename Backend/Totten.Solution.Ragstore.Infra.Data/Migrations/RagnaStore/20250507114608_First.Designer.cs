@@ -12,8 +12,8 @@ using Totten.Solution.Ragstore.Infra.Data.Contexts.RagnaStoreContexts;
 namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
 {
     [DbContext(typeof(RagnaStoreContext))]
-    [Migration("20250507074618_UserTableAndCallbackChanges")]
-    partial class UserTableAndCallbackChanges
+    [Migration("20250507114608_First")]
+    partial class First
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -49,17 +49,12 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
                     b.Property<int>("ServerId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("ServerId1")
-                        .HasColumnType("integer");
-
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ServerId");
-
-                    b.HasIndex("ServerId1");
 
                     b.ToTable("Agents", (string)null);
                 });
@@ -71,9 +66,6 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<Guid>("CallbackOwnerId")
-                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -91,41 +83,22 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
                     b.Property<int>("ServerId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("ServerId1")
-                        .HasColumnType("integer");
-
                     b.Property<int>("StoreType")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid?>("UserId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ServerId");
 
-                    b.HasIndex("ServerId1");
-
                     b.HasIndex("UserId");
 
                     b.ToTable("Callbacks", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CallbackOwnerId = new Guid("d7aeb595-44a5-4f5d-822e-980f35ace12d"),
-                            CreatedAt = new DateTime(2025, 5, 7, 7, 46, 18, 114, DateTimeKind.Utc).AddTicks(1528),
-                            ItemId = 490037,
-                            ItemPrice = 500000000.0,
-                            Name = "CallbackObscuro",
-                            ServerId = 1,
-                            StoreType = 2,
-                            UpdatedAt = new DateTime(2025, 5, 7, 7, 46, 18, 114, DateTimeKind.Utc).AddTicks(1532)
-                        });
                 });
 
             modelBuilder.Entity("Totten.Solution.Ragstore.Domain.Features.CallbackAggregation.CallbackSchedule", b =>
@@ -198,20 +171,20 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2025, 5, 7, 7, 46, 18, 113, DateTimeKind.Utc).AddTicks(8907),
+                            CreatedAt = new DateTime(2025, 5, 7, 11, 46, 7, 980, DateTimeKind.Utc).AddTicks(7171),
                             IsActive = false,
                             Name = "broTHOR",
                             SiteUrl = "https://playragnarokonlinebr.com",
-                            UpdatedAt = new DateTime(2025, 5, 7, 7, 46, 18, 113, DateTimeKind.Utc).AddTicks(8909)
+                            UpdatedAt = new DateTime(2025, 5, 7, 11, 46, 7, 980, DateTimeKind.Utc).AddTicks(7173)
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2025, 5, 7, 7, 46, 18, 113, DateTimeKind.Utc).AddTicks(8913),
+                            CreatedAt = new DateTime(2025, 5, 7, 11, 46, 7, 980, DateTimeKind.Utc).AddTicks(7176),
                             IsActive = false,
                             Name = "broVALHALLA",
                             SiteUrl = "https://playragnarokonlinebr.com",
-                            UpdatedAt = new DateTime(2025, 5, 7, 7, 46, 18, 113, DateTimeKind.Utc).AddTicks(8913)
+                            UpdatedAt = new DateTime(2025, 5, 7, 11, 46, 7, 980, DateTimeKind.Utc).AddTicks(7176)
                         });
                 });
 
@@ -263,36 +236,32 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
 
             modelBuilder.Entity("Totten.Solution.Ragstore.Domain.Features.AgentAggregation.Agent", b =>
                 {
-                    b.HasOne("Totten.Solution.Ragstore.Domain.Features.Servers.Server", null)
+                    b.HasOne("Totten.Solution.Ragstore.Domain.Features.Servers.Server", "Server")
                         .WithMany("Agents")
                         .HasForeignKey("ServerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Totten.Solution.Ragstore.Domain.Features.Servers.Server", "Server")
-                        .WithMany()
-                        .HasForeignKey("ServerId1");
 
                     b.Navigation("Server");
                 });
 
             modelBuilder.Entity("Totten.Solution.Ragstore.Domain.Features.CallbackAggregation.Callback", b =>
                 {
-                    b.HasOne("Totten.Solution.Ragstore.Domain.Features.Servers.Server", null)
+                    b.HasOne("Totten.Solution.Ragstore.Domain.Features.Servers.Server", "Server")
                         .WithMany("Callbacks")
                         .HasForeignKey("ServerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Totten.Solution.Ragstore.Domain.Features.Servers.Server", "Server")
-                        .WithMany()
-                        .HasForeignKey("ServerId1");
-
-                    b.HasOne("Totten.Solution.Ragstore.Domain.Features.Users.User", null)
+                    b.HasOne("Totten.Solution.Ragstore.Domain.Features.Users.User", "User")
                         .WithMany("Callbacks")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Server");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Totten.Solution.Ragstore.Domain.Features.Servers.Server", b =>

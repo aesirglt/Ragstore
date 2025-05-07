@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.OData.Query;
 using Totten.Solution.Ragstore.ApplicationService.Features.Callbacks.Commands;
 using Totten.Solution.Ragstore.ApplicationService.Features.ItemsAggregation.Queries;
 using Totten.Solution.Ragstore.ApplicationService.ViewModels.Callbacks;
-using Totten.Solution.Ragstore.Infra.Cross.CrossDTOs;
 using Totten.Solution.Ragstore.WebApi.Bases;
 using Totten.Solution.Ragstore.WebApi.Dtos.Callbacks;
 
@@ -60,11 +59,12 @@ public class CallbackController(ILifetimeScope lifetimeScope) : BaseApiControlle
     [HttpPost("{server}/callbacks-items")]
     [ProducesResponseType<Success>(statusCode: 200)]
     public async Task<IActionResult> PostItems([FromRoute] string server, [FromBody] CallbackCreateDto createDto)
-        => await HandleCommand(_mapper.Map<CallbackSaveCommand>((createDto, new UserData
-        {
-            Id = base.UserId,
-            Email = base.UserEmail,
-            Cellphone = "",
-            Level = EUserLevel.None,
-        })), server);
+        => await HandleCommand(
+            serverId => new CallbackSaveCommand
+            {
+                ItemId = createDto.ItemId,
+                ItemPrice = createDto.ItemPrice,
+                ServerId = serverId,
+                UserId = base.UserId
+            }, server);
 }

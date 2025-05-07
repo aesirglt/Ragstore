@@ -55,6 +55,8 @@ export function UserCallbacks({ onRemoveCallback }: UserCallbacksProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(2); // valor inicial
   const cardRef = useRef<HTMLDivElement>(null);
+  const [newItemId, setNewItemId] = useState<number | undefined>();
+  const [newItemPrice, setNewItemPrice] = useState<number | undefined>();
 
   useEffect(() => {
     function updateRowsPerPageByCard() {
@@ -109,20 +111,30 @@ export function UserCallbacks({ onRemoveCallback }: UserCallbacksProps) {
     }
   };
 
-  const handleAddCallback = async (data: any) => {
+  const handleAddCallback = async () => {
+    if (!newItemId || !newItemPrice) {
+      toast({
+        title: 'Preencha todos os campos',
+        status: 'warning',
+        duration: 3000,
+        isClosable: true,
+      });
+      return;
+    }
     try {
-      const response = await fetch(`/api/${currentServer}/callbacks`, {
+      const response = await fetch(`/api/${currentServer}/callbacks-items`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          itemId: newItemId,
+          itemPrice: newItemPrice,
+        }),
       });
-
       if (!response.ok) {
         throw new Error('Falha ao adicionar callback');
       }
-
       await fetchCallbacks();
       toast({
         title: 'Sucesso',
@@ -131,6 +143,8 @@ export function UserCallbacks({ onRemoveCallback }: UserCallbacksProps) {
         duration: 3000,
         isClosable: true,
       });
+      setNewItemId(undefined);
+      setNewItemPrice(undefined);
       onClose();
     } catch (error) {
       toast({
@@ -250,24 +264,23 @@ export function UserCallbacks({ onRemoveCallback }: UserCallbacksProps) {
                 <VStack spacing={4}>
                   <FormControl>
                     <FormLabel>Item ID</FormLabel>
-                    <NumberInput min={0}>
+                    <NumberInput min={0} value={newItemId ?? ''} onChange={(_, v) => setNewItemId(Number.isNaN(v) ? undefined : v)}>
                       <NumberInputField placeholder="Digite o ID do item..." />
                     </NumberInput>
                   </FormControl>
                   <FormControl>
                     <FormLabel>Preço Alvo</FormLabel>
-                    <NumberInput min={0}>
+                    <NumberInput min={0} value={newItemPrice ?? ''} onChange={(_, v) => setNewItemPrice(Number.isNaN(v) ? undefined : v)}>
                       <NumberInputField placeholder="Digite o preço alvo..." />
                     </NumberInput>
                   </FormControl>
                 </VStack>
               </ModalBody>
-
               <ModalFooter>
                 <Button variant="ghost" mr={3} onClick={onClose}>
                   Cancelar
                 </Button>
-                <Button colorScheme="blue" onClick={() => handleAddCallback({})}>
+                <Button colorScheme="blue" onClick={handleAddCallback}>
                   Adicionar
                 </Button>
               </ModalFooter>

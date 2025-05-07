@@ -22,6 +22,10 @@ public class CallbackSaveCommandHandler(IMapper mapper, ICallbackRepository repo
         try
         {
             var callback = _mapper.Map<Callback>(request);
+            callback = callback with
+            {
+                StoreType = EStoreCallbackType.VendingStore
+            };
 
             _ = await _repository.Save(callback);
 
