@@ -24,6 +24,7 @@ import {
 import { useState } from 'react';
 import { useStores } from '@/hooks/useStores';
 import { CopyIcon } from '@chakra-ui/icons';
+import { LoadingList } from '@/components/LoadingList';
 
 interface StoreListModalProps {
   isOpen: boolean;
@@ -72,7 +73,7 @@ export function StoreListModal({ isOpen, onClose, itemId, server }: StoreListMod
         <ModalBody pb={6} overflowY="auto" display="flex" flexDirection="column" flex="1">
           {isLoading ? (
             <Box display="flex" justifyContent="center" py={4}>
-              <Spinner />
+              <LoadingList />
             </Box>
           ) : error ? (
             <Text color="red.500">Erro ao carregar lojinhas</Text>

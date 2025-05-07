@@ -20,6 +20,7 @@ import { StoreListModal } from '../components/StoreListModal';
 import { MarketItem } from '../components/MarketItem';
 import { useServer } from '../../contexts/ServerContext';
 import { Footer } from '../components/Footer';
+import { LoadingList } from '@/components/LoadingList';
 
 export default function MercadoPage() {
   const { currentServer } = useServer();
@@ -134,7 +135,7 @@ export default function MercadoPage() {
               justifyContent="center"
               minH="400px"
             >
-              <Spinner size="xl" />
+              <LoadingList />
             </Box>
           </VStack>
         </Container>

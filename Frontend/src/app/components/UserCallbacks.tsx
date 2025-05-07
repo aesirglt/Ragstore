@@ -40,6 +40,7 @@ import { CallbackResumeViewModel } from '@/types/auth';
 import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
 import { DeleteIcon } from '@chakra-ui/icons';
 import { Pagination } from '@/components/ui/Pagination';
+import { LoadingList } from '@/components/LoadingList';
 
 interface UserCallbacksProps {
   onRemoveCallback: (callbackId: string) => Promise<void>;
@@ -165,6 +166,16 @@ export function UserCallbacks({ onRemoveCallback }: UserCallbacksProps) {
             <Heading size="md">Notificações de Preço</Heading>
             <Text>Faça login para gerenciar suas notificações de preço</Text>
           </VStack>
+        </CardBody>
+      </Card>
+    );
+  }
+
+  if (loading) {
+    return (
+      <Card>
+        <CardBody>
+          <LoadingList />
         </CardBody>
       </Card>
     );

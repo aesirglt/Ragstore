@@ -26,6 +26,7 @@ import { LastSearchedItemViewModel } from '@/types/api/viewmodels/LastSearchedIt
 import { useServer } from '@/contexts/ServerContext';
 import { useRouter } from 'next/navigation';
 import { WelcomeComponent } from './components/WelcomeComponent';
+import { LoadingList } from '@/components/LoadingList';
 
 // Dados zerados para quando houver erro
 const emptyTopItems: TopItemViewModel[] = [
@@ -103,9 +104,7 @@ export default function HomePage() {
           <Card>
             <CardBody pr={2}>
               {isLoadingLastSearched ? (
-                <Flex justify="center" align="center" h="200px">
-                  <Spinner />
-                </Flex>
+                <LoadingList />
               ) : (
                 <LastSearchedItems 
                   items={lastSearchedItems || emptyLastSearchedItems}
@@ -123,9 +122,7 @@ export default function HomePage() {
               {isLoadingTopItems ? (
                 <Card>
                   <CardBody>
-                    <Flex justify="center" align="center" h="200px">
-                      <Spinner />
-                    </Flex>
+                    <LoadingList />
                   </CardBody>
                 </Card>
               ) : (
