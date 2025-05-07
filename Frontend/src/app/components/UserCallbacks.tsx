@@ -39,6 +39,7 @@ import { useServer } from '@/contexts/ServerContext';
 import { CallbackResumeViewModel } from '@/types/auth';
 import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
 import { DeleteIcon } from '@chakra-ui/icons';
+import { Pagination } from '@/components/ui/Pagination';
 
 interface UserCallbacksProps {
   onRemoveCallback: (callbackId: string) => Promise<void>;
@@ -56,19 +57,14 @@ export function UserCallbacks({ onRemoveCallback }: UserCallbacksProps) {
   const cardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (isAuthenticated && user) {
-      fetchCallbacks();
-    }
-  }, [isAuthenticated, user, currentServer]);
-
-  useEffect(() => {
     function updateRowsPerPageByCard() {
       if (!cardRef.current) return;
       const cardHeight = cardRef.current.offsetHeight;
-      const controlsHeight = 120; // espaço para título, botões, etc
-      const rowHeight = 48;
+      const controlsHeight = 180; // valor ajustado para controles
+      const rowHeight = 48; // altura estimada de uma linha da tabela
       const availableHeight = cardHeight - controlsHeight;
-      const possibleRows = Math.max(1, Math.floor(availableHeight / rowHeight));
+      // Limitar entre 1 e 5 linhas por página
+      const possibleRows = Math.max(1, Math.min(5, Math.floor(availableHeight / rowHeight)));
       setRowsPerPage(possibleRows);
     }
     updateRowsPerPageByCard();
@@ -81,7 +77,13 @@ export function UserCallbacks({ onRemoveCallback }: UserCallbacksProps) {
       if (cardRef.current) resizeObserver.disconnect();
       window.removeEventListener('resize', updateRowsPerPageByCard);
     };
-  }, []);
+  }, [callbacks.length]);
+
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      fetchCallbacks();
+    }
+  }, [isAuthenticated, user, currentServer]);
 
   const totalPages = Math.ceil(callbacks.length / rowsPerPage);
   const paginatedCallbacks = callbacks.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
@@ -228,15 +230,11 @@ export function UserCallbacks({ onRemoveCallback }: UserCallbacksProps) {
             </Table>
             {/* Paginação */}
             {totalPages > 1 && (
-              <Flex justify="flex-end" align="center" gap={2} mt={2}>
-                <Button size="sm" onClick={() => setCurrentPage((p) => Math.max(1, p - 1))} isDisabled={currentPage === 1}>
-                  Anterior
-                </Button>
-                <Text fontSize="sm">Página {currentPage} de {totalPages}</Text>
-                <Button size="sm" onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))} isDisabled={currentPage === totalPages}>
-                  Próxima
-                </Button>
-              </Flex>
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={setCurrentPage}
+              />
             )}
           </VStack>
 
