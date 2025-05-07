@@ -37,7 +37,6 @@ export default function ProfilePage() {
   const handleAvatarChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      // TODO: Implementar upload do avatar
       toast({
         title: 'Avatar atualizado',
         status: 'success',

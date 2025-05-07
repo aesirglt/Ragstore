@@ -23,8 +23,5 @@ public class CallbackMappingProfile : Profile
             .ForMember(ds => ds.UserCellphone, m => m.MapFrom(src => src.data.Cellphone))
             .ForMember(ds => ds.ItemId, m => m.MapFrom(src => src.dto.ItemId))
             .ForMember(ds => ds.ItemPrice, m => m.MapFrom(src => src.dto.ItemPrice));
-
-        CreateMap<Callback, CallbackResumeViewModel>()
-            .ForMember(ds => ds.Server, m => m.MapFrom(src => src.Server == null ? string.Empty : src.Server.Name));
     }
 }

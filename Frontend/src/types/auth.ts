@@ -25,12 +25,6 @@ export interface User {
   callbacksCount: number;
   searchCount: number;
   receivePriceAlerts: boolean;
-  callbacks: Array<{
-    id: string;
-    itemName: string;
-    currentPrice: number;
-    targetPrice: number;
-  }>;
 }
 
 export interface ExternalLoginRequest {

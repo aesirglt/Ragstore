@@ -31,10 +31,11 @@ public class RagnaStoreContext : DbContext
                             .ApplyConfiguration(new AgentEntityConfiguration())
                             .ApplyConfiguration(new CallbackScheduleConfiguration())
                             .ApplyConfiguration(new CallbackEntityConfiguration()));
-
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => base.OnConfiguring(optionsBuilder.UseLazyLoadingProxies());
-
-    public virtual IQueryable<T> AsNoTracking<T>(IQueryable<T> query) where T : class
-        => EntityFrameworkQueryableExtensions.AsNoTracking<T>(query);
+    {
+        optionsBuilder.UseLazyLoadingProxies();
+        optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+        optionsBuilder.LogTo(Console.WriteLine);
+        base.OnConfiguring(optionsBuilder);
+    }
 }

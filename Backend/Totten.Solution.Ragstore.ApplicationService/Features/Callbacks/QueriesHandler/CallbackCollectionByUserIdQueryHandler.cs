@@ -1,24 +1,32 @@
 ﻿namespace Totten.Solution.Ragstore.ApplicationService.Features.Callbacks.QueriesHandler;
 
+using AutoMapper;
 using FunctionalConcepts.Results;
 using MediatR;
 using System.Threading.Tasks;
 using Totten.Solution.Ragstore.ApplicationService.Features.ItemsAggregation.Queries;
+using Totten.Solution.Ragstore.ApplicationService.ViewModels.Callbacks;
 using Totten.Solution.Ragstore.Domain.Features.CallbackAggregation;
 using Totten.Solution.Ragstore.Infra.Cross.Statics;
 
-public class CallbackCollectionByUserIdQueryHandler : IRequestHandler<CallbackCollectionByUserIdQuery, Result<IQueryable<Callback>>>
+public class CallbackCollectionByUserIdQueryHandler(ICallbackRepository repository)
+    : IRequestHandler<CallbackCollectionByUserIdQuery, Result<IQueryable<CallbackResumeViewModel>>>
 {
-    private ICallbackRepository _repository;
+    private ICallbackRepository _repository = repository;
 
-    public CallbackCollectionByUserIdQueryHandler(ICallbackRepository repository)
+    public Task<Result<IQueryable<CallbackResumeViewModel>>> Handle(CallbackCollectionByUserIdQuery request, CancellationToken cancellationToken)
     {
-        _repository = repository;
-    }
+        var selecteds =
+            _repository.GetAll(c => c.CallbackOwnerId == request.UserId)
+            .Select(s => new CallbackResumeViewModel
+            {
+                Id = s.Id,
+                ItemId = s.ItemId,
+                ItemPrice = s.ItemPrice,
+                ServerName = s.Server!.Name,
+                StoreType = s.StoreType.ToString(),
+            });
 
-    public Task<Result<IQueryable<Callback>>> Handle(CallbackCollectionByUserIdQuery request, CancellationToken cancellationToken)
-    {
-        var callbacks = _repository.GetAll().Where(c => c.CallbackOwnerId == request.UserId);
-        return Result.Of(callbacks).AsTask();
+        return Result.Of(selecteds).AsTask();
     }
 }

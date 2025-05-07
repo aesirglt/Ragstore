@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Totten.Solution.Ragstore.Domain.Features.CallbackAggregation;
+
 internal class CallbackEntityConfiguration : IEntityTypeConfiguration<Callback>
 {
     const string TABLE_NAME = "Callbacks";
@@ -16,6 +17,11 @@ internal class CallbackEntityConfiguration : IEntityTypeConfiguration<Callback>
         builder.Property(e => e.UpdatedAt).IsRequired();
         builder.Property(e => e.ItemPrice).IsRequired();
         builder.Property(e => e.ItemId).IsRequired();
+
+        builder.HasOne(c => c.Server)
+               .WithMany(s => s.Callbacks)
+               .HasForeignKey(c => c.ServerId)
+               .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasData(new Callback
         {

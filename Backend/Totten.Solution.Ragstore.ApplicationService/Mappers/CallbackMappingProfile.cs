@@ -14,7 +14,10 @@ public class CallbackMappingProfile : Profile
     /// </summary>
     public CallbackMappingProfile()
     {
-        CreateMap<Callback, CallbackResumeViewModel>();
+        CreateMap<Callback, CallbackResumeViewModel>()
+            .ForMember(ds => ds.ServerName, m => m.MapFrom(src => src.Server == null ? string.Empty : src.Server.Name));
+
+        CreateMap<CallbackResumeViewModel, CallbackResumeViewModel>();
         CreateMap<CallbackSaveCommand, Callback>()
             .ForMember(ds => ds.Id, m => m.MapFrom(_ => 0))
             .ForMember(ds => ds.CreatedAt, m => m.MapFrom(src => DateTime.UtcNow))

@@ -17,5 +17,10 @@ public class AgentEntityConfiguration : IEntityTypeConfiguration<Agent>
         builder.Property(e => e.CreatedAt).IsRequired();
         builder.Property(e => e.UpdatedAt).IsRequired();
         builder.Property(e => e.IsActive).IsRequired();
+
+        builder.HasOne(c => c.Server)
+               .WithMany(s => s.Agents)
+               .HasForeignKey(c => c.ServerId)
+               .OnDelete(DeleteBehavior.Cascade);
     }
 }

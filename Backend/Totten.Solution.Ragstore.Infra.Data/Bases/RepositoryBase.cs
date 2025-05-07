@@ -6,7 +6,6 @@ using FunctionalConcepts.Results;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
-using System.Collections;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -20,19 +19,19 @@ public abstract class RepositoryBase<TEntity>(DbContext context)
 
     public IQueryable<TEntity> GetAll()
         => _context.Set<TEntity>()
-        .AsNoTrackingWithIdentityResolution();
+        .AsNoTracking();
 
     public IQueryable<TEntity> GetAll(Expression<Func<TEntity, bool>> filter)
         => _context
         .Set<TEntity>()
-        .AsNoTrackingWithIdentityResolution()
-        .Where(filter);
+        .Where(filter)
+        .AsNoTracking();
 
     public Option<TEntity> Get(Expression<Func<TEntity, bool>> filter)
     {
         var entity = _context
         .Set<TEntity>()
-        .AsNoTrackingWithIdentityResolution()
+        .AsNoTracking()
         .Where(filter)
         .FirstOrDefault();
 
@@ -43,7 +42,7 @@ public abstract class RepositoryBase<TEntity>(DbContext context)
     {
         var query = _context
        .Set<TEntity>()
-       .AsNoTrackingWithIdentityResolution();
+       .AsNoTracking();
 
         var entity = await query.FirstOrDefaultAsync(x => x.Id == id);
 

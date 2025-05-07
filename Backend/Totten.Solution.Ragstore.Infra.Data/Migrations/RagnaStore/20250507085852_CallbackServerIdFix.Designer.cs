@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Totten.Solution.Ragstore.Infra.Data.Contexts.RagnaStoreContexts;
@@ -11,9 +12,11 @@ using Totten.Solution.Ragstore.Infra.Data.Contexts.RagnaStoreContexts;
 namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
 {
     [DbContext(typeof(RagnaStoreContext))]
-    partial class RagnaStoreContextModelSnapshot : ModelSnapshot
+    [Migration("20250507085852_CallbackServerIdFix")]
+    partial class CallbackServerIdFix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,12 +49,17 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
                     b.Property<int>("ServerId")
                         .HasColumnType("integer");
 
+                    b.Property<int?>("ServerId1")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ServerId");
+
+                    b.HasIndex("ServerId1");
 
                     b.ToTable("Agents", (string)null);
                 });
@@ -105,13 +113,13 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
                         {
                             Id = 1,
                             CallbackOwnerId = new Guid("d7aeb595-44a5-4f5d-822e-980f35ace12d"),
-                            CreatedAt = new DateTime(2025, 5, 7, 9, 1, 54, 433, DateTimeKind.Utc).AddTicks(3413),
+                            CreatedAt = new DateTime(2025, 5, 7, 8, 58, 52, 408, DateTimeKind.Utc).AddTicks(4452),
                             ItemId = 490037,
                             ItemPrice = 500000000.0,
                             Name = "CallbackObscuro",
                             ServerId = 1,
                             StoreType = 2,
-                            UpdatedAt = new DateTime(2025, 5, 7, 9, 1, 54, 433, DateTimeKind.Utc).AddTicks(3414)
+                            UpdatedAt = new DateTime(2025, 5, 7, 8, 58, 52, 408, DateTimeKind.Utc).AddTicks(4453)
                         });
                 });
 
@@ -185,20 +193,20 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2025, 5, 7, 9, 1, 54, 432, DateTimeKind.Utc).AddTicks(4777),
+                            CreatedAt = new DateTime(2025, 5, 7, 8, 58, 52, 407, DateTimeKind.Utc).AddTicks(8141),
                             IsActive = false,
                             Name = "broTHOR",
                             SiteUrl = "https://playragnarokonlinebr.com",
-                            UpdatedAt = new DateTime(2025, 5, 7, 9, 1, 54, 432, DateTimeKind.Utc).AddTicks(4779)
+                            UpdatedAt = new DateTime(2025, 5, 7, 8, 58, 52, 407, DateTimeKind.Utc).AddTicks(8143)
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2025, 5, 7, 9, 1, 54, 432, DateTimeKind.Utc).AddTicks(4782),
+                            CreatedAt = new DateTime(2025, 5, 7, 8, 58, 52, 407, DateTimeKind.Utc).AddTicks(8146),
                             IsActive = false,
                             Name = "broVALHALLA",
                             SiteUrl = "https://playragnarokonlinebr.com",
-                            UpdatedAt = new DateTime(2025, 5, 7, 9, 1, 54, 432, DateTimeKind.Utc).AddTicks(4782)
+                            UpdatedAt = new DateTime(2025, 5, 7, 8, 58, 52, 407, DateTimeKind.Utc).AddTicks(8146)
                         });
                 });
 
@@ -250,11 +258,15 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
 
             modelBuilder.Entity("Totten.Solution.Ragstore.Domain.Features.AgentAggregation.Agent", b =>
                 {
-                    b.HasOne("Totten.Solution.Ragstore.Domain.Features.Servers.Server", "Server")
+                    b.HasOne("Totten.Solution.Ragstore.Domain.Features.Servers.Server", null)
                         .WithMany("Agents")
                         .HasForeignKey("ServerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Totten.Solution.Ragstore.Domain.Features.Servers.Server", "Server")
+                        .WithMany()
+                        .HasForeignKey("ServerId1");
 
                     b.Navigation("Server");
                 });

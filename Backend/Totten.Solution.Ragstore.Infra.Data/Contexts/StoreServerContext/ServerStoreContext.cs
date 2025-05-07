@@ -59,7 +59,4 @@ public class ServerStoreContext : DbContext
         optionsBuilder.LogTo(Console.WriteLine);
         base.OnConfiguring(optionsBuilder);
     }
-
-    public virtual IQueryable<T> AsNoTracking<T>(IQueryable<T> query) where T : class
-        => EntityFrameworkQueryableExtensions.AsNoTracking<T>(query);
 }

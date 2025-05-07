@@ -2,10 +2,11 @@
 /// <summary>
 /// 
 /// </summary>
-public class CallbackResumeViewModel
+public record CallbackResumeViewModel
 {
+    public int Id { get; set; }
     public int ItemId { get; set; }
     public double ItemPrice { get; set; }
-    public string Server { get; set; } = string.Empty;
+    public string ServerName { get; set; } = string.Empty;
     public string StoreType { get; set; } = string.Empty;
 }
