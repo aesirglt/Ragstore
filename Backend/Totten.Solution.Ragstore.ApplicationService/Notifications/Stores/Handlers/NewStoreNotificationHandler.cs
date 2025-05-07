@@ -49,8 +49,6 @@ public class NewStoreNotificationHandler : INotificationHandler<NewStoreNotifica
                                    CallbackType = cb?.StoreType ?? EStoreCallbackType.None,
                                    Price = selected?.notify?.ItemPrice ?? -1,
                                    ItemId = selected?.notify?.ItemId ?? -1,
-                                   Level = cb?.Level ?? ECallbackType.None,
-                                   UserCellphone = cb?.UserCellphone ?? ""
                                })
                             ))
                           .ToArray();

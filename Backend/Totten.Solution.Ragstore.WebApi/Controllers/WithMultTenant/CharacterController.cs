@@ -2,6 +2,7 @@
 
 using Autofac;
 using FunctionalConcepts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Totten.Solution.Ragstore.ApplicationService.Features.Characters.Commands;
 using Totten.Solution.Ragstore.WebApi.Bases;
@@ -15,6 +16,7 @@ using Totten.Solution.Ragstore.WebApi.Bases;
 /// <param name="lifetimeScope"></param>
 [ApiController]
 [Route("[controller]")]
+[Authorize]
 public class CharacterController(ILifetimeScope lifetimeScope) : BaseApiController(lifetimeScope)
 {
     /// <summary>

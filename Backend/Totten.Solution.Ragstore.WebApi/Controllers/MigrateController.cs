@@ -1,6 +1,7 @@
 ﻿namespace Totten.Solution.Ragstore.WebApi.Controllers;
 
 using FunctionalConcepts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Totten.Solution.Ragstore.Infra.Data.Contexts.StoreServerContext;
@@ -20,6 +21,7 @@ public class MigrateController : ControllerBase
     /// <returns></returns>
     [HttpPost("{server}/migrate")]
     [ProducesResponseType<Success>(statusCode: 201)]
+    [Authorize]
     public async Task<IActionResult> Create([FromRoute] string server, [FromQuery] string cod)
     {
         if (cod != "supercode") return await Task.Run(base.Unauthorized);

@@ -58,6 +58,16 @@ public abstract class BaseApiController : ControllerBase
     /// <summary>
     /// 
     /// </summary>
+    public Guid UserId => Guid.Parse(User.Claims.FirstOrDefault(c => c?.Type is "sub" or "id")?.Value ?? "d7aeb595-44a5-4f5d-822e-980f35ace12d");
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public string UserEmail => User.Claims.FirstOrDefault(c => c?.Type is "sub" or "id")?.Value ?? "d7aeb595-44a5-4f5d-822e-980f35ace12d";
+
+    /// <summary>
+    /// 
+    /// </summary>
     /// <param name="server"></param>
     /// <returns></returns>
     private ILifetimeScope CreateChildScope(string server)

@@ -65,6 +65,7 @@ public class StoresController(ILifetimeScope lifetimeScope) : BaseApiController(
     /// <returns></returns>
     //[HttpPost($"{{server}}/{API_ENDPOINT}")]
     //[ProducesResponseType<Success>(statusCode: 201)]
+    //[Authorize]
     //public async Task<IActionResult> Post(
     //    [FromRoute] string server,
     //    [FromBody] VendingStoreSaveDto createCmdDto)
@@ -81,6 +82,7 @@ public class StoresController(ILifetimeScope lifetimeScope) : BaseApiController(
     ///// <returns></returns>
     //[HttpPost($"{{server}}/{API_ENDPOINT}-batch")]
     //[ProducesResponseType<Success>(statusCode: 201)]
+    //[Authorize]
     //public async Task<IActionResult> PostBatch(
     //    [FromRoute] string server,
     //    [FromBody] VendingStoreSaveDto[] createCmdDto)

@@ -2,6 +2,7 @@
 
 using Autofac;
 using FunctionalConcepts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 using Totten.Solution.Ragstore.ApplicationService.Features.Agents.Commands;
@@ -30,6 +31,7 @@ public class AgentsController(ILifetimeScope lifetimeScope) : BaseApiController(
     /// <returns></returns>
     [HttpPost("{server}/agents")]
     [ProducesResponseType<Success>(statusCode: 201)]
+    [Authorize]
     public async Task<IActionResult> Post(
         [FromRoute] string server,
         [FromBody] AgentCreateDto createCmd)
@@ -47,6 +49,7 @@ public class AgentsController(ILifetimeScope lifetimeScope) : BaseApiController(
     /// <returns></returns>
     [HttpGet("{server}/agents")]
     [ProducesResponseType<IQueryable<AgentResumeViewModel>>(statusCode: 200)]
+    [Authorize]
     public async Task<IActionResult> GetAll(
         [FromRoute] string server,
         ODataQueryOptions<AgentResumeViewModel> queryOptions)

@@ -2,7 +2,6 @@ import {
   Box,
   Button,
   ButtonGroup,
-  useColorModeValue,
 } from '@chakra-ui/react';
 
 interface PaginationProps {
@@ -18,8 +17,6 @@ export function Pagination({
   onPageChange,
   variant = 'inline'
 }: PaginationProps) {
-  // const bgColor = useColorModeValue('white', 'gray.800');
-  // const borderColor = useColorModeValue('gray.200', 'gray.700');
 
   const buttonGroup = (
     <ButtonGroup spacing={2} justifyContent="center" width="100%">

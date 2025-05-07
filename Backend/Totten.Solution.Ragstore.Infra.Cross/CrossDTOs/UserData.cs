@@ -11,7 +11,7 @@ public enum EUserLevel
 
 public class UserData
 {
-    public string Id { get; set; } = string.Empty;
+    public Guid Id { get; set; }
     public string Email { get; set; } = string.Empty;
     public string Cellphone { get; set; } = string.Empty;
     public EUserLevel Level { get; set; }

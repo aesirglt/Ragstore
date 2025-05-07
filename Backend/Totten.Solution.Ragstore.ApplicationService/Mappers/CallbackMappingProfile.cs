@@ -20,10 +20,8 @@ public class CallbackMappingProfile : Profile
             .ForMember(ds => ds.CreatedAt, m => m.MapFrom(src => DateTime.UtcNow))
             .ForMember(ds => ds.UpdatedAt, m => m.MapFrom(src => DateTime.UtcNow))
             .ForMember(ds => ds.CallbackOwnerId, m => m.MapFrom(src => src.UserId))
-            .ForMember(ds => ds.UserCellphone, m => m.MapFrom(src => src.UserCellphone))
             .ForMember(ds => ds.ServerId, m => m.MapFrom(src => src.ServerId))
             .ForMember(ds => ds.ItemId, m => m.MapFrom(src => src.ItemId))
-            .ForMember(ds => ds.ItemPrice, m => m.MapFrom(src => src.ItemPrice))
-            .ForMember(ds => ds.Level, m => m.MapFrom(src => src.Level));
+            .ForMember(ds => ds.ItemPrice, m => m.MapFrom(src => src.ItemPrice));
     }
 }

@@ -29,11 +29,11 @@ public class CallbackNotificationHandler : INotificationHandler<CallbackNotifica
             
             var message = new MessageNotification
             {
-                Contact = notify.UserCellphone,
+                Contact = "UserCellphone",
                 Body = @$"RagnaStore, item: *{notify.ItemId}* em *{notify.Location}* por *{notify.Price.ToString("N2", _cultura)}* servidor: {notify.Server}"
             };
 
-            if (notify.Level is ECallbackType.AGENT or ECallbackType.SYSTEM && notify.CallbackType == EStoreCallbackType.VendingStore)
+            if (/*user level &&*/ notify.CallbackType == EStoreCallbackType.VendingStore)
             {
                 _ = _mediator.Publish(message);
                 return;
@@ -42,11 +42,11 @@ public class CallbackNotificationHandler : INotificationHandler<CallbackNotifica
             _ = await _callbackScheduleRepository.Save(new CallbackSchedule
             {
                 Id = 0,
-                Name = $"UserPhone:{notify.UserCellphone}-Server:{notify.Server}-ItemId:{notify.ItemId}-Price:{notify.Price}",
+                Name = $"UserPhone: UserCellphone-Server:{notify.Server}-ItemId:{notify.ItemId}-Price:{notify.Price}",
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,
                 Contact = message.Contact,
-                SendIn = DateTime.UtcNow.AddMinutes(notify.Level.GetMinutesToSendMessage()),
+                SendIn = DateTime.UtcNow.AddMinutes(15/*notify.Level.GetMinutesToSendMessage()*/),
                 Body = message.Body
             });
         }

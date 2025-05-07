@@ -2,6 +2,7 @@
 
 using Autofac;
 using FunctionalConcepts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 using Totten.Solution.Ragstore.ApplicationService.Features.StoreAgregattion.Commands;
@@ -58,6 +59,7 @@ public class StoresBuyingController(ILifetimeScope lifetimeScope) : BaseApiContr
     /// <returns></returns>
     [HttpPost($"{{server}}/{API_ENDPOINT}")]
     [ProducesResponseType<Success>(statusCode: 201)]
+    [Authorize]
     public async Task<IActionResult> Post(
         [FromRoute] string server,
         [FromBody] BuyingStoreSaveDto createCmdDto)
@@ -75,6 +77,7 @@ public class StoresBuyingController(ILifetimeScope lifetimeScope) : BaseApiContr
     /// <returns></returns>
     [HttpPost($"{{server}}/{API_ENDPOINT}-batch")]
     [ProducesResponseType<AcceptedResult>(statusCode: 202)]
+    [Authorize]
     public async Task<IActionResult> PostBatch(
         [FromRoute] string server,
         [FromBody] BuyingStoreSaveDto[] createCmdDto)

@@ -3,7 +3,6 @@
 using FunctionalConcepts;
 using FunctionalConcepts.Results;
 using MediatR;
-using Totten.Solution.Ragstore.Domain.Features.CallbackAggregation;
 
 public class CallbackSaveCommand : IRequest<Result<Success>>
 {
@@ -13,5 +12,4 @@ public class CallbackSaveCommand : IRequest<Result<Success>>
     public string UserCellphone { get; set; } = string.Empty;
     public int ItemId { get; set; }
     public double ItemPrice { get; set; }
-    public ECallbackType Level { get; set; }
 }

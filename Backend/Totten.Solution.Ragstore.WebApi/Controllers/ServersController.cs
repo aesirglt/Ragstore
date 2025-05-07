@@ -2,6 +2,7 @@
 
 using Autofac;
 using FunctionalConcepts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 using Totten.Solution.Ragstore.ApplicationService.Features.Servers.Commands;
@@ -29,6 +30,7 @@ public class ServersController(ILifetimeScope lifetimeScope) : BaseApiController
     /// <returns></returns>
     [HttpPost("servers")]
     [ProducesResponseType<Success>(statusCode: 201)]
+    [Authorize]
     public async Task<IActionResult> Post([FromBody] ServerCreateCommand createCmd)
             => await HandleCommand(createCmd);
 

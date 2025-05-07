@@ -1,6 +1,7 @@
 ﻿namespace Totten.Solution.Ragstore.WebApi.Controllers.WithMultTenant;
 
 using Autofac;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Totten.Solution.Ragstore.ApplicationService.Notifications.Agents;
 using Totten.Solution.Ragstore.WebApi.Bases;
@@ -13,6 +14,7 @@ using Totten.Solution.Ragstore.WebApi.Bases;
 /// </remarks>
 /// <param name="lifetimeScope"></param>
 [ApiController]
+[Authorize]
 public class UpTimesController(ILifetimeScope lifetimeScope) : BaseApiController(lifetimeScope)
 {
     /// <summary>

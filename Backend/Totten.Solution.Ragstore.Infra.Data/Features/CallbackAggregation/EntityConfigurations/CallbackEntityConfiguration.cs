@@ -20,14 +20,12 @@ internal class CallbackEntityConfiguration : IEntityTypeConfiguration<Callback>
         builder.HasData(new Callback
         {
             Id = 1,
-            CallbackOwnerId = $"d7aeb595-44a5-4f5d-822e-980f35ace12d",
-            Level = ECallbackType.SYSTEM,
+            CallbackOwnerId = Guid.Parse("d7aeb595-44a5-4f5d-822e-980f35ace12d"),
             StoreType = EStoreCallbackType.VendingStore,
             Name = "CallbackObscuro",
             CreatedAt = DateTime.UtcNow,
             ServerId = 1,
             UpdatedAt = DateTime.UtcNow,
-            UserCellphone = "+5584988633251",
             ItemId = 490037,
             ItemPrice = 500_000_000
         });

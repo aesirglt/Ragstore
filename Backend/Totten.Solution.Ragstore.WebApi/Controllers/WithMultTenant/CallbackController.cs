@@ -2,12 +2,12 @@
 
 using Autofac;
 using FunctionalConcepts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 using Totten.Solution.Ragstore.ApplicationService.Features.Callbacks.Commands;
 using Totten.Solution.Ragstore.ApplicationService.Features.ItemsAggregation.Queries;
 using Totten.Solution.Ragstore.ApplicationService.ViewModels.Callbacks;
-using Totten.Solution.Ragstore.Domain.Features.CallbackAggregation;
 using Totten.Solution.Ragstore.Infra.Cross.CrossDTOs;
 using Totten.Solution.Ragstore.WebApi.Bases;
 using Totten.Solution.Ragstore.WebApi.Dtos.Callbacks;
@@ -20,6 +20,7 @@ using Totten.Solution.Ragstore.WebApi.Dtos.Callbacks;
 /// </remarks>
 /// <param name="lifetimeScope"></param>
 [ApiController]
+[Authorize]
 public class CallbackController(ILifetimeScope lifetimeScope) : BaseApiController(lifetimeScope)
 {
 
@@ -44,10 +45,9 @@ public class CallbackController(ILifetimeScope lifetimeScope) : BaseApiControlle
     [ProducesResponseType<IQueryable<CallbackResumeViewModel>>(statusCode: 200)]
     public async Task<IActionResult> GetCallbackByUser([FromRoute] string server, ODataQueryOptions<CallbackResumeViewModel> queryOptions)
     {
-        var userId = User.Claims.FirstOrDefault(c => c?.Type is "sub" or "id")?.Value ?? "d7aeb595-44a5-4f5d-822e-980f35ace12d";
         return await HandleQueryable(new CallbackCollectionByUserIdQuery
         {
-            UserId = userId
+            UserId = base.UserId,
         }, server, queryOptions);
     }
 
@@ -62,9 +62,9 @@ public class CallbackController(ILifetimeScope lifetimeScope) : BaseApiControlle
     public async Task<IActionResult> PostItems([FromRoute] string server, [FromBody] CallbackCreateDto createDto)
         => await HandleCommand(_mapper.Map<CallbackSaveCommand>((createDto, new UserData
         {
-            Id = "d7aeb595-44a5-4f5d-822e-980f35ace12d",
-            Email = "aleffmds@gmail.com",
-            Cellphone = "+351929284645",
-            Level = EUserLevel.SYSTEM
+            Id = base.UserId,
+            Email = base.UserEmail,
+            Cellphone = "",
+            Level = EUserLevel.None,
         })), server);
 }

@@ -1,17 +1,15 @@
-﻿namespace Totten.Solution.Ragstore.Domain.Features.Users;
+﻿namespace Totten.Solution.Ragstore.ApplicationService.ViewModels.Users;
 
-using Totten.Solution.Ragstore.Domain.Bases;
-using Totten.Solution.Ragstore.Domain.Features.CallbackAggregation;
-
-public record User : Entity<User, Guid>
+public class UserDetailViewModel
 {
+    public string Name { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public string NormalizedEmail { get; set; } = string.Empty;
+    public string UserName { get; set; } = string.Empty;
     public string PhoneNumber { get; set; } = string.Empty;
     public string AvatarUrl { get; set; } = string.Empty;
+    public string MemberSince { get; set; } = string.Empty;
     public bool IsActive { get; set; }
     public long SearchCount { get; set; }
     public bool ReceivePriceAlerts { get; set; }
-
-    public virtual List<Callback> Callbacks { get; set; } = [];
 }

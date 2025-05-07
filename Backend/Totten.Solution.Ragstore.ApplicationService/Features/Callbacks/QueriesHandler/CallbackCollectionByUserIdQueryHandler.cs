@@ -2,7 +2,6 @@
 
 using FunctionalConcepts.Results;
 using MediatR;
-using System;
 using System.Threading.Tasks;
 using Totten.Solution.Ragstore.ApplicationService.Features.ItemsAggregation.Queries;
 using Totten.Solution.Ragstore.Domain.Features.CallbackAggregation;
