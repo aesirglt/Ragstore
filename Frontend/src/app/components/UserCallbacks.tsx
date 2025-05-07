@@ -160,82 +160,85 @@ export function UserCallbacks({ onRemoveCallback }: UserCallbacksProps) {
     <ProtectedRoute>
       <Card ref={cardRef} height="100%" minH={0}>
         <CardBody>
-          <VStack spacing={4} align="stretch">
+          <VStack spacing={4} align="stretch" flex="1" minHeight={0}>
             <Flex justify="space-between" align="center">
               <Heading size="md">Notificações de Preço</Heading>
               <Button colorScheme="blue" size="sm" onClick={onOpen}>
                 + Adicionar
               </Button>
             </Flex>
+            <Box flex="1" minH={0} display="flex" flexDirection="column">
+              <Box flex="1" minH={0}>
+                <Table variant="simple" width="100%">
+                  <Thead>
+                    <Tr>
+                      <Th>Item</Th>
+                      <Th isNumeric>Preço Alvo</Th>
+                      <Th>Tipo</Th>
+                      <Th>Ações</Th>
+                    </Tr>
+                  </Thead>
+                  <Tbody>
+                    {paginatedCallbacks.map((callback) => (
+                      <Tr key={`${callback.itemId}-${callback.server}`}>
+                        <Td>{callback.itemId}</Td>
+                        <Td isNumeric>{callback.itemPrice.toLocaleString()}z</Td>
+                        <Td>
+                          <Badge colorScheme={callback.storeType === 'vending' ? 'green' : 'blue'}>
+                            {callback.storeType === 'vending' ? 'Venda' : 'Compra'}
+                          </Badge>
+                        </Td>
+                        <Td>
+                          <Button
+                            size="sm"
+                            colorScheme="red"
+                            variant="ghost"
+                            onClick={async () => {
+                              try {
+                                const response = await fetch(`/api/${currentServer}/callbacks/${callback.itemId}`, {
+                                  method: 'DELETE',
+                                });
 
-            <Table variant="simple" width="100%">
-              <Thead>
-                <Tr>
-                  <Th>Item</Th>
-                  <Th isNumeric>Preço Alvo</Th>
-                  <Th>Tipo</Th>
-                  <Th>Ações</Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                {paginatedCallbacks.map((callback) => (
-                  <Tr key={`${callback.itemId}-${callback.server}`}>
-                    <Td>{callback.itemId}</Td>
-                    <Td isNumeric>{callback.itemPrice.toLocaleString()}z</Td>
-                    <Td>
-                      <Badge colorScheme={callback.storeType === 'vending' ? 'green' : 'blue'}>
-                        {callback.storeType === 'vending' ? 'Venda' : 'Compra'}
-                      </Badge>
-                    </Td>
-                    <Td>
-                      <Button
-                        size="sm"
-                        colorScheme="red"
-                        variant="ghost"
-                        onClick={async () => {
-                          try {
-                            const response = await fetch(`/api/${currentServer}/callbacks/${callback.itemId}`, {
-                              method: 'DELETE',
-                            });
+                                if (!response.ok) {
+                                  throw new Error('Falha ao remover callback');
+                                }
 
-                            if (!response.ok) {
-                              throw new Error('Falha ao remover callback');
-                            }
-
-                            await fetchCallbacks();
-                            toast({
-                              title: 'Sucesso',
-                              description: 'Notificação removida com sucesso',
-                              status: 'success',
-                              duration: 3000,
-                              isClosable: true,
-                            });
-                          } catch (error) {
-                            toast({
-                              title: 'Erro',
-                              description: 'Falha ao remover notificação',
-                              status: 'error',
-                              duration: 3000,
-                              isClosable: true,
-                            });
-                          }
-                        }}
-                      >
-                        Remover
-                      </Button>
-                    </Td>
-                  </Tr>
-                ))}
-              </Tbody>
-            </Table>
-            {/* Paginação */}
-            {totalPages > 1 && (
-              <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={setCurrentPage}
-              />
-            )}
+                                await fetchCallbacks();
+                                toast({
+                                  title: 'Sucesso',
+                                  description: 'Notificação removida com sucesso',
+                                  status: 'success',
+                                  duration: 3000,
+                                  isClosable: true,
+                                });
+                              } catch (error) {
+                                toast({
+                                  title: 'Erro',
+                                  description: 'Falha ao remover notificação',
+                                  status: 'error',
+                                  duration: 3000,
+                                  isClosable: true,
+                                });
+                              }
+                            }}
+                          >
+                            Remover
+                          </Button>
+                        </Td>
+                      </Tr>
+                    ))}
+                  </Tbody>
+                </Table>
+              </Box>
+              {/* Paginação */}
+              {totalPages > 1 && (
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={setCurrentPage}
+                />
+              )}
+            </Box>
           </VStack>
 
           <Modal isOpen={isOpen} onClose={onClose}>
