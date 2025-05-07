@@ -1,10 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
-
-#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
 namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
 {
@@ -18,8 +15,7 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
                 name: "CallbacksSchedule",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Sended = table.Column<bool>(type: "boolean", nullable: false),
                     Contact = table.Column<string>(type: "text", nullable: false),
                     Body = table.Column<string>(type: "text", nullable: false),
@@ -37,8 +33,8 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
                 name: "Servers",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    DisplayName = table.Column<string>(type: "text", nullable: false),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
                     SiteUrl = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
@@ -75,10 +71,9 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
                 name: "Agents",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
-                    ServerId = table.Column<int>(type: "integer", nullable: false),
+                    ServerId = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
@@ -98,9 +93,8 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
                 name: "Callbacks",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    ServerId = table.Column<int>(type: "integer", nullable: false),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    ServerId = table.Column<Guid>(type: "uuid", nullable: false),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
                     ItemId = table.Column<int>(type: "integer", nullable: false),
                     ItemPrice = table.Column<double>(type: "double precision", nullable: false),
@@ -128,12 +122,13 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
 
             migrationBuilder.InsertData(
                 table: "Servers",
-                columns: new[] { "Id", "CreatedAt", "IsActive", "Name", "SiteUrl", "UpdatedAt" },
-                values: new object[,]
-                {
-                    { 1, new DateTime(2025, 5, 7, 11, 46, 7, 980, DateTimeKind.Utc).AddTicks(7171), false, "broTHOR", "https://playragnarokonlinebr.com", new DateTime(2025, 5, 7, 11, 46, 7, 980, DateTimeKind.Utc).AddTicks(7173) },
-                    { 2, new DateTime(2025, 5, 7, 11, 46, 7, 980, DateTimeKind.Utc).AddTicks(7176), false, "broVALHALLA", "https://playragnarokonlinebr.com", new DateTime(2025, 5, 7, 11, 46, 7, 980, DateTimeKind.Utc).AddTicks(7176) }
-                });
+                columns: new[] { "Id", "CreatedAt", "DisplayName", "IsActive", "Name", "SiteUrl", "UpdatedAt" },
+                values: new object[] { new Guid("89300f33-33d7-4878-af08-1f7b694eca3f"), new DateTime(2025, 5, 7, 14, 51, 59, 8, DateTimeKind.Utc).AddTicks(623), "Latam RO", false, "latamro", "https://ro.gnjoylatam.com/", new DateTime(2025, 5, 7, 14, 51, 59, 8, DateTimeKind.Utc).AddTicks(625) });
+
+            migrationBuilder.InsertData(
+                table: "Agents",
+                columns: new[] { "Id", "CreatedAt", "IsActive", "Name", "ServerId", "UpdatedAt" },
+                values: new object[] { new Guid("89300f33-33d7-4878-af08-1f7b694eca3f"), new DateTime(2025, 5, 7, 14, 51, 59, 8, DateTimeKind.Utc).AddTicks(4773), true, "openkore", new Guid("89300f33-33d7-4878-af08-1f7b694eca3f"), new DateTime(2025, 5, 7, 14, 51, 59, 8, DateTimeKind.Utc).AddTicks(4774) });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Agents_ServerId",

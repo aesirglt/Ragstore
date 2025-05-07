@@ -67,4 +67,20 @@ public class CallbackController(ILifetimeScope lifetimeScope) : BaseApiControlle
                 ServerId = serverId,
                 UserId = base.UserId
             }, server);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="server"></param>
+    /// <param name="callbackId"></param>
+    /// <returns></returns>
+    [HttpDelete("{server}/callbacks-items/{callbackId}")]
+    [ProducesResponseType<Success>(statusCode: 200)]
+    public async Task<IActionResult> Removetem([FromRoute] string server, [FromRoute] Guid callbackId)
+        => await HandleCommand(
+            serverId => new CallbackRemoveCommand
+            {
+                Id = callbackId,
+                UserId = base.UserId
+            }, server);
 }

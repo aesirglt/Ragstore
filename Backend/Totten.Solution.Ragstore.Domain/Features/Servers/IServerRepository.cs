@@ -2,7 +2,7 @@
 
 using FunctionalConcepts.Options;
 using Totten.Solution.Ragstore.Domain.Bases;
-public interface IServerRepository : IRepository<Server, int>
+public interface IServerRepository : IRepository<Server, Guid>
 {
     public Option<Server> GetByName(string serverName)
     {

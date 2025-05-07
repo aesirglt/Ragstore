@@ -5,23 +5,18 @@ using Totten.Solution.Ragstore.Domain.Features.Servers;
 
 public static class MyServerSeed
 {
-    public static List<Server> Seed() => new()
-    {
+    public static Guid Id => Guid.Parse("89300f33-33d7-4878-af08-1f7b694eca3f");
+
+    public static List<Server> Seed()
+    => [
         new ()
         {
-            Id = 1,
+            Id = Guid.Parse("89300f33-33d7-4878-af08-1f7b694eca3f"),
             CreatedAt = DateTime.UtcNow,
-            Name = "broTHOR",
-            SiteUrl = "https://playragnarokonlinebr.com",
-            UpdatedAt = DateTime.UtcNow
-        },
-        new ()
-        {
-            Id = 2,
-            CreatedAt = DateTime.UtcNow,
-            Name = "broVALHALLA",
-            SiteUrl = "https://playragnarokonlinebr.com",
+            Name = "latamro",
+            DisplayName = "Latam RO",
+            SiteUrl = "https://ro.gnjoylatam.com/",
             UpdatedAt = DateTime.UtcNow
         }
-    };
+    ];
 }

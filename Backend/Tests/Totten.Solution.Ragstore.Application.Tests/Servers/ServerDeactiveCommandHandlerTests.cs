@@ -57,7 +57,7 @@ public class ServerDeactiveCommandHandlerTests
         // Arrange
         var cmd = new ServerDeactiveCommand
         {
-            ServerId = 1
+            ServerId = Guid.Parse("89300f33-33d7-4878-af08-1f7b694eca3f")
         };
         CancellationToken cancellationToken = default;
         _serverRepositoryMock.Setup(x => x.GetById(cmd.ServerId))
@@ -87,7 +87,7 @@ public class ServerDeactiveCommandHandlerTests
         // Arrange
         var cmd = new ServerDeactiveCommand
         {
-            ServerId = 1
+            ServerId = Guid.Parse("89300f33-33d7-4878-af08-1f7b694eca3f")
         };
         CancellationToken cancellationToken = default;
         _serverRepositoryMock.Setup(x => x.GetById(cmd.ServerId))

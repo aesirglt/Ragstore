@@ -24,29 +24,21 @@ import {
   ModalCloseButton,
   FormControl,
   FormLabel,
-  Input,
   NumberInput,
   NumberInputField,
   ModalFooter,
   useToast,
   Text,
-  HStack,
-  IconButton,
 } from '@chakra-ui/react';
 import { useEffect, useState, useRef } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useServer } from '@/contexts/ServerContext';
 import { CallbackResumeViewModel } from '@/types/auth';
 import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
-import { DeleteIcon } from '@chakra-ui/icons';
 import { Pagination } from '@/components/ui/Pagination';
 import { LoadingList } from '@/components/LoadingList';
 
-interface UserCallbacksProps {
-  onRemoveCallback: (callbackId: string) => Promise<void>;
-}
-
-export function UserCallbacks({ onRemoveCallback }: UserCallbacksProps) {
+export function UserCallbacks() {
   const { isAuthenticated, user } = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [callbacks, setCallbacks] = useState<CallbackResumeViewModel[]>([]);
@@ -158,6 +150,33 @@ export function UserCallbacks({ onRemoveCallback }: UserCallbacksProps) {
     }
   };
 
+  const handleRemoveCallback = async (callbackId: string) => {
+    try {
+      const response = await fetch(`/api/${currentServer}/callbacks-items/${callbackId}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) {
+        throw new Error('Falha ao remover callback');
+      }
+      await fetchCallbacks();
+      toast({
+        title: 'Sucesso',
+        description: 'Notificação removida com sucesso',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      });
+    } catch (error) {
+      toast({
+        title: 'Erro',
+        description: 'Falha ao remover notificação',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
+    }
+  };
+
   if (!isAuthenticated) {
     return (
       <Card>
@@ -220,22 +239,7 @@ export function UserCallbacks({ onRemoveCallback }: UserCallbacksProps) {
                             variant="ghost"
                             onClick={async () => {
                               try {
-                                const response = await fetch(`/api/${currentServer}/callbacks/${callback.itemId}`, {
-                                  method: 'DELETE',
-                                });
-
-                                if (!response.ok) {
-                                  throw new Error('Falha ao remover callback');
-                                }
-
-                                await fetchCallbacks();
-                                toast({
-                                  title: 'Sucesso',
-                                  description: 'Notificação removida com sucesso',
-                                  status: 'success',
-                                  duration: 3000,
-                                  isClosable: true,
-                                });
+                                await handleRemoveCallback(callback.id);
                               } catch (error) {
                                 toast({
                                   title: 'Erro',

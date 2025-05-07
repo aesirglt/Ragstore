@@ -41,7 +41,7 @@ public class CallbackNotificationHandler : INotificationHandler<CallbackNotifica
 
             _ = await _callbackScheduleRepository.Save(new CallbackSchedule
             {
-                Id = 0,
+                Id = Guid.NewGuid(),
                 Name = $"UserPhone: UserCellphone-Server:{notify.Server}-ItemId:{notify.ItemId}-Price:{notify.Price}",
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,

@@ -36,7 +36,7 @@ public class ServerRepositoryTests
     public async Task ServerRepositoryTests_Remove_ShouldBeOk()
     {
         // Arrange
-        var server = ObjectMother.Server with { Id = 2 };
+        var server = ObjectMother.Server with { Id = Guid.NewGuid() };
         _ = await _serverRepository.Save(server);
         // Act
         var act = async () => await _serverRepository.Remove(server);
@@ -49,7 +49,7 @@ public class ServerRepositoryTests
     public async Task ServerRepositoryTests_Update_ShouldBeOk()
     {
         // Arrange
-        var server = ObjectMother.Server with { Id = 2 };
+        var server = ObjectMother.Server with { Id = Guid.NewGuid() };
         _ = await _serverRepository.Save(server);
         var newServerName = "bRO - Valhalla";
         var serverUpdated = server with { Name = newServerName };
@@ -70,7 +70,7 @@ public class ServerRepositoryTests
     public async Task ServerRepositoryTests_GetAll_ShouldBeOk()
     {
         // Arrange
-        var server = ObjectMother.Server with { Id = 4 };
+        var server = ObjectMother.Server with { Id = Guid.NewGuid() };
 
         _ = await _serverRepository.Save(server);
 
@@ -86,7 +86,7 @@ public class ServerRepositoryTests
     public async Task ServerRepositoryTests_GetById_ShouldBeOk()
     {
         // Arrange
-        var server = ObjectMother.Server with { Id = 5 };
+        var server = ObjectMother.Server with { Id = Guid.NewGuid() };
 
         _ = await _serverRepository.Save(server);
 

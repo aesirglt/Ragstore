@@ -3,6 +3,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Totten.Solution.Ragstore.Domain.Features.AgentAggregation;
+using Totten.Solution.Ragstore.Infra.Data.Seeds;
 
 public class AgentEntityConfiguration : IEntityTypeConfiguration<Agent>
 {
@@ -22,5 +23,7 @@ public class AgentEntityConfiguration : IEntityTypeConfiguration<Agent>
                .WithMany(s => s.Agents)
                .HasForeignKey(c => c.ServerId)
                .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasData(MyAgentSeed.Seed()); 
     }
 }

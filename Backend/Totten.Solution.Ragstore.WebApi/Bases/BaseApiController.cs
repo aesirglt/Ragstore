@@ -193,7 +193,7 @@ public abstract class BaseApiController : ControllerBase
     /// <param name="serverName"></param>
     /// <returns></returns>
     protected async Task<IActionResult> HandleCommand(
-        Func<int, IRequest<Result<Success>>> getCmdWithServerId,
+        Func<Guid, IRequest<Result<Success>>> getCmdWithServerId,
         string serverName)
     {
         return await _serverRepository
@@ -317,7 +317,7 @@ public abstract class BaseApiController : ControllerBase
     /// <param name="queryOptions"></param>
     /// <returns></returns>
     protected async Task<IActionResult> HandleQueryable<TSource, TDestiny>(
-        Func<int, IRequest<Result<IQueryable<TSource>>>> getQueryWithServerId,
+        Func<Guid, IRequest<Result<IQueryable<TSource>>>> getQueryWithServerId,
         string serverName,
         ODataQueryOptions<TDestiny> queryOptions)
     {

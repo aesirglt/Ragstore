@@ -24,6 +24,7 @@ public class CallbackCollectionByUserIdQueryHandler(ICallbackRepository reposito
                 ItemPrice = s.ItemPrice,
                 ServerName = s.Server!.Name,
                 StoreType = s.StoreType.ToString(),
+                ItemUrl = $"https://static.divine-pride.net/images/items/item/{s.ItemId}.png"
             });
 
         return Result.Of(selecteds).AsTask();

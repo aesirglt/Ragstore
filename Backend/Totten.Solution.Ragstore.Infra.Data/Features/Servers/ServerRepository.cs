@@ -4,7 +4,7 @@ using Totten.Solution.Ragstore.Infra.Data.Bases;
 using Totten.Solution.Ragstore.Infra.Data.Contexts.RagnaStoreContexts;
 
 public sealed class ServerRepository(RagnaStoreContext context)
-    : RepositoryBase<Server, int>(context), IServerRepository
+    : RepositoryBase<Server, Guid>(context), IServerRepository
 {
 
 }

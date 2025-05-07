@@ -33,10 +33,12 @@ export interface ExternalLoginRequest {
 }
 
 export interface CallbackResumeViewModel {
+  id: string;
   server: string;
   itemId: number;
   itemPrice: number;
   storeType: string;
+  itemUrl: string;
 }
 
 export interface AuthContextType {

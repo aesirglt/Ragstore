@@ -4,8 +4,7 @@ using FunctionalConcepts;
 using FunctionalConcepts.Results;
 using MediatR;
 
-
 public class ServerDeactiveCommand : IRequest<Result<Success>>
 {
-    public int ServerId { get; set; }
+    public Guid ServerId { get; set; }
 }

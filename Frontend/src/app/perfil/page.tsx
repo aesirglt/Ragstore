@@ -16,16 +16,13 @@ import {
   Stack,
   Badge,
   Checkbox,
-  IconButton,
   useColorMode,
   Input,
   useToast,
-  Switch,
 } from '@chakra-ui/react';
 import { UserCallbacks } from '../components/UserCallbacks';
 import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
 import { useAuth } from '@/contexts/AuthContext';
-import { DeleteIcon } from '@chakra-ui/icons';
 import { useState } from 'react';
 
 export default function ProfilePage() {
@@ -175,7 +172,7 @@ export default function ProfilePage() {
               </VStack>
             </SimpleGrid>
             <Box flex="1" minHeight={0}>
-              <UserCallbacks onRemoveCallback={handleRemoveCallback} />
+              <UserCallbacks />
             </Box>
           </VStack>
         </Box>

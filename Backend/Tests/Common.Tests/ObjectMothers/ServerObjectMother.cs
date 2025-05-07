@@ -6,11 +6,12 @@ public static partial class ObjectMother
 {
     public static Server Server => new()
     {
-        Id = 1,
+        Id = Guid.Parse("89300f33-33d7-4878-af08-1f7b694eca3f"),
         CreatedAt = DateTime.UtcNow,
         IsActive = true,
-        Name = "bRO - thor",
-        SiteUrl = "https://playragnarokonlinebr.com/",
+        Name = "latamro",
+        DisplayName = "Latam RO",
+        SiteUrl = "https://ro.gnjoylatam.com/",
         UpdatedAt = DateTime.UtcNow
     };
 }

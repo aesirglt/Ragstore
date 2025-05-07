@@ -7,5 +7,5 @@ using Totten.Solution.Ragstore.Domain.Features.AgentAggregation;
 
 public class AgentCollectionQuery : IRequest<Result<IQueryable<Agent>>>
 {
-    public int ServerId { get; set; }
+    public Guid ServerId { get; set; }
 }

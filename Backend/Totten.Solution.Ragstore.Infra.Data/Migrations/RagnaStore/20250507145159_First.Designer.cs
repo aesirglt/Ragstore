@@ -12,7 +12,7 @@ using Totten.Solution.Ragstore.Infra.Data.Contexts.RagnaStoreContexts;
 namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
 {
     [DbContext(typeof(RagnaStoreContext))]
-    [Migration("20250507114608_First")]
+    [Migration("20250507145159_First")]
     partial class First
     {
         /// <inheritdoc />
@@ -30,11 +30,9 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
 
             modelBuilder.Entity("Totten.Solution.Ragstore.Domain.Features.AgentAggregation.Agent", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -46,8 +44,8 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("ServerId")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("ServerId")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -57,15 +55,24 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
                     b.HasIndex("ServerId");
 
                     b.ToTable("Agents", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("89300f33-33d7-4878-af08-1f7b694eca3f"),
+                            CreatedAt = new DateTime(2025, 5, 7, 14, 51, 59, 8, DateTimeKind.Utc).AddTicks(4773),
+                            IsActive = true,
+                            Name = "openkore",
+                            ServerId = new Guid("89300f33-33d7-4878-af08-1f7b694eca3f"),
+                            UpdatedAt = new DateTime(2025, 5, 7, 14, 51, 59, 8, DateTimeKind.Utc).AddTicks(4774)
+                        });
                 });
 
             modelBuilder.Entity("Totten.Solution.Ragstore.Domain.Features.CallbackAggregation.Callback", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -80,8 +87,8 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("ServerId")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("ServerId")
+                        .HasColumnType("uuid");
 
                     b.Property<int>("StoreType")
                         .HasColumnType("integer");
@@ -103,11 +110,9 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
 
             modelBuilder.Entity("Totten.Solution.Ragstore.Domain.Features.CallbackAggregation.CallbackSchedule", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Body")
                         .IsRequired()
@@ -140,14 +145,16 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
 
             modelBuilder.Entity("Totten.Solution.Ragstore.Domain.Features.Servers.Server", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("DisplayName")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
@@ -170,21 +177,13 @@ namespace Totten.Solution.Ragstore.Infra.Data.Migrations.RagnaStore
                     b.HasData(
                         new
                         {
-                            Id = 1,
-                            CreatedAt = new DateTime(2025, 5, 7, 11, 46, 7, 980, DateTimeKind.Utc).AddTicks(7171),
+                            Id = new Guid("89300f33-33d7-4878-af08-1f7b694eca3f"),
+                            CreatedAt = new DateTime(2025, 5, 7, 14, 51, 59, 8, DateTimeKind.Utc).AddTicks(623),
+                            DisplayName = "Latam RO",
                             IsActive = false,
-                            Name = "broTHOR",
-                            SiteUrl = "https://playragnarokonlinebr.com",
-                            UpdatedAt = new DateTime(2025, 5, 7, 11, 46, 7, 980, DateTimeKind.Utc).AddTicks(7173)
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CreatedAt = new DateTime(2025, 5, 7, 11, 46, 7, 980, DateTimeKind.Utc).AddTicks(7176),
-                            IsActive = false,
-                            Name = "broVALHALLA",
-                            SiteUrl = "https://playragnarokonlinebr.com",
-                            UpdatedAt = new DateTime(2025, 5, 7, 11, 46, 7, 980, DateTimeKind.Utc).AddTicks(7176)
+                            Name = "latamro",
+                            SiteUrl = "https://ro.gnjoylatam.com/",
+                            UpdatedAt = new DateTime(2025, 5, 7, 14, 51, 59, 8, DateTimeKind.Utc).AddTicks(625)
                         });
                 });
 

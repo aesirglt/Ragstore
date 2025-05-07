@@ -2,6 +2,6 @@
 
 using Totten.Solution.Ragstore.Domain.Bases;
 
-public interface ICallbackScheduleRepository : IRepository<CallbackSchedule, int>
+public interface ICallbackScheduleRepository : IRepository<CallbackSchedule, Guid>
 {
 }

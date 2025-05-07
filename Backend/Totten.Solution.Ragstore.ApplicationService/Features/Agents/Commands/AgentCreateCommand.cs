@@ -6,6 +6,6 @@ using MediatR;
 
 public class AgentCreateCommand : IRequest<Result<Success>>
 {
-    public int ServerId { get; set; }
+    public Guid ServerId { get; set; }
     public string Name { get; set; } = string.Empty;
 }
