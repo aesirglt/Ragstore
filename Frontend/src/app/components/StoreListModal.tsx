@@ -87,6 +87,7 @@ export function StoreListModal({ isOpen, onClose, itemId, server }: StoreListMod
                       <Th whiteSpace="nowrap">Personagem</Th>
                       <Th whiteSpace="nowrap">Mapa</Th>
                       <Th whiteSpace="nowrap">Localização</Th>
+                      <Th whiteSpace="nowrap">Preço do item</Th>
                       <Th whiteSpace="nowrap">Navi</Th>
                     </Tr>
                   </Thead>
@@ -97,6 +98,7 @@ export function StoreListModal({ isOpen, onClose, itemId, server }: StoreListMod
                         <Td maxW="200px" overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap">{store.characterName}</Td>
                         <Td maxW="150px" overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap">{store.map}</Td>
                         <Td maxW="150px" overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap">{store.location}</Td>
+                        <Td maxW="150px" overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap">{store.itemPrice}z</Td>
                         <Td maxW="250px" overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap">
                           <HStack spacing={1}>
                             <Text>/navi {store.map} {store.location}</Text>

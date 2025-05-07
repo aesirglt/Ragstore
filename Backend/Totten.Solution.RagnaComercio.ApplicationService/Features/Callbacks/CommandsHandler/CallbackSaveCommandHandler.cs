@@ -21,13 +21,18 @@ public class CallbackSaveCommandHandler(IMapper mapper, ICallbackRepository repo
     {
         try
         {
-            var callback = _mapper.Map<Callback>(request);
-            callback = callback with
+            _ = await _repository.Save(new Callback
             {
-                StoreType = EStoreCallbackType.VendingStore
-            };
-
-            _ = await _repository.Save(callback);
+                Id = Guid.NewGuid(),
+                ItemId = request.ItemId,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow,
+                ItemPrice = request.ItemPrice,
+                Name = $"Callback for {request.ItemId}",
+                UserId = request.UserId,
+                ServerId = request.ServerId,
+                StoreType = EStoreCallbackType.VendingStore,
+            });
 
             return Result.Success;
         }

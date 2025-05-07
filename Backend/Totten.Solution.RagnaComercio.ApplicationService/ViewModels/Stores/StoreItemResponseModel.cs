@@ -3,7 +3,6 @@ public record StoreItemResponseModel
 {
     public int ItemId { get; set; }
     public string ItemName { get; set; } = string.Empty;
-    public double Price { get; set; }
     public long Quantity { get; set; }
     public string Image { get; set; } = string.Empty;
     public string Category { get; set; } = string.Empty;
@@ -18,7 +17,6 @@ public record StoreItemResponseModel
     {
         ItemId = storeItemResponseModel.ItemId;
         ItemName = storeItemResponseModel.ItemName;
-        Price = storeItemResponseModel.Price;
         Quantity = storeItemResponseModel.Quantity;
         Image = storeItemResponseModel.Image;
         Category = storeItemResponseModel.Category;

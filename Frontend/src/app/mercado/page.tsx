@@ -4,8 +4,6 @@ import { useEffect, useState, useRef } from 'react';
 import { 
   Container, 
   Box, 
-  Text, 
-  Spinner, 
   Alert, 
   AlertIcon, 
   VStack, 
@@ -19,7 +17,6 @@ import { MarketPagination } from '@/components/ui/MarketPagination';
 import { StoreListModal } from '../components/StoreListModal';
 import { MarketItem } from '../components/MarketItem';
 import { useServer } from '../../contexts/ServerContext';
-import { Footer } from '../components/Footer';
 import { LoadingList } from '@/components/LoadingList';
 
 export default function MercadoPage() {
@@ -36,7 +33,7 @@ export default function MercadoPage() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Dinamicamente calcula colunas e linhas
-  const [gridConfig, setGridConfig] = useState({ columns: 1, rows: 1, itemsPerPage: 1 });
+  const [gridConfig, setGridConfig] = useState({ columns: 10, rows: 3, itemsPerPage: 10 });
 
   const bgColor = useColorModeValue('white', 'gray.900');
   const containerBg = useColorModeValue('gray.50', 'gray.800');
@@ -222,7 +219,6 @@ export default function MercadoPage() {
                   itemName={item.itemName}
                   image={item.image}
                   category={item.category}
-                  price={item.price}
                   quantity={item.quantity}
                   onClick={handleItemClick}
                 />

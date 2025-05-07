@@ -38,14 +38,12 @@ public class StoreItemsCollectionQueryHandler(
             {
                 item.ItemId,
                 item.Name,
-                item.Type,
-                item.Price
+                item.Type
             })
             .Select(group => new StoreItemResponseModel
             {
                 ItemId = group.Key.ItemId,
                 ItemName = group.Key.Name,
-                Price = group.Key.Price,
                 Category = group.Key.Type.ToString(),
                 Quantity = group.Sum(i => i.Quantity),
                 Image = "https://static.divine-pride.net/images/items/item/" + group.Key.ItemId + ".png",

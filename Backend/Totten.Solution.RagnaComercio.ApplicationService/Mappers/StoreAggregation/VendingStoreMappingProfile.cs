@@ -15,7 +15,8 @@ public class VendingStoreMappingProfile : Profile
     public VendingStoreMappingProfile()
     {
         CreateMap<VendingStore, StoreResumeViewModel>();
-
+        CreateMap<StoreResumeViewModel, StoreResumeViewModel>();
+        
         CreateMap<VendingStore, StoreDetailViewModel>()
             .ForMember(ds => ds.Items,
                        m => m.MapFrom(src => src.VendingStoreItems

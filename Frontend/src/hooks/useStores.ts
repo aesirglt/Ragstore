@@ -8,6 +8,7 @@ interface Store {
   characterName: string;
   map: string;
   location: string;
+  itemPrice: number;
 }
 
 interface UseStoresParams {

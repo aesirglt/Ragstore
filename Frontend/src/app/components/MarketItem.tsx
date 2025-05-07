@@ -10,7 +10,6 @@ interface MarketItemProps {
   itemName: string;
   image: string;
   category: string;
-  price: number;
   quantity: number;
   onClick: (itemId: number) => void;
 }
@@ -20,7 +19,6 @@ export function MarketItem({
   itemName,
   image,
   category,
-  price,
   quantity,
   onClick,
 }: MarketItemProps) {
@@ -71,9 +69,6 @@ export function MarketItem({
         Categoria: {category}
       </Text>
       
-      <Text fontWeight="semibold" fontSize="xs" color={priceColor} mb={0.5}>
-        {price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
-      </Text>
       <Text color={textColor} fontSize="2xs">
         Quantidade: {quantity}
       </Text>

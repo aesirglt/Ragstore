@@ -36,7 +36,7 @@ public class ODataFilterNotificationHandler(ILogger<ODataFilterNotificationHandl
                     CreatedAt = DateTime.UtcNow,
                     Name = storeItem.First().Name,
                     Quantity = storeItem.Sum(si => si.Quantity),
-                    Average = (long)( storeItem.Sum(si => si.Price) / storeItem.Count ),
+                    Average = (long)( storeItem.Sum(si => si.Price * si.Quantity) / storeItem.Sum(si => si.Quantity) ),
                 });
             }
         }

@@ -12,4 +12,5 @@ public record StoreResumeViewModel
     public string Map { get; set; } = string.Empty;
     public string Location { get; set; } = string.Empty;
     public DateTime? ExpireDate { get; set; }
+    public int ItemPrice { get; set; }
 }

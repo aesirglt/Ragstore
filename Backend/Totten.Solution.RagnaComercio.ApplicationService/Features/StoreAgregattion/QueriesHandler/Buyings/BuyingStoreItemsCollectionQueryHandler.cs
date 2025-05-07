@@ -21,7 +21,6 @@ public class BuyingStoreItemsCollectionQueryHandler(IBuyingStoreItemRepository s
             {
                 ItemId = item.ItemId,
                 ItemName = item.Name,
-                Price = item.Price,
                 Quantity = item.Quantity,
                 Category = $"{item.Type}",
                 Image = "",
