@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Platforms>AnyCPU;x86</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Totten.Solution.BotAgent.Domain\Totten.Solution.BotAgent.Domain.csproj" />
+    <ProjectReference Include="..\Totten.Solution.BotAgent.Infra.Memory\Totten.Solution.BotAgent.Infra.Memory.csproj" />
+    <ProjectReference Include="..\Totten.Solution.BotAgent.ServiceApplication\Totten.Solution.BotAgent.ServiceApplication.csproj" />
+  </ItemGroup>
+
+</Project>
