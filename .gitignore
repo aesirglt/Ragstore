@@ -3,3 +3,11 @@
 ################################################################################
 
 /.vs
+/BotAgent/Totten.Solution.BotAgent.Domain/bin/Debug/net8.0
+/BotAgent/Totten.Solution.BotAgent.Domain/obj
+/BotAgent/Totten.Solution.BotAgent.Infra.Memory/bin/Debug/net8.0
+/BotAgent/Totten.Solution.BotAgent.Infra.Memory/obj
+/BotAgent/Totten.Solution.BotAgent.ServiceApplication/bin/Debug/net8.0
+/BotAgent/Totten.Solution.BotAgent.ServiceApplication/obj
+/BotAgent/Totten.Solution.BotAgent.WinApp/bin
+/BotAgent/Totten.Solution.BotAgent.WinApp/obj
