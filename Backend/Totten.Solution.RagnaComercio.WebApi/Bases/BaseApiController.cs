@@ -12,13 +12,16 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Extensions;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Results;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
+using System.Linq;
 using System.Net;
 using System.Security.Claims;
 using Totten.Solution.RagnaComercio.ApplicationService.Notifications.ODataFilters;
 using Totten.Solution.RagnaComercio.Domain.Features.Servers;
 using Totten.Solution.RagnaComercio.Infra.Cross.Errors;
+using Totten.Solution.RagnaComercio.WebApi.Dtos;
 using Totten.Solution.RagnaComercio.WebApi.Modules;
 
 /// <summary>
@@ -303,7 +306,7 @@ public abstract class BaseApiController : ControllerBase
                 var mediator = scope.Resolve<IMediator>();
                 var result = await mediator.Send(query);
 
-                return result.Match(succ => Ok(HandlePage(succ, mapper, queryOptions)), HandleFailure)!;
+                return result.Match(succ => Ok(HandlePageAsync(succ, mapper, queryOptions)), HandleFailure)!;
             }, () => HandleFailure(ServerNotFound()));
     }
 
@@ -330,7 +333,7 @@ public abstract class BaseApiController : ControllerBase
                 var mediator = scope.Resolve<IMediator>();
                 var result = await mediator.Send(getQueryWithServerId(server.Id));
 
-                return result.Match(succ => Ok(HandlePage(succ, mapper, queryOptions)), HandleFailure)!;
+                return result.Match(succ => Ok(HandlePageAsync(succ, mapper, queryOptions)), HandleFailure)!;
             }, () => HandleFailure(ServerNotFound()));
     }
     /// <summary>
@@ -347,7 +350,7 @@ public abstract class BaseApiController : ControllerBase
     {
         var result = await _mediator.Send(query);
 
-        return result.Match(succ => Ok(HandlePage(succ, _currentGlobalScoped.Resolve<IMapper>(), queryOptions)),
+        return result.Match(succ => Ok(HandlePageAsync(succ, _currentGlobalScoped.Resolve<IMapper>(), queryOptions)),
                             HandleFailure)!;
     }
     /// <summary>
@@ -359,18 +362,19 @@ public abstract class BaseApiController : ControllerBase
     /// <param name="mapper"></param>
     /// <param name="queryOptions"></param>
     /// <returns></returns>
-    private PageResult<TView> HandlePage<TDomain, TView>
+    private PaginationDto<TView> HandlePageAsync<TDomain, TView>
             (IQueryable<TDomain> query,
             IMapper mapper,
             ODataQueryOptions<TView> queryOptions)
     {
         var projectTo = query.ProjectTo<TView>(mapper.ConfigurationProvider);
         var queryResults = queryOptions.ApplyTo(projectTo);
-        var oDataFeature = Request.HttpContext.ODataFeature();
 
-        return new PageResult<TView>(queryResults.Provider.CreateQuery<TView>(queryResults.Expression),
-                                     oDataFeature.NextLink,
-                                     oDataFeature.TotalCount);
+        return new PaginationDto<TView>
+        {
+            Data = [.. queryResults.Provider.CreateQuery<TView>(queryResults.Expression)],
+            TotalCount = query.Select(_ => 1).Count()
+        };
     }
 
     private IActionResult HandleFailure(BaseError error)

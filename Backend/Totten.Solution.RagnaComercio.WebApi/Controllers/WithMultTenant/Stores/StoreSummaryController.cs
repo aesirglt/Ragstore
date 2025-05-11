@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Totten.Solution.RagnaComercio.ApplicationService.Features.StoreAgregattion.Queries;
 using Totten.Solution.RagnaComercio.ApplicationService.Features.StoreAgregattion.ResponseModels;
 using Totten.Solution.RagnaComercio.ApplicationService.ViewModels.Stores;
+using Totten.Solution.RagnaComercio.Domain.Features.StoresAggregation.Vendings;
 using Totten.Solution.RagnaComercio.WebApi.Bases;
 
 /// <summary>
@@ -35,7 +36,7 @@ public class StoreSummaryController(ILifetimeScope lifetimeScope) : BaseApiContr
         => await HandleQuery(new StoreItemValueSumaryQuery
         {
             ItemId = itemId,
-            StoreType = storeType == "buying" ? StoreItemValueSumaryQuery.EStoreItemStoreType.Buying : StoreItemValueSumaryQuery.EStoreItemStoreType.Vending
+            StoreType = storeType ?? nameof(VendingStore),
         }, server);
 
     /// <summary>

@@ -21,6 +21,6 @@ public class VendingStoreItemMappingProfile : Profile
             .ForMember(ds => ds.InfoCards, m => m.MapFrom(src => src.InfoCards))
             .ForMember(ds => ds.InfoOptions, m => m.MapFrom(src => src.InfoOptions));
 
-        CreateMap<StoreItemResponseModel, StoreItemResponseModel>();
+        CreateMap<StoreItemResumeViewModel, StoreItemResumeViewModel>();
     }
 }

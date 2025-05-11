@@ -10,25 +10,23 @@ using Totten.Solution.RagnaComercio.Domain.Features.StoresAggregation.Bases;
 using Totten.Solution.RagnaComercio.Domain.Features.StoresAggregation.Buyings;
 using Totten.Solution.RagnaComercio.Domain.Features.StoresAggregation.Vendings;
 using Totten.Solution.RagnaComercio.Infra.Cross.Statics;
-using static Totten.Solution.RagnaComercio.ApplicationService.Features.StoreAgregattion.Queries.StoreItemValueSumaryQuery;
 
-public class StoreItemsCollectionQueryHandler(
+public class StoreItemResumeQueryHandler(
     IVendingStoreItemRepository vendingStoreItemRepository,
     IBuyingStoreItemRepository buyingStore)
-    : IRequestHandler<StoreItemsCollectionQuery, Result<IQueryable<StoreItemResponseModel>>>
+    : IRequestHandler<StoreItemResumeQuery, Result<IQueryable<StoreItemResumeViewModel>>>
 {
     private readonly IVendingStoreItemRepository _vendingRepositore = vendingStoreItemRepository;
     private readonly IBuyingStoreItemRepository _buyingRepositore = buyingStore;
 
-    public async Task<Result<IQueryable<StoreItemResponseModel>>> Handle(StoreItemsCollectionQuery request, CancellationToken cancellationToken)
+    public async Task<Result<IQueryable<StoreItemResumeViewModel>>> Handle(StoreItemResumeQuery request, CancellationToken cancellationToken)
     {
-        return request.StoreType == EStoreItemStoreType.Vending
-               ? await ExecuteCmd(nameof(EStoreItemStoreType.Vending), _vendingRepositore)
-               : await ExecuteCmd(nameof(EStoreItemStoreType.Buying), _buyingRepositore);
+        return request.StoreType == nameof(VendingStore)
+               ? await ExecuteCmd(_vendingRepositore)
+               : await ExecuteCmd(_buyingRepositore);
     }
 
-    public async Task<Result<IQueryable<StoreItemResponseModel>>> ExecuteCmd<TStoreItem>(
-        string storeType,
+    public async Task<Result<IQueryable<StoreItemResumeViewModel>>> ExecuteCmd<TStoreItem>(
         IStoreRepository<TStoreItem> repository)
         where TStoreItem : StoreItem<TStoreItem>
     {
@@ -40,14 +38,13 @@ public class StoreItemsCollectionQueryHandler(
                 item.Name,
                 item.Type
             })
-            .Select(group => new StoreItemResponseModel
+            .Select(group => new StoreItemResumeViewModel
             {
                 ItemId = group.Key.ItemId,
                 ItemName = group.Key.Name,
                 Category = group.Key.Type.ToString(),
                 Quantity = group.Sum(i => i.Quantity),
                 Image = "https://static.divine-pride.net/images/items/item/" + group.Key.ItemId + ".png",
-                StoreType = storeType,
             });
 
         return Result.Of(await result.AsTask());

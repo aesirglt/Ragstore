@@ -21,7 +21,7 @@ export default function AuthPage() {
       <Container maxW="container.sm" py={8}>
         <VStack spacing={8}>
           <Box textAlign="center">
-            <Heading>Bem-vindo ao Ragstore</Heading>
+            <Heading>Bem-vindo ao RagnaComercio</Heading>
             <Text color="gray.500">Entre com um provedor para acessar sua conta</Text>
           </Box>
           <Box width="100%">

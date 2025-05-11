@@ -9,8 +9,8 @@ public record StoreResumeViewModel
     public int CharacterId { get; set; }
     public string Name { get; set; } = string.Empty;
     public string CharacterName { get; set; } = string.Empty;
-    public string Map { get; set; } = string.Empty;
     public string Location { get; set; } = string.Empty;
-    public DateTime? ExpireDate { get; set; }
-    public int ItemPrice { get; set; }
+    public int Quantity { get; set; }
+    public int ItemId { get; set; }
+    public double ItemPrice { get; set; }
 }

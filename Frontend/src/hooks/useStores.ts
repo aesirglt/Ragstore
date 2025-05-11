@@ -4,11 +4,12 @@ interface Store {
   id: number;
   accountId: number;
   characterId: number;
-  name: string;
   characterName: string;
-  map: string;
+  name: string;
   location: string;
   itemPrice: number;
+  quantity: number;
+  storeType: string;
 }
 
 interface UseStoresParams {
@@ -22,13 +23,21 @@ export function useStores({ server, itemId, page, pageSize }: UseStoresParams) {
   return useQuery<Store[]>({
     queryKey: ['stores', server, itemId, page],
     queryFn: async () => {
-      const response = await fetch(
-        `/api/${server}/stores?itemId=${itemId}&$top=${pageSize}&$skip=${(page - 1) * pageSize}`
-      );
+      const url = new URL(`/api/${server}/stores`, window.location.origin);
+      url.searchParams.append('storeType', 'VendingStore');
+      url.searchParams.append('$skip', String((page - 1) * pageSize));
+      url.searchParams.append('$top', String(pageSize));
+      url.searchParams.append('$filter', `itemId eq ${itemId}`);
+      console.log('Fetching from URL:', url.toString());
+      const response = await fetch(url.toString());
+
       if (!response.ok) {
         throw new Error('Erro ao buscar lojinhas');
       }
-      return response.json();
+      var resp = await response.json();
+      console.log(resp);
+
+      return resp;
     },
     enabled: !!itemId,
   });

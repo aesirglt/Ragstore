@@ -4,8 +4,7 @@ using FunctionalConcepts.Results;
 using MediatR;
 using Totten.Solution.RagnaComercio.ApplicationService.Features.StoreAgregattion.ResponseModels;
 
-public class StoreItemValueSumaryQuery : IRequest<Result<StoreItemValueSumaryResponseModel>>
+public class StoreItemResumeQuery : IRequest<Result<IQueryable<StoreItemResumeViewModel>>>
 {
     public required string StoreType { get; set; }
-    public required int ItemId { get; init; }
 }

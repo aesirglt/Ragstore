@@ -26,7 +26,7 @@ export default function MercadoPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [storeType, setStoreType] = useState('Vending');
+  const [storeType, setStoreType] = useState('VendingStore');
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null);
   const [isStoreModalOpen, setIsStoreModalOpen] = useState(false);
   const [selectedSort, setSelectedSort] = useState<string>('price_asc');

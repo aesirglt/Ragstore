@@ -1,8 +1,11 @@
 namespace Totten.Solution.BotAgent.WinApp
 {
+    using System;
     using System.Diagnostics;
+    using System.Runtime.InteropServices;
     using Totten.Solution.BotAgent.Domain.Base;
     using Totten.Solution.BotAgent.Domain.Features.Characters;
+    using Totten.Solution.BotAgent.Domain.Features.Sessions;
     using Totten.Solution.BotAgent.Infra.Memory;
     using Totten.Solution.BotAgent.ServiceApplication.Features;
     using Totten.Solution.BotAgent.WinApp.UserControls;
@@ -54,6 +57,17 @@ namespace Totten.Solution.BotAgent.WinApp
             btnStart.Enabled = false;
             btnStop.Enabled = true;
             updateTabsCancellation = new CancellationTokenSource();
+            unsafe
+            {
+                IntPtr baseAddress = _games[0].MainModule.BaseAddress;
+                IntPtr funcAddress = baseAddress + 0x70B2FD;
+
+                var func = (FuncDelegate)Marshal.GetDelegateForFunctionPointer(funcAddress, typeof(FuncDelegate));
+
+                void* eaxStruct = (void*)0x0C191CF0;
+
+                func(eaxStruct);
+            }
             Task.Run(async () =>
             {
                 while (!updateTabsCancellation.IsCancellationRequested)

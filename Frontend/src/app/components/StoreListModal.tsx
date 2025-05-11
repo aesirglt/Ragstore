@@ -14,7 +14,6 @@ import {
   Th,
   Td,
   Text,
-  Spinner,
   Box,
   Button,
   HStack,
@@ -53,8 +52,8 @@ export function StoreListModal({ isOpen, onClose, itemId, server }: StoreListMod
     setCurrentPage((prev) => Math.max(prev - 1, 1));
   };
 
-  const handleCopyNavi = (map: string, location: string) => {
-    const naviCommand = `/navi ${map} ${location}`;
+  const handleCopyNavi = (location: string) => {
+    const naviCommand = `/navi ${location}`;
     navigator.clipboard.writeText(naviCommand);
     toast({
       title: "Comando copiado!",
@@ -85,10 +84,9 @@ export function StoreListModal({ isOpen, onClose, itemId, server }: StoreListMod
                     <Tr>
                       <Th whiteSpace="nowrap">Nome da Loja</Th>
                       <Th whiteSpace="nowrap">Personagem</Th>
-                      <Th whiteSpace="nowrap">Mapa</Th>
-                      <Th whiteSpace="nowrap">Localização</Th>
                       <Th whiteSpace="nowrap">Preço do item</Th>
-                      <Th whiteSpace="nowrap">Navi</Th>
+                      <Th whiteSpace="nowrap">Quantidade</Th>
+                      <Th whiteSpace="nowrap">Localização</Th>
                     </Tr>
                   </Thead>
                   <Tbody>
@@ -96,18 +94,17 @@ export function StoreListModal({ isOpen, onClose, itemId, server }: StoreListMod
                       <Tr key={store.id}>
                         <Td maxW="200px" overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap">{store.name}</Td>
                         <Td maxW="200px" overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap">{store.characterName}</Td>
-                        <Td maxW="150px" overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap">{store.map}</Td>
-                        <Td maxW="150px" overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap">{store.location}</Td>
                         <Td maxW="150px" overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap">{store.itemPrice}z</Td>
+                        <Td maxW="200px" overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap">{store.quantity}</Td>
                         <Td maxW="250px" overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap">
                           <HStack spacing={1}>
-                            <Text>/navi {store.map} {store.location}</Text>
+                            <Text>/navi {store.location}</Text>
                             <IconButton
                               aria-label="Copiar comando"
                               icon={<CopyIcon />}
                               size="xs"
                               variant="ghost"
-                              onClick={() => handleCopyNavi(store.map, store.location)}
+                              onClick={() => handleCopyNavi(store.location)}
                             />
                           </HStack>
                         </Td>

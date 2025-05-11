@@ -97,33 +97,33 @@ export function MarketFilters({
             </Text>
             <ButtonGroup spacing={2} size="md">
               <Button
-                onClick={() => onStoreTypeChange('Vending')}
-                variant={storeType === 'Vending' ? 'solid' : 'outline'}
+                onClick={() => onStoreTypeChange('VendingStore')}
+                variant={storeType === 'VendingStore' ? 'solid' : 'outline'}
                 colorScheme="blue"
-                bg={storeType === 'Vending' ? activeBg : undefined}
-                color={storeType === 'Vending' ? activeColor : undefined}
+                bg={storeType === 'VendingStore' ? activeBg : undefined}
+                color={storeType === 'VendingStore' ? activeColor : undefined}
                 _hover={{
-                  bg: storeType === 'Vending' ? 'blue.100' : 'blue.50',
+                  bg: storeType === 'VendingStore' ? 'blue.100' : 'blue.50',
                   color: 'blue.600',
                 }}
                 _active={{
-                  bg: storeType === 'Vending' ? 'blue.200' : 'blue.100',
+                  bg: storeType === 'VendingStore' ? 'blue.200' : 'blue.100',
                 }}
               >
                 Vendas
               </Button>
               <Button
-                onClick={() => onStoreTypeChange('Buying')}
-                variant={storeType === 'Buying' ? 'solid' : 'outline'}
+                onClick={() => onStoreTypeChange('BuyingStore')}
+                variant={storeType === 'BuyingStore' ? 'solid' : 'outline'}
                 colorScheme="blue"
-                bg={storeType === 'Buying' ? activeBg : undefined}
-                color={storeType === 'Buying' ? activeColor : undefined}
+                bg={storeType === 'BuyingStore' ? activeBg : undefined}
+                color={storeType === 'BuyingStore' ? activeColor : undefined}
                 _hover={{
-                  bg: storeType === 'Buying' ? 'blue.100' : 'blue.50',
+                  bg: storeType === 'BuyingStore' ? 'blue.100' : 'blue.50',
                   color: 'blue.600',
                 }}
                 _active={{
-                  bg: storeType === 'Buying' ? 'blue.200' : 'blue.100',
+                  bg: storeType === 'BuyingStore' ? 'blue.200' : 'blue.100',
                 }}
               >
                 Compras

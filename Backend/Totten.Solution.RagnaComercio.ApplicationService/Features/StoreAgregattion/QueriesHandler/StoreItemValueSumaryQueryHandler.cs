@@ -27,7 +27,7 @@ public class StoreItemValueSumaryQueryHandler(
         StoreItemValueSumaryQuery request,
         CancellationToken cancellationToken)
     {
-        return request.StoreType == EStoreItemStoreType.Vending
+        return request.StoreType == nameof(VendingStore)
                ? await ExecuteCmd(request.ItemId, _vendingRepositore)
                : await ExecuteCmd(request.ItemId, _buyingRepositore);
     }

@@ -22,6 +22,7 @@ export const useMarketItems = (params: UseMarketItemsParams) => {
                 
                 url.searchParams.append('$skip', String((page - 1) * pageSize));
                 url.searchParams.append('$top', String(pageSize));
+                url.searchParams.append('storeType', storeType ?? 'VendingStore');
                 
                 const filters = [];
 
@@ -35,10 +36,6 @@ export const useMarketItems = (params: UseMarketItemsParams) => {
                         const categoryFilter = categories.map(cat => `category eq '${cat}'`).join(' or ');
                         filters.push(categoryFilter);
                     }
-                }
-
-                if (storeType) {
-                    filters.push(`storeType eq '${storeType}'`);
                 }
 
                 if (filters.length > 0) {

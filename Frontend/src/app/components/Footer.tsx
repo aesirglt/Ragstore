@@ -29,7 +29,7 @@ export function Footer() {
           align="center"
         >
           <Text fontSize="sm" color={textColor}>
-            © 2022 RagStore. Ragnarok Database Licensed to RagStore by Unknown
+            © 2022 RagnaComercio. Ragnarok Database Licensed to RagnaComercio by v3zpr
           </Text>
           <Stack direction="row" spacing={6}>
             <Link

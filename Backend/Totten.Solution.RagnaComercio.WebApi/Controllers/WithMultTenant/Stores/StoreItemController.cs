@@ -4,9 +4,9 @@ using Autofac;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 using Totten.Solution.RagnaComercio.ApplicationService.Features.StoreAgregattion.Queries;
-using Totten.Solution.RagnaComercio.ApplicationService.Features.StoreAgregattion.Queries.Vendings;
+using Totten.Solution.RagnaComercio.ApplicationService.Features.StoreAgregattion.QueriesHandler;
 using Totten.Solution.RagnaComercio.ApplicationService.Features.StoreAgregattion.ResponseModels;
-using Totten.Solution.RagnaComercio.ApplicationService.ViewModels.Stores;
+using Totten.Solution.RagnaComercio.Domain.Features.StoresAggregation.Vendings;
 using Totten.Solution.RagnaComercio.WebApi.Bases;
 
 /// <summary>
@@ -26,18 +26,19 @@ public class StoreItemController(ILifetimeScope lifetimeScope) : BaseApiControll
     /// </summary>
     /// <param name="server"></param>
     /// <param name="storeType"></param>
+    /// <param name="itemId"></param>
     /// <param name="queryOptions"></param>
     /// <returns></returns>
     [HttpGet($"{{server}}/{API_ENDPOINT}")]
-    [ProducesResponseType<StoreItemResponseModel>(statusCode: 200)]
+    [ProducesResponseType<StoreItemResumeViewModel>(statusCode: 200)]
     public async Task<IActionResult> GetAllItems(
         [FromRoute] string server,
         [FromQuery] string? storeType,
-        ODataQueryOptions<StoreItemResponseModel> queryOptions)
+        ODataQueryOptions<StoreItemResumeViewModel> queryOptions)
     {
-        return await HandleQueryable(new StoreItemsCollectionQuery
+        return await HandleQueryable(new StoreItemResumeQuery
         {
-            StoreType = storeType == "buying" ? StoreItemValueSumaryQuery.EStoreItemStoreType.Buying : StoreItemValueSumaryQuery.EStoreItemStoreType.Vending
+            StoreType = storeType ?? nameof(VendingStore),
         }, server, queryOptions);
     }
 }
