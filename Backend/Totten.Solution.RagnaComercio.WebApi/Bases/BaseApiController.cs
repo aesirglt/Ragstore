@@ -18,10 +18,12 @@ using System;
 using System.Linq;
 using System.Net;
 using System.Security.Claims;
+using System.Text.RegularExpressions;
 using Totten.Solution.RagnaComercio.ApplicationService.Notifications.ODataFilters;
 using Totten.Solution.RagnaComercio.Domain.Features.Servers;
 using Totten.Solution.RagnaComercio.Infra.Cross.Errors;
 using Totten.Solution.RagnaComercio.WebApi.Dtos;
+using Totten.Solution.RagnaComercio.WebApi.Filters;
 using Totten.Solution.RagnaComercio.WebApi.Modules;
 
 /// <summary>
@@ -368,7 +370,8 @@ public abstract class BaseApiController : ControllerBase
             ODataQueryOptions<TView> queryOptions)
     {
         var projectedQuery = query.ProjectTo<TView>(mapper.ConfigurationProvider);
-        var filteredQuery = projectedQuery;
+        var filteredQuery = projectedQuery.AsQueryable();
+
         var odataSettings = new ODataQuerySettings
         {
             HandleNullPropagation = HandleNullPropagationOption.False,
@@ -377,22 +380,30 @@ public abstract class BaseApiController : ControllerBase
         if (queryOptions.Filter != null)
         {
             filteredQuery = (IQueryable<TView>)queryOptions.Filter.ApplyTo(filteredQuery, odataSettings);
+
+            var match = Regex.Match(HttpContext.Request.QueryString.Value ?? "", @"(?:\?|&)storeType=([^&]+)");
+            if (match.Success)
+            {
+                foreach (var id in ODataHelper.ExtractItemIdsFromFilter(queryOptions.Filter.RawValue))
+                {
+                    _mediator.Publish(new ODataFilterNotification
+                    {
+                        Type = match.Groups[1].Value,
+                        ItemId = int.Parse(id),
+                    }, CancellationToken.None);
+                }
+            }
         }
 
         if (queryOptions.OrderBy != null)
-        {
             filteredQuery = queryOptions.OrderBy.ApplyTo(filteredQuery, odataSettings);
-        }
 
-        int totalCount = filteredQuery.Count();
-
-        // Agora aplica tudo (inclusive paginação)
         var finalQuery = (IQueryable<TView>)queryOptions.ApplyTo(projectedQuery, odataSettings);
 
         return new PaginationDto<TView>
         {
             Data = [.. finalQuery],
-            TotalCount = totalCount
+            TotalCount = filteredQuery.Count()
         };
     }
 
