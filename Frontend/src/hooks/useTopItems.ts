@@ -1,12 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
 import { TopItemViewModel } from '@/types/api/viewmodels/TopItemViewModel';
+import { PageResult } from '@/types/api/responses/PageResult';
 
 export function useTopItems(server: string, itemIds: number[]) {
-  return useQuery<TopItemViewModel[]>({
+  return useQuery<PageResult<TopItemViewModel>>({
     queryKey: ['topItems', server, itemIds],
     queryFn: async () => {
       if (itemIds.length === 0) {
-        return [];
+        return { data: [], totalCount: 0 };
       }
 
       // Busca cada item individualmente
@@ -33,7 +34,10 @@ export function useTopItems(server: string, itemIds: number[]) {
         })
       );
 
-      return items;
+      return {
+        data: items,
+        totalCount: items.length
+      };
     },
     enabled: itemIds.length > 0,
   });

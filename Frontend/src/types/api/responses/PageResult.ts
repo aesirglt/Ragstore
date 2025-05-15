@@ -1,5 +1,4 @@
 export interface PageResult<T> {
-    items: T[];
-    nextLink?: string;
-    count?: number;
+    data: T[];
+    totalCount?: number;
 } 

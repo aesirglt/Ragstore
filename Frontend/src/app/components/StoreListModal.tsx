@@ -45,7 +45,9 @@ export function StoreListModal({ isOpen, onClose, itemId, server }: StoreListMod
   });
 
   const handleNextPage = () => {
-    setCurrentPage((prev) => prev + 1);
+    if (data?.totalCount && currentPage * pageSize < data.totalCount) {
+      setCurrentPage((prev) => prev + 1);
+    }
   };
 
   const handlePrevPage = () => {
@@ -76,7 +78,7 @@ export function StoreListModal({ isOpen, onClose, itemId, server }: StoreListMod
             </Box>
           ) : error ? (
             <Text color="red.500">Erro ao carregar lojinhas</Text>
-          ) : data && data.length > 0 ? (
+          ) : data && data.data.length > 0 ? (
             <>
               <Box overflowX="auto" flex="1">
                 <Table variant="simple" size="sm">
@@ -90,7 +92,7 @@ export function StoreListModal({ isOpen, onClose, itemId, server }: StoreListMod
                     </Tr>
                   </Thead>
                   <Tbody>
-                    {data.map((store) => (
+                    {data.data.map((store) => (
                       <Tr key={store.id}>
                         <Td maxW="200px" overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap">{store.name}</Td>
                         <Td maxW="200px" overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap">{store.characterName}</Td>
@@ -124,7 +126,7 @@ export function StoreListModal({ isOpen, onClose, itemId, server }: StoreListMod
                 <Button
                   size="sm"
                   onClick={handleNextPage}
-                  isDisabled={data.length < pageSize}
+                  isDisabled={!data.totalCount || currentPage * pageSize >= data.totalCount}
                 >
                   Próxima
                 </Button>

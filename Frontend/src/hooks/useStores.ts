@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { PageResult } from '@/types/api/responses/PageResult';
 
 interface Store {
   id: number;
@@ -20,7 +21,7 @@ interface UseStoresParams {
 }
 
 export function useStores({ server, itemId, page, pageSize }: UseStoresParams) {
-  return useQuery<Store[]>({
+  return useQuery<PageResult<Store>>({
     queryKey: ['stores', server, itemId, page],
     queryFn: async () => {
       const url = new URL(`/api/${server}/stores`, window.location.origin);

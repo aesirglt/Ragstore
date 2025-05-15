@@ -5,7 +5,6 @@ using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 using Totten.Solution.RagnaComercio.ApplicationService.Features.StoreAgregattion.Queries;
-using Totten.Solution.RagnaComercio.ApplicationService.Notifications.ODataFilters;
 using Totten.Solution.RagnaComercio.ApplicationService.ViewModels.Stores;
 using Totten.Solution.RagnaComercio.Domain.Features.StoresAggregation.Bases;
 using Totten.Solution.RagnaComercio.Domain.Features.StoresAggregation.Buyings;
@@ -34,7 +33,7 @@ public class StoreItemCollectionQueryHandler(
         CancellationToken cancellationToken)
         where TStoreItem : StoreItem<TStoreItem>
     {
-        string storeType = request.StoreType.ToString() ?? nameof(VendingStore);
+        string storeType = request.StoreType?.ToString() ?? nameof(VendingStore);
         IQueryable<StoreResumeViewModel> query =
             repository.GetAll()
             .Select(s => new StoreResumeViewModel

@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { MarketItemViewModel } from '@/types/api/viewmodels/MarketItemViewModel';
+import { PageResult } from '@/types/api/responses/PageResult';
 
 export interface UseMarketItemsParams {
     server: string;
@@ -14,7 +15,7 @@ export const useMarketItems = (params: UseMarketItemsParams) => {
     const { server, page, pageSize, itemName, category, storeType } = params;
     const queryKey = ['marketItems', server, page, pageSize, itemName, category, storeType];
 
-    const query = useQuery<MarketItemViewModel[], Error>({
+    const query = useQuery<PageResult<MarketItemViewModel>, Error>({
         queryKey,
         queryFn: async () => {
             try {
@@ -71,7 +72,7 @@ export const useMarketItems = (params: UseMarketItemsParams) => {
     });
 
     return {
-        data: query.data || [],
+        data: query.data || { data: [], totalCount: 0 },
         isLoading: query.isLoading,
         error: query.error
     };

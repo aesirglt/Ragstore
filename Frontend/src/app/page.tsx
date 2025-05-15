@@ -27,10 +27,11 @@ import { useServer } from '@/contexts/ServerContext';
 import { useRouter } from 'next/navigation';
 import { WelcomeComponent } from './components/WelcomeComponent';
 import { LoadingList } from '@/components/LoadingList';
+import { PageResult } from '@/types/api/responses/PageResult';
 
 // Dados zerados para quando houver erro
-const emptyTopItems: TopItemViewModel[] = [
-  {
+const emptyTopItems: PageResult<TopItemViewModel> = {
+  data: [{
     itemId: "1",
     itemName: "---",
     average: 0,
@@ -39,19 +40,21 @@ const emptyTopItems: TopItemViewModel[] = [
     storeNumbers: 0,
     percentageChange: 0,
     imageUrl: "/items/default.png"
-  }
-];
+  }],
+  totalCount: 1
+};
 
 // Dados zerados para quando houver erro nos últimos pesquisados
-const emptyLastSearchedItems: LastSearchedItemViewModel[] = [
-  {
+const emptyLastSearchedItems: PageResult<LastSearchedItemViewModel> = {
+  data: [{
     itemId: 0,
     itemName: "---",
     quantity: 0,
     average: 0,
     image: "/items/default.png"
-  }
-];
+  }],
+  totalCount: 1
+};
 
 export default function HomePage() {
   // TODO: Pegar o servidor selecionado do contexto ou estado global
@@ -74,8 +77,8 @@ export default function HomePage() {
 
   // Atualiza os IDs quando lastSearchedItems mudar
   useEffect(() => {
-    if (lastSearchedItems && lastSearchedItems.length > 0) {
-      setLastSearchedItemIds(lastSearchedItems.map(item => item.itemId));
+    if (lastSearchedItems?.data && lastSearchedItems.data.length > 0) {
+      setLastSearchedItemIds(lastSearchedItems.data.map(item => item.itemId));
     }
   }, [lastSearchedItems]);
 
@@ -108,9 +111,6 @@ export default function HomePage() {
               ) : (
                 <LastSearchedItems 
                   items={lastSearchedItems || emptyLastSearchedItems}
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  onPageChange={setCurrentPage}
                 />
               )}
             </CardBody>

@@ -18,6 +18,8 @@ import { StoreListModal } from '../components/StoreListModal';
 import { MarketItem } from '../components/MarketItem';
 import { useServer } from '../../contexts/ServerContext';
 import { LoadingList } from '@/components/LoadingList';
+import { MarketItemViewModel } from '@/types/api/viewmodels/MarketItemViewModel';
+import { PageResult } from '@/types/api/responses/PageResult';
 
 export default function MercadoPage() {
   const { currentServer } = useServer();
@@ -91,11 +93,11 @@ export default function MercadoPage() {
     storeType: storeType
   };
 
-  const { data: items = [], isLoading, error } = useMarketItems(marketParams);
+  const { data: items = { data: [], totalCount: 0 } as PageResult<MarketItemViewModel>, isLoading, error } = useMarketItems(marketParams);
 
   useEffect(() => {
-    if (items && items.length > 0) {
-      setTotalPages(Math.ceil(items.length / ITEMS_PER_PAGE));
+    if (items?.totalCount) {
+      setTotalPages(Math.ceil(items.totalCount / ITEMS_PER_PAGE));
     }
   }, [items, ITEMS_PER_PAGE]);
 
@@ -162,7 +164,7 @@ export default function MercadoPage() {
     );
   }
 
-  if (!items || items.length === 0) {
+  if (!items?.data || items.data.length === 0) {
     return (
       <Box height="100vh" display="flex" flexDirection="column" bg={containerBg}>
         <Container maxW="container.xl" py={4}>
@@ -212,7 +214,7 @@ export default function MercadoPage() {
               columns={gridConfig.columns}
               spacing={3}
             >
-              {items.slice(0, ITEMS_PER_PAGE).map((item) => (
+              {items.data.map((item: MarketItemViewModel) => (
                 <MarketItem
                   key={item.itemId}
                   itemId={item.itemId}

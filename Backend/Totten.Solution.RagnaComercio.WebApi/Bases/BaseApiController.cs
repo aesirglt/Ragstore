@@ -367,13 +367,32 @@ public abstract class BaseApiController : ControllerBase
             IMapper mapper,
             ODataQueryOptions<TView> queryOptions)
     {
-        var projectTo = query.ProjectTo<TView>(mapper.ConfigurationProvider);
-        var queryResults = queryOptions.ApplyTo(projectTo);
+        var projectedQuery = query.ProjectTo<TView>(mapper.ConfigurationProvider);
+        var filteredQuery = projectedQuery;
+        var odataSettings = new ODataQuerySettings
+        {
+            HandleNullPropagation = HandleNullPropagationOption.False,
+        };
+
+        if (queryOptions.Filter != null)
+        {
+            filteredQuery = (IQueryable<TView>)queryOptions.Filter.ApplyTo(filteredQuery, odataSettings);
+        }
+
+        if (queryOptions.OrderBy != null)
+        {
+            filteredQuery = queryOptions.OrderBy.ApplyTo(filteredQuery, odataSettings);
+        }
+
+        int totalCount = filteredQuery.Count();
+
+        // Agora aplica tudo (inclusive paginação)
+        var finalQuery = (IQueryable<TView>)queryOptions.ApplyTo(projectedQuery, odataSettings);
 
         return new PaginationDto<TView>
         {
-            Data = [.. queryResults.Provider.CreateQuery<TView>(queryResults.Expression)],
-            TotalCount = query.Select(_ => 1).Count()
+            Data = [.. finalQuery],
+            TotalCount = totalCount
         };
     }
 

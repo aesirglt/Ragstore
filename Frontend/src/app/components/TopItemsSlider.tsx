@@ -14,9 +14,10 @@ import {
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { useState, useEffect } from 'react';
 import { TopItemViewModel } from '@/types/api/viewmodels/TopItemViewModel';
+import { PageResult } from '@/types/api/responses/PageResult';
 
 interface TopItemsSliderProps {
-  items: TopItemViewModel[];
+  items: PageResult<TopItemViewModel>;
 }
 
 export function TopItemsSlider({ items }: TopItemsSliderProps) {
@@ -28,19 +29,19 @@ export function TopItemsSlider({ items }: TopItemsSliderProps) {
   }, [items]);
 
   // Se não houver itens, não renderiza nada
-  if (!items || items.length === 0) {
+  if (!items || items.data.length === 0) {
     return null;
   }
 
   const nextSlide = () => {
-    setCurrentIndex((prev) => (prev + 1) % items.length);
+    setCurrentIndex((prev) => (prev + 1) % items.data.length);
   };
 
   const prevSlide = () => {
-    setCurrentIndex((prev) => (prev - 1 + items.length) % items.length);
+    setCurrentIndex((prev) => (prev - 1 + items.data.length) % items.data.length);
   };
 
-  const currentItem = items[currentIndex];
+  const currentItem = items.data[currentIndex];
 
   // Se não houver item atual, não renderiza nada
   if (!currentItem) {
@@ -58,7 +59,7 @@ export function TopItemsSlider({ items }: TopItemsSliderProps) {
             variant="ghost"
             size="sm"
             p={0}
-            isDisabled={items.length <= 1}
+            isDisabled={items.data.length <= 1}
           />
 
           <VStack spacing={1} flex={1} align="stretch">
@@ -123,7 +124,7 @@ export function TopItemsSlider({ items }: TopItemsSliderProps) {
             variant="ghost"
             size="sm"
             p={0}
-            isDisabled={items.length <= 1}
+            isDisabled={items.data.length <= 1}
           />
         </Flex>
       </CardBody>

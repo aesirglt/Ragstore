@@ -1,9 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import { UserMerchantViewModel } from '@/types/api/viewmodels/UserMerchantViewModel';
 import { GetUserMerchantsRequest } from '@/types/api/requests/GetUserMerchantsRequest';
+import { PageResult } from '@/types/api/responses/PageResult';
 
 export function useUserMerchants(userId: string) {
-  return useQuery<UserMerchantViewModel[]>({
+  return useQuery<PageResult<UserMerchantViewModel>>({
     queryKey: ['userMerchants', userId],
     queryFn: async () => {
       const request: GetUserMerchantsRequest = { userId };

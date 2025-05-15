@@ -16,12 +16,13 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { LastSearchedItemViewModel } from '@/types/api/viewmodels/LastSearchedItemViewModel';
+import { PageResult } from '@/types/api/responses/PageResult';
 
 interface LastSearchedItemsProps {
-  items: LastSearchedItemViewModel[];
+  items: PageResult<LastSearchedItemViewModel>;
 }
 
-export function LastSearchedItems({ items = [] }: LastSearchedItemsProps) {
+export function LastSearchedItems({ items }: LastSearchedItemsProps) {
   const textColor = useColorModeValue('gray.700', 'gray.300');
   const linkColor = useColorModeValue('orange.400', 'orange.300');
 
@@ -41,7 +42,7 @@ export function LastSearchedItems({ items = [] }: LastSearchedItemsProps) {
           </Tr>
         </Thead>
         <Tbody>
-          {items.map((item) => (
+          {items.data.map((item: LastSearchedItemViewModel) => (
             <Tr key={item.itemId}>
               <Td>
                 <Flex align="center" gap={2}>
