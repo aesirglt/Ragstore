@@ -9,6 +9,7 @@ using Totten.Solution.RagnaComercio.ApplicationService.Features.Agents.Commands;
 using Totten.Solution.RagnaComercio.ApplicationService.Features.Agents.Queries;
 using Totten.Solution.RagnaComercio.ApplicationService.ViewModels.Agents;
 using Totten.Solution.RagnaComercio.WebApi.Bases;
+using Totten.Solution.RagnaComercio.WebApi.Dtos;
 using Totten.Solution.RagnaComercio.WebApi.Dtos.Agents;
 
 /// <summary>
@@ -48,7 +49,7 @@ public class AgentsController(ILifetimeScope lifetimeScope) : BaseApiController(
     /// <param name="queryOptions"></param>
     /// <returns></returns>
     [HttpGet("{server}/agents")]
-    [ProducesResponseType<IQueryable<AgentResumeViewModel>>(statusCode: 200)]
+    [ProducesResponseType<PaginationDto<AgentResumeViewModel>>(statusCode: 200)]
     [Authorize]
     public async Task<IActionResult> GetAll(
         [FromRoute] string server,

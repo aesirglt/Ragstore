@@ -7,6 +7,7 @@ using Totten.Solution.RagnaComercio.ApplicationService.Features.ItemsAggregation
 using Totten.Solution.RagnaComercio.ApplicationService.Features.ItemsAggregation.ResponseModels;
 using Totten.Solution.RagnaComercio.ApplicationService.ViewModels.Items;
 using Totten.Solution.RagnaComercio.WebApi.Bases;
+using Totten.Solution.RagnaComercio.WebApi.Dtos;
 
 /// <summary>
 /// Enpoint responsavel por itens dentro do jogo
@@ -26,7 +27,7 @@ public class ItemsController(ILifetimeScope lifetimeScope) : BaseApiController(l
     /// <param name="queryOptions"></param>
     /// <returns></returns>
     [HttpGet("{server}/items-name")]
-    [ProducesResponseType<IQueryable<ItemResumeViewModel>>(statusCode: 200)]
+    [ProducesResponseType<PaginationDto<ItemResumeViewModel>>(statusCode: 200)]
     public async Task<IActionResult> GetByName(
         [FromRoute] string server,
         [FromQuery] string name,

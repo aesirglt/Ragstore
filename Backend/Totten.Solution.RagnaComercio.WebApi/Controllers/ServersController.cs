@@ -11,6 +11,7 @@ using Totten.Solution.RagnaComercio.ApplicationService.ViewModels.Servers;
 using Totten.Solution.RagnaComercio.Domain.Features.CallbackAggregation;
 using Totten.Solution.RagnaComercio.Domain.Features.Servers;
 using Totten.Solution.RagnaComercio.WebApi.Bases;
+using Totten.Solution.RagnaComercio.WebApi.Dtos;
 
 /// <summary>
 /// Endpoint responsavel por servidores.
@@ -40,7 +41,7 @@ public class ServersController(ILifetimeScope lifetimeScope) : BaseApiController
     /// <param name="queryOptions">Filtro dinamico</param>
     /// <returns></returns>
     [HttpGet("servers")]
-    [ProducesResponseType<IQueryable<ServerResume>>(statusCode: 200)]
+    [ProducesResponseType<PaginationDto<ServerResume>>(statusCode: 200)]
     public async Task<IActionResult> GetAll(ODataQueryOptions<ServerResume> queryOptions)
         => await HandleQueryable(new ServerCollectionQuery(), queryOptions);
     
@@ -50,7 +51,7 @@ public class ServersController(ILifetimeScope lifetimeScope) : BaseApiController
     /// <param name="serverName">Servidor</param>
     /// <returns></returns>
     [HttpGet("servers/{serverName}")]
-    [ProducesResponseType<IQueryable<ServerVerifyDTO>>(statusCode: 200)]
+    [ProducesResponseType<PaginationDto<ServerVerifyDTO>>(statusCode: 200)]
     public async Task<IActionResult> GetAll([FromRoute] string serverName)
         => await HandleQuery<Server, ServerVerifyDTO>(new ServerByNameQuery { Name = serverName });
 }

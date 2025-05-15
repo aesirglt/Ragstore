@@ -9,6 +9,7 @@ using Totten.Solution.RagnaComercio.ApplicationService.Features.Callbacks.Comman
 using Totten.Solution.RagnaComercio.ApplicationService.Features.ItemsAggregation.Queries;
 using Totten.Solution.RagnaComercio.ApplicationService.ViewModels.Callbacks;
 using Totten.Solution.RagnaComercio.WebApi.Bases;
+using Totten.Solution.RagnaComercio.WebApi.Dtos;
 using Totten.Solution.RagnaComercio.WebApi.Dtos.Callbacks;
 
 /// <summary>
@@ -30,7 +31,7 @@ public class CallbackController(ILifetimeScope lifetimeScope) : BaseApiControlle
     /// <param name="queryOptions">Filtro Dinamico</param>
     /// <returns></returns>
     [HttpGet("{server}/callbacks")]
-    [ProducesResponseType<IQueryable<CallbackResumeViewModel>>(statusCode: 200)]
+    [ProducesResponseType<PaginationDto<CallbackResumeViewModel>>(statusCode: 200)]
     public async Task<IActionResult> Get([FromRoute] string server, ODataQueryOptions<CallbackResumeViewModel> queryOptions)
         => await HandleQueryable(new CallbackCollectionQuery(), server, queryOptions);
 
@@ -41,7 +42,7 @@ public class CallbackController(ILifetimeScope lifetimeScope) : BaseApiControlle
     /// <param name="queryOptions">Filtro Dinamico</param>
     /// <returns></returns>
     [HttpGet("{server}/callbacks-user")]
-    [ProducesResponseType<IQueryable<CallbackResumeViewModel>>(statusCode: 200)]
+    [ProducesResponseType<PaginationDto<CallbackResumeViewModel>>(statusCode: 200)]
     public async Task<IActionResult> GetCallbackByUser([FromRoute] string server, ODataQueryOptions<CallbackResumeViewModel> queryOptions)
     {
         return await HandleQueryable(new CallbackCollectionByUserIdQuery

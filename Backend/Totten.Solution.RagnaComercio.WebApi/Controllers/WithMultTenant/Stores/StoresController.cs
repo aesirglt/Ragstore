@@ -7,6 +7,7 @@ using Totten.Solution.RagnaComercio.ApplicationService.Features.StoreAgregattion
 using Totten.Solution.RagnaComercio.ApplicationService.ViewModels.Stores;
 using Totten.Solution.RagnaComercio.Domain.Features.StoresAggregation.Vendings;
 using Totten.Solution.RagnaComercio.WebApi.Bases;
+using Totten.Solution.RagnaComercio.WebApi.Dtos;
 
 /// <summary>
 /// 
@@ -28,7 +29,7 @@ public class StoresController(ILifetimeScope lifetimeScope) : BaseApiController(
     /// <param name="queryOptions"></param>
     /// <returns></returns>
     [HttpGet($"{{server}}/{API_ENDPOINT}")]
-    [ProducesResponseType<IQueryable<StoreResumeViewModel>>(statusCode: 200)]
+    [ProducesResponseType<PaginationDto<StoreResumeViewModel>>(statusCode: 200)]
     public async Task<IActionResult> GetAll(
         [FromRoute] string server,
         [FromQuery] string? storeType,
