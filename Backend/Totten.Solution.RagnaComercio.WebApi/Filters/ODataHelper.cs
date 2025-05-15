@@ -1,6 +1,6 @@
 ﻿namespace Totten.Solution.RagnaComercio.WebApi.Filters;
 
-using System.Text.RegularExpressions;
+using System;
 
 /// <summary>
 /// 
@@ -23,58 +23,43 @@ public static class ODataHelper
 
         while (!span.IsEmpty)
         {
-            int eqIndex = span.IndexOf("itemId eq '", StringComparison.OrdinalIgnoreCase);
+            int eqIndex = span.IndexOf("itemId eq ", StringComparison.OrdinalIgnoreCase);
             if (eqIndex >= 0)
             {
-                span = span[($"{eqIndex}itemId eq '".Length )..];
-                int endQuote = span.IndexOf('\'');
+                span = span[( eqIndex + "itemId eq ".Length )..];
 
-                if (endQuote >= 0)
-                {
-                    var value = span[..endQuote].ToString();
+                int end = span.IndexOfAny(" &|)");
+                ReadOnlySpan<char> valueSpan = end >= 0 ? span[..end] : span;
+
+                string value = valueSpan.Trim().Trim('\'').ToString();
+                if (!string.IsNullOrEmpty(value))
                     results.Add(value);
-                    span = span[( endQuote + 1 )..];
-                    continue;
-                }
+
+                span = end >= 0 ? span[end..] : ReadOnlySpan<char>.Empty;
+                continue;
             }
 
             int inIndex = span.IndexOf("itemId in (", StringComparison.OrdinalIgnoreCase);
             if (inIndex >= 0)
             {
-                span = span[( $"{inIndex}itemId in (".Length )..];
+                span = span[$"{inIndex}itemId in (".Length..];
                 int closeParen = span.IndexOf(')');
 
                 if (closeParen >= 0)
                 {
                     var listSpan = span[..closeParen];
-                    while (!listSpan.IsEmpty)
+                    foreach (var rawValue in listSpan.ToString().Split(','))
                     {
-                        int start = listSpan.IndexOf('\'');
-                        if (start < 0) break;
-
-                        listSpan = listSpan.Slice(start + 1);
-                        int end = listSpan.IndexOf('\'');
-                        if (end < 0) break;
-
-                        var value = listSpan.Slice(0, end).ToString();
-                        results.Add(value);
-                        listSpan = listSpan.Slice(end + 1);
-
-                        int comma = listSpan.IndexOf(',');
-                        if (comma >= 0)
-                        {
-                            listSpan = listSpan.Slice(comma + 1);
-                        }
-                        else
-                        {
-                            break;
-                        }
+                        var value = rawValue.Trim().Trim('\'');
+                        if (!string.IsNullOrEmpty(value))
+                            results.Add(value);
                     }
 
                     span = span[( closeParen + 1 )..];
                     continue;
                 }
             }
+
             break;
         }
 

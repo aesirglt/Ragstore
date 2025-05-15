@@ -8,6 +8,8 @@ export async function GET(request: NextRequest) {
   
   console.log('Proxy request:', {
     path,
+    target,
+    fullUrl: `${target}${path}`,
     searchParams: Object.fromEntries(searchParams.entries())
   });
 
@@ -18,6 +20,8 @@ export async function GET(request: NextRequest) {
 
     // Repassar cookies do request original
     const cookie = request.headers.get('cookie');
+
+    console.log('Making request to:', url.toString());
 
     const response = await fetch(url.toString(), {
       method: 'GET',
@@ -40,7 +44,11 @@ export async function GET(request: NextRequest) {
     
     return NextResponse.json(data);
   } catch (error: any) {
-    console.error('Proxy error:', error);
+    console.error('Proxy error:', {
+      message: error.message,
+      cause: error.cause,
+      stack: error.stack
+    });
     return NextResponse.json(
       { 
         error: 'Erro ao fazer proxy da requisição', 
