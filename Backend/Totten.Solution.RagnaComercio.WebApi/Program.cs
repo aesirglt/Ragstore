@@ -1,3 +1,5 @@
+using Hangfire;
+using Hangfire.PostgreSql;
 using Microsoft.AspNetCore.OData;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -6,11 +8,26 @@ using Totten.Solution.RagnaComercio.WebApi.Endpoints;
 using Totten.Solution.RagnaComercio.WebApi.ServicesExtension;
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddHangfire(config =>
+{
+    config.UsePostgreSqlStorage(
+        bootstrapper =>
+        {
+            bootstrapper.UseNpgsqlConnection(builder.Configuration.GetConnectionString("HangfireConnection"));
+        },
+        new PostgreSqlStorageOptions
+        {
+            SchemaName = "hangfire",
+            PrepareSchemaIfNecessary = true
+        });
+
+});
+builder.Services.AddHangfireServer();
+
 builder.Services.ConfigureAppSettingsClass(builder.Configuration);
 builder.Services.ConfigureIdentity(builder.Configuration);
 builder.Services.AddAntiforgery();
 builder.Services.AddProblemDetails().AddExceptionHandler<GlobalExceptionHandler>();
-
 builder.Services.AddCors(opt =>
 {
     opt.AddPolicy("AllowFrontend",
@@ -66,5 +83,7 @@ app.UseODataQueryRequest();
 
 //app.UseHttpsRedirection();
 app.MapControllers();
+app.UseHangfireDashboard("/hangfire");
+RecurringJob.AddOrUpdate("callback-users", () => Console.WriteLine("Job recorrente diário."), "*/15 * * * *");
 
 app.Run();
