@@ -1,4 +1,5 @@
 ﻿namespace Totten.Solution.RagnaComercio.ApplicationService.ViewModels.Stores;
+
 public class SearchedItemViewModel
 {
     public int ItemId { get; set; }

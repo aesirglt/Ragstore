@@ -15,20 +15,15 @@ public class SearchedItemSumaryQueryHandler(
     public async Task<Result<IQueryable<SearchedItemViewModel>>> Handle(
         SearchedItemSumaryQuery request,
         CancellationToken cancellationToken)
-    {
-        IQueryable<SearchedItemViewModel> result =
-            _repository.GetAll()
-            .GroupBy(x => x.ItemId)
-            .Select(g => g.OrderByDescending(x => x.CreatedAt).Select(s => new SearchedItemViewModel
-            {
-                ItemId = s.ItemId,
-                ItemName = s.Name,
-                Average = s.Average,
-                Quantity = s.Quantity,
-                Image = "https://static.divine-pride.net/images/items/item/" + s.ItemId + ".png"
-            }).First())
-            .Take(10);
-
-        return await Result.Of(result).AsTask();
-    }
+        => await Result.Of(_repository.GetAll()
+                .GroupBy(x => x.ItemId)
+                .Select(g => g.OrderByDescending(x => x.CreatedAt).First())
+                .Select(x => new SearchedItemViewModel
+                {
+                    ItemId = x.ItemId,
+                    ItemName = x.Name,
+                    Average = x.Average,
+                    Quantity = x.Quantity,
+                    Image = "https://static.divine-pride.net/images/items/item/" + x.ItemId + ".png"
+                })).AsTask();
 }

@@ -1,5 +1,6 @@
 ﻿namespace Totten.Solution.RagnaComercio.Domain.Features.ItemsAggregation;
 using Totten.Solution.RagnaComercio.Domain.Bases;
+using Totten.Solution.RagnaComercio.Domain.Features.Servers;
 
 public record SearchedItem : Entity<SearchedItem, int>
 {

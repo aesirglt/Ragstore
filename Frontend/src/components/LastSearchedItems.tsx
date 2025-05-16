@@ -17,16 +17,17 @@ import {
 } from '@chakra-ui/react';
 import { LastSearchedItemViewModel } from '@/types/api/viewmodels/LastSearchedItemViewModel';
 import { Pagination } from './ui/Pagination';
+import { PageResult } from '@/types/api/responses/PageResult';
 
 interface LastSearchedItemsProps {
-  items: LastSearchedItemViewModel[];
+  page: PageResult<LastSearchedItemViewModel>;
   currentPage?: number;
   totalPages?: number;
   onPageChange?: (page: number) => void;
 }
 
 export function LastSearchedItems({ 
-  items = [], 
+  page, 
   currentPage = 1,
   totalPages = 1,
   onPageChange 
@@ -51,7 +52,7 @@ export function LastSearchedItems({
             </Tr>
           </Thead>
           <Tbody>
-            {items.map((item) => (
+            {page.data.map((item) => (
               <Tr key={item.itemId}>
                 <Td>
                   <Flex align="center" gap={2}>

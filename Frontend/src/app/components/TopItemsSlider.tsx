@@ -17,31 +17,29 @@ import { TopItemViewModel } from '@/types/api/viewmodels/TopItemViewModel';
 import { PageResult } from '@/types/api/responses/PageResult';
 
 interface TopItemsSliderProps {
-  items: PageResult<TopItemViewModel>;
+  items: TopItemViewModel[];
 }
 
 export function TopItemsSlider({ items }: TopItemsSliderProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Reset currentIndex quando items mudar
   useEffect(() => {
     setCurrentIndex(0);
   }, [items]);
 
-  // Se não houver itens, não renderiza nada
-  if (!items || items.data.length === 0) {
+  if (!items || items.length === 0) {
     return null;
   }
 
   const nextSlide = () => {
-    setCurrentIndex((prev) => (prev + 1) % items.data.length);
+    setCurrentIndex((prev) => (prev + 1) % items.length);
   };
 
   const prevSlide = () => {
-    setCurrentIndex((prev) => (prev - 1 + items.data.length) % items.data.length);
+    setCurrentIndex((prev) => (prev - 1 + items.length) % items.length);
   };
 
-  const currentItem = items.data[currentIndex];
+  const currentItem = items[currentIndex];
 
   // Se não houver item atual, não renderiza nada
   if (!currentItem) {
@@ -59,7 +57,7 @@ export function TopItemsSlider({ items }: TopItemsSliderProps) {
             variant="ghost"
             size="sm"
             p={0}
-            isDisabled={items.data.length <= 1}
+            isDisabled={items.length <= 1}
           />
 
           <VStack spacing={1} flex={1} align="stretch">
@@ -124,7 +122,7 @@ export function TopItemsSlider({ items }: TopItemsSliderProps) {
             variant="ghost"
             size="sm"
             p={0}
-            isDisabled={items.data.length <= 1}
+            isDisabled={items.length <= 1}
           />
         </Flex>
       </CardBody>

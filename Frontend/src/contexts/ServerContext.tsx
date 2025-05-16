@@ -10,7 +10,7 @@ type ServerContextType = {
 const ServerContext = createContext<ServerContextType | undefined>(undefined);
 
 export function ServerProvider({ children }: { children: ReactNode }) {
-  const [currentServer, setCurrentServer] = useState<string>('brothor');
+  const [currentServer, setCurrentServer] = useState<string>('latamro');
 
   return (
     <ServerContext.Provider value={{ currentServer, setCurrentServer }}>

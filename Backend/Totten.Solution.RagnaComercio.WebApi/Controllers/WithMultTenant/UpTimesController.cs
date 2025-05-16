@@ -3,7 +3,6 @@
 using Autofac;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Totten.Solution.RagnaComercio.ApplicationService.Notifications.Agents;
 using Totten.Solution.RagnaComercio.WebApi.Bases;
 
 /// <summary>
@@ -13,22 +12,22 @@ using Totten.Solution.RagnaComercio.WebApi.Bases;
 /// 
 /// </remarks>
 /// <param name="lifetimeScope"></param>
-[ApiController]
-[Authorize]
-public class UpTimesController(ILifetimeScope lifetimeScope) : BaseApiController(lifetimeScope)
-{
-    /// <summary>
-    /// Cria um ponto de horario de atualização
-    /// </summary>
-    /// <param name="server">Servidor</param>
-    /// <returns></returns>
-    [HttpPost("up-times")]
-    [ProducesResponseType<AcceptedResult>(statusCode: 202)]
-    public async Task<IActionResult> Post(
-        [FromQuery] string server)
-            => await HandleEvent(new UpdateTimeNotification
-            {
-                Server = server,
-                UpdatedAt = DateTime.UtcNow,
-            });
-}
+//[ApiController]
+//[Authorize]
+//public class UpTimesController(ILifetimeScope lifetimeScope) : BaseApiController(lifetimeScope)
+//{
+//    /// <summary>
+//    /// Cria um ponto de horario de atualização
+//    /// </summary>
+//    /// <param name="server">Servidor</param>
+//    /// <returns></returns>
+//    [HttpPost("up-times")]
+//    [ProducesResponseType<AcceptedResult>(statusCode: 202)]
+//    public async Task<IActionResult> Post(
+//        [FromQuery] string server)
+//            => await HandleEvent(new UpdateTimeNotification
+//            {
+//                Server = server,
+//                UpdatedAt = DateTime.UtcNow,
+//            });
+//}

@@ -4,7 +4,6 @@ import { Select } from '@chakra-ui/react';
 import { useServer } from '../contexts/ServerContext';
 
 const servers = [
-  { value: 'brothor', label: 'BRO Thor' },
   { value: 'latamro', label: 'Latam RO' },
 ];
 

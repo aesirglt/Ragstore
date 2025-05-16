@@ -30,8 +30,7 @@ import { LoadingList } from '@/components/LoadingList';
 import { PageResult } from '@/types/api/responses/PageResult';
 
 // Dados zerados para quando houver erro
-const emptyTopItems: PageResult<TopItemViewModel> = {
-  data: [{
+const emptyTopItems: TopItemViewModel[] = [{
     itemId: "1",
     itemName: "---",
     average: 0,
@@ -40,9 +39,7 @@ const emptyTopItems: PageResult<TopItemViewModel> = {
     storeNumbers: 0,
     percentageChange: 0,
     imageUrl: "/items/default.png"
-  }],
-  totalCount: 1
-};
+  }];
 
 // Dados zerados para quando houver erro nos últimos pesquisados
 const emptyLastSearchedItems: PageResult<LastSearchedItemViewModel> = {
@@ -110,7 +107,7 @@ export default function HomePage() {
                 <LoadingList />
               ) : (
                 <LastSearchedItems 
-                  items={lastSearchedItems || emptyLastSearchedItems}
+                  page={lastSearchedItems || emptyLastSearchedItems}
                 />
               )}
             </CardBody>

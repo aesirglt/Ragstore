@@ -2,11 +2,13 @@
 
 using Autofac;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
 using Totten.Solution.RagnaComercio.ApplicationService.Features.StoreAgregattion.Queries;
 using Totten.Solution.RagnaComercio.ApplicationService.Features.StoreAgregattion.ResponseModels;
 using Totten.Solution.RagnaComercio.ApplicationService.ViewModels.Stores;
 using Totten.Solution.RagnaComercio.Domain.Features.StoresAggregation.Vendings;
 using Totten.Solution.RagnaComercio.WebApi.Bases;
+using Totten.Solution.RagnaComercio.WebApi.Dtos;
 
 /// <summary>
 /// 
@@ -43,10 +45,12 @@ public class StoreSummaryController(ILifetimeScope lifetimeScope) : BaseApiContr
     /// 
     /// </summary>
     /// <param name="server"></param>
+    /// <param name="queryOptions"></param>
     /// <returns></returns>
     [HttpGet($"{{server}}/{API_ENDPOINT}/searched-items")]
-    [ProducesResponseType<SearchedItemViewModel>(statusCode: 200)]
+    [ProducesResponseType<PaginationDto<SearchedItemViewModel>>(statusCode: 200)]
     public async Task<IActionResult> GetSearched(
-        [FromRoute] string server)
-        => await HandleQuery(new SearchedItemSumaryQuery(), server);
+        [FromRoute] string server,
+        ODataQueryOptions<SearchedItemViewModel> queryOptions)
+        => await HandleQueryable(server, new SearchedItemSumaryQuery(), queryOptions);
 }

@@ -338,6 +338,32 @@ public abstract class BaseApiController : ControllerBase
                 return result.Match(succ => Ok(HandlePageAsync(succ, mapper, queryOptions)), HandleFailure)!;
             }, () => HandleFailure(ServerNotFound()));
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TSource"></typeparam>
+    /// <param name="query"></param>
+    /// <param name="serverName"></param>
+    /// <param name="queryOptions"></param>
+    /// <returns></returns>
+    protected async Task<IActionResult> HandleQueryable<TSource>(
+        string serverName,
+        IRequest<Result<IQueryable<TSource>>> query,
+        ODataQueryOptions<TSource> queryOptions)
+    {
+        return await _serverRepository
+            .GetByName(serverName)
+            .MatchAsync(async succ =>
+            {
+                var scope = CreateChildScope(serverName);
+                var mediator = scope.Resolve<IMediator>();
+                var result = await mediator.Send(query);
+
+                return result.Match(succ => Ok(HandlePageAsync(succ, queryOptions)), HandleFailure)!;
+            }, () => HandleFailure(ServerNotFound()));
+    }
+
     /// <summary>
     /// 
     /// </summary>
@@ -355,6 +381,8 @@ public abstract class BaseApiController : ControllerBase
         return result.Match(succ => Ok(HandlePageAsync(succ, _currentGlobalScoped.Resolve<IMapper>(), queryOptions)),
                             HandleFailure)!;
     }
+
+
     /// <summary>
     /// 
     /// </summary>
@@ -398,11 +426,37 @@ public abstract class BaseApiController : ControllerBase
         if (queryOptions.OrderBy != null)
             filteredQuery = queryOptions.OrderBy.ApplyTo(filteredQuery, odataSettings);
 
-        var finalQuery = (IQueryable<TView>)queryOptions.ApplyTo(projectedQuery, odataSettings);
+        var queryResults =  queryOptions.ApplyTo(projectedQuery);
 
         return new PaginationDto<TView>
         {
-            Data = [.. finalQuery],
+            Data = [.. queryResults.Provider.CreateQuery<TView>(queryResults.Expression)],
+            TotalCount = filteredQuery.Count()
+        };
+    }
+
+    private PaginationDto<T> HandlePageAsync<T>
+            (IQueryable<T> query,
+            ODataQueryOptions<T> queryOptions)
+    {
+        var filteredQuery = query.AsQueryable();
+
+        var odataSettings = new ODataQuerySettings
+        {
+            HandleNullPropagation = HandleNullPropagationOption.False,
+        };
+
+        if (queryOptions.Filter != null)
+            filteredQuery = (IQueryable<T>)queryOptions.Filter.ApplyTo(filteredQuery, odataSettings);
+
+        if (queryOptions.OrderBy != null)
+            filteredQuery = queryOptions.OrderBy.ApplyTo(filteredQuery, odataSettings);
+
+        var queryResults = queryOptions.ApplyTo(query);
+
+        return new PaginationDto<T>
+        {
+            Data = [.. queryResults.Provider.CreateQuery<T>(queryResults.Expression)],
             TotalCount = filteredQuery.Count()
         };
     }

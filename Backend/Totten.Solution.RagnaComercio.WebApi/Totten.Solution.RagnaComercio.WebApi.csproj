@@ -30,4 +30,8 @@
     <ProjectReference Include="..\Totten.Solution.RagnaComercio.Infra.Data\Totten.Solution.RagnaComercio.Infra.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="BackgroundServices\" />
+  </ItemGroup>
+
 </Project>

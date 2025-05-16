@@ -13,7 +13,6 @@ using Totten.Solution.RagnaComercio.Domain.Features.StoresAggregation.Bases;
 using Totten.Solution.RagnaComercio.Domain.Features.StoresAggregation.Buyings;
 using Totten.Solution.RagnaComercio.Domain.Features.StoresAggregation.Vendings;
 using Totten.Solution.RagnaComercio.Infra.Cross.Statics;
-using static Totten.Solution.RagnaComercio.ApplicationService.Features.StoreAgregattion.Queries.StoreItemValueSumaryQuery;
 
 public class StoreItemValueSumaryQueryHandler(
     IVendingStoreItemRepository vendingStore,

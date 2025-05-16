@@ -12,12 +12,10 @@ using Totten.Solution.RagnaComercio.Domain.Features.StoresAggregation.Vendings;
 using Totten.Solution.RagnaComercio.Infra.Cross.Statics;
 
 public class StoreItemCollectionQueryHandler(
-    IMediator mediator,
     IVendingStoreItemRepository vendingRepositore,
     IBuyingStoreItemRepository buyingRepositore)
     : IRequestHandler<StoreItemCollectionQuery, Result<IQueryable<StoreResumeViewModel>>>
 {
-    private readonly IMediator _mediator = mediator;
     private readonly IVendingStoreItemRepository _vendingRepositore = vendingRepositore;
     private readonly IBuyingStoreItemRepository _buyingRepositore = buyingRepositore;
 
@@ -48,12 +46,6 @@ public class StoreItemCollectionQueryHandler(
                 ItemPrice = s.Price,
                 Quantity = s.Quantity,
             });
-
-        //await _mediator.Publish(new ODataFilterNotification
-        //{
-        //    Type = storeType,
-        //    ItemId = request.ItemId,
-        //}, cancellationToken);
 
         return await Result.Of(query).AsTask(cancellationToken);
     }

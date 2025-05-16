@@ -1,9 +1,7 @@
 using Microsoft.AspNetCore.OData;
-using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Totten.Solution.RagnaComercio.Infra.Data.Contexts.EntityFrameworkIdentity;
-using Totten.Solution.RagnaComercio.WebApi.BackgroundServices;
 using Totten.Solution.RagnaComercio.WebApi.Endpoints;
 using Totten.Solution.RagnaComercio.WebApi.ServicesExtension;
 var builder = WebApplication.CreateBuilder(args);
@@ -43,8 +41,6 @@ builder.Services
        .AddEndpointsApiExplorer()
        .ConfigureSwagger();
 
-builder.Services.AddHostedService<CallbacksWorker>();
-
 builder.Host
        .ConfigureAutofac(builder.Configuration);
 
@@ -64,9 +60,9 @@ if (app.Environment.IsDevelopment())
     });
 }
 app.UseODataQueryRequest();
-app.MapGroup("identity")
-   .MapIdentityApi<MyUserIdenty>()
-   .WithTags("Identity");
+//app.MapGroup("identity")
+//   .MapIdentityApi<MyUserIdenty>()
+//   .WithTags("Identity");
 
 //app.UseHttpsRedirection();
 app.MapControllers();
