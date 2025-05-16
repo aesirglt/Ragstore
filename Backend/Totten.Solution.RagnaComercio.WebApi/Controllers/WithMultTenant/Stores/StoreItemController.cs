@@ -4,7 +4,6 @@ using Autofac;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 using Totten.Solution.RagnaComercio.ApplicationService.Features.StoreAgregattion.Queries;
-using Totten.Solution.RagnaComercio.ApplicationService.Features.StoreAgregattion.QueriesHandler;
 using Totten.Solution.RagnaComercio.ApplicationService.Features.StoreAgregattion.ResponseModels;
 using Totten.Solution.RagnaComercio.Domain.Features.StoresAggregation.Vendings;
 using Totten.Solution.RagnaComercio.WebApi.Bases;

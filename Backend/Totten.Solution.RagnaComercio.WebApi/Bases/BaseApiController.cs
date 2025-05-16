@@ -173,18 +173,16 @@ public abstract class BaseApiController : ControllerBase
     /// <summary>
     /// 
     /// </summary>
+    /// <param name="serverId"></param>
     /// <param name="cmd"></param>
-    /// <param name="serverName"></param>
     /// <returns></returns>
-    protected async Task<IActionResult> HandleCommand(
-        IRequest<Result<Success>> cmd,
-        string serverName)
+    protected async Task<IActionResult> HandleCommand(Guid serverId, IRequest<Result<Success>> cmd)
     {
-        return await _serverRepository
-            .GetByName(serverName)
-            .MatchAsync(async succ =>
+        return await ( await _serverRepository
+            .GetById(serverId) )
+            .MatchAsync(async server =>
             {
-                var scope = CreateChildScope(serverName);
+                var scope = CreateChildScope(server.Name);
                 var mediator = scope.Resolve<IMediator>();
                 var result = await mediator.Send(cmd);
 
@@ -194,32 +192,10 @@ public abstract class BaseApiController : ControllerBase
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="getCmdWithServerId">Func to get configured comand with server id</param>
-    /// <param name="serverName"></param>
-    /// <returns></returns>
-    protected async Task<IActionResult> HandleCommand(
-        Func<Guid, IRequest<Result<Success>>> getCmdWithServerId,
-        string serverName)
-    {
-        return await _serverRepository
-            .GetByName(serverName)
-            .MatchAsync(async server =>
-            {
-                var scope = CreateChildScope(serverName);
-                var mediator = scope.Resolve<IMediator>();
-                var result = await mediator.Send(getCmdWithServerId(server.Id));
-
-                return result.Match(succ => Ok(succ), HandleFailure)!;
-            }, () => HandleFailure(ServerNotFound()));
-    }
-    /// <summary>
-    /// 
-    /// </summary>
     /// <param name="cmd"></param>
     /// <returns></returns>
 
-    protected async Task<IActionResult> HandleCommand(
-        IRequest<Result<Success>> cmd)
+    protected async Task<IActionResult> HandleCommand(IRequest<Result<Success>> cmd)
     {
         var result = await _mediator.Send(cmd);
         return result.Match(succ => Ok(succ), HandleFailure)!;
@@ -426,7 +402,7 @@ public abstract class BaseApiController : ControllerBase
         if (queryOptions.OrderBy != null)
             filteredQuery = queryOptions.OrderBy.ApplyTo(filteredQuery, odataSettings);
 
-        var queryResults =  queryOptions.ApplyTo(projectedQuery);
+        var queryResults = queryOptions.ApplyTo(projectedQuery);
 
         return new PaginationDto<TView>
         {
@@ -464,8 +440,8 @@ public abstract class BaseApiController : ControllerBase
     private IActionResult HandleFailure(BaseError error)
         => error.Exception is ValidationException validationError
             ? Problem(title: "ValidationError",
-                              detail: JsonConvert.SerializeObject(validationError.Errors),
-                              statusCode: HttpStatusCode.BadRequest.GetHashCode())
+                      detail: JsonConvert.SerializeObject(validationError.Errors),
+                      statusCode: HttpStatusCode.BadRequest.GetHashCode())
             : MakePayload(error);
     private IActionResult MakePayload(BaseError error)
     {

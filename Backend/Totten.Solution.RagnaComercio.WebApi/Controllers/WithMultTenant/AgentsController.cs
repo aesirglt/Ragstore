@@ -27,32 +27,32 @@ public class AgentsController(ILifetimeScope lifetimeScope) : BaseApiController(
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="server"></param>
+    /// <param name="serverId"></param>
     /// <param name="createCmd"></param>
     /// <returns></returns>
-    [HttpPost("{server}/agents")]
+    [HttpPost("{serverId}/agents")]
     [ProducesResponseType<Success>(statusCode: 201)]
     [Authorize]
     public async Task<IActionResult> Post(
-        [FromRoute] string server,
+        [FromRoute] Guid serverId,
         [FromBody] AgentCreateDto createCmd)
-            => await HandleCommand(serverId => new AgentCreateCommand
+            => await HandleCommand(new AgentCreateCommand
             {
                 ServerId = serverId,
                 Name = createCmd.Name,
-            }, server);
+            });
 
     /// <summary>
     /// Busca todos os agentes de um servidor.
     /// </summary>
-    /// <param name="server">Servidor</param>
+    /// <param name="serverId">Servidor</param>
     /// <param name="queryOptions"></param>
     /// <returns></returns>
-    [HttpGet("{server}/agents")]
+    [HttpGet("{serverId}/agents")]
     [ProducesResponseType<PaginationDto<AgentResumeViewModel>>(statusCode: 200)]
     [Authorize]
     public async Task<IActionResult> GetAll(
-        [FromRoute] string server,
+        [FromRoute] Guid serverId,
         ODataQueryOptions<AgentResumeViewModel> queryOptions)
-        => await HandleQueryable(serverId => new AgentCollectionQuery { ServerId = serverId }, server, queryOptions);
+        => await HandleQueryable(new AgentCollectionQuery { ServerId = serverId }, queryOptions);
 }

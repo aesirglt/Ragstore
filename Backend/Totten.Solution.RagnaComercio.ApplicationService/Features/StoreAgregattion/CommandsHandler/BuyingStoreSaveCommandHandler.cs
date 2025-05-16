@@ -35,7 +35,7 @@ public class BuyingStoreSaveCommandHandler(
 
             _ = _mediator.Publish(new NewStoreNotification
             {
-                Server = request.Server,
+                Server = "",
                 Where = $"{request.Map} {request.Location}",
                 StoreType = nameof(BuyingStore),
                 Merchant = request.CharacterName,

@@ -15,6 +15,9 @@ public class VendingStoreSaveDto
     /// 
     /// </summary>
     public string CharacterName { get; set; } = string.Empty;
+    /// <summary>
+    /// 
+    /// </summary>
     public int AccountId { get; set; }
     /// <summary>
     /// 
@@ -35,5 +38,5 @@ public class VendingStoreSaveDto
     /// <summary>
     /// 
     /// </summary>
-    public List<VendingStoreItemCommand> StoreItems { get; set; } = new();
+    public List<VendingStoreItemCommand> StoreItems { get; set; } = [];
 }

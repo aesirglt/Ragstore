@@ -13,11 +13,11 @@ public record Account : Entity<Account, int>
     public bool IsReported { get; set; }
     public Guid? UserId { get; set; }
     public virtual User? User { get; set; }
-    public virtual List<Character> Characters { get; set; } = new();
-    public virtual List<Chat> Chats { get; set; } = new();
-    public virtual List<VendingStore> VendingStores { get; set; } = new();
-    public virtual List<BuyingStore> BuyingStores { get; set; } = new();
-    public virtual List<VendingStoreItem> VendingStoreItems { get; set; } = new();
-    public virtual List<BuyingStoreItem> BuyingStoreItems { get; set; } = new();
-    public virtual List<EquipmentItem> EquipmentItems { get; set; } = new();
+    public virtual List<Character> Characters { get; set; } = [];
+    public virtual List<Chat> Chats { get; set; } = [];
+    public virtual List<VendingStore> VendingStores { get; set; } = [];
+    public virtual List<BuyingStore> BuyingStores { get; set; } = [];
+    public virtual List<VendingStoreItem> VendingStoreItems { get; set; } = [];
+    public virtual List<BuyingStoreItem> BuyingStoreItems { get; set; } = [];
+    public virtual List<EquipmentItem> EquipmentItems { get; set; } = [];
 }

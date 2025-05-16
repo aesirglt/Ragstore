@@ -32,7 +32,7 @@ public class VendingStoreSaveCommandHandler(
     {
         try
         {
-            var result = 
+            var result =
                 _storeRepository
                     .GetByCharacterId(request.CharacterId)
                     .Match(storeInDb => UpdateFlow(request, storeInDb),
@@ -40,18 +40,18 @@ public class VendingStoreSaveCommandHandler(
 
             _ = _mediator.Publish(new NewStoreNotification
             {
-                Server = request.Server,
+                Server = "",
                 Where = $"{request.Map} {request.Location}",
                 Merchant = request.CharacterName,
                 StoreType = nameof(VendingStore),
                 Date = DateTime.UtcNow,
                 Items =
                     [.. request.StoreItems
-                           .Select(x => new NewStoreNotificationItem()
-                            {
-                                ItemId = x.ItemId,
-                                ItemPrice = x.Price
-                            })]
+                        .Select(x => new NewStoreNotificationItem()
+                        {
+                            ItemId = x.ItemId,
+                            ItemPrice = x.Price
+                        })]
             }, CancellationToken.None);
 
             return await result;
@@ -65,8 +65,11 @@ public class VendingStoreSaveCommandHandler(
     private Task<Success> SaveFlow(VendingStoreSaveCommand request)
     {
         var store = _mapper.Map<VendingStore>(request);
-        store.VendingStoreItems = MapStoreItem(request, store);
-        return _storeRepository.Save(store);
+
+        return _storeRepository.Save(store with
+        {
+            VendingStoreItems = MapStoreItem(request, store)
+        });
     }
 
     private async Task<Success> UpdateFlow(VendingStoreSaveCommand request, VendingStore storeInDb)
@@ -89,19 +92,21 @@ public class VendingStoreSaveCommandHandler(
         var storeId = vendingStore.Id;
         _mapper.Map(request, vendingStore);
 
-        vendingStore.VendingStoreItems = MapStoreItem(request, vendingStore);
-        vendingStore.Id = storeId;
-        return vendingStore;
+        return vendingStore with
+        {
+            Id = storeId,
+            VendingStoreItems = MapStoreItem(request, vendingStore)
+        };
     }
 
     private static List<VendingStoreItem> MapStoreItem(VendingStoreSaveCommand request, VendingStore store)
-    {
-        return store.VendingStoreItems
-                    .Select(item => item with
-                    {
-                        Map = $"{store.Map} {store.Location}",
-                        StoreName = request.Name,
-                        CharacterName = request.CharacterName
-                    }).ToList();
-    }
+        => store.VendingStoreItems
+                .Select(item => item with
+                {
+                    CharacterId = store.CharacterId,
+                    AccountId = store.AccountId,
+                    Map = $"{store.Map} {store.Location}",
+                    StoreName = request.Name,
+                    CharacterName = request.CharacterName
+                }).ToList();
 }

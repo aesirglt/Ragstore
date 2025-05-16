@@ -22,13 +22,11 @@ public class CharacterController(ILifetimeScope lifetimeScope) : BaseApiControll
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="server"></param>
+    /// <param name="serverId"></param>
     /// <param name="createCmd"></param>
     /// <returns></returns>
-    [HttpPost("{server}")]
+    [HttpPost("{serverId}")]
     [ProducesResponseType<Success>(statusCode: 201)]
-    public async Task<IActionResult> Post(
-        [FromRoute] string server,
-        [FromBody] CharacterCreateCommand createCmd)
-            => await HandleCommand(createCmd, server);
+    public async Task<IActionResult> Post([FromRoute] Guid serverId, [FromBody] CharacterCreateCommand createCmd)
+        => await HandleCommand(serverId, createCmd);
 }

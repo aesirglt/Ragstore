@@ -10,10 +10,6 @@ public class BuyingStoreSaveDto
     /// <summary>
     /// 
     /// </summary>
-    public string Server { get; set; } = string.Empty;
-    /// <summary>
-    /// 
-    /// </summary>
     public string Name { get; set; } = string.Empty;
     /// <summary>
     /// 

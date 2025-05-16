@@ -21,6 +21,7 @@ using Totten.Solution.RagnaComercio.WebApi.Dtos;
 /// </remarks>
 /// <param name="lifetimeScope"></param>
 [ApiController]
+[Route("[Controller]")]
 public class ServersController(ILifetimeScope lifetimeScope) : BaseApiController(lifetimeScope)
 {
 
@@ -29,9 +30,10 @@ public class ServersController(ILifetimeScope lifetimeScope) : BaseApiController
     /// </summary>
     /// <param name="createCmd">Objeto de criação com dados do servidor</param>
     /// <returns></returns>
-    [HttpPost("servers")]
-    [ProducesResponseType<Success>(statusCode: 201)]
     [Authorize]
+    [HttpPost]
+    [ProducesResponseType<Success>(statusCode: 201)]
+    [ProducesResponseType<ProblemDetails>(statusCode: 400)]
     public async Task<IActionResult> Post([FromBody] ServerCreateCommand createCmd)
             => await HandleCommand(createCmd);
 
@@ -40,8 +42,10 @@ public class ServersController(ILifetimeScope lifetimeScope) : BaseApiController
     /// </summary>
     /// <param name="queryOptions">Filtro dinamico</param>
     /// <returns></returns>
-    [HttpGet("servers")]
+    [HttpGet]
     [ProducesResponseType<PaginationDto<ServerResume>>(statusCode: 200)]
+    [ProducesResponseType<ProblemDetails>(statusCode: 400)]
+    [ProducesResponseType<ProblemDetails>(statusCode: 500)]
     public async Task<IActionResult> GetAll(ODataQueryOptions<ServerResume> queryOptions)
         => await HandleQueryable(new ServerCollectionQuery(), queryOptions);
     
@@ -50,8 +54,10 @@ public class ServersController(ILifetimeScope lifetimeScope) : BaseApiController
     /// </summary>
     /// <param name="serverName">Servidor</param>
     /// <returns></returns>
-    [HttpGet("servers/{serverName}")]
+    [HttpGet("{serverName}")]
     [ProducesResponseType<PaginationDto<ServerVerifyDTO>>(statusCode: 200)]
+    [ProducesResponseType<ProblemDetails>(statusCode: 400)]
+    [ProducesResponseType<ProblemDetails>(statusCode: 500)]
     public async Task<IActionResult> GetAll([FromRoute] string serverName)
         => await HandleQuery<Server, ServerVerifyDTO>(new ServerByNameQuery { Name = serverName });
 }

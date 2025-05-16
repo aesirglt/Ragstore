@@ -8,7 +8,6 @@ using Totten.Solution.RagnaComercio.ApplicationService.Features.StoreAgregattion
 
 public class VendingStoreSaveCommand : IRequest<Result<Success>>
 {
-    public string Server { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
     public string CharacterName { get; set; } = string.Empty;
     public int AccountId { get; set; }

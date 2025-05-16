@@ -28,18 +28,18 @@ public class NewStoreNotificationHandler : INotificationHandler<NewStoreNotifica
 
             List<int> itemsIds = [.. notify.Items.Select(it => it.ItemId)];
 
-            var callback = _repository.GetAll(x => x.Server!.Name == notify.Server && x.StoreType == notifyCallbackType)
+            var callbacks = _repository.GetAll(x => x.Server!.Name == notify.Server && x.StoreType == notifyCallbackType)
                                            .Where(c => itemsIds.Any(itemId => itemId == c.ItemId))
                                            .ToList();
 
-            if (callback is { Count: > 0 })
+            if (callbacks is { Count: > 0 })
             {
                 var tasks = notify.Items
-                          .Where(it => callback.Any(c => c.ItemId == it.ItemId && it.ItemPrice <= c.ItemPrice))
+                          .Where(it => callbacks.Any(c => c.ItemId == it.ItemId && it.ItemPrice <= c.ItemPrice))
                           .Select(it => new
                           {
                               notify = it,
-                              callbacks = callback.Where(c => c.ItemId == it?.ItemId)
+                              callbacks = callbacks.Where(c => c.ItemId == it?.ItemId)
                           })
                           .SelectMany(selected => selected.callbacks.Select(cb =>
                                _mediator.Publish(new CallbackNotification
