@@ -39,6 +39,5 @@ public class MediatRModule : Module
 
         builder.RegisterGeneric(typeof(ValidatorBehavior<,>))
                .As(typeof(IPipelineBehavior<,>));
-
     }
 }

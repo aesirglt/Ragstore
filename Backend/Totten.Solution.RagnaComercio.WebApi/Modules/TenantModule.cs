@@ -9,7 +9,7 @@ using Totten.Solution.RagnaComercio.WebApi.SystemConstants;
 /// <summary>
 /// 
 /// </summary>
-public class TenantModule : Autofac.Module
+public class TenantModule : Module
 {
     /// <summary>
     /// 
@@ -23,9 +23,9 @@ public class TenantModule : Autofac.Module
     protected override void Load(ContainerBuilder builder)
     {
         ( Environment.GetEnvironmentVariable($"POSTGRES_DB_{Server}") ?? SysConstantDBConfig.DEFAULT_CONNECTION_STRING )
-                            .Replace("{dbName}", Server)
-                            .Apply(strConnection => new DbContextOptionsBuilder<ServerStoreContext>().UseNpgsql(strConnection))
-                            .Apply(dbBuilder => builder.Register(context => new ServerStoreContext(dbBuilder.Options)))
-                            .Apply(registration => registration.AsSelf().InstancePerLifetimeScope());
+            .Replace("{dbName}", Server)
+            .Apply(strConnection => new DbContextOptionsBuilder<ServerStoreContext>().UseNpgsql(strConnection))
+            .Apply(dbBuilder => builder.Register(context => new ServerStoreContext(dbBuilder.Options)))
+            .Apply(registration => registration.AsSelf().InstancePerLifetimeScope());
     }
 }

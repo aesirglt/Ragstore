@@ -9,13 +9,10 @@ using Totten.Solution.RagnaComercio.Domain.Features.CallbackAggregation;
 public class CallbackNotificationHandler : INotificationHandler<CallbackNotification>
 {
     private CultureInfo _cultura;
-    private IMediator _mediator;
     private ICallbackScheduleRepository _callbackScheduleRepository;
-    public CallbackNotificationHandler(IServiceProvider provider, ICallbackScheduleRepository callbackScheduleRepository)
+    public CallbackNotificationHandler(ICallbackScheduleRepository callbackScheduleRepository)
     {
         _callbackScheduleRepository = callbackScheduleRepository;
-        var scoped = provider.CreateScope();
-        _mediator = scoped.ServiceProvider.GetService<IMediator>() ?? throw new Exception();
         _cultura = new CultureInfo("pt-BR");
     }
 
@@ -26,27 +23,15 @@ public class CallbackNotificationHandler : INotificationHandler<CallbackNotifica
             if(notify.CallbackType == EStoreCallbackType.None)
                 return;
             
-            //var message = new MessageNotification
-            //{
-            //    Contact = "UserCellphone",
-            //    Body = @$"RagnaStore, item: *{notify.ItemId}* em *{notify.Location}* por *{notify.Price.ToString("N2", _cultura)}* servidor: {notify.Server}"
-            //};
-
-            //if (/*user level &&*/ notify.CallbackType == EStoreCallbackType.VendingStore)
-            //{
-            //    _ = _mediator.Publish(message);
-            //    return;
-            //}
-
             _ = await _callbackScheduleRepository.Save(new CallbackSchedule
             {
                 Id = Guid.NewGuid(),
-                Name = $"UserPhone: UserCellphone-Server:{notify.Server}-ItemId:{notify.ItemId}-Price:{notify.Price}",
+                Name = $"Contact:{notify.CallbackId}-UserCellphone-Server:{notify.Server}-ItemId:{notify.ItemId}-Price:{notify.Price}",
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,
-                Contact = "message.Contact",
-                SendIn = DateTime.UtcNow.AddMinutes(15/*notify.Level.GetMinutesToSendMessage()*/),
-                Body = "message.Body"
+                Contact = "notify.Contact",
+                Sended = false,
+                Body = @$"RagnaStore, item: *{notify.ItemId}* em *{notify.Location}* por *{notify.Price.ToString("N2", _cultura)}* servidor: {notify.Server}"
             });
         }
         catch (Exception ex)

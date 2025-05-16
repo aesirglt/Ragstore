@@ -44,6 +44,9 @@ public class NewStoreNotificationHandler : INotificationHandler<NewStoreNotifica
                           .SelectMany(selected => selected.callbacks.Select(cb =>
                                _mediator.Publish(new CallbackNotification
                                {
+                                   CallbackId = cb.Id,  
+                                   UserId  =  cb.UserId,
+                                   StoreId = notify.StoreId,
                                    Server = notify.Server,
                                    Location = notify.Where,
                                    CallbackType = cb?.StoreType ?? EStoreCallbackType.None,

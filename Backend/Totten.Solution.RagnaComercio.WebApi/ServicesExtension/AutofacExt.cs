@@ -32,6 +32,7 @@ public static class AutofacExt
                 
                 containerBuilder.RegisterModule(new FluentValidationModule());
                 containerBuilder.RegisterModule(new GlobalModule<Program>(cfgRoot));
+                containerBuilder.RegisterModule(new ServicesModule(cfgRoot));
                 containerBuilder.RegisterModule(new MediatRModule());
                 containerBuilder.RegisterModule(new HttpClientsModule
                 {

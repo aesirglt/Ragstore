@@ -13,7 +13,6 @@ internal class CallbackScheduleConfiguration : IEntityTypeConfiguration<Callback
         builder.Property(e => e.Id).ValueGeneratedOnAdd();
         builder.Property(e => e.Name).IsRequired();
         builder.Property(e => e.Sended).IsRequired();
-        builder.Property(e => e.SendIn).IsRequired();
         builder.Property(e => e.CreatedAt).IsRequired();
         builder.Property(e => e.UpdatedAt).IsRequired();
     }

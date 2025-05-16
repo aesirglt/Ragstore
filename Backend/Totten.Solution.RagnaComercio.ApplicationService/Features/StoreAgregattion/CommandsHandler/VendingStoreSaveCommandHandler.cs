@@ -33,7 +33,7 @@ public class VendingStoreSaveCommandHandler(
         try
         {
             var result =
-                _storeRepository
+                await _storeRepository
                     .GetByCharacterId(request.CharacterId)
                     .Match(storeInDb => UpdateFlow(request, storeInDb),
                            () => SaveFlow(request));
@@ -41,6 +41,7 @@ public class VendingStoreSaveCommandHandler(
             _ = _mediator.Publish(new NewStoreNotification
             {
                 Server = "",
+                StoreId = result.Id,
                 Where = $"{request.Map} {request.Location}",
                 Merchant = request.CharacterName,
                 StoreType = nameof(VendingStore),
@@ -54,7 +55,7 @@ public class VendingStoreSaveCommandHandler(
                         })]
             }, CancellationToken.None);
 
-            return await result;
+            return Result.Success;
         }
         catch (Exception ex)
         {
@@ -62,17 +63,19 @@ public class VendingStoreSaveCommandHandler(
         }
     }
 
-    private Task<Success> SaveFlow(VendingStoreSaveCommand request)
+    private async Task<VendingStore> SaveFlow(VendingStoreSaveCommand request)
     {
         var store = _mapper.Map<VendingStore>(request);
 
-        return _storeRepository.Save(store with
+        await _storeRepository.Save(store with
         {
             VendingStoreItems = MapStoreItem(request, store)
         });
+
+        return store;
     }
 
-    private async Task<Success> UpdateFlow(VendingStoreSaveCommand request, VendingStore storeInDb)
+    private async Task<VendingStore> UpdateFlow(VendingStoreSaveCommand request, VendingStore storeInDb)
     {
         storeInDb = Map(request, storeInDb);
         await _storeRepository.Update(storeInDb);
@@ -84,7 +87,7 @@ public class VendingStoreSaveCommandHandler(
             await _vendingStoreItemRepository.Save(vending);
         }
 
-        return Result.Success;
+        return storeInDb;
     }
 
     private VendingStore Map(VendingStoreSaveCommand request, VendingStore vendingStore)

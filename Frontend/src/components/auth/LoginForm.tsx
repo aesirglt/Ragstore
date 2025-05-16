@@ -11,23 +11,9 @@ export function LoginForm() {
     window.location.href = `/api/auth/google?redirect=${redirect}`;
   };
 
-  const handleDiscordLogin = async () => {
-    try {
-      const response = await fetch('/api/auth/discord');
-      if (!response.ok) {
-        throw new Error('Falha ao iniciar login com Discord');
-      }
-      const data = await response.json();
-      window.location.href = data.url;
-    } catch (error) {
-      toast({
-        title: 'Erro',
-        description: 'Falha ao iniciar login com Discord',
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-      });
-    }
+  const handleDiscordLogin = () => {
+    const redirect = encodeURIComponent(window.location.href);
+    window.location.href = `/api/auth/discord?redirect=${redirect}`;
   };
 
   return (

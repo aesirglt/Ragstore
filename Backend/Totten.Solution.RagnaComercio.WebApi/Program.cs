@@ -3,6 +3,7 @@ using Hangfire.PostgreSql;
 using Microsoft.AspNetCore.OData;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Totten.Solution.RagnaComercio.ApplicationService.Features.Callbacks.Notifications;
 using Totten.Solution.RagnaComercio.Infra.Data.Contexts.EntityFrameworkIdentity;
 using Totten.Solution.RagnaComercio.WebApi.Endpoints;
 using Totten.Solution.RagnaComercio.WebApi.ServicesExtension;
@@ -84,6 +85,7 @@ app.UseODataQueryRequest();
 //app.UseHttpsRedirection();
 app.MapControllers();
 app.UseHangfireDashboard("/hangfire");
-RecurringJob.AddOrUpdate("callback-users", () => Console.WriteLine("Job recorrente diário."), "*/15 * * * *");
+
+RecurringJob.AddOrUpdate<CallbackMessageHandler>("callback-users", handler => handler.Handle(new(), CancellationToken.None), "*/15 * * * *");
 
 app.Run();

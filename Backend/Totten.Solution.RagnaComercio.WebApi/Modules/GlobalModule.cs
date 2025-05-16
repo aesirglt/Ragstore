@@ -50,11 +50,6 @@ public class GlobalModule<TProgram> : Autofac.Module
     /// <param name="builder"></param>
     protected override void Load(ContainerBuilder builder)
     {
-
-        builder.RegisterType<WhatsAPPService>()
-               .As<IMessageService<NotificationMessageDto>>()
-               .InstancePerLifetimeScope();
-
         builder.RegisterType<ServerRepository>()
                .As<IServerRepository>()
                .InstancePerLifetimeScope();

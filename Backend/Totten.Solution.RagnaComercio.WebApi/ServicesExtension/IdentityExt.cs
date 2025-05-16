@@ -42,14 +42,12 @@ public static class IdentityExt
                     options.ClientSecret = configuration["Authentication:Google:ClientSecret"];
                     options.CallbackPath = new PathString("/signin-google");
                 })
-                .AddOAuth("Discord", options =>
+                .AddDiscord(options =>
                 {
                     options.ClientId = configuration["Authentication:Discord:ClientId"];
                     options.ClientSecret = configuration["Authentication:Discord:ClientSecret"];
-                    options.AuthorizationEndpoint = "https://discord.com/api/oauth2/authorize";
-                    options.TokenEndpoint = "https://discord.com/api/oauth2/token";
-                    options.UserInformationEndpoint = "https://discord.com/api/users/@me";
-                    options.CallbackPath = new PathString("/signin-discord");
+                    options.CallbackPath = "/signin-discord";
+                    options.SaveTokens = true;
                     options.Scope.Add("identify");
                     options.Scope.Add("email");
                 });

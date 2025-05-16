@@ -4,6 +4,7 @@ using MediatR;
 using System;
 public record NewStoreNotification : INotification
 {
+    public required int StoreId { get; init; }
     public required string Server { get; init; }
     public required string StoreType { get; init; }
     public required string Merchant { get; init; }

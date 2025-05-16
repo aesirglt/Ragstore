@@ -36,18 +36,19 @@ public class BuyingStoreSaveCommandHandler(
             _ = _mediator.Publish(new NewStoreNotification
             {
                 Server = "",
+                StoreId = flowByBuying.Id,
                 Where = $"{request.Map} {request.Location}",
                 StoreType = nameof(BuyingStore),
                 Merchant = request.CharacterName,
                 Date = DateTime.UtcNow,
-                Items = request.StoreItems.Select(x => new NewStoreNotificationItem()
+                Items = [.. request.StoreItems.Select(x => new NewStoreNotificationItem()
                 {
                     ItemId = x.ItemId,
                     ItemPrice = x.Price
-                }).ToList()
+                })]
             }, CancellationToken.None);
 
-            return flowByBuying;
+            return Result.Success;
         }
         catch (Exception ex)
         {
@@ -66,14 +67,15 @@ public class BuyingStoreSaveCommandHandler(
         return buyingStoreItem;
     }
 
-    private Task<Success> SaveFlow(BuyingStoreSaveCommand request)
+    private async Task<BuyingStore> SaveFlow(BuyingStoreSaveCommand request)
     {
         var mappedStore = _mapper.Map<BuyingStore>(request);
         var store = mappedStore with { BuyingStoreItem = MapBuyingItem(request, mappedStore) };
-        return _storeRepository.Save(store);
+        await _storeRepository.Save(store);
+        return store;
     }
 
-    private async Task<Success> UpdateFlow(BuyingStoreSaveCommand request, BuyingStore storeInDb)
+    private async Task<BuyingStore> UpdateFlow(BuyingStoreSaveCommand request, BuyingStore storeInDb)
     {
         _ = await _storeItemRepository.DeleteAll(storeInDb.Id);
         _ = await _storeRepository.Remove(storeInDb);

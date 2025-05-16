@@ -1,9 +1,8 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { config } from '@/config/env';
 
-export async function GET() {
-  const response = await fetch(`${config.backendUrl}/auth/discord`);
-  const data = await response.json();
-  
-  return NextResponse.redirect(data.url);
+export async function GET(req: NextRequest) {
+  const { searchParams } = new URL(req.url);
+  const redirect = searchParams.get('redirect') || '/';
+  return NextResponse.redirect(`${config.backendUrl}/auth/discord?redirect=${encodeURIComponent(redirect)}`);
 } 
