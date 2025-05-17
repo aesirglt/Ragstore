@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Totten.Solution.RagnaComercio.Infra.Data.Contexts.StoreServerContext;
+using Totten.Solution.RagnaComercio.WebApi.Filters;
 using Totten.Solution.RagnaComercio.WebApi.SystemConstants;
 
 /// <summary>
@@ -21,7 +22,7 @@ public class MigrateController : ControllerBase
     /// <returns></returns>
     [HttpPost("{server}/migrate")]
     [ProducesResponseType<Success>(statusCode: 201)]
-    [Authorize]
+    [CustomAuthorizeAttributte(RoleLevelEnum.admin | RoleLevelEnum.system)]
     public async Task<IActionResult> Create([FromRoute] string server, [FromQuery] string cod)
     {
         if (cod != "supercode") return await Task.Run(base.Unauthorized);

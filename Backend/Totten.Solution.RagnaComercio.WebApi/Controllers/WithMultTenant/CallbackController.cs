@@ -11,6 +11,7 @@ using Totten.Solution.RagnaComercio.ApplicationService.ViewModels.Callbacks;
 using Totten.Solution.RagnaComercio.WebApi.Bases;
 using Totten.Solution.RagnaComercio.WebApi.Dtos;
 using Totten.Solution.RagnaComercio.WebApi.Dtos.Callbacks;
+using Totten.Solution.RagnaComercio.WebApi.Filters;
 
 /// <summary>
 /// Endpoint responsavel por notificações de items com baixos valores.
@@ -20,7 +21,7 @@ using Totten.Solution.RagnaComercio.WebApi.Dtos.Callbacks;
 /// </remarks>
 /// <param name="lifetimeScope"></param>
 [ApiController]
-[Authorize]
+[CustomAuthorizeAttributte(RoleLevelEnum.user | RoleLevelEnum.agent | RoleLevelEnum.admin | RoleLevelEnum.system)]
 public class CallbackController(ILifetimeScope lifetimeScope) : BaseApiController(lifetimeScope)
 {
 

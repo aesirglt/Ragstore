@@ -11,6 +11,7 @@ using Totten.Solution.RagnaComercio.ApplicationService.ViewModels.Agents;
 using Totten.Solution.RagnaComercio.WebApi.Bases;
 using Totten.Solution.RagnaComercio.WebApi.Dtos;
 using Totten.Solution.RagnaComercio.WebApi.Dtos.Agents;
+using Totten.Solution.RagnaComercio.WebApi.Filters;
 
 /// <summary>
 /// Endpoint responsavel por clients que enviam informações dos servidores
@@ -32,7 +33,7 @@ public class AgentsController(ILifetimeScope lifetimeScope) : BaseApiController(
     /// <returns></returns>
     [HttpPost("server/{serverId}/agents")]
     [ProducesResponseType<Success>(statusCode: 201)]
-    [Authorize]
+    [CustomAuthorizeAttributte(RoleLevelEnum.admin | RoleLevelEnum.system)]
     public async Task<IActionResult> Post(
         [FromRoute] Guid serverId,
         [FromBody] AgentCreateDto createCmd)
@@ -50,7 +51,7 @@ public class AgentsController(ILifetimeScope lifetimeScope) : BaseApiController(
     /// <returns></returns>
     [HttpGet("server/{serverId}/agents")]
     [ProducesResponseType<PaginationDto<AgentResumeViewModel>>(statusCode: 200)]
-    [Authorize]
+    [CustomAuthorizeAttributte(RoleLevelEnum.admin | RoleLevelEnum.system)]
     public async Task<IActionResult> GetAll(
         [FromRoute] Guid serverId,
         ODataQueryOptions<AgentResumeViewModel> queryOptions)

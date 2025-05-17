@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Totten.Solution.RagnaComercio.ApplicationService.Features.Characters.Commands;
 using Totten.Solution.RagnaComercio.WebApi.Bases;
+using Totten.Solution.RagnaComercio.WebApi.Filters;
 
 /// <summary>
 /// 
@@ -27,6 +28,7 @@ public class CharacterController(ILifetimeScope lifetimeScope) : BaseApiControll
     /// <returns></returns>
     [HttpPost("{serverId}")]
     [ProducesResponseType<Success>(statusCode: 201)]
+    [CustomAuthorizeAttributte(RoleLevelEnum.agent | RoleLevelEnum.admin | RoleLevelEnum.system)]
     public async Task<IActionResult> Post([FromRoute] Guid serverId, [FromBody] CharacterCreateCommand createCmd)
         => await HandleCommand(serverId, createCmd);
 }
