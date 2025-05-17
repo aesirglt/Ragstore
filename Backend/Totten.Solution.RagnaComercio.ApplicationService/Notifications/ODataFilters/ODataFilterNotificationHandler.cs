@@ -27,7 +27,7 @@ public class ODataFilterNotificationHandler(ILogger<ODataFilterNotificationHandl
                 storeItemRepository.GetAll(x => x.ItemId == notification.ItemId && x.UpdatedAt >= updatedAt)
                 .ToList();
 
-            if (storeItem.Count > 0)
+            if (storeItem is { Count: > 0 })
             {
                 await searchedItemRepository.Save(new SearchedItem
                 {

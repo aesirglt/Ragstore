@@ -13,7 +13,12 @@ internal class CallbackScheduleConfiguration : IEntityTypeConfiguration<Callback
         builder.Property(e => e.Id).ValueGeneratedOnAdd();
         builder.Property(e => e.Name).IsRequired();
         builder.Property(e => e.Sended).IsRequired();
+        builder.Property(e => e.Destination).IsRequired();
         builder.Property(e => e.CreatedAt).IsRequired();
         builder.Property(e => e.UpdatedAt).IsRequired();
+
+        builder.HasOne(e => e.Callback)
+            .WithMany(e => e.CallbackSchedules)
+            .HasForeignKey(e => e.CallbackId);
     }
 }

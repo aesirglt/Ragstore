@@ -12,4 +12,5 @@ public record Callback : Entity<Callback, Guid>
     public EStoreCallbackType StoreType { get; set; }
     public virtual Server? Server { get; set; }
     public virtual User? User { get; set; }
+    public virtual List<CallbackSchedule> CallbackSchedules { get; set; } = [];
 }

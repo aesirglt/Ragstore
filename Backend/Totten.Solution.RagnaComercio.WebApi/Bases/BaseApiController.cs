@@ -64,17 +64,17 @@ public abstract class BaseApiController : ControllerBase
     /// <summary>
     /// 
     /// </summary>
-    public Guid UserId => Guid.Parse(User.Claims.FirstOrDefault(c => c?.Type is "sub" or "id")!.Value);
+    public Guid UserId => Guid.TryParse(User.Claims.FirstOrDefault(c => c?.Type is "sub" or "id")?.Value, out var result) ? result : Guid.Empty;
 
     /// <summary>
     /// 
     /// </summary>
-    public string UserEmail => User.Claims.FirstOrDefault(c => c?.Type is ClaimTypes.Email)!.Value;
+    public string UserEmail => User.Claims.FirstOrDefault(c => c?.Type is ClaimTypes.Email)?.Value ?? string.Empty;
 
     /// <summary>
     /// 
     /// </summary>
-    public string UserNormalizedEmail => User.Claims.FirstOrDefault(c => c?.Type is "NormalizedEmail")!.Value;
+    public string UserNormalizedEmail => User.Claims.FirstOrDefault(c => c?.Type is "NormalizedEmail")?.Value ?? string.Empty;
 
     /// <summary>
     /// 

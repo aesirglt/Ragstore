@@ -9,6 +9,7 @@ public record User : Entity<User, Guid>
     public string NormalizedEmail { get; set; } = string.Empty;
     public string PhoneNumber { get; set; } = string.Empty;
     public string AvatarUrl { get; set; } = string.Empty;
+    public string DiscordUser { get; set; } = string.Empty;
     public bool IsActive { get; set; }
     public long SearchCount { get; set; }
     public bool ReceivePriceAlerts { get; set; }

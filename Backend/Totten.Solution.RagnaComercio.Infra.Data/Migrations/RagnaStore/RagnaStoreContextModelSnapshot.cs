@@ -57,11 +57,11 @@ namespace Totten.Solution.RagnaComercio.Infra.Data.Migrations.RagnaStore
                         new
                         {
                             Id = new Guid("89300f33-33d7-4878-af08-1f7b694eca3f"),
-                            CreatedAt = new DateTime(2025, 5, 7, 14, 51, 59, 8, DateTimeKind.Utc).AddTicks(4773),
+                            CreatedAt = new DateTime(2025, 5, 17, 8, 2, 10, 945, DateTimeKind.Utc).AddTicks(4375),
                             IsActive = true,
                             Name = "openkore",
                             ServerId = new Guid("89300f33-33d7-4878-af08-1f7b694eca3f"),
-                            UpdatedAt = new DateTime(2025, 5, 7, 14, 51, 59, 8, DateTimeKind.Utc).AddTicks(4774)
+                            UpdatedAt = new DateTime(2025, 5, 17, 8, 2, 10, 945, DateTimeKind.Utc).AddTicks(4375)
                         });
                 });
 
@@ -115,6 +115,9 @@ namespace Totten.Solution.RagnaComercio.Infra.Data.Migrations.RagnaStore
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<Guid>("CallbackId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("Contact")
                         .IsRequired()
                         .HasColumnType("text");
@@ -122,12 +125,12 @@ namespace Totten.Solution.RagnaComercio.Infra.Data.Migrations.RagnaStore
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<int>("Destination")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<DateTime>("SendIn")
-                        .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("Sended")
                         .HasColumnType("boolean");
@@ -136,6 +139,8 @@ namespace Totten.Solution.RagnaComercio.Infra.Data.Migrations.RagnaStore
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CallbackId");
 
                     b.ToTable("CallbacksSchedule", (string)null);
                 });
@@ -175,12 +180,12 @@ namespace Totten.Solution.RagnaComercio.Infra.Data.Migrations.RagnaStore
                         new
                         {
                             Id = new Guid("89300f33-33d7-4878-af08-1f7b694eca3f"),
-                            CreatedAt = new DateTime(2025, 5, 7, 14, 51, 59, 8, DateTimeKind.Utc).AddTicks(623),
+                            CreatedAt = new DateTime(2025, 5, 17, 8, 2, 10, 944, DateTimeKind.Utc).AddTicks(9640),
                             DisplayName = "Latam RO",
                             IsActive = false,
                             Name = "latamro",
                             SiteUrl = "https://ro.gnjoylatam.com/",
-                            UpdatedAt = new DateTime(2025, 5, 7, 14, 51, 59, 8, DateTimeKind.Utc).AddTicks(625)
+                            UpdatedAt = new DateTime(2025, 5, 17, 8, 2, 10, 944, DateTimeKind.Utc).AddTicks(9642)
                         });
                 });
 
@@ -196,6 +201,10 @@ namespace Totten.Solution.RagnaComercio.Infra.Data.Migrations.RagnaStore
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("DiscordUser")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -258,6 +267,22 @@ namespace Totten.Solution.RagnaComercio.Infra.Data.Migrations.RagnaStore
                     b.Navigation("Server");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Totten.Solution.RagnaComercio.Domain.Features.CallbackAggregation.CallbackSchedule", b =>
+                {
+                    b.HasOne("Totten.Solution.RagnaComercio.Domain.Features.CallbackAggregation.Callback", "Callback")
+                        .WithMany("CallbackSchedules")
+                        .HasForeignKey("CallbackId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Callback");
+                });
+
+            modelBuilder.Entity("Totten.Solution.RagnaComercio.Domain.Features.CallbackAggregation.Callback", b =>
+                {
+                    b.Navigation("CallbackSchedules");
                 });
 
             modelBuilder.Entity("Totten.Solution.RagnaComercio.Domain.Features.Servers.Server", b =>

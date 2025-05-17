@@ -74,7 +74,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
-        c.DocumentTitle = "RagnaStore API DOC";
+        c.DocumentTitle = "RagnaComercio API DOC";
     });
 }
 app.UseODataQueryRequest();

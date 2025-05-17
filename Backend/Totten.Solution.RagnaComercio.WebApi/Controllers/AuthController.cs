@@ -70,9 +70,10 @@ public class AuthController(IMediator mediator) : Controller
         if (!authenticateResult.Succeeded || authenticateResult.Principal == null)
             return BadRequest("Erro ao autenticar com o Google.");
 
-        var user = authenticateResult.Principal;
-        var email = user.FindFirst(ClaimTypes.Email)!.Value;
-        var normalizedEmail = user.FindFirst(ClaimTypes.Email)!.Value.ToUpper();
+        var principalClaim = authenticateResult.Principal;
+        var email = principalClaim.FindFirst(ClaimTypes.Email)!.Value;
+        var normalizedEmail = principalClaim.FindFirst(ClaimTypes.Email)!.Value.ToUpper();
+        var isDiscord = principalClaim.Claims.FirstOrDefault(x => x.Issuer.Equals("Discord", StringComparison.OrdinalIgnoreCase)) != null;
 
         var userResult = await _mediator.Send(new UserByEmailQuery
         {
@@ -80,20 +81,30 @@ public class AuthController(IMediator mediator) : Controller
         }, CancellationToken.None);
 
         Result<Guid> userId = await userResult.MatchAsync(
-            user => Result.Of(user.Id).AsTask(),
-            async notFound =>
+            async user =>
             {
-                return await _mediator.Send(new UserCreateCommand
+                if (isDiscord && string.IsNullOrWhiteSpace(user.DiscordUser))
+                {
+                    await _mediator.Send(new UserDiscordUpdateCommand
+                    {
+                        DiscordUser = principalClaim.FindFirst(ClaimTypes.Name)!.Value,
+                    }, CancellationToken.None);
+                }
+
+                return Result.Of(user.Id);
+            },
+            async _ =>
+                await _mediator.Send(new UserCreateCommand
                 {
                     IsActive = true,
-                    Name = user.FindFirst(ClaimTypes.Name)!.Value,
+                    DiscordUser = isDiscord ? principalClaim.FindFirst(ClaimTypes.Name)!.Value : string.Empty,
+                    Name = principalClaim.FindFirst(ClaimTypes.Name)!.Value,
                     Email = email,
                     NormalizedEmail = normalizedEmail,
-                }, CancellationToken.None);
-            }
+                }, CancellationToken.None)
         );
 
-        var principal = new ClaimsPrincipal(user);
+        var principal = new ClaimsPrincipal(principalClaim);
         userId.Then(id =>
         {
             var identityWithUserId = new ClaimsIdentity([

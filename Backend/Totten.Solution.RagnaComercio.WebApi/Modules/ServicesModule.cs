@@ -1,6 +1,7 @@
 ﻿namespace Totten.Solution.RagnaComercio.WebApi.Modules;
 
 using Autofac;
+using Discord;
 using Discord.WebSocket;
 using Totten.Solution.RagnaComercio.ApplicationService.DTOs.Messages;
 using Totten.Solution.RagnaComercio.ApplicationService.Interfaces;
@@ -31,9 +32,19 @@ public class ServicesModule : Autofac.Module
                .As<IMessageService<NotificationMessageDto>>()
                .InstancePerLifetimeScope();
 
-        builder.RegisterType<DiscordSocketClient>()
-               .AsSelf()
-               .SingleInstance();
+        builder.Register(_ =>
+        {
+            var config = new DiscordSocketConfig
+            {
+                GatewayIntents = GatewayIntents.Guilds |
+                     GatewayIntents.GuildMessages |
+                     GatewayIntents.DirectMessages |
+                     GatewayIntents.GuildMembers
+            };
+            return new DiscordSocketClient(config);
+        })
+        .AsSelf()
+        .SingleInstance();
 
         builder.RegisterType<DiscordService>()
                .As<IMessageService<DiscordMessageDto>>()

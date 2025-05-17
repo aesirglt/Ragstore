@@ -26,9 +26,7 @@ public class VendingStoreSaveCommandHandler(
     private readonly IVendingStoreRepository _storeRepository = storeRepository;
     private readonly IVendingStoreItemRepository _vendingStoreItemRepository = vendingStoreItemRepository;
 
-    public async Task<Result<Success>> Handle(
-        VendingStoreSaveCommand request,
-        CancellationToken cancellationToken)
+    public async Task<Result<Success>> Handle(VendingStoreSaveCommand request, CancellationToken cancellationToken)
     {
         try
         {
@@ -41,6 +39,7 @@ public class VendingStoreSaveCommandHandler(
             _ = _mediator.Publish(new NewStoreNotification
             {
                 Server = "",
+                StoreName = request.Name,
                 StoreId = result.Id,
                 Where = $"{request.Map} {request.Location}",
                 Merchant = request.CharacterName,

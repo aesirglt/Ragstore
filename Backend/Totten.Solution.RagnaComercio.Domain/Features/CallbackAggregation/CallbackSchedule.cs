@@ -13,6 +13,6 @@ public record CallbackSchedule : Entity<CallbackSchedule, Guid>
     public bool Sended { get; set; }
     public string Contact { get; set; } = string.Empty;
     public string Body { get; set; } = string.Empty;
-    public DestinationType DestinationType { get; set; }
+    public DestinationType Destination { get; set; }
     public virtual Callback Callback { get; set; } = null!;
 }

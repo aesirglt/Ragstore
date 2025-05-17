@@ -41,7 +41,7 @@ public class ItemByIdQueryHandler : IRequestHandler<ItemByIdQuery, Result<ItemDe
             var server = DefaultServerList.Servers.FirstOrDefault(x => x.Equals(query.Server)) ?? "jRO";
 
             _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            _client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue(new ProductHeaderValue("RagnaStoreAPI", "v1")));
+            _client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue(new ProductHeaderValue("RagnaComercioAPI", "v1")));
             _client.DefaultRequestHeaders.AcceptLanguage.Add(new StringWithQualityHeaderValue(query.ServerLanguage ?? "pt-BR"));
 
             var queryString = string.Join('&', _queries.Select(d => $"{d.Key}={d.Value}"));

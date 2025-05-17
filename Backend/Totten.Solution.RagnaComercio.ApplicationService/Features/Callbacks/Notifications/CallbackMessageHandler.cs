@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Totten.Solution.RagnaComercio.ApplicationService.DTOs.Messages;
 using Totten.Solution.RagnaComercio.ApplicationService.Interfaces;
 using Totten.Solution.RagnaComercio.Domain.Features.CallbackAggregation;
+using Totten.Solution.RagnaComercio.Domain.Features.Users;
 
 public class CallbackMessageHandler(
     ILifetimeScope scope)
@@ -19,27 +20,26 @@ public class CallbackMessageHandler(
     {
         try
         {
-            var _repository = scope.Resolve<ICallbackScheduleRepository>();
-            var _messageService = scope.Resolve<IMessageService<DiscordMessageDto>>();
+            var userRepository = scope.Resolve<IUserRepository>();
+            var repositorySchedule = scope.Resolve<ICallbackScheduleRepository>();
+            var messageService = scope.Resolve<IMessageService<DiscordMessageDto>>();
 
-            var scheduledCallbacks = _repository.GetAll(x => !x.Sended).ToList();
+            var scheduledCallbacks = repositorySchedule.GetAll(x => !x.Sended && x.Destination == DestinationType.Discord).ToList();
 
-            foreach (var callback in scheduledCallbacks)
+            foreach (var callbackSchedule in scheduledCallbacks)
             {
-                var result = await _messageService.Send(new DiscordMessageDto
+                var result = await messageService.Send(new DiscordMessageDto
                 {
-                    UserName = callback.Name,
-                    Content = callback.Body
+                    UserName = callbackSchedule.Contact,
+                    Content = callbackSchedule.Body
                 });
 
                 await result.ThenAsync(async _ =>
-                {
-                    await _repository.Update(callback with
+                    await repositorySchedule.Update(callbackSchedule with
                     {
                         UpdatedAt = DateTime.UtcNow,
                         Sended = true
-                    });
-                });
+                    }));
             }
             return Result.Success;
         }
