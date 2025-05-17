@@ -6,22 +6,12 @@ export async function GET(request: NextRequest) {
   const target = config.backendUrl;
   const path = request.nextUrl.pathname.replace('/api', '');
   
-  console.log('Proxy request:', {
-    path,
-    target,
-    fullUrl: `${target}${path}`,
-    searchParams: Object.fromEntries(searchParams.entries())
-  });
-
   try {
     const url = new URL(path, target);
     searchParams.delete('target');
     url.search = searchParams.toString();
 
-    // Repassar cookies do request original
     const cookie = request.headers.get('cookie');
-
-    console.log('Making request to:', url.toString());
 
     const response = await fetch(url.toString(), {
       method: 'GET',
@@ -30,18 +20,12 @@ export async function GET(request: NextRequest) {
         ...(cookie ? { 'cookie': cookie } : {})
       }
     });
-
-    console.log('Proxy response status:', response.status);
-
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
-      console.error('Proxy error response:', errorData);
       throw new Error(`HTTP error! status: ${response.status}`, { cause: errorData });
     }
 
     const data = await response.json();
-    console.log('Proxy response data:', data);
-    
     return NextResponse.json(data);
   } catch (error: any) {
     console.error('Proxy error:', {

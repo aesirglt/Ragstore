@@ -11,7 +11,6 @@ using Totten.Solution.RagnaComercio.WebApi.Bases;
 /// <summary>
 /// 
 /// </summary>
-[Authorize]
 [Route("[Controller]")]
 public class ProfileController(ILifetimeScope lifetimeScope) : BaseApiController(lifetimeScope)
 {
@@ -21,7 +20,9 @@ public class ProfileController(ILifetimeScope lifetimeScope) : BaseApiController
     /// <returns></returns>
     [HttpGet]
     public async Task<IActionResult> Resume()
-        => await base.HandleQuery<User, UserDetailViewModel>(new UserByEmailQuery
+        => string.IsNullOrWhiteSpace(base.UserNormalizedEmail)
+        ? Ok(null)
+        : await base.HandleQuery<User, UserDetailViewModel>(new UserByEmailQuery
         {
             NormalizedEmail = base.UserNormalizedEmail
         });
