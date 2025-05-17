@@ -1,7 +1,6 @@
 ﻿namespace Totten.Solution.RagnaComercio.WebApi.Controllers;
 
 using Autofac;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Totten.Solution.RagnaComercio.ApplicationService.Features.Users.Queries;
 using Totten.Solution.RagnaComercio.ApplicationService.ViewModels.Users;

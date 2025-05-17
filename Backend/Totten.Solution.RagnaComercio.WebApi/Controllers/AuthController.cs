@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using Totten.Solution.RagnaComercio.ApplicationService.Features.Users.Commands;
 using Totten.Solution.RagnaComercio.ApplicationService.Features.Users.Queries;
-using Totten.Solution.RagnaComercio.Infra.Cross.Statics;
 
 /// <summary>
 /// 

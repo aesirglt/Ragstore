@@ -20,7 +20,6 @@ using System.Text.RegularExpressions;
 using Totten.Solution.RagnaComercio.ApplicationService.Notifications.ODataFilters;
 using Totten.Solution.RagnaComercio.Domain.Features.Servers;
 using Totten.Solution.RagnaComercio.Infra.Cross.Errors;
-using Totten.Solution.RagnaComercio.Infra.Cross.Statics;
 using Totten.Solution.RagnaComercio.WebApi.Dtos;
 using Totten.Solution.RagnaComercio.WebApi.Filters;
 using Totten.Solution.RagnaComercio.WebApi.Modules;

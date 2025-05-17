@@ -8,10 +8,9 @@ using Microsoft.AspNetCore.OData.Query;
 using Totten.Solution.RagnaComercio.ApplicationService.Features.Servers.Commands;
 using Totten.Solution.RagnaComercio.ApplicationService.Features.Servers.Queries;
 using Totten.Solution.RagnaComercio.ApplicationService.ViewModels.Servers;
-using Totten.Solution.RagnaComercio.Domain.Features.CallbackAggregation;
-using Totten.Solution.RagnaComercio.Domain.Features.Servers;
 using Totten.Solution.RagnaComercio.WebApi.Bases;
 using Totten.Solution.RagnaComercio.WebApi.Dtos;
+using Totten.Solution.RagnaComercio.WebApi.Filters;
 
 /// <summary>
 /// Endpoint responsavel por servidores.
@@ -30,10 +29,10 @@ public class ServersController(ILifetimeScope lifetimeScope) : BaseApiController
     /// </summary>
     /// <param name="createCmd">Objeto de criação com dados do servidor</param>
     /// <returns></returns>
-    [Authorize]
     [HttpPost]
     [ProducesResponseType<Success>(statusCode: 201)]
     [ProducesResponseType<ProblemDetails>(statusCode: 400)]
+    [CustomAuthorizeAttributte(RoleLevelEnum.admin | RoleLevelEnum.system)]
     public async Task<IActionResult> Post([FromBody] ServerCreateCommand createCmd)
             => await HandleCommand(createCmd);
 
