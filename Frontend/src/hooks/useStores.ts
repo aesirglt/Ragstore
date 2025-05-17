@@ -24,7 +24,7 @@ export function useStores({ server, itemId, page, pageSize }: UseStoresParams) {
   return useQuery<PageResult<Store>>({
     queryKey: ['stores', server, itemId, page],
     queryFn: async () => {
-      const url = new URL(`/api/${server}/stores`, window.location.origin);
+      const url = new URL(`/api/server/${server}/stores`, window.location.origin);
       url.searchParams.append('storeType', 'VendingStore');
       url.searchParams.append('$skip', String((page - 1) * pageSize));
       url.searchParams.append('$top', String(pageSize));

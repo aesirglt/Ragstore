@@ -23,7 +23,5 @@ public class ServerMappingProfile : Profile
 
         CreateMap<Server, ServerResume>()
             .ForMember(ds => ds.Name, m => m.MapFrom(src => src.Name));
-        CreateMap<Server, ServerVerifyDTO>()
-            .ForMember(ds => ds.UpdatedAt, m => m.MapFrom(src => src.UpdatedAt));
     }
 }

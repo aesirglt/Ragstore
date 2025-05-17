@@ -19,7 +19,7 @@ export const useMarketItems = (params: UseMarketItemsParams) => {
         queryKey,
         queryFn: async () => {
             try {
-                const url = new URL(`/api/${server}/store-items`, window.location.origin);
+                const url = new URL(`/api/server/${server}/store-items`, window.location.origin);
                 
                 url.searchParams.append('$skip', String((page - 1) * pageSize));
                 url.searchParams.append('$top', String(pageSize));

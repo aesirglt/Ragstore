@@ -12,7 +12,7 @@ export function useTopItems(server: string, itemIds: number[]) {
       // Busca cada item individualmente
       const items = await Promise.all(
         itemIds.map(async (itemId) => {
-          const response = await fetch(`/api/${server}/store-summary/${itemId}`);
+          const response = await fetch(`/api/server/${server}/store-summary/${itemId}`);
           if (!response.ok) {
             throw new Error(`Erro ao buscar item ${itemId}`);
           }

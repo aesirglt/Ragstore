@@ -30,7 +30,7 @@ public class AgentsController(ILifetimeScope lifetimeScope) : BaseApiController(
     /// <param name="serverId"></param>
     /// <param name="createCmd"></param>
     /// <returns></returns>
-    [HttpPost("{serverId}/agents")]
+    [HttpPost("server/{serverId}/agents")]
     [ProducesResponseType<Success>(statusCode: 201)]
     [Authorize]
     public async Task<IActionResult> Post(
@@ -48,7 +48,7 @@ public class AgentsController(ILifetimeScope lifetimeScope) : BaseApiController(
     /// <param name="serverId">Servidor</param>
     /// <param name="queryOptions"></param>
     /// <returns></returns>
-    [HttpGet("{serverId}/agents")]
+    [HttpGet("server/{serverId}/agents")]
     [ProducesResponseType<PaginationDto<AgentResumeViewModel>>(statusCode: 200)]
     [Authorize]
     public async Task<IActionResult> GetAll(

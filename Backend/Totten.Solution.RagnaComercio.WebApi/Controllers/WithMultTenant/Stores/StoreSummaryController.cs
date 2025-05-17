@@ -29,7 +29,7 @@ public class StoreSummaryController(ILifetimeScope lifetimeScope) : BaseApiContr
     /// <param name="itemId"></param>
     /// <param name="storeType"></param>
     /// <returns></returns>
-    [HttpGet($"{{serverId}}/{API_ENDPOINT}/{{itemId}}")]
+    [HttpGet($"server/{{serverId}}/{API_ENDPOINT}/{{itemId}}")]
     [ProducesResponseType<StoreItemValueSumaryResponseModel>(statusCode: 200)]
     public async Task<IActionResult> GetVending(
         [FromRoute] Guid serverId,
@@ -47,7 +47,7 @@ public class StoreSummaryController(ILifetimeScope lifetimeScope) : BaseApiContr
     /// <param name="serverId"></param>
     /// <param name="queryOptions"></param>
     /// <returns></returns>
-    [HttpGet($"{{serverId}}/{API_ENDPOINT}/searched-items")]
+    [HttpGet($"server/{{serverId}}/{API_ENDPOINT}/searched-items")]
     [ProducesResponseType<PaginationDto<SearchedItemViewModel>>(statusCode: 200)]
     public async Task<IActionResult> GetSearched(
         [FromRoute] Guid serverId,

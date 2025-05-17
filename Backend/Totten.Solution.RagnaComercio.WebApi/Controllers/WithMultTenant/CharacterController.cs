@@ -15,7 +15,7 @@ using Totten.Solution.RagnaComercio.WebApi.Bases;
 /// </remarks>
 /// <param name="lifetimeScope"></param>
 [ApiController]
-[Route("[controller]")]
+[Route("server/[controller]")]
 [Authorize]
 public class CharacterController(ILifetimeScope lifetimeScope) : BaseApiController(lifetimeScope)
 {

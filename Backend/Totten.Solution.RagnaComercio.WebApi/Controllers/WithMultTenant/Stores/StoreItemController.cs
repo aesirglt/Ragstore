@@ -27,7 +27,7 @@ public class StoreItemController(ILifetimeScope lifetimeScope) : BaseApiControll
     /// <param name="storeType"></param>
     /// <param name="queryOptions"></param>
     /// <returns></returns>
-    [HttpGet($"{{serverId}}/{API_ENDPOINT}")]
+    [HttpGet($"server/{{serverId}}/{API_ENDPOINT}")]
     [ProducesResponseType<StoreItemResumeViewModel>(statusCode: 200)]
     public async Task<IActionResult> GetAllItems(
         [FromRoute] Guid serverId,

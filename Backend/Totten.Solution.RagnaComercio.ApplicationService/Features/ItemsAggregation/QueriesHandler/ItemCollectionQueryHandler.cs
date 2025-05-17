@@ -8,13 +8,13 @@ using Totten.Solution.RagnaComercio.ApplicationService.Features.ItemsAggregation
 using Totten.Solution.RagnaComercio.Domain.Features.ItemsAggregation;
 using Totten.Solution.RagnaComercio.Infra.Cross.Statics;
 
-public class ItemCollectionByNameQueryHandler(IItemRepository storeRepository) : IRequestHandler<ItemCollectionByNameQuery, Result<IQueryable<Item>>>
+public class ItemCollectionQueryHandler(IItemRepository storeRepository) : IRequestHandler<ItemCollectionQuery, Result<IQueryable<Item>>>
 {
     private readonly IItemRepository _storeRepository = storeRepository;
 
-    public async Task<Result<IQueryable<Item>>> Handle(ItemCollectionByNameQuery request, CancellationToken cancellationToken)
+    public async Task<Result<IQueryable<Item>>> Handle(ItemCollectionQuery request, CancellationToken cancellationToken)
     {
-        var returned = Result.Of(_storeRepository.GetAllByName(request.Name));
+        var returned = Result.Of(_storeRepository.GetAll());
 
         return await returned.AsTask();
     }

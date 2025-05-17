@@ -30,7 +30,7 @@ public class StoresController(ILifetimeScope lifetimeScope) : BaseApiController(
     /// <param name="storeType"></param>
     /// <param name="queryOptions"></param>
     /// <returns></returns>
-    [HttpGet($"{{serverId}}/{API_ENDPOINT}")]
+    [HttpGet($"server/{{serverId}}/{API_ENDPOINT}")]
     [ProducesResponseType<PaginationDto<StoreResumeViewModel>>(statusCode: 200)]
     public async Task<IActionResult> GetAll(
         [FromRoute] Guid serverId,
@@ -45,7 +45,7 @@ public class StoresController(ILifetimeScope lifetimeScope) : BaseApiController(
     /// 
     /// </summary>
     /// <returns></returns>
-    [HttpPost($"{{serverId}}/{API_ENDPOINT}-vending")]
+    [HttpPost($"server/{{serverId}}/{API_ENDPOINT}-vending")]
     [ProducesResponseType<PaginationDto<StoreResumeViewModel>>(statusCode: 200)]
     public async Task<IActionResult> Create([FromRoute] Guid serverId, [FromBody] VendingStoreSaveDto dto)
             => await HandleCommand(serverId, _mapper.Map<VendingStoreSaveCommand>(dto));
@@ -54,7 +54,7 @@ public class StoresController(ILifetimeScope lifetimeScope) : BaseApiController(
     /// 
     /// </summary>
     /// <returns></returns>
-    [HttpPost($"{{serverId}}/{API_ENDPOINT}-buying")]
+    [HttpPost($"server/{{serverId}}/{API_ENDPOINT}-buying")]
     [ProducesResponseType<PaginationDto<StoreResumeViewModel>>(statusCode: 200)]
     public async Task<IActionResult> Create([FromRoute] Guid serverId, [FromBody] BuyingStoreSaveDto dto)
             => await HandleCommand(serverId, _mapper.Map<BuyingStoreSaveCommand>(dto));

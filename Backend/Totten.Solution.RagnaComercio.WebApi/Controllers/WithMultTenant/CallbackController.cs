@@ -31,7 +31,7 @@ public class CallbackController(ILifetimeScope lifetimeScope) : BaseApiControlle
     /// <param name="serverId">Servidor</param>
     /// <param name="queryOptions">Filtro Dinamico</param>
     /// <returns></returns>
-    [HttpGet("{serverId}/callbacks")]
+    [HttpGet("server/{serverId}/callbacks")]
     [ProducesResponseType<PaginationDto<CallbackResumeViewModel>>(statusCode: 200)]
     public async Task<IActionResult> Get([FromRoute] Guid serverId, ODataQueryOptions<CallbackResumeViewModel> queryOptions)
         => await HandleQueryable(new CallbackCollectionQuery(), queryOptions, serverId);
@@ -42,7 +42,7 @@ public class CallbackController(ILifetimeScope lifetimeScope) : BaseApiControlle
     /// <param name="serverId">Servidor</param>
     /// <param name="queryOptions">Filtro Dinamico</param>
     /// <returns></returns>
-    [HttpGet("{server}/callbacks-user")]
+    [HttpGet("server/{server}/callbacks-user")]
     [ProducesResponseType<PaginationDto<CallbackResumeViewModel>>(statusCode: 200)]
     public async Task<IActionResult> GetCallbackByUser([FromRoute] Guid serverId, ODataQueryOptions<CallbackResumeViewModel> queryOptions)
         => await HandleQueryable(new CallbackCollectionByUserIdQuery
@@ -56,7 +56,7 @@ public class CallbackController(ILifetimeScope lifetimeScope) : BaseApiControlle
     /// <param name="serverId">Servidor</param>
     /// <param name="createDto">Objeto de criação de notificação</param>
     /// <returns></returns>
-    [HttpPost("{serverId}/callbacks-items")]
+    [HttpPost("server/{serverId}/callbacks-items")]
     [ProducesResponseType<Success>(statusCode: 200)]
     public async Task<IActionResult> PostItems([FromRoute] Guid serverId, [FromBody] CallbackCreateDto createDto)
         => await HandleCommand(new CallbackSaveCommand
@@ -73,7 +73,7 @@ public class CallbackController(ILifetimeScope lifetimeScope) : BaseApiControlle
     /// <param name="serverId"></param>
     /// <param name="callbackId"></param>
     /// <returns></returns>
-    [HttpDelete("{serverId}/callbacks-items/{callbackId}")]
+    [HttpDelete("server/{serverId}/callbacks-items/{callbackId}")]
     [ProducesResponseType<Success>(statusCode: 200)]
     public async Task<IActionResult> Removetem([FromRoute] Guid serverId, [FromRoute] Guid callbackId)
         => await HandleCommand(serverId, new CallbackRemoveCommand

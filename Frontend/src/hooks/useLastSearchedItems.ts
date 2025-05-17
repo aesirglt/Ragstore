@@ -6,7 +6,7 @@ export function useLastSearchedItems(server: string) {
   return useQuery<PageResult<LastSearchedItemViewModel>>({
     queryKey: ['lastSearchedItems', server],
     queryFn: async () => {
-      const response = await fetch(`/api/${server}/store-summary/searched-items`);
+      const response = await fetch(`/api/server/${server}/store-summary/searched-items`);
       if (!response.ok) {
         throw new Error('Erro ao buscar últimos itens pesquisados');
       }

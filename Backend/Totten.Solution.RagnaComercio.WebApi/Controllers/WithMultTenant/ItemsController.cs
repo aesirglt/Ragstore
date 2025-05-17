@@ -23,20 +23,15 @@ public class ItemsController(ILifetimeScope lifetimeScope) : BaseApiController(l
     /// <summary>
     /// Busca um item com base em seu nome.
     /// </summary>
-    /// <param name="name">Nome do item</param>
     /// <param name="serverId">Servidor</param>
     /// <param name="queryOptions"></param>
     /// <returns></returns>
-    [HttpGet("{serverId}/items-name")]
+    [HttpGet("server/{serverId}/items")]
     [ProducesResponseType<PaginationDto<ItemResumeViewModel>>(statusCode: 200)]
-    public async Task<IActionResult> GetByName(
+    public async Task<IActionResult> GetAllResume(
         [FromRoute] Guid serverId,
-        [FromQuery] string name,
         ODataQueryOptions<ItemResumeViewModel> queryOptions)
-        => await HandleQueryable(new ItemCollectionByNameQuery
-        {
-            Name = name
-        }, queryOptions, serverId);
+        => await HandleQueryable(new ItemCollectionQuery(), queryOptions, serverId);
 
     /// <summary>
     /// busca um item com base em seu id.
@@ -44,9 +39,9 @@ public class ItemsController(ILifetimeScope lifetimeScope) : BaseApiController(l
     /// <param name="itemId">Identificador</param>
     /// <param name="serverId">Servidor</param>
     /// <returns></returns>
-    [HttpGet("{serverId}/items/{itemId}")]
+    [HttpGet("server/{serverId}/items/{itemId}")]
     [ProducesResponseType<ItemDetailResponseModel>(statusCode: 200)]
-    public async Task<IActionResult> GetByName(
+    public async Task<IActionResult> GetById(
         [FromRoute] int itemId,
         [FromRoute] Guid serverId)
     {

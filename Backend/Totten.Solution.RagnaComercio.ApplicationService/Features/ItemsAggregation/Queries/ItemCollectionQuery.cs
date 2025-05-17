@@ -4,7 +4,4 @@ using FunctionalConcepts.Results;
 using MediatR;
 using Totten.Solution.RagnaComercio.Domain.Features.ItemsAggregation;
 
-public class ItemCollectionByNameQuery : IRequest<Result<IQueryable<Item>>>
-{
-    public string Name { get; set; } = string.Empty;
-}
+public class ItemCollectionQuery : IRequest<Result<IQueryable<Item>>>;
