@@ -29,16 +29,16 @@ interface StoreListModalProps {
   isOpen: boolean;
   onClose: () => void;
   itemId: number;
-  server: string;
+  serverId: string;
 }
 
-export function StoreListModal({ isOpen, onClose, itemId, server }: StoreListModalProps) {
+export function StoreListModal({ isOpen, onClose, itemId, serverId }: StoreListModalProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
   const toast = useToast();
 
   const { data, isLoading, error } = useStores({
-    server,
+    serverId,
     itemId,
     page: currentPage,
     pageSize,

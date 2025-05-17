@@ -14,17 +14,17 @@ interface Store {
 }
 
 interface UseStoresParams {
-  server: string;
+  serverId: string;
   itemId: number;
   page: number;
   pageSize: number;
 }
 
-export function useStores({ server, itemId, page, pageSize }: UseStoresParams) {
+export function useStores({ serverId, itemId, page, pageSize }: UseStoresParams) {
   return useQuery<PageResult<Store>>({
-    queryKey: ['stores', server, itemId, page],
+    queryKey: ['stores', serverId, itemId, page],
     queryFn: async () => {
-      const url = new URL(`/api/server/${server}/stores`, window.location.origin);
+      const url = new URL(`/api/server/${serverId}/stores`, window.location.origin);
       url.searchParams.append('storeType', 'VendingStore');
       url.searchParams.append('$skip', String((page - 1) * pageSize));
       url.searchParams.append('$top', String(pageSize));

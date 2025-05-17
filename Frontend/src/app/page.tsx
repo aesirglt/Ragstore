@@ -19,7 +19,6 @@ import { PromotionBanner } from './components/PromotionBanner';
 import { TopItemsSlider } from './components/TopItemsSlider';
 import { useTopItems } from '../hooks/useTopItems';
 import { useLastSearchedItems } from '../hooks/useLastSearchedItems';
-import { useUserMerchants } from '../hooks/useUserMerchants';
 import { useEffect, useState } from 'react';
 import { TopItemViewModel } from '@/types/api/viewmodels/TopItemViewModel';
 import { LastSearchedItemViewModel } from '@/types/api/viewmodels/LastSearchedItemViewModel';
@@ -54,25 +53,15 @@ const emptyLastSearchedItems: PageResult<LastSearchedItemViewModel> = {
 };
 
 export default function HomePage() {
-  // TODO: Pegar o servidor selecionado do contexto ou estado global
   const { currentServer } = useServer();
-  // TODO: Pegar o userId do contexto de autenticação
-  const userId: string | undefined = undefined; // Temporariamente undefined para simular usuário deslogado
+  const userId: string | undefined = undefined; 
 
-  const { data: lastSearchedItems, isLoading: isLoadingLastSearched } = useLastSearchedItems(currentServer);
+  const { data: lastSearchedItems, isLoading: isLoadingLastSearched } = useLastSearchedItems(currentServer?.id ?? '');
   const [lastSearchedItemIds, setLastSearchedItemIds] = useState<number[]>([]);
   const { data: topItems, isLoading: isLoadingTopItems } = useTopItems(
-    currentServer, 
+    currentServer?.id ?? '', 
     lastSearchedItemIds.length > 0 ? lastSearchedItemIds : []
   );
-  const { data: userMerchants, isLoading: isLoadingMerchants } = useUserMerchants(userId ?? '');
-
-  const router = useRouter();
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-
-  // Atualiza os IDs quando lastSearchedItems mudar
   useEffect(() => {
     if (lastSearchedItems?.data && lastSearchedItems.data.length > 0) {
       setLastSearchedItemIds(lastSearchedItems.data.map(item => item.itemId));

@@ -85,7 +85,7 @@ export default function MercadoPage() {
   const ITEMS_PER_PAGE = gridConfig.itemsPerPage;
 
   const marketParams: UseMarketItemsParams = {
-    server: currentServer,
+    serverId: currentServer?.id ?? '',
     page: currentPage,
     pageSize: ITEMS_PER_PAGE,
     itemName: debouncedSearchTerm,
@@ -238,7 +238,7 @@ export default function MercadoPage() {
         isOpen={isStoreModalOpen}
         onClose={() => setIsStoreModalOpen(false)}
         itemId={selectedItemId || 0}
-        server={currentServer}
+        serverId={currentServer?.id ?? ''}
       />
     </Box>
   );

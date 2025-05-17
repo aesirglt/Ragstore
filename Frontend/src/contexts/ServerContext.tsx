@@ -1,16 +1,17 @@
 'use client';
 
 import React, { createContext, useContext, useState, ReactNode } from 'react';
+import { ServerResume } from '../hooks/useServers';
 
 type ServerContextType = {
-  currentServer: string;
-  setCurrentServer: (server: string) => void;
+  currentServer: ServerResume | null;
+  setCurrentServer: (server: ServerResume) => void;
 };
 
 const ServerContext = createContext<ServerContextType | undefined>(undefined);
 
 export function ServerProvider({ children }: { children: ReactNode }) {
-  const [currentServer, setCurrentServer] = useState<string>('latamro');
+  const [currentServer, setCurrentServer] = useState<ServerResume | null>(null);
 
   return (
     <ServerContext.Provider value={{ currentServer, setCurrentServer }}>

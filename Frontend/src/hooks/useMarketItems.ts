@@ -1,9 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import { MarketItemViewModel } from '@/types/api/viewmodels/MarketItemViewModel';
 import { PageResult } from '@/types/api/responses/PageResult';
+import { ServerResume } from './useServers';
 
 export interface UseMarketItemsParams {
-    server: string;
+    serverId: string;
     page: number;
     pageSize: number;
     itemName?: string;
@@ -12,14 +13,14 @@ export interface UseMarketItemsParams {
 }
 
 export const useMarketItems = (params: UseMarketItemsParams) => {
-    const { server, page, pageSize, itemName, category, storeType } = params;
-    const queryKey = ['marketItems', server, page, pageSize, itemName, category, storeType];
+    const { serverId, page, pageSize, itemName, category, storeType } = params;
+    const queryKey = ['marketItems', serverId, page, pageSize, itemName, category, storeType];
 
     const query = useQuery<PageResult<MarketItemViewModel>, Error>({
         queryKey,
         queryFn: async () => {
             try {
-                const url = new URL(`/api/server/${server}/store-items`, window.location.origin);
+                const url = new URL(`/api/server/${serverId}/store-items`, window.location.origin);
                 
                 url.searchParams.append('$skip', String((page - 1) * pageSize));
                 url.searchParams.append('$top', String(pageSize));

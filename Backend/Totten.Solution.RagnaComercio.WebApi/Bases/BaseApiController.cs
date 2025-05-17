@@ -200,9 +200,7 @@ public abstract class BaseApiController : ControllerBase
         return result.Match(succ => Ok(succ), HandleFailure)!;
     }
     private async Task<IActionResult> HandleQueryInternal<TSource, TDestiny>(
-    Func<Task<Option<Server>>>? getServerFunc,
-    IRequest<Result<TSource>> query,
-    bool useMapper)
+    Func<Task<Option<Server>>>? getServerFunc, IRequest<Result<TSource>> query, bool useMapper)
     {
         if (getServerFunc != null)
         {
@@ -286,10 +284,6 @@ public abstract class BaseApiController : ControllerBase
     protected Task<IActionResult> HandleQueryable<TSource, TDestiny>(
     IRequest<Result<IQueryable<TSource>>> query, ODataQueryOptions<TDestiny> queryOptions, Guid serverId)
         => HandleQueryable(() => _serverRepository.GetById(serverId), query, queryOptions);
-
-    protected Task<IActionResult> HandleQueryable<TSource>(
-        IRequest<Result<IQueryable<TSource>>> query, ODataQueryOptions<TSource> queryOptions, string serverName)
-        => HandleQueryable(() => _serverRepository.GetByName(serverName).AsTask(), query, queryOptions);
 
     protected Task<IActionResult> HandleQueryable<TSource, TDestiny>(
         IRequest<Result<IQueryable<TSource>>> query, ODataQueryOptions<TDestiny> queryOptions)
