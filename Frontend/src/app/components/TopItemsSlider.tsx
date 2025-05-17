@@ -14,7 +14,6 @@ import {
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { useState, useEffect } from 'react';
 import { TopItemViewModel } from '@/types/api/viewmodels/TopItemViewModel';
-import { PageResult } from '@/types/api/responses/PageResult';
 
 interface TopItemsSliderProps {
   items: TopItemViewModel[];

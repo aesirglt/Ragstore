@@ -37,11 +37,12 @@ import { CallbackResumeViewModel } from '@/types/auth';
 import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
 import { Pagination } from '@/components/ui/Pagination';
 import { LoadingList } from '@/components/LoadingList';
+import { PageResult } from '@/types/api/responses/PageResult';
 
 export function UserCallbacks() {
   const { isAuthenticated, user } = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [callbacks, setCallbacks] = useState<CallbackResumeViewModel[]>([]);
+  const [callbacks, setCallbacks] = useState<PageResult<CallbackResumeViewModel>>({ data: [] });
   const [loading, setLoading] = useState(true);
   const { currentServer } = useServer();
   const toast = useToast();
@@ -72,7 +73,7 @@ export function UserCallbacks() {
       if (cardRef.current) resizeObserver.disconnect();
       window.removeEventListener('resize', updateRowsPerPageByCard);
     };
-  }, [callbacks.length]);
+  }, [callbacks.data.length]);
 
   useEffect(() => {
     if (isAuthenticated && user) {
@@ -80,8 +81,8 @@ export function UserCallbacks() {
     }
   }, [isAuthenticated, user, currentServer]);
 
-  const totalPages = Math.ceil(callbacks.length / rowsPerPage);
-  const paginatedCallbacks = callbacks.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
+  const totalPages = Math.ceil(callbacks.data.length / rowsPerPage);
+  const paginatedCallbacks = callbacks.data.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
 
   const fetchCallbacks = async () => {
     try {

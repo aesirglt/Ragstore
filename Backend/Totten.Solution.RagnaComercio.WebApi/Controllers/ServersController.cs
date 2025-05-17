@@ -48,16 +48,4 @@ public class ServersController(ILifetimeScope lifetimeScope) : BaseApiController
     [ProducesResponseType<ProblemDetails>(statusCode: 500)]
     public async Task<IActionResult> GetAll(ODataQueryOptions<ServerResume> queryOptions)
         => await HandleQueryable(new ServerCollectionQuery(), queryOptions);
-    
-    /// <summary>
-    /// Busca ultima atualização do servidor especificado.
-    /// </summary>
-    /// <param name="serverName">Servidor</param>
-    /// <returns></returns>
-    [HttpGet("{serverName}")]
-    [ProducesResponseType<PaginationDto<ServerVerifyDTO>>(statusCode: 200)]
-    [ProducesResponseType<ProblemDetails>(statusCode: 400)]
-    [ProducesResponseType<ProblemDetails>(statusCode: 500)]
-    public async Task<IActionResult> GetAll([FromRoute] string serverName)
-        => await HandleQuery<Server, ServerVerifyDTO>(new ServerByNameQuery { Name = serverName });
 }

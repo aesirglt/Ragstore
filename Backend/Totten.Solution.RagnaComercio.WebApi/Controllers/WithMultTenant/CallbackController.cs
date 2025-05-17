@@ -33,24 +33,22 @@ public class CallbackController(ILifetimeScope lifetimeScope) : BaseApiControlle
     /// <returns></returns>
     [HttpGet("{serverId}/callbacks")]
     [ProducesResponseType<PaginationDto<CallbackResumeViewModel>>(statusCode: 200)]
-    public async Task<IActionResult> Get([FromRoute] string serverId, ODataQueryOptions<CallbackResumeViewModel> queryOptions)
-        => await HandleQueryable(new CallbackCollectionQuery(), serverId, queryOptions);
+    public async Task<IActionResult> Get([FromRoute] Guid serverId, ODataQueryOptions<CallbackResumeViewModel> queryOptions)
+        => await HandleQueryable(new CallbackCollectionQuery(), queryOptions, serverId);
 
     /// <summary>
     /// Busca todas as notificações do usuário no servidor especificado.
     /// </summary>
-    /// <param name="server">Servidor</param>
+    /// <param name="serverId">Servidor</param>
     /// <param name="queryOptions">Filtro Dinamico</param>
     /// <returns></returns>
     [HttpGet("{server}/callbacks-user")]
     [ProducesResponseType<PaginationDto<CallbackResumeViewModel>>(statusCode: 200)]
-    public async Task<IActionResult> GetCallbackByUser([FromRoute] string server, ODataQueryOptions<CallbackResumeViewModel> queryOptions)
-    {
-        return await HandleQueryable(new CallbackCollectionByUserIdQuery
+    public async Task<IActionResult> GetCallbackByUser([FromRoute] Guid serverId, ODataQueryOptions<CallbackResumeViewModel> queryOptions)
+        => await HandleQueryable(new CallbackCollectionByUserIdQuery
         {
             UserId = base.UserId,
-        }, server, queryOptions);
-    }
+        }, queryOptions, serverId);
 
     /// <summary>
     /// Cria uma notificação no servidor especificado.

@@ -23,21 +23,20 @@ public class StoreItemController(ILifetimeScope lifetimeScope) : BaseApiControll
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="server"></param>
+    /// <param name="serverId"></param>
     /// <param name="storeType"></param>
-    /// <param name="itemId"></param>
     /// <param name="queryOptions"></param>
     /// <returns></returns>
-    [HttpGet($"{{server}}/{API_ENDPOINT}")]
+    [HttpGet($"{{serverId}}/{API_ENDPOINT}")]
     [ProducesResponseType<StoreItemResumeViewModel>(statusCode: 200)]
     public async Task<IActionResult> GetAllItems(
-        [FromRoute] string server,
+        [FromRoute] Guid serverId,
         [FromQuery] string? storeType,
         ODataQueryOptions<StoreItemResumeViewModel> queryOptions)
     {
         return await HandleQueryable(new StoreItemResumeQuery
         {
             StoreType = storeType ?? nameof(VendingStore),
-        }, server, queryOptions);
+        }, queryOptions, serverId);
     }
 }

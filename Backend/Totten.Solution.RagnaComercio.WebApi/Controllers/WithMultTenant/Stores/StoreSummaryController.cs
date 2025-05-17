@@ -25,32 +25,32 @@ public class StoreSummaryController(ILifetimeScope lifetimeScope) : BaseApiContr
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="server"></param>
+    /// <param name="serverId"></param>
     /// <param name="itemId"></param>
     /// <param name="storeType"></param>
     /// <returns></returns>
-    [HttpGet($"{{server}}/{API_ENDPOINT}/{{itemId}}")]
+    [HttpGet($"{{serverId}}/{API_ENDPOINT}/{{itemId}}")]
     [ProducesResponseType<StoreItemValueSumaryResponseModel>(statusCode: 200)]
     public async Task<IActionResult> GetVending(
-        [FromRoute] string server,
+        [FromRoute] Guid serverId,
         [FromQuery] string? storeType,
         [FromRoute] int itemId)
         => await HandleQuery(new StoreItemValueSumaryQuery
         {
             ItemId = itemId,
             StoreType = storeType ?? nameof(VendingStore),
-        }, server);
+        }, serverId);
 
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="server"></param>
+    /// <param name="serverId"></param>
     /// <param name="queryOptions"></param>
     /// <returns></returns>
-    [HttpGet($"{{server}}/{API_ENDPOINT}/searched-items")]
+    [HttpGet($"{{serverId}}/{API_ENDPOINT}/searched-items")]
     [ProducesResponseType<PaginationDto<SearchedItemViewModel>>(statusCode: 200)]
     public async Task<IActionResult> GetSearched(
-        [FromRoute] string server,
+        [FromRoute] Guid serverId,
         ODataQueryOptions<SearchedItemViewModel> queryOptions)
-        => await HandleQueryable(server, new SearchedItemSumaryQuery(), queryOptions);
+        => await HandleQueryable(new SearchedItemSumaryQuery(), queryOptions, serverId);
 }

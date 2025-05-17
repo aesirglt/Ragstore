@@ -6,13 +6,11 @@ using AutoMapper.QueryableExtensions;
 using FluentValidation;
 using FunctionalConcepts;
 using FunctionalConcepts.Errors;
+using FunctionalConcepts.Options;
 using FunctionalConcepts.Results;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.OData.Extensions;
 using Microsoft.AspNetCore.OData.Query;
-using Microsoft.AspNetCore.OData.Results;
-using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
 using System.Linq;
@@ -22,6 +20,7 @@ using System.Text.RegularExpressions;
 using Totten.Solution.RagnaComercio.ApplicationService.Notifications.ODataFilters;
 using Totten.Solution.RagnaComercio.Domain.Features.Servers;
 using Totten.Solution.RagnaComercio.Infra.Cross.Errors;
+using Totten.Solution.RagnaComercio.Infra.Cross.Statics;
 using Totten.Solution.RagnaComercio.WebApi.Dtos;
 using Totten.Solution.RagnaComercio.WebApi.Filters;
 using Totten.Solution.RagnaComercio.WebApi.Modules;
@@ -200,44 +199,41 @@ public abstract class BaseApiController : ControllerBase
         var result = await _mediator.Send(cmd);
         return result.Match(succ => Ok(succ), HandleFailure)!;
     }
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <typeparam name="TSource"></typeparam>
-    /// <typeparam name="TDestiny"></typeparam>
-    /// <param name="query"></param>
-    /// <returns></returns>
-    protected async Task<IActionResult> HandleQuery<TSource, TDestiny>(
-        IRequest<Result<TSource>> query)
+    private async Task<IActionResult> HandleQueryInternal<TSource, TDestiny>(
+    Func<Task<Option<Server>>>? getServerFunc,
+    IRequest<Result<TSource>> query,
+    bool useMapper)
     {
-        var result = await _mediator.Send(query);
-        return result.Match(succ => Ok(_mapper.Map<TDestiny>(succ)), HandleFailure)!;
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <typeparam name="TSource"></typeparam>
-    /// <typeparam name="TDestiny"></typeparam>
-    /// <param name="query"></param>
-    /// <param name="serverName"></param>
-    /// <returns></returns>
-    protected async Task<IActionResult> HandleQuery<TSource, TDestiny>(
-        IRequest<Result<TSource>> query,
-        string serverName)
-    {
-        return await _serverRepository
-            .GetByName(serverName)
-            .MatchAsync(async succ =>
+        if (getServerFunc != null)
+        {
+            var serverOption = await getServerFunc();
+            return await serverOption.MatchAsync(async server =>
             {
-                var scope = CreateChildScope(serverName);
-                var m = scope.Resolve<IMapper>();
-                var mediator = scope.Resolve<IMediator>();
-                var result = await mediator.Send(query);
-
-                return result.Match(succ => Ok(m.Map<TDestiny>(succ)), HandleFailure)!;
+                var scope = CreateChildScope(server.Name);
+                var result = await scope.Resolve<IMediator>().Send(query);
+                return result.Match(
+                    succ => useMapper
+                        ? Ok(scope.Resolve<IMapper>().Map<TDestiny>(succ))
+                        : Ok((object?)succ),
+                    HandleFailure
+                )!;
             }, () => HandleFailure(ServerNotFound()));
+        }
+        var result = await _currentGlobalScoped.Resolve<IMediator>().Send(query);
+        return result.Match(
+            succ => useMapper
+                ? Ok(_currentGlobalScoped.Resolve<IMapper>().Map<TDestiny>(succ))
+                : Ok((object?)succ),
+            HandleFailure
+        )!;
     }
+    protected Task<IActionResult> HandleQuery<TSource, TDestiny>(IRequest<Result<TSource>> query)
+        => HandleQueryInternal<TSource, TDestiny>(null, query, useMapper: true);
+
+    protected Task<IActionResult> HandleQuery<TSource>(
+        IRequest<Result<TSource>> query, Guid serverId)
+        => HandleQueryInternal<TSource, TSource>(() => _serverRepository.GetById(serverId), query, useMapper: false);
+
     /// <summary>
     /// 
     /// </summary>
@@ -261,103 +257,43 @@ public abstract class BaseApiController : ControllerBase
             }, () => HandleFailure(ServerNotFound()));
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <typeparam name="TSource"></typeparam>
-    /// <typeparam name="TDestiny"></typeparam>
-    /// <param name="query"></param>
-    /// <param name="serverName"></param>
-    /// <param name="queryOptions"></param>
-    /// <returns></returns>
-    protected async Task<IActionResult> HandleQueryable<TSource, TDestiny>(
-        IRequest<Result<IQueryable<TSource>>> query,
-        string serverName,
-        ODataQueryOptions<TDestiny> queryOptions)
+    private async Task<IActionResult> HandleQueryable<TSource, TDestiny>(
+    Func<Task<Option<Server>>>? getServerFunc, IRequest<Result<IQueryable<TSource>>> query,
+    ODataQueryOptions<TDestiny> queryOptions)
     {
-        return await _serverRepository
-            .GetByName(serverName)
-            .MatchAsync(async succ =>
+        if (getServerFunc != null)
+        {
+            var serverOption = await getServerFunc();
+            return await serverOption.MatchAsync(async server =>
             {
-                var scope = CreateChildScope(serverName);
-                var mapper = scope.Resolve<IMapper>();
-                var mediator = scope.Resolve<IMediator>();
-                var result = await mediator.Send(query);
+                var scope = CreateChildScope(server.Name);
+                var result = await scope.Resolve<IMediator>().Send(query);
+                return result.Match(
+                    succ => Ok(HandlePageAsync(succ, queryOptions, scope.Resolve<IMapper>())),
+                    HandleFailure
+                )!;
+            },
+            () => HandleFailure(ServerNotFound()));
+        }
 
-                return result.Match(succ => Ok(HandlePageAsync(succ, mapper, queryOptions)), HandleFailure)!;
-            }, () => HandleFailure(ServerNotFound()));
+        var result = await _currentGlobalScoped.Resolve<IMediator>().Send(query);
+        return result.Match(
+            succ => Ok(HandlePageAsync(succ, queryOptions, _currentGlobalScoped.Resolve<IMapper>())),
+            HandleFailure
+        )!;
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <typeparam name="TSource"></typeparam>
-    /// <typeparam name="TDestiny"></typeparam>
-    /// <param name="getQueryWithServerId">função para retornar uma query que precisa de um server id</param>
-    /// <param name="serverName"></param>
-    /// <param name="queryOptions"></param>
-    /// <returns></returns>
-    protected async Task<IActionResult> HandleQueryable<TSource, TDestiny>(
-        Func<Guid, IRequest<Result<IQueryable<TSource>>>> getQueryWithServerId,
-        string serverName,
-        ODataQueryOptions<TDestiny> queryOptions)
-    {
-        return await _serverRepository
-            .GetByName(serverName)
-            .MatchAsync(async server =>
-            {
-                var scope = CreateChildScope(serverName);
-                var mapper = scope.Resolve<IMapper>();
-                var mediator = scope.Resolve<IMediator>();
-                var result = await mediator.Send(getQueryWithServerId(server.Id));
+    protected Task<IActionResult> HandleQueryable<TSource, TDestiny>(
+    IRequest<Result<IQueryable<TSource>>> query, ODataQueryOptions<TDestiny> queryOptions, Guid serverId)
+        => HandleQueryable(() => _serverRepository.GetById(serverId), query, queryOptions);
 
-                return result.Match(succ => Ok(HandlePageAsync(succ, mapper, queryOptions)), HandleFailure)!;
-            }, () => HandleFailure(ServerNotFound()));
-    }
+    protected Task<IActionResult> HandleQueryable<TSource>(
+        IRequest<Result<IQueryable<TSource>>> query, ODataQueryOptions<TSource> queryOptions, string serverName)
+        => HandleQueryable(() => _serverRepository.GetByName(serverName).AsTask(), query, queryOptions);
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <typeparam name="TSource"></typeparam>
-    /// <param name="query"></param>
-    /// <param name="serverName"></param>
-    /// <param name="queryOptions"></param>
-    /// <returns></returns>
-    protected async Task<IActionResult> HandleQueryable<TSource>(
-        string serverName,
-        IRequest<Result<IQueryable<TSource>>> query,
-        ODataQueryOptions<TSource> queryOptions)
-    {
-        return await _serverRepository
-            .GetByName(serverName)
-            .MatchAsync(async succ =>
-            {
-                var scope = CreateChildScope(serverName);
-                var mediator = scope.Resolve<IMediator>();
-                var result = await mediator.Send(query);
-
-                return result.Match(succ => Ok(HandlePageAsync(succ, queryOptions)), HandleFailure)!;
-            }, () => HandleFailure(ServerNotFound()));
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <typeparam name="TSource"></typeparam>
-    /// <typeparam name="TDestiny"></typeparam>
-    /// <param name="query"></param>
-    /// <param name="queryOptions"></param>
-    /// <returns></returns>
-    protected async Task<IActionResult> HandleQueryable<TSource, TDestiny>(
-        IRequest<Result<IQueryable<TSource>>> query,
-        ODataQueryOptions<TDestiny> queryOptions)
-    {
-        var result = await _mediator.Send(query);
-
-        return result.Match(succ => Ok(HandlePageAsync(succ, _currentGlobalScoped.Resolve<IMapper>(), queryOptions)),
-                            HandleFailure)!;
-    }
-
+    protected Task<IActionResult> HandleQueryable<TSource, TDestiny>(
+        IRequest<Result<IQueryable<TSource>>> query, ODataQueryOptions<TDestiny> queryOptions)
+        => HandleQueryable(null, query, queryOptions);
 
     /// <summary>
     /// 
@@ -368,13 +304,17 @@ public abstract class BaseApiController : ControllerBase
     /// <param name="mapper"></param>
     /// <param name="queryOptions"></param>
     /// <returns></returns>
-    private PaginationDto<TView> HandlePageAsync<TDomain, TView>
-            (IQueryable<TDomain> query,
-            IMapper mapper,
-            ODataQueryOptions<TView> queryOptions)
+    private PaginationDto<TView> HandlePageAsync<TDomain, TView>(
+    IQueryable<TDomain> query,
+    ODataQueryOptions<TView> queryOptions,
+    IMapper mapper)
     {
-        var projectedQuery = query.ProjectTo<TView>(mapper.ConfigurationProvider);
-        var filteredQuery = projectedQuery.AsQueryable();
+        IQueryable<TView> projectedQuery =
+            typeof(TDomain) != typeof(TView)
+            ? query.ProjectTo<TView>(mapper.ConfigurationProvider)
+            : (IQueryable<TView>)query;
+
+        var filteredQuery = projectedQuery;
 
         var odataSettings = new ODataQuerySettings
         {
@@ -407,32 +347,6 @@ public abstract class BaseApiController : ControllerBase
         return new PaginationDto<TView>
         {
             Data = [.. queryResults.Provider.CreateQuery<TView>(queryResults.Expression)],
-            TotalCount = filteredQuery.Count()
-        };
-    }
-
-    private PaginationDto<T> HandlePageAsync<T>
-            (IQueryable<T> query,
-            ODataQueryOptions<T> queryOptions)
-    {
-        var filteredQuery = query.AsQueryable();
-
-        var odataSettings = new ODataQuerySettings
-        {
-            HandleNullPropagation = HandleNullPropagationOption.False,
-        };
-
-        if (queryOptions.Filter != null)
-            filteredQuery = (IQueryable<T>)queryOptions.Filter.ApplyTo(filteredQuery, odataSettings);
-
-        if (queryOptions.OrderBy != null)
-            filteredQuery = queryOptions.OrderBy.ApplyTo(filteredQuery, odataSettings);
-
-        var queryResults = queryOptions.ApplyTo(query);
-
-        return new PaginationDto<T>
-        {
-            Data = [.. queryResults.Provider.CreateQuery<T>(queryResults.Expression)],
             TotalCount = filteredQuery.Count()
         };
     }
